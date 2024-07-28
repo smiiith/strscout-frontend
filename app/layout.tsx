@@ -1,4 +1,6 @@
+import HeaderNav from '@/components/header'
 import './globals.css'
+import { Providers } from './providers'
 
 export const metadata = {
   title: 'User Management',
@@ -7,11 +9,14 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <div className="container" style={{ padding: '50px 0 100px 0' }}>
-          {children}
-        </div>
+        <Providers>
+          <HeaderNav />
+          <div className="container" style={{ padding: '50px 0 100px 0' }}>
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   )
