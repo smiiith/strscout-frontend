@@ -12,6 +12,13 @@ export default function AccountForm({ user }: { user: User | null }) {
   const [website, setWebsite] = useState<string | null>(null)
   const [avatar_url, setAvatarUrl] = useState<string | null>(null)
 
+  useEffect(() => {
+    const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--background');
+    console.log('Background color:', bgColor);
+  }, []);
+
+
+
   const getProfile = useCallback(async () => {
     try {
       setLoading(true)

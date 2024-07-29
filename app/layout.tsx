@@ -1,6 +1,12 @@
 import HeaderNav from '@/components/header'
 import './globals.css'
-import { Providers } from './providers'
+import { ThemeProvider } from './providers'
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+import { Sidebar } from '@/components/sidebar'
 
 export const metadata = {
   title: 'User Management',
@@ -8,15 +14,38 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
-        <Providers>
+      <body className="p-5">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <HeaderNav />
-          <div className="container" style={{ padding: '50px 0 100px 0' }}>
-            {children}
-          </div>
-        </Providers>
+
+          <ResizablePanelGroup
+            direction="horizontal"
+            className="min-h-[600px] w-full"
+          >
+            <ResizablePanel defaultSize={10} className="min-w-[150px]">
+              <div className="flex h-full justify-center p-6 pt-[100px]">
+                <Sidebar />
+              </div>
+            </ResizablePanel>
+            <ResizableHandle withHandle />
+            <ResizablePanel defaultSize={90}>
+              <div className="flex h-full justify-center p-6">
+                <div className="container">
+                  {children}
+                </div>
+              </div>
+            </ResizablePanel>
+          </ResizablePanelGroup>
+
+        </ThemeProvider>
       </body>
     </html>
   )
