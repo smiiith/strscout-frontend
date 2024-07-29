@@ -8,5 +8,6 @@ export default async function Account() {
     data: { user },
   } = await supabase.auth.getUser()
 
-  return <AccountForm user={user} />
+  return <div> this is the account page</div>
+  // return <AccountForm user={user} />
 }
