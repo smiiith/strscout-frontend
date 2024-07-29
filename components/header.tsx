@@ -14,6 +14,10 @@ const HeaderNav = () => {
             label: 'Home',
             href: '/',
         },
+        account: {
+            label: 'My Account',
+            href: '/account',
+        },
         properties: {
             label: 'My Properties',
             href: '/properties',
@@ -48,6 +52,9 @@ const HeaderNav = () => {
                         <Link href={pageLinks.properties.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
                             {pageLinks.properties.label}
                         </Link>
+                        <Link href={pageLinks.account.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
+                            {pageLinks.account.label}
+                        </Link>
                         <Link href={pageLinks.pricing.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
                             {pageLinks.pricing.label}
                         </Link>
@@ -79,6 +86,15 @@ const HeaderNav = () => {
                     prefetch={false}
                 >
                     {pageLinks.properties.label}
+                </Link>
+
+                <MyAccountIcon className="text-purple-500 ml-6" />
+                <Link
+                    href={pageLinks.account.href}
+                    // className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
+                    prefetch={false}
+                >
+                    {pageLinks.account.label}
                 </Link>
 
                 <PiggyBankIcon className="text-blue-500 ml-6" />
@@ -208,5 +224,15 @@ const Beach02Icon = (props: React.SVGProps<SVGSVGElement>) => (
         <path d="M9.5 6.45068C7.83333 6.11465 5 6.45068 3.5 9.48348M9.5 6.45068C10.5 6.95471 11.5 8.47764 11.5 12M9.5 6.45068C12 5.94657 15 7.47125 15 11.4968M9.5 6.45068C8.5 4.43502 6.5 2.94235 3 4.95391" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M9.5 6.5C8.5 8.33333 6.5 13.5 6.5 19.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         <circle cx="19" cy="5" r="2" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+);
+
+const MyAccountIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} color={"#000000"} fill={"none"} {...props}>
+        <path d="M14 8.99988H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M14 12.4999H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <rect x="2" y="2.99988" width="20" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d="M5 15.9999C6.20831 13.4188 10.7122 13.249 12 15.9999" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M10.5 8.99988C10.5 10.1044 9.60457 10.9999 8.5 10.9999C7.39543 10.9999 6.5 10.1044 6.5 8.99988C6.5 7.89531 7.39543 6.99988 8.5 6.99988C9.60457 6.99988 10.5 7.89531 10.5 8.99988Z" stroke="currentColor" strokeWidth="1.5" />
     </svg>
 );

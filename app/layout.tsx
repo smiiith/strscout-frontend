@@ -24,27 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           enableSystem
           disableTransitionOnChange
         >
-          <HeaderNav />
-
-          <ResizablePanelGroup
-            direction="horizontal"
-            className="min-h-[600px] w-full"
-          >
-            <ResizablePanel defaultSize={10} className="min-w-[150px]">
-              <div className="flex h-full justify-center p-6 pt-[100px]">
-                <Sidebar />
-              </div>
-            </ResizablePanel>
-            <ResizableHandle withHandle />
-            <ResizablePanel defaultSize={90}>
-              <div className="flex h-full justify-center p-6">
-                <div className="container">
-                  {children}
-                </div>
-              </div>
-            </ResizablePanel>
-          </ResizablePanelGroup>
-
+          {children}
         </ThemeProvider>
       </body>
     </html>
