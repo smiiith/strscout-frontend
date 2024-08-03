@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import Image from 'next/image'
 
-export default function Avatar({
+const Avatar = ({
   uid,
   url,
   size,
@@ -13,7 +13,7 @@ export default function Avatar({
   url: string | null
   size: number
   onUpload: (url: string) => void
-}) {
+}) => {
   const supabase = createClient()
   const [avatarUrl, setAvatarUrl] = useState<string | null>(url)
   const [uploading, setUploading] = useState(false)
@@ -95,3 +95,4 @@ export default function Avatar({
     </div>
   )
 }
+export default Avatar;
