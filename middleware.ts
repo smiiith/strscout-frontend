@@ -1,9 +1,25 @@
-import { type NextRequest } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { updateSession } from '@/utils/supabase/middleware'
 
+
+const protectedRoutes = [
+  "/account",
+  "/properties",
+  "/contact"
+];
+
 export async function middleware(request: NextRequest) {
+
   // update user's auth session
-  return await updateSession(request)
+  const isAuthenticated = await updateSession(request);
+
+
+  // if the user is not authenticated and trying to access a protected route, redirect to login
+  if (!isAuthenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
+    // console.log("redirecting to login");
+    const absoluteURL = new URL("/login", request.nextUrl.origin);
+    return NextResponse.redirect(absoluteURL.toString());
+  }
 }
 
 export const config = {

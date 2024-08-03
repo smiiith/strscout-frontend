@@ -61,6 +61,14 @@ const HeaderNav = () => {
                         <Link href={pageLinks.contact.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
                             {pageLinks.contact.label}
                         </Link>
+                        <Link href={pageLinks.contact.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
+                            <form action="/auth/signout" method="post">
+                                <button className="button block" type="submit">
+                                    Sign out
+                                </button>
+                            </form>
+                            <a href="/login">Log In</a>
+                        </Link>
                     </div>
                 </SheetContent>
             </Sheet>
@@ -114,6 +122,15 @@ const HeaderNav = () => {
                 >
                     {pageLinks.contact.label}
                 </Link>
+                <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light">
+                    <a href="/login">Log In</a>
+                </div>
+                <form action="/auth/signout" method="post">
+                    <button className="button block" type="submit">
+                        Sign out
+                    </button>
+                </form>
+
                 <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light">
                     <ThemeSwitch />
                 </div>

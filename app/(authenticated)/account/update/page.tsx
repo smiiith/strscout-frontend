@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { type User } from '@supabase/supabase-js'
-import Avatar from './avatar'
+import Avatar from '../avatar/page'
 
 export default function AccountForm({ user }: { user: User | null }) {
   const supabase = createClient()
@@ -14,7 +14,7 @@ export default function AccountForm({ user }: { user: User | null }) {
 
   useEffect(() => {
     const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--background');
-    console.log('Background color:', bgColor);
+    // console.log('Background color:', bgColor);
   }, []);
 
 
