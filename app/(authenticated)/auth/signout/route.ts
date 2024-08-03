@@ -10,9 +10,13 @@ export async function POST(req: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  console.log('user log out', user)
+
   if (user) {
     await supabase.auth.signOut()
   }
+
+  console.log('user log out', user)
 
   revalidatePath('/', 'layout')
   return NextResponse.redirect(new URL('/login', req.url), {
