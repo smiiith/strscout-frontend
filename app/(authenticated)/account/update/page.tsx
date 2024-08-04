@@ -14,6 +14,9 @@ export default function AccountForm({ user }: any) {
   const [avatar_url, setAvatarUrl] = useState<string | null>(null)
 
   useEffect(() => {
+
+    console.log("user account", user);
+
     const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--background');
     // console.log('Background color:', bgColor);
   }, []);
