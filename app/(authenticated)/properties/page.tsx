@@ -135,7 +135,7 @@ const ListingsDialog = (props: any) => {
       </DialogTrigger>
       <DialogContent className="sm:min-w-[90%] bg-secondary">
         <DialogHeader>
-          <DialogTitle className="">Listings for "{props.propertyName}"</DialogTitle>
+          <DialogTitle className="">Listings for {props.propertyName}</DialogTitle>
           {/* <DialogDescription>
             Make changes to your profile here. Click save when you're done.
           </DialogDescription> */}
