@@ -1,16 +1,24 @@
 "use client"
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-// import { createClient } from '@/utils/supabase/server'
 import { createClient } from '@/utils/supabase/client'
-import { type User } from '@supabase/supabase-js'
 import axios from 'axios';
-import { profile } from 'console';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { PencilEdit02Icon } from "@/components/Icons"
+import Listing from '@/components/Listing';
 
 export default function Properties() {
   const browserClient = createClient()
-  const [listings, setListings] = useState<any[]>([])
+  const [properties, setProperties] = useState<any[]>([])
 
   const getProperties = async (user: any) => {
     try {
@@ -30,7 +38,7 @@ export default function Properties() {
       console.log("response", response);
 
       if (response.data) {
-        setListings(response.data);
+        setProperties(response.data);
       }
     } catch (error) {
       console.error('Error loading user properties:', error);
@@ -52,7 +60,8 @@ export default function Properties() {
   }, [])
 
   return <div>
-    The Listings
+    <h1 className="text-3xl">My Properties</h1>
+
     <Table>
       <TableHeader>
         <TableRow>
@@ -62,15 +71,87 @@ export default function Properties() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {listings.map((listing: any) => (
-          <TableRow key={listing.id}>
-            <TableCell>{listing.name}</TableCell>
-            <TableCell>{listing.description}</TableCell>
-            <TableCell>{listing.created_at}</TableCell>
+        {properties.map((property: any) => (
+          <TableRow key={property.id}>
+            <TableCell>{property.name}</TableCell>
+            <TableCell>{property.description}</TableCell>
+            <TableCell>{property.created_at}</TableCell>
+            <TableCell>
+              <ListingsDialog propertyId={property.id} propertyName={property.name} className="w-full" />
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
     </Table>
-
   </div>
+}
+
+
+const ListingsDialog = (props: any) => {
+  const [propertyId, setPropertyId] = useState<string | null>(null);
+  const [listings, setListings] = useState<any[]>([]);
+
+  useEffect(() => {
+    setPropertyId(props.propertyId);
+    console.log("props", props.propertyId);
+  })
+
+  const handleOpenChange = (open: boolean) => {
+    console.log("open", propertyId);
+
+    getListings(propertyId);
+  }
+
+  const getListings = async (propertyId: any) => {
+    try {
+      if (!propertyId) {
+        console.log("No property ID available");
+        return;
+      }
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}listings`, {
+        // body: { profileId: user.id },
+        propertyId: propertyId,
+        headers: {
+          // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
+        }
+      });
+
+      if (response.data) {
+        setListings(response.data);
+      }
+    } catch (error) {
+      console.error('Error loading user properties:', error);
+    }
+  }
+
+
+  return (
+    <Dialog onOpenChange={handleOpenChange}>
+      <DialogTrigger asChild>
+        <div title="View Listings" className="cursor-pointer">
+          <PencilEdit02Icon className="h-6 w-6" />
+        </div>
+      </DialogTrigger>
+      <DialogContent className="sm:min-w-[90%] bg-secondary">
+        <DialogHeader>
+          <DialogTitle className="">Listings for "{props.propertyName}"</DialogTitle>
+          {/* <DialogDescription>
+            Make changes to your profile here. Click save when you're done.
+          </DialogDescription> */}
+        </DialogHeader>
+        <div className="flex flex-col gap-4 py-4">
+
+          {listings.map((listing: any) => (
+            <div key={listing.id} className="w-full">
+              <Listing listing={listing} />
+            </div>))}
+
+        </div>
+        {/* <DialogFooter>
+          <Button type="submit">Save changes</Button>
+        </DialogFooter> */}
+      </DialogContent>
+    </Dialog>
+  )
 }
