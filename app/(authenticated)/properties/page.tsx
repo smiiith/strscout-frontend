@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/dialog"
 import { PencilEdit02Icon } from "@/components/Icons"
 import Listing from '@/components/Listing';
+import { BarChart, House } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Properties() {
   const browserClient = createClient()
@@ -50,8 +52,6 @@ export default function Properties() {
     const getUser = async () => {
       const { data: { user }, } = await browserClient.auth.getUser();
 
-      console.log("user", user);
-
       getProperties(user);
       return user;
     }
@@ -59,31 +59,60 @@ export default function Properties() {
     getUser();
   }, [])
 
-  return <div>
-    <h1 className="text-3xl">My Properties</h1>
+  return (
+    <>
+      <h1 className="text-3xl mb-6"><House className="h-8 w-8 inline-block mb-2 mr-2" /> My Properties</h1>
 
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Name</TableHead>
-          <TableHead>Description</TableHead>
-          <TableHead>Created At</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
+      <div className="flex flex-wrap gap-6 w-full">
+
         {properties.map((property: any) => (
-          <TableRow key={property.id}>
-            <TableCell>{property.name}</TableCell>
-            <TableCell>{property.description}</TableCell>
-            <TableCell>{property.created_at}</TableCell>
-            <TableCell>
-              <ListingsDialog propertyId={property.id} propertyName={property.name} className="w-full" />
-            </TableCell>
-          </TableRow>
+          <Card className="min-w-[500px] max-w-[500px]">
+            <CardHeader className="p-4 pb-0">
+              <CardTitle>{property.name}</CardTitle>
+              <CardDescription>
+                Listed on: VRBO and AirBnB
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 items-baseline gap-4 p-4 pt-0 text-gray-400">
+              <div className=" items-baseline gap-1 tabular-nums leading-none col-span-2">
+                Last verification: 08/06/2024 8:45 p.m.
+              </div>
+              <div className="col-span-1">
+                Primary Contact: {property.primary_contact}
+              </div>
+              <div className="col-span-1 text-right">
+                {property.primary_phone}
+              </div>
+            </CardContent>
+          </Card>
         ))}
-      </TableBody>
-    </Table>
-  </div>
+
+
+        {/* <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Description</TableHead>
+            <TableHead>Created At</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {properties.map((property: any) => (
+            <TableRow key={property.id}>
+              <TableCell>{property.name}</TableCell>
+              <TableCell>{property.description}</TableCell>
+              <TableCell>{property.created_at}</TableCell>
+              <TableCell>
+                <ListingsDialog propertyId={property.id} propertyName={property.name} className="w-full" />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table> */}
+      </div>
+    </>
+
+  )
 }
 
 
@@ -135,7 +164,7 @@ const ListingsDialog = (props: any) => {
       </DialogTrigger>
       <DialogContent className="sm:min-w-[90%] bg-secondary">
         <DialogHeader>
-          <DialogTitle className="">Listings for {props.propertyName}</DialogTitle>
+          <DialogTitle className="">Listings for    {props.propertyName}</DialogTitle>
           {/* <DialogDescription>
             Make changes to your profile here. Click save when you're done.
           </DialogDescription> */}
