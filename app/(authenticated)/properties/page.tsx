@@ -65,8 +65,8 @@ export default function Properties() {
 
       <div className="flex flex-wrap gap-6 w-full">
 
-        {properties.map((property: any) => (
-          <Card className="min-w-[500px] max-w-[500px]">
+        {properties.map((property: any, index: number) => (
+          <Card className="min-w-[500px] max-w-[500px]" key={`property-${index}`}>
             <CardHeader className="p-4 pb-0">
               <CardTitle>{property.name}</CardTitle>
               <CardDescription>
