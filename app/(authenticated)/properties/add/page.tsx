@@ -21,6 +21,8 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import axios from 'axios';
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 
 
 // const formSchema = z.object({
@@ -60,26 +62,72 @@ type Inputs = {
 const AddProperty = () => {
   const browserClient = createClient()
   const [profile, setProfile] = useState<any>(null);
+  const searchParams = useSearchParams()
+  const propertyId = searchParams.get('property');
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     control,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>()
 
   useEffect(() => {
+    console.log("propertyId", propertyId);
+
+    if (propertyId) {
+      console.log("propertyId", propertyId);
+      getProperty(propertyId);
+    }
+
     const getUser = async () => {
       const { data: { user }, } = await browserClient.auth.getUser();
       setProfile(user);
     }
 
     getUser();
-
-    console.log("errors", errors);
-
   }, [])
+
+  const getProperty = async (propertyId: string) => {
+
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}property/${propertyId}`, {
+        headers: {
+          // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
+        },
+      });
+
+      console.log("get property", response);
+      const property = response.data[0];
+
+      if (property) {
+        setValue("nickname", property.name);
+        setValue("primaryContact", property.primary_contact);
+        setValue("secondaryContact", property.secondary_contact);
+        setValue("primaryEmail", property.primary_email);
+        setValue("secondaryEmail", property.secondary_email);
+        setValue("primaryPhone", property.primary_phone);
+        setValue("secondaryPhone", property.secondary_phone);
+        setValue("notificationPreference", property.notification_preference);
+
+        if (property.listings.length > 0) {
+          const vrbo = property.listings.find((element: any) => element.listed_on === "vrbo");
+          setValue("vrboId", vrbo.external_listing_id);
+
+          const airbnb = property.listings.find((element: any) => element.listed_on === "airbnb");
+          setValue("airbnbId", airbnb.external_listing_id);
+        }
+        // setValue("vrboId", response.data.vrbo_id);
+
+        // setProperty(response.data);
+      }
+    } catch (error) {
+      console.error('Error loading user properties:', error);
+    }
+  }
 
   // useEffect(() => {
   //   console.log(watch("nickname"));
@@ -101,10 +149,10 @@ const AddProperty = () => {
   })
 
   const onSubmit = async (data: any) => {
-    console.log(data);
 
     let config = {
       data: {
+        propertyId: propertyId,
         profileId: profile.id,
         nickname: data.nickname,
         vrboId: data.vrboId,
@@ -124,18 +172,29 @@ const AddProperty = () => {
 
     // xhr call to save data
     // post this data to /api/vi/properties
-    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}property`, config);
-      console.log('Property added successfully:', response.data);
-    } catch (error) {
-      console.error('Error adding property:', error);
+    if (!propertyId) {
+      try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}property`, config);
+        // console.log('Property added successfully:', response.data);
+        router.push('/properties');
+      } catch (error) {
+        console.error('Error adding property:', error);
+      }
+    } else {
+      try {
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}property/${propertyId}`, config);
+        console.log('Property updated successfully:', response.data);
+        router.push('/properties');
+      } catch (error) {
+        console.error('Error updating property:', error);
+      }
     }
 
   }
 
   return (
     <>
-      <h1 className="text-3xl mb-6">Add a property</h1>
+      <h1 className="text-3xl mb-6">{propertyId ? 'Edit' : 'Add'} property</h1>
 
       <FormProvider {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-[500px]">
