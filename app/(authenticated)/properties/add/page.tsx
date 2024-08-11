@@ -76,10 +76,8 @@ const AddProperty = () => {
   } = useForm<Inputs>()
 
   useEffect(() => {
-    console.log("propertyId", propertyId);
 
     if (propertyId) {
-      console.log("propertyId", propertyId);
       getProperty(propertyId);
     }
 
@@ -100,7 +98,6 @@ const AddProperty = () => {
         },
       });
 
-      console.log("get property", response);
       const property = response.data[0];
 
       if (property) {
@@ -128,10 +125,6 @@ const AddProperty = () => {
       console.error('Error loading user properties:', error);
     }
   }
-
-  // useEffect(() => {
-  //   console.log(watch("nickname"));
-  // }, [watch("nickname")]);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -175,7 +168,6 @@ const AddProperty = () => {
     if (!propertyId) {
       try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}property`, config);
-        // console.log('Property added successfully:', response.data);
         router.push('/properties');
       } catch (error) {
         console.error('Error adding property:', error);
@@ -183,7 +175,6 @@ const AddProperty = () => {
     } else {
       try {
         const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}property/${propertyId}`, config);
-        console.log('Property updated successfully:', response.data);
         router.push('/properties');
       } catch (error) {
         console.error('Error updating property:', error);
