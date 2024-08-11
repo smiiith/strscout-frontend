@@ -17,6 +17,7 @@ import { PencilEdit02Icon } from "@/components/Icons"
 import Listing from '@/components/Listing';
 import { BarChart, House } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import PropertyCard from '@/components/PropertyCard';
 
 export default function Properties() {
   const browserClient = createClient()
@@ -66,49 +67,9 @@ export default function Properties() {
       <div className="flex flex-wrap gap-6 w-full">
 
         {properties.map((property: any, index: number) => (
-          <Card className="min-w-[500px] max-w-[500px]" key={`property-${index}`}>
-            <CardHeader className="p-4 pb-0">
-              <CardTitle>{property.name}</CardTitle>
-              <CardDescription>
-                Listed on: VRBO and AirBnB
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid grid-cols-2 items-baseline gap-4 p-4 pt-0 text-gray-400">
-              <div className=" items-baseline gap-1 tabular-nums leading-none col-span-2">
-                Last verification: 08/06/2024 8:45 p.m.
-              </div>
-              <div className="col-span-1">
-                Primary Contact: {property.primary_contact}
-              </div>
-              <div className="col-span-1 text-right">
-                {property.primary_phone}
-              </div>
-            </CardContent>
-          </Card>
+          <PropertyCard property={property} key={`property-${index}`} />
         ))}
 
-
-        {/* <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Created At</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {properties.map((property: any) => (
-            <TableRow key={property.id}>
-              <TableCell>{property.name}</TableCell>
-              <TableCell>{property.description}</TableCell>
-              <TableCell>{property.created_at}</TableCell>
-              <TableCell>
-                <ListingsDialog propertyId={property.id} propertyName={property.name} className="w-full" />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table> */}
       </div>
     </>
 
