@@ -38,10 +38,10 @@ export default function Properties() {
         }
       });
 
-      console.log("response", response);
+      // console.log("response", response);
 
       if (response.data) {
-        setProperties(response.data);
+        setProperties(response.data.properties);
       }
     } catch (error) {
       console.error('Error loading user properties:', error);
