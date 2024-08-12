@@ -1,4 +1,4 @@
-import { PencilEdit02Icon } from "./Icons";
+import { Alert02Icon, CheckmarkCircle02Icon, PencilEdit02Icon, RecordIcon, TrafficLightIcon } from "./Icons";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./ui/card";
 import { useRouter } from 'next/navigation';
 
@@ -30,9 +30,23 @@ const PropertyCard = (props: any) => {
                     }
                 </CardDescription>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 items-baseline gap-4 p-4 pt-0 text-gray-400">
+            <CardContent className="grid grid-cols-2 items-baseline gap-4 p-4 pt-2 text-gray-400">
                 <div className=" items-baseline gap-1 tabular-nums leading-none col-span-2">
-                    Last verification: 08/06/2024 8:45 p.m.
+                    {property.lastscan && (
+                        <>
+                            <div className="flex flex-row">
+                                <div className={`${property.lastscan.has_mismatch ? "text-red-500" : "text-green-500"} mr-1`}>
+                                    {property.lastscan.has_mismatch ? <Alert02Icon /> : <CheckmarkCircle02Icon />}
+                                </div>
+                                <div className="mx-1 mt-1">
+                                    Last scan: {property.lastscan.created_at}
+                                    <div className="mt-2">
+                                        {property.lastscan.has_mismatch ? "Issues Found" : "No Issues"}
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>
                 <div className="col-span-1">
                     Primary Contact: {property.primary_contact}
