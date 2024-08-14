@@ -1,11 +1,42 @@
-import { Alert02Icon, CheckmarkCircle02Icon, PencilEdit02Icon, RecordIcon, TrafficLightIcon } from "./Icons";
+import { useEffect, useState } from "react";
+import { Alert02Icon, CheckmarkCircle02Icon, LoadingSpinner, PencilEdit02Icon, RecordIcon, SearchingIcon, TrafficLightIcon } from "./Icons";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./ui/card";
 import { useRouter } from 'next/navigation';
-
+import { formatInTimeZone } from 'date-fns-tz'
+import axios from "axios";
+import { Badge } from "./ui/badge";
 
 const PropertyCard = (props: any) => {
     const router = useRouter()
     const property = props.property;
+    const [lastScan, setLastScan] = useState<any>(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const formatDate = (date: Date) => {
+        const dateObj = new Date(date);
+        const timeZone = "America/Los_Angeles";
+        const zonedDate = formatInTimeZone(dateObj, timeZone, "MM/dd/yyyy hh:mm aaaa zzz");
+        return zonedDate;
+    }
+
+    const launchScan = async () => {
+        setIsLoading(true);
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}scan`, {
+                propertyId: property.id,
+                headers: {
+                    // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
+                }
+            });
+
+            if (response.data) {
+                setIsLoading(false);
+                setLastScan(response.data);
+            }
+        } catch (error) {
+            console.error('Error loading user properties:', error);
+        }
+    }
 
     return (
         <Card className="min-w-[500px] max-w-[500px]">
@@ -25,7 +56,7 @@ const PropertyCard = (props: any) => {
                 <CardDescription>
                     {property.listings.length > 0 &&
                         <>
-                            Listed on: {property.listings[0].listed_on.toUpperCase()} and {property.listings[1].listed_on.toUpperCase()}
+                            Listed on: {property.listings[0]?.listed_on.toUpperCase()} and {property.listings[1]?.listed_on.toUpperCase()}
                         </>
                     }
                 </CardDescription>
@@ -34,25 +65,38 @@ const PropertyCard = (props: any) => {
                 <div className=" items-baseline gap-1 tabular-nums leading-none col-span-2">
                     {property.lastscan && (
                         <>
-                            <div className="flex flex-row">
-                                <div className={`${property.lastscan.has_mismatch ? "text-red-500" : "text-green-500"} mr-1`}>
-                                    {property.lastscan.has_mismatch ? <Alert02Icon /> : <CheckmarkCircle02Icon />}
-                                </div>
-                                <div className="mx-1 mt-1">
-                                    Last scan: {property.lastscan.created_at}
-                                    <div className="mt-2">
-                                        {property.lastscan.has_mismatch ? "Issues Found" : "No Issues"}
+                            {isLoading ? (
+                                <div className="flex flex-row">
+                                    <div className="mr-1 text-blue-500">
+                                        <LoadingSpinner />
+                                    </div>
+                                    <div className="mx-1 mt-1">
+                                        <span className="font-bold">Scanning...</span>
                                     </div>
                                 </div>
-                            </div>
+                            ) : (
+                                <div className="flex flex-row">
+                                    <div className={`${property.lastscan.has_mismatch ? "text-red-500" : "text-green-500"} mr-1`}>
+                                        {property.lastscan.has_mismatch ? <Alert02Icon /> : <CheckmarkCircle02Icon />}
+                                    </div>
+                                    <div className="mx-1 mt-1">
+                                        <span className="font-bold">Last scan:</span> {formatDate(property.lastscan.created_at)}
+                                        <div className="mt-2">
+                                            {property.lastscan.has_mismatch ? "Issues Found" : "No Issues"}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </>
                     )}
                 </div>
                 <div className="col-span-1">
                     Primary Contact: {property.primary_contact}
                 </div>
-                <div className="col-span-1 text-right">
-                    {property.primary_phone}
+                <div className="col-span-1 grid justify-items-end">
+                    <Badge
+                        onClick={launchScan}
+                        className="bg-transparent border border-secondary-foreground text-secondary-foreground cursor-pointer">Scan</Badge>
                 </div>
             </CardContent>
         </Card>
