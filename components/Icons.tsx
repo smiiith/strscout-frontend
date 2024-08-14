@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 export const PencilEdit02Icon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} fill={"none"} {...props}>
         <path d="M16.2141 4.98239L17.6158 3.58063C18.39 2.80646 19.6452 2.80646 20.4194 3.58063C21.1935 4.3548 21.1935 5.60998 20.4194 6.38415L19.0176 7.78591M16.2141 4.98239L10.9802 10.2163C9.93493 11.2616 9.41226 11.7842 9.05637 12.4211C8.70047 13.058 8.3424 14.5619 8 16C9.43809 15.6576 10.942 15.2995 11.5789 14.9436C12.2158 14.5877 12.7384 14.0651 13.7837 13.0198L19.0176 7.78591M16.2141 4.98239L19.0176 7.78591" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -48,5 +50,41 @@ export const CheckmarkCircle02Icon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} fill={"none"} {...props}>
         <path d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z" stroke="currentColor" strokeWidth="1.5" />
         <path d="M8 12.5L10.5 15L16 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+export interface ISVGProps extends React.SVGProps<SVGSVGElement> {
+    size?: number;
+    className?: string;
+}
+
+export const LoadingSpinner = ({
+    size = 24,
+    className,
+    ...props
+}: ISVGProps) => {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={size}
+            height={size}
+            {...props}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={cn("animate-spin", className)}
+        >
+            <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+        </svg>
+    );
+};
+
+export const SearchingIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} fill={"none"} {...props}>
+        <path d="M4 10C3.51076 9.96288 3.16925 9.87932 2.88886 9.69117C2.67048 9.54463 2.48298 9.35634 2.33706 9.13703C2 8.63045 2 7.92524 2 6.51483C2 5.10442 2 4.39921 2.33706 3.89263C2.48298 3.67332 2.67048 3.48502 2.88886 3.33849C3.39331 3 4.09554 3 5.5 3H18.5C19.9045 3 20.6067 3 21.1111 3.33849C21.3295 3.48502 21.517 3.67332 21.6629 3.89263C22 4.39921 22 5.10442 22 6.51483C22 7.80256 22 8.50243 21.7435 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M18.2 18.2L21 21M19.6 13.3C19.6 9.82057 16.7794 7 13.3 7C9.82057 7 7 9.82057 7 13.3C7 16.7794 9.82057 19.6 13.3 19.6C16.7794 19.6 19.6 16.7794 19.6 13.3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
