@@ -30,6 +30,7 @@ const PropertyCard = (props: any) => {
             });
 
             if (response.data) {
+                console.log("scanresponse", response.data);
                 setIsLoading(false);
                 setLastScan(response.data);
             }
