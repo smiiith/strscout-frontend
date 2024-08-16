@@ -2,19 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 168 55% 75% greenish */
+/* 166 65% 83% lighter greenish  */
+/* 159 58% 87% lightest greenish  */
+/* 0 0% 76% light grey */
+/* 251 7% 50% dark grey */
+/* 51 7% 15% blackish  */
+
 @layer base {
   :root {
     --background: 212 100% 95%;
     --foreground: 212 5% 0%;
-    --card: 61 43% 95%;
+    --card: 0 0% 95%;
+    /* --card: 159 58% 87%; */
     --card-foreground: 212 5% 10%;
     --popover: 212 100% 95%;
     --popover-foreground: 212 100% 0%;
-    --primary: 212 85% 53%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 212 30% 70%;
+    /* buttons */
+    /* --primary: 212 85% 53%; */
+    --primary: 51 7% 15%;
+    /* --primary: 168 55% 75%; */
+    /* --primary-foreground: 0 0% 100%; */
+    --primary-foreground: 0 100% 100%;
+    --secondary: 251 7% 50%;
     --secondary-foreground: 0 0% 0%;
-    --muted: 174 30% 85%;
+    --secondary-background: 168 55% 75%;
+    /* --muted: 174 30% 85%; */
+    --muted: 159 58% 87%;
     --muted-foreground: 212 5% 35%;
     --accent: 174 30% 80%;
     --accent-foreground: 212 5% 10%;
@@ -24,6 +38,7 @@
     --input: 212 30% 18%;
     --ring: 212 85% 53%;
     --radius: 0.5rem;
+    --subheader: 51 7% 15%;
   }
   .dark {
     --background: 212 50% 5%;
