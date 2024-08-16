@@ -8,6 +8,8 @@ import HeroTwo from "@/components/home/HeroTwo";
 import { useRouter } from 'next/navigation';
 // @ts-ignore
 import Parallax, { Layer } from "react-parallax-scroll";
+import HeroThree from "@/components/home/HeroThree";
+import HeroFour from "@/components/home/HeroFour";
 
 
 export default function Home() {
@@ -30,29 +32,32 @@ export default function Home() {
 
         </div>
         <div className="flex flex-row w-full">
-          <div className="box box-1 w-2/5 h-full">
+          <div className="w-2/5 h-full bg-muted">
             <HeroOne />
           </div>
         </div>
       </Layer>
-      {/* <div className="separator" /> */}
-      <Layer className="banner" settings={{ speed: 0.3 }}>
-        <div className="flex flex-row-reverse w-full">
-          <div className="box w-2/5 h-full">
+
+      <Layer className="banner !h-auto" settings={{ speed: 0.3 }}>
+        <div className="flex flex-row-reverse w-full bg-secondary-background">
+          <div className="box w-3/4 h-full">
             <HeroTwo />
           </div>
         </div>
       </Layer>
-      <Layer className="banner banner-2 justify-center items-center" settings={{ speed: 0.3 }}>
-        <div className="w-full">
-          <div className="box w-2/5 h-full">
-            <HeroTwo />
+
+      <Layer className="banner banner-2 " settings={{ speed: 0.3 }}>
+        <div className="flex flex-row w-full">
+          <div className="w-3/5 h-full bg-white">
+            <HeroThree />
           </div>
         </div>
       </Layer>
-      {/* <div className="separator" /> */}
+
       <Layer className="banner banner-3" settings={{ speed: 0.3 }}>
-        <div className="box">Slow Parallax</div>
+        <div className="box">
+          <HeroFour />
+        </div>
       </Layer>
     </Parallax>
   );

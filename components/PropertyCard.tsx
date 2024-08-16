@@ -40,7 +40,7 @@ const PropertyCard = (props: any) => {
     }
 
     return (
-        <Card className="min-w-[500px] max-w-[500px]">
+        <Card className="min-w-[500px] max-w-[500px] border border-secondary-foreground">
             <CardHeader className="p-4 pb-0">
                 <CardTitle className="flex gap-2">
                     <div className="flex-grow">
@@ -95,9 +95,11 @@ const PropertyCard = (props: any) => {
                     Primary Contact: {property.primary_contact}
                 </div>
                 <div className="col-span-1 grid justify-items-end">
-                    <Badge
+                    <div
                         onClick={launchScan}
-                        className="bg-transparent border border-secondary-foreground text-secondary-foreground cursor-pointer">Scan</Badge>
+                        className="bg-transparent hover:opacity-50 rounded-full border border-secondary-foreground text-secondary-foreground text-sm cursor-pointer px-2 py-0">
+                        Scan
+                    </div>
                 </div>
             </CardContent>
         </Card>

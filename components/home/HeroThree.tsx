@@ -1,14 +1,23 @@
 import { Button } from "../ui/button";
+import Image from 'next/image';
 
 const HeroThree = () => {
 
     return (
-        <div className="">
-            <h1 className="text-5xl mb-6">Simple Pricing</h1>
-            <p className="my-6">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+        // <div className="h-full grid grid-cols-1 place-items-left p-6 text-secondary">
+        <div className="text-secondary p-6">
 
-            <Button className="my-6">Sign Me Up</Button>
-        </div>
+            <h1 className="text-4xl mb-6 font-bold">How It Works</h1>
+            <h2 className="text-2xl mb-6 font-bold">
+                SyncNanny is busy working for you 24/7
+            </h2>
+            <p className="my-6">
+                SyncNanny works by directly viewing each of your calendars and comparing them across platforms, looking for discrepancies. When a problem is found, it then notifies you, your co-host, or your property manager via text or email. Start your FREE TRIAL today.
+            </p>
+
+            <Button className="my-6 bg-secondary">Pricing Info</Button>
+
+        </div >
     )
 }
 export default HeroThree;
