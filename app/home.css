@@ -28,7 +28,7 @@
 }
 
 .banner {
-  height: 70vh;
+  height: 50vh;
   background-repeat: no-repeat;
   background-size: 110%;
   display: flex;
@@ -38,14 +38,19 @@
 
 .banner.banner-1 {
   /* background-image: url("https://images.unsplash.com/photo-1568283096533-078a24930eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"); */
-  background-image: url("/home/hero-1.jpg");
+  /* background-image: url("/home/hero-1.jpg"); */
+  background-image: url("/home/home-graphic-01.png");
+  background-size: 60%;
+  background-position: right !important;
 }
 .banner.banner-2 {
-  /* background-image: url("https://images.unsplash.com/photo-1566545455366-bcae28fd3929?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1656&q=80"); */
-  background-image: url("/home/hero-2.jpg");
+  background-image: url("/home/home-graphic-02.png");
+  background-size: 40%;
+  background-position: right !important;
 }
 
 .banner.banner-3 {
-  /* background-image: url("https://images.unsplash.com/photo-1465189684280-6a8fa9b19a7a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"); */
-  background-image: url("/home/hero-3.jpg");
+  background-image: url("/home/home-graphic-03.png");
+  background-size: 100%;
+  background-position: 0 !important;
 }
