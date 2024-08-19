@@ -48,14 +48,14 @@ export default function Home() {
 
       <Layer className="banner banner-2 " settings={{ speed: 0.3 }}>
         <div className="flex flex-row w-full">
-          <div className="w-3/5 h-full bg-white">
+          <div className="box w-3/5 h-full bg-white">
             <HeroThree />
           </div>
         </div>
       </Layer>
 
       <Layer className="banner banner-3" settings={{ speed: 0.3 }}>
-        <div className="box">
+        <div className="">
           <HeroFour />
         </div>
       </Layer>
