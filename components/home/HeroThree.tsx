@@ -4,7 +4,6 @@ import Image from 'next/image';
 const HeroThree = () => {
 
     return (
-        // <div className="h-full grid grid-cols-1 place-items-left p-6 text-secondary">
         <div className="text-secondary p-6">
 
             <h1 className="text-4xl mb-6 font-bold">How It Works</h1>
