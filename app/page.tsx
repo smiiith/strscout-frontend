@@ -22,17 +22,17 @@ export default function Home() {
         <div className="box">No Parallax</div>
       </div> */}
       {/* <div className="separator" /> */}
-      <Layer className="banner banner-1" settings={{ speed: 0.3 }}>
-
-        <div className="right-4 top-4 absolute bg-opacity-50 bg-slate-900 rounded-xl p-2 text-white cursor-pointer"
+      {/* <Layer className="banner banner-1 flex flex-col md:flex-row md:bg-[auto_80%] md:!bg-right" settings={{ speed: 0.3 }}> */}
+      <Layer className="" settings={{ speed: 0.3 }}>
+        <div className="md:right-4 md:top-4 absolute md:bg-opacity-50 md:bg-slate-900 md:rounded-xl md:p-2 md:cursor-pointer"
           title="Log in"
           onClick={() => router.push('/account')}
         >
           <Login01Icon className="h-10 w-10" />
 
         </div>
-        <div className="flex flex-row w-full">
-          <div className="w-2/5 h-full bg-muted">
+        <div className="w-full">
+          <div className="md:h-full">
             <HeroOne />
           </div>
         </div>
@@ -46,9 +46,9 @@ export default function Home() {
         </div>
       </Layer>
 
-      <Layer className="banner banner-2 " settings={{ speed: 0.3 }}>
+      <Layer className="banner banner-2 !bg-[auto_80%] !bg-right" settings={{ speed: 0.3 }}>
         <div className="flex flex-row w-full">
-          <div className="box w-3/5 h-full bg-white">
+          <div className="box w-3/5 h-ful">
             <HeroThree />
           </div>
         </div>

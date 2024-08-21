@@ -30,23 +30,21 @@
 .banner {
   height: 50vh;
   background-repeat: no-repeat;
-  background-size: 110%;
+  /* background-size: 110%; */
   display: flex;
   /* justify-content: center;
   align-items: center; */
 }
 
 .banner.banner-1 {
-  /* background-image: url("https://images.unsplash.com/photo-1568283096533-078a24930eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"); */
-  /* background-image: url("/home/hero-1.jpg"); */
   background-image: url("/home/home-graphic-01.png");
-  background-size: 60%;
-  background-position: right !important;
+  /* background-size: 60%; */
+  /* background-position: right !important; */
 }
 .banner.banner-2 {
   background-image: url("/home/home-graphic-02.png");
   background-size: 40%;
-  background-position: right !important;
+  /* background-position: right !important; */
 }
 
 .banner.banner-3 {

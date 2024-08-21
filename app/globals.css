@@ -40,6 +40,7 @@
     --ring: 212 85% 53%;
     --radius: 0.5rem;
     --subheader: 51 7% 15%;
+    --link: 212 85% 53%;
   }
   .dark {
     --background: 212 50% 5%;
@@ -63,6 +64,7 @@
     --input: 212 30% 18%;
     --ring: 212 85% 53%;
     --radius: 0.5rem;
+    --link: 212 85% 53%;
   }
 
   /* body {
