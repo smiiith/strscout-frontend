@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import Image from 'next/image'
+import { Button } from './ui/button'
 
 const Avatar = ({
   uid,
@@ -77,7 +78,7 @@ const Avatar = ({
         <div className="avatar no-image" style={{ height: size, width: size }} />
       )}
       <div style={{ width: size }}>
-        <label className="button primary block" htmlFor="single">
+        <label className="button primary block cursor-pointer text-link" htmlFor="single">
           {uploading ? 'Uploading ...' : 'Upload'}
         </label>
         <input

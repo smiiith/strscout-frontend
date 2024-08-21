@@ -7,6 +7,8 @@ import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import ThemeSwitch from "./ThemeSwitch"
+import Image from "next/image"
+import { MyAccountIcon } from "./Icons"
 
 const HeaderNav = () => {
     const pageLinks = {
@@ -42,8 +44,13 @@ const HeaderNav = () => {
                 </SheetTrigger>
                 <SheetContent side="left">
                     <Link href="#" className="mr-6 hidden lg:flex" prefetch={false}>
-                        <Beach02Icon className="h-6 w-6" />
-                        <span className="sr-only">Acme Inc</span>
+                        <Image
+                            src="/home/logo.png"
+                            alt="SyncNanny"
+                            width={80}
+                            height={80}
+                            layout="responsive"
+                        />
                     </Link>
                     <div className="grid gap-2 py-6">
                         <Link href={pageLinks.home.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
@@ -73,8 +80,13 @@ const HeaderNav = () => {
                 </SheetContent>
             </Sheet>
             <Link href="#" className="mr-6 hidden lg:flex" prefetch={false}>
-                <Beach02Icon className="h-[100px] w-[100px] text-primary" />
-                <span className="sr-only">Acme Inc</span>
+                <Image
+                    src="/home/logo.png"
+                    alt="SyncNanny"
+                    width={80}
+                    height={80}
+                    layout="responsive"
+                />
             </Link>
 
             <nav className="ml-auto hidden lg:flex gap-3">
@@ -244,12 +256,3 @@ const Beach02Icon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
-const MyAccountIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} color={"#000000"} fill={"none"} {...props}>
-        <path d="M14 8.99988H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M14 12.4999H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <rect x="2" y="2.99988" width="20" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M5 15.9999C6.20831 13.4188 10.7122 13.249 12 15.9999" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M10.5 8.99988C10.5 10.1044 9.60457 10.9999 8.5 10.9999C7.39543 10.9999 6.5 10.1044 6.5 8.99988C6.5 7.89531 7.39543 6.99988 8.5 6.99988C9.60457 6.99988 10.5 7.89531 10.5 8.99988Z" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-);

@@ -9,7 +9,15 @@ const config = {
     './src/**/*.{ts,tsx}',
   ],
   prefix: "",
+  mode: "jit",
   theme: {
+    backgroundSize: {
+      'auto': 'auto',
+      'cover': 'cover',
+      'contain': 'contain',
+      '60%': '60%',
+      '16': '4rem',
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -22,6 +30,7 @@ const config = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
+        link: "hsl(var(--link))",
         subheader: "hsl(var(--subheader))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

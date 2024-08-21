@@ -3,6 +3,9 @@ import { useCallback, useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { type User } from '@supabase/supabase-js'
 import Avatar from '../../../../components/Avatar'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 
 export default function AccountForm({ user }: any) {
@@ -84,7 +87,7 @@ export default function AccountForm({ user }: any) {
   }
 
   return (
-    <div className="form-widget">
+    <div className="form-widget max-w-[500px]">
       <Avatar
         uid={user?.id ?? null}
         url={avatar_url}
@@ -94,29 +97,38 @@ export default function AccountForm({ user }: any) {
           updateProfile({ fullname, username, website, avatar_url: url })
         }}
       />
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={user?.email} disabled />
+      <div className="mt-8">
+        <Label htmlFor="email" className="mt-5">Email</Label>
+        <Input
+          id="email"
+          type="text"
+          value={user?.email}
+          disabled
+          className="mt-2 mb-5"
+        />
       </div>
       <div>
-        <label htmlFor="fullName">Full Name</label>
-        <input
+        <Label htmlFor="fullName" className="mt-5">Full Name</Label>
+        <Input
           id="fullName"
           type="text"
           value={fullname || ''}
           onChange={(e) => setFullname(e.target.value)}
+          className="mt-2 mb-5"
         />
+
       </div>
       <div>
-        <label htmlFor="username">Username</label>
-        <input
+        <Label htmlFor="username" className="mt-5">Username</Label>
+        <Input
           id="username"
           type="text"
           value={username || ''}
           onChange={(e) => setUsername(e.target.value)}
+          className="mt-2 mb-5"
         />
       </div>
-      <div>
+      {/* <div>
         <label htmlFor="website">Website</label>
         <input
           id="website"
@@ -124,25 +136,25 @@ export default function AccountForm({ user }: any) {
           value={website || ''}
           onChange={(e) => setWebsite(e.target.value)}
         />
-      </div>
+      </div> */}
 
       <div>
-        <button
-          className="button primary block"
+        <Button
+          className=""
           onClick={() => updateProfile({ fullname, username, website, avatar_url })}
           disabled={loading}
         >
           {loading ? 'Loading ...' : 'Update'}
-        </button>
+        </Button>
       </div>
 
-      <div>
+      {/* <div>
         <form action="/auth/signout" method="post">
           <button className="button block" type="submit">
             Sign out
           </button>
         </form>
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -20,30 +20,30 @@ export function Sidebar() {
                 {
                     label: 'My Properties',
                     href: '/properties',
-                    icon: <City01Icon />,
+                    icon: <City01Icon className="text-secondary-foreground" />,
                 },
                 {
                     label: 'Add Property',
                     href: '/properties/add',
-                    icon: <Add01Icon />,
+                    icon: <Add01Icon className="text-secondary-foreground" />,
                 },
             ]
         },
-        {
-            page: 'account',
-            links: [
-                {
-                    label: 'My Info',
-                    href: '/profile/info',
-                    icon: <UserAccountIcon className="text-foreground w-[40px] h-[40px]" />,
-                },
-                {
-                    label: 'Profile Pic',
-                    href: '/profile/pic',
-                    icon: <UserSquareIcon className="text-foreground w-[40px] h-[40px]" />,
-                },
-            ]
-        }
+        // {
+        //     page: 'account',
+        //     links: [
+        //         {
+        //             label: 'My Info',
+        //             href: '/profile/info',
+        //             icon: <UserAccountIcon className="text-secondary-foreground" />,
+        //         },
+        //         {
+        //             label: 'Profile Pic',
+        //             href: '/profile/pic',
+        //             icon: <UserSquareIcon className="text-secondary-foreground" />,
+        //         },
+        //     ]
+        // }
     ];
 
     const setSidebar = () => {
@@ -54,7 +54,7 @@ export function Sidebar() {
                 return (
                     <div key={link.label} className="mx-auto my-1 mb-6 grid grid-cols-4 gap-0">
                         <a href={link.href} title={link.label} className="col-span-1">{link.icon}</a>
-                        <a href={link.href} title={link.label} className="col-span-3">{link.label}</a>
+                        <a href={link.href} title={link.label} className="md:col-span-3 md:visible">{link.label}</a>
                     </div>
                 )
             })
