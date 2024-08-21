@@ -29,21 +29,21 @@ export function Sidebar() {
                 },
             ]
         },
-        // {
-        //     page: 'account',
-        //     links: [
-        //         {
-        //             label: 'My Info',
-        //             href: '/profile/info',
-        //             icon: <UserAccountIcon className="text-secondary-foreground" />,
-        //         },
-        //         {
-        //             label: 'Profile Pic',
-        //             href: '/profile/pic',
-        //             icon: <UserSquareIcon className="text-secondary-foreground" />,
-        //         },
-        //     ]
-        // }
+        {
+            page: 'account',
+            links: [
+                {
+                    label: 'Account Info',
+                    href: '/account',
+                    icon: <UserAccountIcon className="text-secondary-foreground" />,
+                },
+                // {
+                //     label: 'Profile Pic',
+                //     href: '/profile/pic',
+                //     icon: <UserSquareIcon className="text-secondary-foreground" />,
+                // },
+            ]
+        },
     ];
 
     const setSidebar = () => {
