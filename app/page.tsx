@@ -19,22 +19,8 @@ export default function Home() {
 
   return (
     <>
-      {/* <HeaderNav auth={false} /> */}
-
       <Parallax>
-        {/* <div className="banner banner-1">
-        <div className="box">No Parallax</div>
-      </div> */}
-        {/* <div className="separator" /> */}
-        {/* <Layer className="banner banner-1 flex flex-col md:flex-row md:bg-[auto_80%] md:!bg-right" settings={{ speed: 0.3 }}> */}
         <Layer className="" settings={{ speed: 0.3 }}>
-          {/* <div className="md:right-4 md:top-4 absolute md:bg-opacity-50 md:bg-slate-900 md:rounded-xl md:p-2 md:cursor-pointer"
-            title="Log in"
-            onClick={() => router.push('/account')}
-          >
-            <Login01Icon className="h-10 w-10" />
-
-          </div> */}
           <div className="w-full">
             <div className="md:h-full">
               <HeroOne />
@@ -43,7 +29,7 @@ export default function Home() {
         </Layer>
 
         <Layer className="banner !h-auto" settings={{ speed: 0.3 }}>
-          <div className="flex flex-row-reverse w-full bg-secondary-background">
+          <div className="flex flex-row-reverse w-full bg-secondary-background pt-5">
             <div className="box w-3/4 h-full">
               <HeroTwo />
             </div>
@@ -51,7 +37,7 @@ export default function Home() {
         </Layer>
 
         <Layer className="banner banner-2 !bg-[auto_80%] !bg-right" settings={{ speed: 0.3 }}>
-          <div className="flex flex-row w-full">
+          <div className="flex flex-row w-full pt-5">
             <div className="box w-3/5 h-ful">
               <HeroThree />
             </div>
@@ -59,9 +45,11 @@ export default function Home() {
         </Layer>
 
         <Layer className="banner banner-3" settings={{ speed: 0.3 }}>
+          {/* <div className="bg-secondary-background pt-5"> */}
           <div className="">
             <HeroFour />
           </div>
+          {/* </div> */}
         </Layer>
       </Parallax>
     </>

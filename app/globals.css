@@ -5,6 +5,7 @@
 /* 168 55% 75% greenish */
 /* 166 65% 83% lighter greenish  */
 /* 159 58% 87% lightest greenish  */
+/* 160 93% 84% */
 /* 0 0% 76% light grey */
 /* 251 7% 50% dark grey */
 /* 51 7% 15% blackish  */
@@ -27,9 +28,9 @@
     --secondary: 251 7% 50%;
     --secondary-foreground: 0 0% 0%;
     /* gray */
-    --secondary-background: 251 7% 50%;
+    --secondary-background: 196 66% 92%;
     /* --muted: 174 30% 85%; */
-    --muted: 159 58% 87%;
+    --muted: 160 93% 84%;
     --muted-foreground: 212 5% 35%;
     --accent: 174 30% 80%;
     --accent-foreground: 212 5% 10%;
@@ -41,6 +42,8 @@
     --radius: 0.5rem;
     --subheader: 51 7% 15%;
     --link: 212 85% 53%;
+    --button-background: 51 7% 15%;
+    --button-foreground: 212 5% 90%;
   }
   .dark {
     --background: 212 50% 5%;
@@ -49,11 +52,13 @@
     --card-foreground: 212 5% 90%;
     --popover: 212 50% 5%;
     --popover-foreground: 212 5% 90%;
-    --primary: 212 85% 53%;
+    --primary: 184 8% 94%;
     --primary-foreground: 0 0% 100%;
     --secondary: 212 30% 10%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 174 30% 15%;
+    --secondary-foreground: 184 8% 94%;
+    --secondary-background: 0 0% 0%;
+    /* --muted: 174 30% 15%; */
+    --muted: 160 93% 84%;
     --muted-foreground: 212 5% 60%;
     --accent: 174 30% 15%;
     --accent-foreground: 212 5% 90%;
@@ -65,6 +70,8 @@
     --ring: 212 85% 53%;
     --radius: 0.5rem;
     --link: 212 85% 53%;
+    --button-background: 51 7% 15%;
+    --button-foreground: 212 5% 90%;
   }
 
   /* body {
