@@ -40,10 +40,10 @@ const PropertyCard = (props: any) => {
     }
 
     return (
-        <Card className="min-w-[500px] max-w-[500px] border border-secondary-foreground">
+        <Card className="md:min-w-[500px] md:max-w-[500px] w-full border border-secondary-foreground">
             <CardHeader className="p-4 pb-0">
                 <CardTitle className="flex gap-2">
-                    <div className="flex-grow">
+                    <div className="flex-grow md:text-2xl text-xl">
                         {property.name}
                     </div>
                     <div

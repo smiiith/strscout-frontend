@@ -10,6 +10,7 @@ import { Sidebar } from '@/components/sidebar'
 // import UserContext from "@/app/UserContext";
 import { useState } from 'react'
 import { createClient } from '@/utils/supabase/server'
+import UserContext from '../UserContext'
 
 
 export const metadata = {
@@ -19,9 +20,16 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data, error } = await supabase.auth.getUser()
+
+  if (error) {
+    console.log("error", error);
+  }
+
+  if (data) {
+    console.log("data", data);
+  }
+
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -32,11 +40,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           enableSystem
           disableTransitionOnChange
         >
-          <HeaderNav />
+          {/* <UserContext.Provider value={{ data }}> */}
+          <HeaderNav user={data.user} />
+          {/* </UserContext.Provider> */}
+
+          <div className="h-full justify-center md:p-6 px-5 md:hidden block">
+            <div className="">
+              {children}
+            </div>
+          </div>
 
           <ResizablePanelGroup
             direction="horizontal"
-            className="min-h-[600px] w-full"
+            className="min-h-[600px] w-full md:block hidden md:visible invisible"
           >
             <ResizablePanel defaultSize={20} className="min-w-[150px]">
               <div className="flex h-full justify-center p-6 pt-[100px]">
