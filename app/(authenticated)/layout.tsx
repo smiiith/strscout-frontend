@@ -41,6 +41,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           disableTransitionOnChange
         >
           {/* <UserContext.Provider value={{ data }}> */}
+          {/* @ts-ignore */}
           <HeaderNav user={data.user} />
           {/* </UserContext.Provider> */}
 

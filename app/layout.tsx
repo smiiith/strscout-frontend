@@ -36,6 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           disableTransitionOnChange
         >
 
+          {/* @ts-ignore */}
           <HeaderNav user={data.user} />
 
           {children}
