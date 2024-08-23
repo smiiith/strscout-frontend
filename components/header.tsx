@@ -10,29 +10,49 @@ import ThemeSwitch from "./ThemeSwitch"
 import Image from "next/image"
 import { MyAccountIcon } from "./Icons"
 
-const HeaderNav = () => {
-    const pageLinks = {
-        home: {
-            label: 'Home',
-            href: '/',
-        },
-        account: {
+
+const HeaderNav = async (props: any) => {
+    let isAuthorized = false;
+    if (props && props.user) {
+        isAuthorized = true;
+    }
+
+    // const isAuthorized = (props.user !== null && props.user !== undefined) ? true : false;
+
+    console.log("user props", props.user)
+    if (isAuthorized) {
+        console.log("user in header", props.user);
+    } else {
+        console.log("no user");
+    }
+
+    const pageLinks = [
+        {
             label: 'My Account',
             href: '/account',
+            enabled: isAuthorized,
+            icon: () => { return <MyAccountIcon className="text-purple-500 ml-6" /> },
         },
-        properties: {
+        {
             label: 'My Properties',
             href: '/properties',
+            enabled: isAuthorized,
+            icon: () => { return <House01Icon className="text-red-500 ml-6" /> },
         },
-        pricing: {
+        {
             label: 'Pricing',
             href: '/pricing',
+            enabled: true,
+            icon: () => { return <PiggyBankIcon className="text-blue-500 ml-6" /> },
         },
-        contact: {
+        {
             label: 'Contact',
             href: '/contact',
+            enabled: true,
+            icon: () => { return <Mailbox01Icon className="text-green-500 ml-6" /> },
         },
-    }
+    ]
+
     return (
         <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
             <Sheet>
@@ -43,97 +63,59 @@ const HeaderNav = () => {
                     </Button>
                 </SheetTrigger>
                 <SheetContent side="left">
-                    <Link href="#" className="mr-6 hidden lg:flex" prefetch={false}>
-                        <Image
-                            src="/home/logo.png"
-                            alt="SyncNanny"
-                            width={80}
-                            height={80}
-                            layout="responsive"
-                        />
-                    </Link>
                     <div className="grid gap-2 py-6">
-                        <Link href={pageLinks.home.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
-                            {pageLinks.home.label}
-                        </Link>
-                        <Link href={pageLinks.properties.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
-                            {pageLinks.properties.label}
-                        </Link>
-                        <Link href={pageLinks.account.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
-                            {pageLinks.account.label}
-                        </Link>
-                        <Link href={pageLinks.pricing.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
-                            {pageLinks.pricing.label}
-                        </Link>
-                        <Link href={pageLinks.contact.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
-                            {pageLinks.contact.label}
-                        </Link>
-                        <Link href={pageLinks.contact.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
-                            <form action="/auth/signout" method="post">
-                                <button className="button block" type="submit">
-                                    Sign out
-                                </button>
-                            </form>
-                            <a href="/login">Log In</a>
-                        </Link>
+                        {pageLinks.map((link: any, index: number) => (
+                            <>
+                                {link.enabled && (
+                                    <Link key={`mobile-${index}`} href={link.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
+                                        {link.label}
+                                    </Link>
+                                )}
+                            </>
+                        ))}
+                        <form action="/auth/signout" method="post">
+                            <button className="button block" type="submit">
+                                Sign out
+                            </button>
+                        </form>
+                        <a href="/login">Log In</a>
                     </div>
                 </SheetContent>
             </Sheet>
-            <Link href="#" className="mr-6 hidden lg:flex" prefetch={false}>
-                <Image
-                    src="/home/logo.png"
-                    alt="SyncNanny"
-                    width={80}
-                    height={80}
-                    layout="responsive"
-                />
-            </Link>
 
+            <div className="relative w-[400px] h-[50px]">
+                <Link href="/" className="mr-6 md:w-[200px] w-[200px] md:relative absolute right-0 top-0" prefetch={false}>
+                    <Image
+                        src="/home/logo.png"
+                        alt="SyncNanny"
+                        width={200}
+                        height={200}
+                    // layout="responsive"
+                    />
+                </Link>
+            </div>
+
+            {/* desktop */}
             <nav className="ml-auto hidden lg:flex gap-3">
-                {/* <House01Icon className="text-red-500" />
-                <Link
-                    href={pageLinks.home.href}
-                    // className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-                    prefetch={false}
-                >
-                    {pageLinks.home.label}
-                </Link> */}
+                {pageLinks.map((link: any, index: number) => (
+                    <>
+                        {link.enabled && (
+                            <>
+                                {link.icon && link.icon()}
+                                <Link
+                                    href={link.href}
+                                    className="hover:underline whitespace-nowrap"
+                                    prefetch={false}
+                                    key={`desktop-${index}`}
+                                >
+                                    {link.label}
+                                </Link>
+                            </>
+                        )}
+                    </>
 
-                <House01Icon className="text-red-500 ml-6" />
-                <Link
-                    href={pageLinks.properties.href}
-                    // className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-                    prefetch={false}
-                >
-                    {pageLinks.properties.label}
-                </Link>
+                ))}
 
-                <MyAccountIcon className="text-purple-500 ml-6" />
-                <Link
-                    href={pageLinks.account.href}
-                    // className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-                    prefetch={false}
-                >
-                    {pageLinks.account.label}
-                </Link>
-
-                <PiggyBankIcon className="text-blue-500 ml-6" />
-                <Link
-                    href={pageLinks.pricing.href}
-                    // className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-                    prefetch={false}
-                >
-                    {pageLinks.pricing.label}
-                </Link>
-
-                <Mailbox01Icon className="text-green-500 ml-6" />
-                <Link
-                    href={pageLinks.contact.href}
-                    // className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-                    prefetch={false}
-                >
-                    {pageLinks.contact.label}
-                </Link>
                 <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light">
                     <a href="/login">Log In</a>
                 </div>
@@ -147,7 +129,7 @@ const HeaderNav = () => {
                     <ThemeSwitch />
                 </div>
             </nav>
-        </header>
+        </header >
     )
 }
 

@@ -15,7 +15,7 @@ const Account = async () => {
     <>
       <h1 className="text-3xl mb-6"><MyAccountIcon className="h-8 w-8 inline-block mb-2 mr-2 text-secondary-foreground" /> My Account</h1>
 
-      <div className="w-[500px]">
+      <div className="md:w-[500px]">
         <AccountForm user={user} />
 
       </div>

@@ -87,7 +87,7 @@ export default function AccountForm({ user }: any) {
   }
 
   return (
-    <div className="form-widget max-w-[500px]">
+    <div className="form-widget md:max-w-[500px] w-full">
       <Avatar
         uid={user?.id ?? null}
         url={avatar_url}
@@ -128,16 +128,6 @@ export default function AccountForm({ user }: any) {
           className="mt-2 mb-5"
         />
       </div>
-      {/* <div>
-        <label htmlFor="website">Website</label>
-        <input
-          id="website"
-          type="url"
-          value={website || ''}
-          onChange={(e) => setWebsite(e.target.value)}
-        />
-      </div> */}
-
       <div>
         <Button
           className=""

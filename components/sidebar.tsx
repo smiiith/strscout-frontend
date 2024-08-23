@@ -33,15 +33,15 @@ export function Sidebar() {
             page: 'account',
             links: [
                 {
-                    label: 'Account Info',
+                    label: 'My Profile',
                     href: '/account',
                     icon: <UserAccountIcon className="text-secondary-foreground" />,
                 },
-                // {
-                //     label: 'Profile Pic',
-                //     href: '/profile/pic',
-                //     icon: <UserSquareIcon className="text-secondary-foreground" />,
-                // },
+                {
+                    label: 'My Subscription',
+                    href: '/account',
+                    icon: <UserSquareIcon className="text-secondary-foreground" />,
+                },
             ]
         },
     ];

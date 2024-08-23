@@ -7,6 +7,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
 import { Sidebar } from '@/components/sidebar'
+import { createClient } from '@/utils/supabase/server'
 
 export const metadata = {
   title: 'User Management',
@@ -14,6 +15,16 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser()
+
+  if (error) {
+    console.log("error", error);
+  }
+
+  if (data) {
+    console.log("data", data);
+  }
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -24,6 +35,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           enableSystem
           disableTransitionOnChange
         >
+
+          <HeaderNav user={data.user} />
+
           {children}
         </ThemeProvider>
       </body>
