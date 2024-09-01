@@ -8,6 +8,7 @@ const protectedRoutes = [
   // "/contact"
 ];
 
+
 export async function middleware(request: NextRequest) {
 
   // update user's auth session
@@ -34,3 +35,7 @@ export const config = {
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
+function withAuth(arg0: (req: any) => any, arg1: { callbacks: { authorized: ({ token }: { token: any; }) => boolean; }; pages: { signIn: string; }; }) {
+  throw new Error('Function not implemented.');
+}
+

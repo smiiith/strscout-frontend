@@ -32,48 +32,40 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="p-5">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {/* <UserContext.Provider value={{ data }}> */}
-          {/* @ts-ignore */}
-          <HeaderNav user={data.user} />
-          {/* </UserContext.Provider> */}
-
-          <div className="h-full justify-center md:p-6 px-5 md:hidden block">
-            <div className="">
-              {children}
-            </div>
+    <>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <div className="h-full justify-center md:p-6 px-5 md:hidden block">
+          <div className="">
+            {children}
           </div>
+        </div>
 
-          <ResizablePanelGroup
-            direction="horizontal"
-            className="min-h-[600px] w-full md:block hidden md:visible invisible"
-          >
-            <ResizablePanel defaultSize={20} className="min-w-[150px]">
-              <div className="flex h-full justify-center p-6 pt-[100px]">
-                <Sidebar />
+        <ResizablePanelGroup
+          direction="horizontal"
+          className="min-h-[600px] w-full md:block hidden md:visible invisible"
+        >
+          <ResizablePanel defaultSize={20} className="min-w-[150px]">
+            <div className="flex h-full justify-center p-6 pt-[100px]">
+              <Sidebar />
+            </div>
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize={80}>
+            <div className="flex h-full justify-center p-6">
+              <div className="container">
+                {/* <UserContext.Provider value={{ user }}> */}
+                {children}
+                {/* </UserContext.Provider> */}
               </div>
-            </ResizablePanel>
-            <ResizableHandle withHandle />
-            <ResizablePanel defaultSize={80}>
-              <div className="flex h-full justify-center p-6">
-                <div className="container">
-                  {/* <UserContext.Provider value={{ user }}> */}
-                  {children}
-                  {/* </UserContext.Provider> */}
-                </div>
-              </div>
-            </ResizablePanel>
-          </ResizablePanelGroup>
-
-        </ThemeProvider>
-      </body>
-    </html>
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </ThemeProvider >
+    </>
   )
 }
