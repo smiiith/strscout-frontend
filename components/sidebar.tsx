@@ -2,10 +2,13 @@
 
 import { usePathname } from 'next/navigation';
 import { use, useEffect, useState } from 'react';
+import { City01Icon } from './Icons';
+import { useRouter } from 'next/navigation';
 
 export function Sidebar() {
     const [pageName, setPageName] = useState('proprties');
     const pathname = usePathname()
+    const router = useRouter();
 
     useEffect(() => {
         const path = pathname.split('/')[1];
@@ -26,6 +29,11 @@ export function Sidebar() {
                     label: 'Add Property',
                     href: '/properties/add',
                     icon: <Add01Icon className="text-secondary-foreground" />,
+                },
+                {
+                    label: 'My Scans',
+                    href: '/properties/scans',
+                    icon: <City01Icon className="text-secondary-foreground" />,
                 },
             ]
         },
@@ -53,8 +61,23 @@ export function Sidebar() {
             return page.links.map((link) => {
                 return (
                     <div key={link.label} className="mx-auto my-1 mb-6 grid grid-cols-4 gap-0">
-                        <a href={link.href} title={link.label} className="col-span-1">{link.icon}</a>
-                        <a href={link.href} title={link.label} className="md:col-span-3 md:visible">{link.label}</a>
+                        <div onClick={() => {
+                            router.push(link.href);
+                        }}
+                            className="cursor-pointer col-span-1"
+                            title={link.label}
+                        >
+                            {link.icon}
+                        </div>
+
+                        <div onClick={() => {
+                            router.push(link.href);
+                        }}
+                            className="cursor-pointer md:col-span-3 md:visible"
+                            title={link.label}
+                        >
+                            {link.label}
+                        </div>
                     </div>
                 )
             })
@@ -68,16 +91,6 @@ export function Sidebar() {
         </div>
     )
 }
-
-const City01Icon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} color={"#000000"} fill={"none"} {...props}>
-        <path d="M14 8H10C7.518 8 7 8.518 7 11V22H17V11C17 8.518 16.482 8 14 8Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M11 12L13 12M11 15H13M11 18H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M21 22V8.18564C21 6.95735 21 6.3432 20.7013 5.84966C20.4026 5.35612 19.8647 5.08147 18.7889 4.53216L14.4472 2.31536C13.2868 1.72284 13 1.93166 13 3.22873V7.7035" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M3 22V13C3 12.1727 3.17267 12 4 12H7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M22 22H2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-);
 
 const UserAccountIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} color={"#000000"} fill={"none"} {...props}>
