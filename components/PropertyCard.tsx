@@ -23,7 +23,7 @@ const PropertyCard = (props: any) => {
         setIsLoading(true);
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}scan`, {
-                propertyId: property.id,
+                property: property,
                 headers: {
                     // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
                 }
