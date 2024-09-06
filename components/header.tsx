@@ -17,14 +17,11 @@ const HeaderNav = async (props: any) => {
         isAuthorized = true;
     }
 
-    // const isAuthorized = (props.user !== null && props.user !== undefined) ? true : false;
-
-    console.log("user props", props.user)
-    if (isAuthorized) {
-        console.log("user in header", props.user);
-    } else {
-        console.log("no user");
-    }
+    // if (isAuthorized) {
+    //     console.log("user in header", props.user);
+    // } else {
+    //     console.log("no user");
+    // }
 
     const pageLinks = [
         {
