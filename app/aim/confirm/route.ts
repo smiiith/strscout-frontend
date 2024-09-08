@@ -12,20 +12,37 @@ export async function GET(request: NextRequest) {
   const redirectTo = request.nextUrl.clone()
   redirectTo.pathname = next
 
-  console.log("next", next);
+  console.log("next redirect", redirectTo.href);
 
   if (token_hash && type) {
     const supabase = createClient()
 
-    const { error } = await supabase.auth.verifyOtp({
+    const { data, error } = await supabase.auth.verifyOtp({
       type,
       token_hash,
     })
-    if (!error) {
-      console.log("redirecting to", redirectTo);
+
+    console.log("data part", data);
+
+    if (error || !data || !data.session) {
+      console.log("error", error);
       return NextResponse.redirect(redirectTo)
     }
+
+    const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
+      access_token: data.session?.access_token,
+      refresh_token: data.session.refresh_token
+    })
+
+    if (sessionError) {
+      console.log("session error", sessionError);
+      return NextResponse.redirect(redirectTo)
+    }
+
+    console.log("redirecting to", redirectTo.href);
+    return NextResponse.redirect(redirectTo.href)
   }
+
 
   // return the user to an error page with some instructions
   redirectTo.pathname = '/auth/auth-code-error'

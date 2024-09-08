@@ -1,13 +1,19 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { login, signup } from '@/app/(login)/login/actions'
+import { updatePassword } from '@/app/(login)/login/actions'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 
-export default function PasswordReset() {
-  // input: new password
-  // redirect to account page
+// export default function PasswordReset() {
+
+export default function PasswordReset({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
 
   return (
     <Card className="mx-auto max-w-sm">
@@ -23,8 +29,9 @@ export default function PasswordReset() {
                 <Label htmlFor="password">Password</Label>
               </div>
               <Input id="password" name="password" type="password" required />
+              <Input id="code" name="code" type="hidden" value={searchParams?.code} />
             </div>
-            <Button type="submit" className="w-full" formAction={login} variant={"outline"}>
+            <Button type="submit" className="w-full" formAction={updatePassword} variant={"outline"}>
               Reset Password
             </Button>
           </div>
