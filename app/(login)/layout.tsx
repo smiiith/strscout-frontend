@@ -21,14 +21,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser()
 
-  if (error) {
-    console.log("error", error);
-  }
-
-  if (data) {
-    console.log("data", data);
-  }
-
+  // if (error) {
+  //   console.log("error", error);
+  // }
 
   return (
     <>

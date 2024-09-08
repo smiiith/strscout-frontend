@@ -9,8 +9,6 @@ const Account = async () => {
     data: { user },
   } = await supabase.auth.getUser()
 
-  console.log("data user", user);
-
   return (
     <>
       <h1 className="text-3xl mb-6"><MyAccountIcon className="h-8 w-8 inline-block mb-2 mr-2 text-secondary-foreground" /> My Account</h1>
