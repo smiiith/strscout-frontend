@@ -62,10 +62,8 @@ export async function resetPassword(formData: FormData) {
     email: formData.get('email') as string,
   }
 
-  // const { error } = await supabase.auth.resetPasswordForEmail(data.email)
-
   const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
-    redirectTo: '/password-reset',
+    redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/password-reset`,
   })
 
   if (error) {
@@ -74,7 +72,7 @@ export async function resetPassword(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/password-reset')
+  redirect('/confirmation')
 }
 
 // const \{ data, error \} = await supabase.auth.updateUser(\{
@@ -90,6 +88,7 @@ export async function updatePassword(formData: FormData) {
   // in practice, you should validate your inputs
   const data = {
     password: formData.get('password') as string,
+    // nonce: formData.get('code') as string,
   }
 
   console.log("update password data", data);
@@ -98,6 +97,32 @@ export async function updatePassword(formData: FormData) {
 
   if (error) {
     console.log("update password error", error);
+    redirect('/error')
+  }
+
+  revalidatePath('/', 'layout')
+  redirect('/account')
+}
+
+export async function verifyOtp(formData: FormData) {
+  const supabase = createClient()
+
+  console.log("verify otp data", formData);
+  console.log("verify otp", formData.get('code'));
+
+  if (!formData.get('code') || !formData.get('email')) {
+    console.log("verify otp missing data");
+    redirect('/error')
+  }
+
+  const { data, error } = await supabase.auth.verifyOtp({
+    // email: formData.get('email') as string || '',
+    token_hash: formData.get('code') as string || '',
+    type: 'recovery'
+  })
+
+  if (error) {
+    console.log("verify otp error", error);
     redirect('/error')
   }
 
