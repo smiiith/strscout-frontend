@@ -30,15 +30,15 @@ export default function Home() {
 
         <Layer className="banner !h-auto" settings={{ speed: 0.3 }}>
           <div className="flex flex-row-reverse w-full bg-secondary-background pt-5">
-            <div className="box w-3/4 h-full">
+            <div className="box md:w-3/4 h-full">
               <HeroTwo />
             </div>
           </div>
         </Layer>
 
-        <Layer className="banner banner-2 !bg-[auto_80%] !bg-right" settings={{ speed: 0.3 }}>
-          <div className="flex flex-row w-full pt-5">
-            <div className="box w-3/5 h-ful">
+        <Layer className="banner banner-2 !bg-[auto_80%] !bg-right md:pt-0 pt-[380px]" settings={{ speed: 0.3 }}>
+          <div className="flex flex-row w-full md:pt-5">
+            <div className="box md:w-3/5 h-full">
               <HeroThree />
             </div>
           </div>
