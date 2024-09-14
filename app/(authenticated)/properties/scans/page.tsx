@@ -14,9 +14,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatDateNoTime } from "@/lib/utils";
 import { useRouter } from 'next/navigation';
 import { set } from "date-fns";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button";
 
 
 const MyScans = () => {
@@ -67,7 +77,7 @@ const MyScans = () => {
     <>
       <h1 className="text-3xl mb-6"><City01Icon className="h-8 w-8 inline-block mb-2 mr-2 text-secondary-foreground" />My Property Scans</h1>
 
-      <div className="md:w-[500px]">
+      <div className="md:w-[900px]">
         {scans && scans.length > 0 && (
           <Table>
             <TableCaption>Your recent scans</TableCaption>
@@ -76,6 +86,7 @@ const MyScans = () => {
                 <TableHead>Status</TableHead>
                 <TableHead className="">Property Name</TableHead>
                 <TableHead>Scan Date</TableHead>
+                <TableHead>View Details</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -92,6 +103,11 @@ const MyScans = () => {
                     </div>
                   </TableCell>
                   <TableCell>{formatDate(scan.created_at)}</TableCell>
+                  <TableCell>
+                    {scan.scan_mismatches && scan.scan_mismatches.length > 0 &&
+                      <ResultsDialog scanMessages={scan.scan_mismatches} />
+                    }
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -99,6 +115,39 @@ const MyScans = () => {
         )}
       </div>
     </>
+  )
+}
+
+const ResultsDialog = ({ scanMessages }: any) => {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline" className="scale-75">View Details</Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-[425px] md:max-w-[900px] md:max-h-[90%] overflow-auto">
+        <DialogHeader>
+          <DialogTitle>Scan Details</DialogTitle>
+        </DialogHeader>
+        <Table>
+          <TableCaption>Your recent scans</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Scan Message</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {scanMessages.map((message: any, index: number) => (
+              <TableRow key={message.id} className="hover:muted-foreground">
+                <TableCell>
+                  {message.message}. Date in question: {formatDateNoTime(message.mismatch_date)}
+                </TableCell>
+                { }
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </DialogContent>
+    </Dialog>
   )
 }
 
