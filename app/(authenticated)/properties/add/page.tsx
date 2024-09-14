@@ -8,15 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
+import styles from './page.module.css';
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
@@ -306,7 +298,7 @@ const AddProperty = () => {
           />
 
           <div className="flex justify-end">
-            <Button type="submit">Save</Button>
+            <Button type="submit" >Save</Button>
           </div>
         </form>
       </FormProvider >
