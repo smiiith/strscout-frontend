@@ -8,17 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import axios from 'axios';
 import { useSearchParams } from 'next/navigation'
@@ -26,40 +15,6 @@ import { useRouter } from 'next/navigation';
 import { Separator } from '@/components/ui/separator'
 import LoadingOverlay from '@/components/LoadingOverlay';
 
-
-// const formSchema = z.object({
-//   username: z.string().min(2, {
-//     message: "Username must be at least 2 characters.",
-//   }),
-// })
-
-const formSchema = z.object({
-  nickname: z.string().min(1, "Nickname is required"),
-  // vrboId: z.string().min(1, "VRBO ID is required"),
-  // airbnbId: z.string().min(1, "Airbnb ID is required"),
-  // primaryEmail: z.string().email("Invalid email address").min(1, "Primary email is required"),
-  // secondaryEmail: z.string().email("Invalid email address").optional(),
-  // primaryEmail: z.string().email("Invalid email address man").optional(),
-  // secondaryEmail: z.string().optional(),
-  // primaryPhone: z.string().optional(),
-  // secondaryPhone: z.string().optional(),
-  // notificationPreference: z.enum(["email", "phone", "both"], {
-  //   required_error: "Please select a notification preference",
-  // }),
-});
-type Inputs = {
-  // id: string
-  nickname: string
-  vrboId: string
-  airbnbId: string
-  primaryContact: string
-  secondaryContact: string
-  primaryEmail: string
-  secondaryEmail: string
-  primaryPhone: string
-  secondaryPhone: string
-  notificationPreference: string
-}
 
 const ViewProperty = () => {
   const browserClient = createClient()
@@ -69,15 +24,6 @@ const ViewProperty = () => {
   const router = useRouter();
   const [propertyData, setPropertyData] = useState<any>(null);
   const [loading, setLoading] = useState(true)
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    watch,
-    setValue,
-    formState: { errors },
-  } = useForm<Inputs>()
 
   useEffect(() => {
 
@@ -109,7 +55,6 @@ const ViewProperty = () => {
       console.error('Error loading user properties:', error);
     }
   }
-
 
   return (
     <>
@@ -153,7 +98,6 @@ const ViewProperty = () => {
       )}
     </>
   )
-
 }
 
 export default ViewProperty;
