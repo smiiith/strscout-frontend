@@ -12,3 +12,10 @@ export const formatDate = (date: Date) => {
   const zonedDate = formatInTimeZone(dateObj, timeZone, "MM/dd/yyyy hh:mm aaaa zzz");
   return zonedDate;
 }
+
+export const formatDateNoTime = (date: Date) => {
+  const dateObj = new Date(date);
+  const timeZone = "America/Los_Angeles";
+  const zonedDate = formatInTimeZone(dateObj, timeZone, "MM/dd/yyyy");
+  return zonedDate;
+}
