@@ -86,7 +86,7 @@ const MyScans = () => {
                     <div
                       className="cursor-pointer hover:underline hover:text-blue-500"
                       onClick={() => {
-                        router.push(`/properties/add?property=${scan.properties.id}`);
+                        router.push(`/properties/view?property=${scan.properties.id}`);
                       }}>
                       {scan.properties.name}
                     </div>

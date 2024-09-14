@@ -107,6 +107,11 @@
 .logo {
   position: relative;
 }
+
+/* button {
+  background-color: rgba(var(--button-background), 0);
+} */
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
