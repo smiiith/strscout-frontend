@@ -27,13 +27,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
+import LoadingOverlay from "@/components/LoadingOverlay";
 
 
 const MyScans = () => {
   const router = useRouter();
   const browserClient = createClient()
   const [scans, setScans] = useState<any[]>([])
-
+  const [loading, setLoading] = useState(true)
 
   const getScans = async (user: any) => {
     try {
@@ -54,8 +55,10 @@ const MyScans = () => {
       if (response.data) {
         setScans(response.data.scans);
       }
+      setLoading(false);
     } catch (error) {
       console.error('Error loading user scans:', error);
+      setLoading(false);
     }
   }
 
@@ -75,45 +78,51 @@ const MyScans = () => {
 
   return (
     <>
-      <h1 className="text-3xl mb-6"><City01Icon className="h-8 w-8 inline-block mb-2 mr-2 text-secondary-foreground" />My Property Scans</h1>
+      {loading ? (
+        <LoadingOverlay />
+      ) : (
+        <>
+          <h1 className="text-3xl mb-6"><City01Icon className="h-8 w-8 inline-block mb-2 mr-2 text-secondary-foreground" />My Property Scans</h1>
 
-      <div className="md:w-[900px]">
-        {scans && scans.length > 0 && (
-          <Table>
-            <TableCaption>Your recent scans</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Status</TableHead>
-                <TableHead className="">Property Name</TableHead>
-                <TableHead>Scan Date</TableHead>
-                <TableHead>View Details</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {scans.map((scan: any, index: number) => (
-                <TableRow key={scan.id} className="hover:muted-foreground">
-                  <TableCell>{scan.has_mismatch ? <span title="Issue found"><Alert02Icon color="red" /></span> : <span title="No issues found"><CheckmarkCircle02Icon color="green" /></span>}</TableCell>
-                  <TableCell className="font-medium">
-                    <div
-                      className="cursor-pointer hover:underline hover:text-blue-500"
-                      onClick={() => {
-                        router.push(`/properties/view?property=${scan.properties.id}`);
-                      }}>
-                      {scan.properties.name}
-                    </div>
-                  </TableCell>
-                  <TableCell>{formatDate(scan.created_at)}</TableCell>
-                  <TableCell>
-                    {scan.scan_mismatches && scan.scan_mismatches.length > 0 &&
-                      <ResultsDialog scanMessages={scan.scan_mismatches} />
-                    }
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </div>
+          <div className="md:w-[900px]">
+            {scans && scans.length > 0 && (
+              <Table>
+                <TableCaption>Your recent scans</TableCaption>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="">Property Name</TableHead>
+                    <TableHead>Scan Date</TableHead>
+                    <TableHead>View Details</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {scans.map((scan: any, index: number) => (
+                    <TableRow key={scan.id} className="hover:muted-foreground">
+                      <TableCell>{scan.has_mismatch ? <span title="Issue found"><Alert02Icon color="red" /></span> : <span title="No issues found"><CheckmarkCircle02Icon color="green" /></span>}</TableCell>
+                      <TableCell className="font-medium">
+                        <div
+                          className="cursor-pointer hover:underline hover:text-blue-500"
+                          onClick={() => {
+                            router.push(`/properties/view?property=${scan.properties.id}`);
+                          }}>
+                          {scan.properties.name}
+                        </div>
+                      </TableCell>
+                      <TableCell>{formatDate(scan.created_at)}</TableCell>
+                      <TableCell>
+                        {scan.scan_mismatches && scan.scan_mismatches.length > 0 &&
+                          <ResultsDialog scanMessages={scan.scan_mismatches} />
+                        }
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </div>
+        </>
+      )}
     </>
   )
 }
