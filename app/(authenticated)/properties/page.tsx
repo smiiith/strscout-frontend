@@ -126,9 +126,6 @@ const ListingsDialog = (props: any) => {
       <DialogContent className="sm:min-w-[90%] bg-secondary">
         <DialogHeader>
           <DialogTitle className="">Listings for    {props.propertyName}</DialogTitle>
-          {/* <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription> */}
         </DialogHeader>
         <div className="flex flex-col gap-4 py-4">
 
@@ -138,9 +135,6 @@ const ListingsDialog = (props: any) => {
             </div>))}
 
         </div>
-        {/* <DialogFooter>
-          <Button type="submit">Save changes</Button>
-        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   )
