@@ -137,14 +137,6 @@ export default function AccountForm({ user }: any) {
           {loading ? 'Loading ...' : 'Update'}
         </Button>
       </div>
-
-      {/* <div>
-        <form action="/auth/signout" method="post">
-          <button className="button block" type="submit">
-            Sign out
-          </button>
-        </form>
-      </div> */}
     </div>
   )
 }
