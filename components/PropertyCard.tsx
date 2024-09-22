@@ -4,13 +4,15 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./ui/
 import { useRouter } from 'next/navigation';
 import { formatInTimeZone } from 'date-fns-tz'
 import axios from "axios";
-import { Badge } from "./ui/badge";
+
 
 const PropertyCard = (props: any) => {
     const router = useRouter()
-    const property = props.property;
+    // const property = props.property;
     const [lastScan, setLastScan] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [firstScan, setFirstScan] = useState(false);
+    const [property, setProperty] = useState<any>(props.property);
 
     const formatDate = (date: Date) => {
         const dateObj = new Date(date);
@@ -29,10 +31,12 @@ const PropertyCard = (props: any) => {
                 }
             });
 
+            // console.log("scanresponse", response.data);
+
             if (response.data) {
-                console.log("scanresponse", response.data);
                 setIsLoading(false);
                 setLastScan(response.data);
+                setProperty(response.data[0]);
             }
         } catch (error) {
             console.error('Error loading user properties:', error);
@@ -64,35 +68,38 @@ const PropertyCard = (props: any) => {
             </CardHeader>
             <CardContent className="grid grid-cols-2 items-baseline gap-4 p-4 pt-2 text-gray-400">
                 <div className=" items-baseline gap-1 tabular-nums leading-none col-span-2">
-                    {property.lastscan && (
-                        <>
-                            {isLoading ? (
-                                <div className="flex flex-row">
-                                    <div className="mr-1 text-blue-500">
-                                        <LoadingSpinner />
-                                    </div>
-                                    <div className="mx-1 mt-1">
-                                        <span className="font-bold">Scanning...</span>
-                                    </div>
+                    <>
+                        {isLoading ? (
+                            <div className="flex flex-row">
+                                <div className="mr-1 text-blue-500">
+                                    <LoadingSpinner />
                                 </div>
-                            ) : (
-                                <div className="flex flex-row">
-                                    <div className={`${property.lastscan.has_mismatch ? "text-red-500" : "text-green-500"} mr-1`}>
-                                        {property.lastscan.has_mismatch ? <Alert02Icon /> : <CheckmarkCircle02Icon />}
-                                    </div>
-                                    <div className="mx-1 mt-1">
-                                        <span className="font-bold">Last scan:</span> {formatDate(property.lastscan.created_at)}
-                                        <div className="mt-2">
-                                            {property.lastscan.has_mismatch ? "Issues Found" : "No Issues"}
+                                <div className="mx-1 mt-1">
+                                    <span className="font-bold">Scanning...</span>
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                                {property.lastscan && (
+                                    <div className="flex flex-row">
+                                        <div className={`${property?.lastscan?.has_mismatch ? "text-red-500" : "text-green-500"} mr-1`}>
+                                            {property?.lastscan?.has_mismatch ? <Alert02Icon /> : <CheckmarkCircle02Icon />}
+                                        </div>
+                                        <div className="mx-1 mt-1">
+                                            <span className="font-bold">Last scan:</span> {formatDate(property?.lastscan?.created_at)}
+                                            <div className="mt-2">
+                                                {property?.lastscan?.has_mismatch ? "Issues Found" : "No Issues"}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            )}
-                        </>
-                    )}
+                                )
+                                }
+                            </>
+                        )}
+                    </>
                 </div>
                 <div className="col-span-1">
-                    Primary Contact: {property.primary_contact}
+                    Contact: {property.primary_contact}
                 </div>
                 <div className="col-span-1 grid justify-items-end">
                     <div
