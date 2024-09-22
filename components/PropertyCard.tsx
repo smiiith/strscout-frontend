@@ -8,11 +8,10 @@ import axios from "axios";
 
 const PropertyCard = (props: any) => {
     const router = useRouter()
-    // const property = props.property;
     const [lastScan, setLastScan] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [firstScan, setFirstScan] = useState(false);
     const [property, setProperty] = useState<any>(props.property);
+    const profileId = props.profileId;
 
     const formatDate = (date: Date) => {
         const dateObj = new Date(date);
@@ -26,12 +25,11 @@ const PropertyCard = (props: any) => {
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}scan`, {
                 property: property,
+                profileId: profileId,
                 headers: {
                     // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
                 }
             });
-
-            // console.log("scanresponse", response.data);
 
             if (response.data) {
                 setIsLoading(false);
@@ -39,7 +37,7 @@ const PropertyCard = (props: any) => {
                 setProperty(response.data[0]);
             }
         } catch (error) {
-            console.error('Error loading user properties:', error);
+            console.error('Error loading scan properties:', error);
         }
     }
 

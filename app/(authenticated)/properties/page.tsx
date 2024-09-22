@@ -22,6 +22,7 @@ import PropertyCard from '@/components/PropertyCard';
 export default function Properties() {
   const browserClient = createClient()
   const [properties, setProperties] = useState<any[]>([])
+  const [user, setUser] = useState<any>(null);
 
   const getProperties = async (user: any) => {
     try {
@@ -52,7 +53,7 @@ export default function Properties() {
 
     const getUser = async () => {
       const { data: { user }, } = await browserClient.auth.getUser();
-
+      setUser(user);
       getProperties(user);
       return user;
     }
@@ -67,7 +68,7 @@ export default function Properties() {
       <div className="flex flex-wrap gap-6 w-full">
 
         {properties.map((property: any, index: number) => (
-          <PropertyCard property={property} key={`property-${index}`} />
+          <PropertyCard property={property} profileId={user.id} key={`property-${index}`} />
         ))}
 
       </div>
