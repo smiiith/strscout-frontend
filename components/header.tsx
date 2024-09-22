@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import ThemeSwitch from "./ThemeSwitch"
 import Image from "next/image"
-import { MyAccountIcon } from "./Icons"
+import { Login01Icon, Logout01Icon, MyAccountIcon } from "./Icons"
 
 
 const HeaderNav = async (props: any) => {
@@ -113,14 +113,19 @@ const HeaderNav = async (props: any) => {
 
                 ))}
 
-                <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light">
-                    <a href="/login">Log In</a>
-                </div>
-                <form action="/auth/signout" method="post">
-                    <button className="button block" type="submit">
-                        Sign out
-                    </button>
-                </form>
+                {!isAuthorized &&
+                    <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light">
+                        <a href="/login" title="Log In"><Login01Icon className="h-6 w-6" /></a>
+                    </div>
+                }
+
+                {isAuthorized &&
+                    <form action="/auth/signout" method="post">
+                        <button className="button block whitespace-nowrap ml-4" type="submit" title="Log Out">
+                            <Logout01Icon className="h-6 w-6" />
+                        </button>
+                    </form>
+                }
 
                 <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light">
                     <ThemeSwitch />
