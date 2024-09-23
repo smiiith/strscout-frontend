@@ -64,7 +64,7 @@ export function Sidebar() {
                         <div onClick={() => {
                             router.push(link.href);
                         }}
-                            className="cursor-pointer col-span-1"
+                            className="cursor-pointer col-span-1 "
                             title={link.label}
                         >
                             {link.icon}
@@ -73,7 +73,7 @@ export function Sidebar() {
                         <div onClick={() => {
                             router.push(link.href);
                         }}
-                            className="cursor-pointer md:col-span-3 md:visible"
+                            className="cursor-pointer md:col-span-3 md:visible whitespace-nowrap"
                             title={link.label}
                         >
                             {link.label}
