@@ -22,7 +22,7 @@
     /* buttons */
     /* --primary: 212 85% 53%; */
     --primary: 51 7% 15%;
-    /* --primary: 168 55% 75%; */
+    --primary-background: 168 55% 75%;
     /* --primary-foreground: 0 0% 100%; */
     --primary-foreground: 0 100% 100%;
     --secondary: 251 7% 50%;
@@ -53,6 +53,7 @@
     --popover: 212 50% 5%;
     --popover-foreground: 212 5% 90%;
     --primary: 184 8% 94%;
+    --primary-background: 168 55% 75%;
     --primary-foreground: 51 7% 15%;
     --secondary: 212 30% 10%;
     --secondary-foreground: 184 8% 94%;

@@ -52,6 +52,7 @@ const HeaderNav = async (props: any) => {
 
     return (
         <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
+            <link rel="icon" href="/favicon.ico" sizes="any" />
             <Sheet>
                 <SheetTrigger asChild>
                     <Button variant="outline" size="icon" className="lg:hidden">

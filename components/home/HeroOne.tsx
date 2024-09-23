@@ -6,7 +6,7 @@ const HeroOne = () => {
     return (
         <div className="banner md:h-full md:flex md:flex-row flex-col w-[100%] ">
 
-            <div className="text-center content-center bg-muted md:h-full md:flex-none md:w-[500px] md:px-10 px-4 py-10">
+            <div className="text-center content-center bg-primary-background md:h-full md:flex-none md:w-[500px] md:px-10 px-4 py-10">
                 <Image
                     src="/home/logo-black.png"
                     alt="SyncNanny Logo"

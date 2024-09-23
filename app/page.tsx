@@ -44,13 +44,11 @@ export default function Home() {
           </div>
         </Layer>
 
-        <Layer className="banner banner-3" settings={{ speed: 0.3 }}>
-          {/* <div className="bg-secondary-background pt-5"> */}
+        {/* <Layer className="banner banner-3" settings={{ speed: 0.3 }}>
           <div className="">
             <HeroFour />
           </div>
-          {/* </div> */}
-        </Layer>
+        </Layer> */}
       </Parallax>
     </>
   );
