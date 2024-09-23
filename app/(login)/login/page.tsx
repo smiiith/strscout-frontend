@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 
 export default function LoginPage() {
+
   return (
     <Card className="mx-auto max-w-sm">
       <form>
@@ -42,6 +43,6 @@ export default function LoginPage() {
           </div>
         </CardContent>
       </form>
-    </Card>
+    </Card >
   )
 }
