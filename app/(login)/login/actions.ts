@@ -45,12 +45,7 @@ export async function signup(formData: FormData) {
     redirect('/no-registration')
   }
 
-  // const { error } = await supabase.auth.signUp(data)
-
-  const { data: user, error } = await supabase.auth.signUp(data)
-
-  console.log("user", user);
-  console.log("error", error);
+  const { error } = await supabase.auth.signUp(data)
 
   if (error) {
     // console.log("registration error", error);
