@@ -8,7 +8,7 @@ const LoginIssuePage = () => {
 
     return (
         <div>
-            <h1 className="text-3xl mb-6">Hmm, we couldn't log you in</h1>
+            <h1 className="text-3xl mb-6">Hmm, we couldn&apos;t log you in</h1>
 
             <p className="w-[400px] py-4">We do not have an account that matches the credentials you supplied.</p>
 
