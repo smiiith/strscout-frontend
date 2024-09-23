@@ -2,8 +2,8 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-
 import { createClient } from '@/utils/supabase/server'
+
 
 export async function login(formData: FormData) {
 
@@ -20,8 +20,6 @@ export async function login(formData: FormData) {
 
   const { data: user, error } = await supabase.auth.signInWithPassword(data)
 
-  // console.log("user", user);
-
   if (error) {
     redirect('/error')
   }
@@ -32,6 +30,8 @@ export async function login(formData: FormData) {
 
 export async function signup(formData: FormData) {
   const supabase = createClient()
+  const rawWhitelist = process.env.NEXT_PUBLIC_REGISTRATION_WHITELIST || ''
+  const registrationWhitelist = rawWhitelist.split(',').map((item: string) => item.trim())
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -40,7 +40,10 @@ export async function signup(formData: FormData) {
     password: formData.get('password') as string,
   }
 
-  // console.log("signup data", data);
+  if (!registrationWhitelist.includes(data.email)) {
+    console.log("Not taking new registrations at this time");
+    redirect('/no-registration')
+  }
 
   const { error } = await supabase.auth.signUp(data)
 
