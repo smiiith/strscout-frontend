@@ -21,7 +21,7 @@ export async function login(formData: FormData) {
   const { data: user, error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {
-    redirect('/error')
+    redirect('/login-issue')
   }
 
   revalidatePath('/', 'layout')
@@ -45,11 +45,16 @@ export async function signup(formData: FormData) {
     redirect('/no-registration')
   }
 
-  const { error } = await supabase.auth.signUp(data)
+  // const { error } = await supabase.auth.signUp(data)
+
+  const { data: user, error } = await supabase.auth.signUp(data)
+
+  console.log("user", user);
+  console.log("error", error);
 
   if (error) {
-    console.log("registration error", error);
-    redirect('/error')
+    // console.log("registration error", error);
+    redirect('/registration-issue')
   }
 
   revalidatePath('/', 'layout')
@@ -85,7 +90,7 @@ export async function resetPassword(formData: FormData) {
 export async function updatePassword(formData: FormData) {
   const supabase = createClient()
 
-  console.log("update password");
+  // console.log("update password");
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -94,7 +99,7 @@ export async function updatePassword(formData: FormData) {
     // nonce: formData.get('code') as string,
   }
 
-  console.log("update password data", data);
+  // console.log("update password data", data);
 
   const { error } = await supabase.auth.updateUser(data)
 
@@ -110,8 +115,8 @@ export async function updatePassword(formData: FormData) {
 export async function verifyOtp(formData: FormData) {
   const supabase = createClient()
 
-  console.log("verify otp data", formData);
-  console.log("verify otp", formData.get('code'));
+  // console.log("verify otp data", formData);
+  // console.log("verify otp", formData.get('code'));
 
   if (!formData.get('code') || !formData.get('email')) {
     console.log("verify otp missing data");
