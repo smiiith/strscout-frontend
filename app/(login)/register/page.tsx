@@ -35,7 +35,7 @@ export default function CreateAccount() {
             <div className="grid gap-2">
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
-                <Link href="#" className="ml-auto inline-block text-sm underline" prefetch={false}>
+                <Link href="/password-request" className="ml-auto inline-block text-sm underline" prefetch={false}>
                   Forgot your password?
                 </Link>
               </div>
@@ -44,6 +44,9 @@ export default function CreateAccount() {
             <Button type="submit" className="w-full" formAction={signup} variant={"outline"}>
               Create
             </Button>
+          </div>
+          <div className="mt-4 text-center text-sm">
+            Your password must contain at least one uppercase letter, one lowercase letter, one number and one special character. The minimum length for your password is 10 characters.
           </div>
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
