@@ -46,6 +46,9 @@ export default function CreateAccount() {
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">
+            Your password must contain at least one uppercase letter, one lowercase letter, one number and one special character. The minimum length for your password is 10 characters.
+          </div>
+          <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
             <Link href="/login" className="underline" prefetch={false}>
               Log in
