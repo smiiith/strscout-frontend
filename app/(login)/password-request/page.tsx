@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 
-
 export default function PasswordReset() {
 
   return (
@@ -35,15 +34,14 @@ export default function PasswordReset() {
 
       <script dangerouslySetInnerHTML={{
         __html: `
-          document.getElementById('rester_pwd_btn').addEventListener('click', function(event) {
-            const button = event.target;
+          document.getElementById('rester_pwd_form').addEventListener('submit', function(event) {
+            const button = document.getElementById('rester_pwd_btn');
             if (button instanceof HTMLButtonElement) {
               if (button.getAttribute('data-submitting') === 'true') {
                 event.preventDefault();
               } else {
                 button.setAttribute('data-submitting', 'true');
                 button.disabled = true;
-                document.getElementById('rester_pwd_form').submit();
               }
             }
           });
