@@ -43,7 +43,7 @@ const MyScans = () => {
         return;
       }
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}recentscans`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/recentscans`, {
         profileId: user.id,
         headers: {
           'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
@@ -145,7 +145,7 @@ const ResultsDialog = ({ scanMessages }: any) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {scanMessages.map((message: any, index: number) => (
+            {scanMessages.sort((a: any, b: any) => (a.mismatch_date > b.mismatch_date ? 1 : -1)).map((message: any, index: number) => (
               <TableRow key={message.id} className="hover:muted-foreground">
                 <TableCell>
                   {message.message}. Date in question: {formatDateNoTime(message.mismatch_date)}

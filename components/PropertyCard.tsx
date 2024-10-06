@@ -23,7 +23,7 @@ const PropertyCard = (props: any) => {
     const launchScan = async () => {
         setIsLoading(true);
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}scan`, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/scan`, {
                 property: property,
                 profileId: profileId,
                 headers: {
