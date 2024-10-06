@@ -31,7 +31,7 @@ export default function PasswordReset({
               <Input id="password" name="password" type="password" required />
               <Input id="code" name="code" type="hidden" value={searchParams?.code} />
             </div>
-            <Button type="submit" className="w-full" formAction={updatePassword} variant={"outline"}>
+            <Button disabled={false} type="submit" className="w-full" formAction={updatePassword} variant={"outline"}>
               Reset Password
             </Button>
           </div>

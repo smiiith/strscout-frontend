@@ -6,12 +6,10 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 
 export default function PasswordReset() {
-  // email address 
-  // redirect to page with form to enter new password
 
   return (
     <Card className="mx-auto max-w-sm">
-      <form>
+      <form id="rester_pwd_form">
         <CardHeader>
           <CardTitle className="text-2xl">Password Reset Request</CardTitle>
           <CardDescription>Enter your email below to request a password reset. You will receive an email with a link to reset your password.</CardDescription>
@@ -22,7 +20,7 @@ export default function PasswordReset() {
               <Label htmlFor="email">Email</Label>
               <Input id="email" name="email" type="email" placeholder="m@example.com" required />
             </div>
-            <Button type="submit" className="w-full" formAction={resetPassword} variant={"outline"}>
+            <Button type="submit" id="rester_pwd_btn" className="w-full" formAction={resetPassword} variant={"outline"}>
               Send
             </Button>
           </div>
@@ -33,6 +31,23 @@ export default function PasswordReset() {
           </div>
         </CardContent>
       </form>
+
+      <script dangerouslySetInnerHTML={{
+        __html: `
+          document.getElementById('rester_pwd_form').addEventListener('submit', function(event) {
+            const button = document.getElementById('rester_pwd_btn');
+            if (button instanceof HTMLButtonElement) {
+              if (button.getAttribute('data-submitting') === 'true') {
+                event.preventDefault();
+              } else {
+                button.setAttribute('data-submitting', 'true');
+                button.disabled = true;
+              }
+            }
+          });
+        `
+      }} />
+
     </Card>
   )
 }

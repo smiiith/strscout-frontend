@@ -31,7 +31,7 @@ export default function Properties() {
         return;
       }
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}properties`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/properties`, {
         // body: { profileId: user.id },
         profileId: user.id,
         headers: {
@@ -100,7 +100,7 @@ const ListingsDialog = (props: any) => {
         return;
       }
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}listings`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/listings`, {
         // body: { profileId: user.id },
         propertyId: propertyId,
         headers: {

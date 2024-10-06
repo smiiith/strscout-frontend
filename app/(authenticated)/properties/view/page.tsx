@@ -42,7 +42,7 @@ const ViewProperty = () => {
   const getProperty = async (propertyId: string) => {
 
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}property/${propertyId}`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/property/${propertyId}`, {
         headers: {
           // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
         },
