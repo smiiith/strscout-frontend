@@ -84,7 +84,7 @@ const AddProperty = () => {
   const getProperty = async (propertyId: string) => {
 
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}property/${propertyId}`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/property/${propertyId}`, {
         headers: {
           // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
         },
@@ -159,14 +159,14 @@ const AddProperty = () => {
     // post this data to /api/vi/properties
     if (!propertyId) {
       try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}property`, config);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/property`, config);
         router.push('/properties');
       } catch (error) {
         console.error('Error adding property:', error);
       }
     } else {
       try {
-        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}property/${propertyId}`, config);
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/property/${propertyId}`, config);
         router.push('/properties');
       } catch (error) {
         console.error('Error updating property:', error);
