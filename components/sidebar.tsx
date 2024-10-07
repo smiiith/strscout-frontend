@@ -45,11 +45,11 @@ export function Sidebar() {
                     href: '/account',
                     icon: <UserAccountIcon className="text-secondary-foreground" />,
                 },
-                {
-                    label: 'My Subscription',
-                    href: '/account',
-                    icon: <UserSquareIcon className="text-secondary-foreground" />,
-                },
+                // {
+                //     label: 'My Subscription',
+                //     href: '/account',
+                //     icon: <UserSquareIcon className="text-secondary-foreground" />,
+                // },
             ]
         },
     ];
@@ -64,7 +64,7 @@ export function Sidebar() {
                         <div onClick={() => {
                             router.push(link.href);
                         }}
-                            className="cursor-pointer col-span-1 "
+                            className="cursor-pointer col-span-1 md:mr-2 "
                             title={link.label}
                         >
                             {link.icon}
