@@ -272,7 +272,7 @@ const AddProperty = () => {
             {...register('secondaryPhone')}
           />
 
-          <Label htmlFor="notificationPreference" className="mt-5">Notification Preference (default is email)</Label>
+          {/* <Label htmlFor="notificationPreference" className="mt-5">Notification Preference (default is email)</Label>
           <Controller
             name="notificationPreference"
             control={control}
@@ -295,9 +295,10 @@ const AddProperty = () => {
                 </SelectContent>
               </Select>
             )}
-          />
+          /> */}
 
           <div className="flex justify-end">
+            <Button className="mx-2" variant="outline" onClick={() => router.push('/properties')}>Cancel</Button>
             <Button type="submit" >Save</Button>
           </div>
         </form>
