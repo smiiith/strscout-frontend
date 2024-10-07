@@ -298,6 +298,7 @@ const AddProperty = () => {
           /> */}
 
           <div className="flex justify-end">
+            <Button className="mx-2" variant="outline" onClick={() => router.push('/properties')}>Cancel</Button>
             <Button type="submit" >Save</Button>
           </div>
         </form>
