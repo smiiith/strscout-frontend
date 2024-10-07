@@ -1,17 +1,16 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/lJwnQlHSEBA
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
+"use client";
+
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import ThemeSwitch from "./ThemeSwitch"
 import Image from "next/image"
 import { Login01Icon, Logout01Icon, MyAccountIcon } from "./Icons"
+import { useState } from "react"
 
 
-const HeaderNav = async (props: any) => {
+const HeaderNav = (props: any) => {
+    const [sheetOpen, setSheetOpen] = useState(false);
     let isAuthorized = false;
     if (props && props.user) {
         isAuthorized = true;
@@ -53,7 +52,8 @@ const HeaderNav = async (props: any) => {
     return (
         <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
             <link rel="icon" href="/favicon.ico" sizes="any" />
-            <Sheet>
+            <Sheet key="left" open={sheetOpen} onOpenChange={() => setSheetOpen(!sheetOpen)}>
+                {/* <Sheet> */}
                 <SheetTrigger asChild>
                     <Button variant="outline" size="icon" className="lg:hidden">
                         <MenuIcon className="h-6 w-6" />
@@ -69,6 +69,41 @@ const HeaderNav = async (props: any) => {
                                         {link.label}
                                     </Link>
                                 )}
+
+                                {(link.label === "My Properties") ?
+                                    (
+                                        <>
+                                            <div className="ml-5" onClick={() => setSheetOpen(false)}>
+                                                <Link href="/properties" className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
+                                                    Properties
+                                                </Link>
+                                            </div>
+                                            <div className="ml-5" onClick={() => setSheetOpen(false)}>
+                                                <Link href="/properties/add" className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
+                                                    Add
+                                                </Link>
+                                            </div>
+                                            <div className="ml-5" onClick={() => setSheetOpen(false)}>
+                                                <Link href="/properties/scans" className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
+                                                    Scans
+                                                </Link>
+                                            </div>
+                                        </>
+                                    ) : (<></>)
+                                }
+
+                                {(link.label === "My Account") ?
+                                    (
+                                        <>
+                                            <div className="ml-5" onClick={() => setSheetOpen(false)}>
+                                                <Link href="/account" className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
+                                                    Profile
+                                                </Link>
+                                            </div>
+                                        </>
+                                    ) : (<></>)
+                                }
+
                             </>
                         ))}
                         <form action="/auth/signout" method="post">
@@ -77,7 +112,7 @@ const HeaderNav = async (props: any) => {
                             </button>
                         </form>
                         <a href="/login">Log In</a>
-                    </div>
+                    </div >
                 </SheetContent>
             </Sheet>
 
