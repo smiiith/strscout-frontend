@@ -14,11 +14,11 @@ export default function AccountForm({ user }: any) {
   const [fullname, setFullname] = useState<string | null>(null)
   const [username, setUsername] = useState<string | null>(null)
   const [website, setWebsite] = useState<string | null>(null)
-  const [avatar_url, setAvatarUrl] = useState<string | null>(null)
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
 
   useEffect(() => {
 
-    console.log("user account", user);
+    // console.log("user account", user);
 
     const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--background');
     // console.log('Background color:', bgColor);
@@ -88,15 +88,16 @@ export default function AccountForm({ user }: any) {
 
   return (
     <div className="form-widget md:max-w-[500px] w-full">
-      <Avatar
+      {/* <Avatar
         uid={user?.id ?? null}
-        url={avatar_url}
+        url={avatarUrl}
         size={150}
         onUpload={(url) => {
+          console.log("set the avatar url", url);
           setAvatarUrl(url)
           updateProfile({ fullname, username, website, avatar_url: url })
         }}
-      />
+      /> */}
       <div className="mt-8">
         <Label htmlFor="email" className="mt-5">Email</Label>
         <Input
@@ -131,7 +132,7 @@ export default function AccountForm({ user }: any) {
       <div>
         <Button
           className=""
-          onClick={() => updateProfile({ fullname, username, website, avatar_url })}
+          onClick={() => updateProfile({ fullname, username, website, avatar_url: avatarUrl })}
           disabled={loading}
         >
           {loading ? 'Loading ...' : 'Update'}
