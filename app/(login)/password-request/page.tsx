@@ -36,6 +36,7 @@ export default function PasswordReset() {
         __html: `
           document.getElementById('rester_pwd_form').addEventListener('submit', function(event) {
             const button = document.getElementById('rester_pwd_btn');
+            button.disabled = true;
             if (button instanceof HTMLButtonElement) {
               if (button.getAttribute('data-submitting') === 'true') {
                 event.preventDefault();
