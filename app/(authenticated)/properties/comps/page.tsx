@@ -32,7 +32,7 @@ const formSchema = z.object({
 });
 type Inputs = {
   address: string
-  airbnbId: string
+  propertyId: string
 }
 
 const AddProperty = () => {
@@ -82,6 +82,7 @@ const AddProperty = () => {
     let config = {
       // data: {
       address: data.address,
+      propertyId: data.propertyId,
       // },
       headers: {
         'Content-Type': 'application/json'
@@ -108,30 +109,31 @@ const AddProperty = () => {
       <FormProvider {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-[500px]">
 
-          {/* <Label htmlFor="airbnbId" className="mt-5">Airbnb ID</Label>
+          <Label htmlFor="propertyId" className="mt-5">Airbnb ID</Label>
           <Input
-            id="airbnbId"
+            id="propertyId"
             className="mt-2 mb-5"
-            {...register('airbnbId', {
+            defaultValue="41356680"
+            {...register('propertyId', {
               required: 'Enter the Airbnb ID for this property',
             })}
           />
-          {errors.airbnbId && <div className="text-destructive mb-5 mt-2">{errors.airbnbId.message}</div>} */}
+          {errors.propertyId && <div className="text-destructive mb-5 mt-2">{errors.propertyId.message}</div>}
 
           <Label htmlFor="address" className="mt-5">Address</Label>
           <Input
             id="address"
             className="mt-2 mb-5"
-            defaultValue="27850 Tamrack way, murrieta, ca"
+            defaultValue="3516 Rowena Ct, Santa Clara, CA 95054"
             {...register('address', {
               required: 'Enter the address for this property',
             })}
           />
-          {errors.airbnbId && <div className="text-destructive mb-5 mt-2">{errors.airbnbId.message}</div>}
+          {errors.address && <div className="text-destructive mb-5 mt-2">{errors.address.message}</div>}
 
           <div className="flex justify-end">
             <Button className="mx-2" variant="outline" onClick={() => router.push('/properties')}>Cancel</Button>
-            <Button type="submit" >Save</Button>
+            <Button type="submit">Save</Button>
           </div>
         </form>
       </FormProvider>
