@@ -19,6 +19,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Alert02Icon, CheckmarkCircle02Icon } from '@/components/Icons'
 // import { formatDate } from 'date-fns'
 import { formatDate, formatDateNoTime } from "@/lib/utils";
+import mockDescriptionRatings from './mock'
 
 
 // const formSchema = z.object({
@@ -35,13 +36,14 @@ type Inputs = {
   propertyId: string
 }
 
-const AddProperty = () => {
+const GetComparables = () => {
   const browserClient = createClient()
   const [profile, setProfile] = useState<any>(null);
   const searchParams = useSearchParams()
-  const propertyId = searchParams.get('property');
+  // const propertyId = searchParams.get('property');
   const router = useRouter();
   const [comps, setComps] = useState<any>([]);
+  const [ratings, setRatings] = useState<any>([]);
 
   const {
     register,
@@ -89,15 +91,58 @@ const AddProperty = () => {
       }
     }
 
-    if (!propertyId) {
-      try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/comps`, config);
-        console.log("response: ", response);
-        setComps(response.data.comparables);
-        // router.push('/properties');
-      } catch (error) {
-        console.error('Error assessing property:', error);
+    try {
+      // const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/comps`, config);
+      // console.log("response: ", response.data.comparables);
+      // setComps(response.data.comparables);
+
+      // get the comparables from the DB now
+      const results = await fetchComps(data.propertyId);
+      const comps = results?.data?.comparables;
+      console.log("comps", comps);
+      // fetchComps("41356680");
+
+      // now make a call to LLM backend to get ratings
+      fetchRatings(comps);
+
+      // router.push('/properties');
+    } catch (error) {
+      console.error('Error assessing property:', error);
+    }
+  }
+
+  const fetchComps = async (externalId: any) => {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/comps/${externalId}`;
+
+    try {
+      const response = await axios.get(endpoint);
+      setComps(response.data.comparables);
+      return response;
+    } catch (error) {
+      console.error('Error fetching comparables:', error);
+    }
+  }
+
+  const fetchRatings = async (properties: any) => {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/properties/`;
+
+    let config = {
+      properties,
+      headers: {
+        'Content-Type': 'application/json'
       }
+    }
+
+    try {
+      const ratings: any = await axios.post(endpoint, config);
+      setRatings(ratings.results);
+
+      // mock
+      // console.log("mock ratings", mockDescriptionRatings());
+      // setRatings(mockDescriptionRatings().results)
+
+    } catch (error) {
+      console.error('Error fetching descriptions:', error);
     }
 
   }
@@ -138,19 +183,47 @@ const AddProperty = () => {
         </form>
       </FormProvider>
 
-      {comps && comps.length > 0 && (
+      {/* "property_name": "Cozy Mountain Cabin",
+            "description_rating": "satisfactory",
+            "description_rating_number": 65,
+            "descsription_feedback": "The listing provides a decent overview of the property and its amenities, but lacks detail about the location and nearby attractions. It also could use more engaging language to draw potential guests in.",
+            "descsription_suggestions": "Consider including specific details about the nearby attractions, activities, and the unique aspects of the cabin. Using more descriptive and inviting language could enhance the overall appeal.",
+            "id": "listing123"
+  */}
+      {ratings && ratings.length > 0 && (
         <Table>
           <TableCaption>Your recent scans</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead>Address</TableHead>
+              <TableHead>Property</TableHead>
+              <TableHead>Rating</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Feedback</TableHead>
+              <TableHead>Suggestions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {comps.map((comp: any, index: number) => (
-              <TableRow key={comp.id} className="hover:muted-foreground">
+            {ratings.map((rating: any, index: number) => (
+              <TableRow key={`comp-${index}`} className="hover:muted-foreground">
                 <TableCell className="font-medium">
-                  {comp}
+                  {rating.property_name}
+                </TableCell>
+                <TableCell>
+                  {rating.description_rating}
+                </TableCell>
+                <TableCell>
+                  {rating.description_rating_number}
+                </TableCell>
+                <TableCell>
+                  {rating.descsription_feedback}
+                </TableCell>
+                <TableCell>
+                  {/* {rating.descsription_suggestions} */}
+                  <div className="flex flex-col">
+                    <div className="text-sm">
+                      {rating.descsription_suggestions}
+                    </div>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -163,4 +236,4 @@ const AddProperty = () => {
 
 }
 
-export default AddProperty;
+export default GetComparables;
