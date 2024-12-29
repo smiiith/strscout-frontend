@@ -25,16 +25,26 @@ export function Sidebar() {
                     href: '/properties',
                     icon: <City01Icon className="text-secondary-foreground" />,
                 },
+                // {
+                //     label: 'Add Property',
+                //     href: '/properties/add',
+                //     icon: <Add01Icon className="text-secondary-foreground" />,
+                // },
                 {
-                    label: 'Add Property',
-                    href: '/properties/add',
-                    icon: <Add01Icon className="text-secondary-foreground" />,
-                },
-                {
-                    label: 'My Scans',
-                    href: '/properties/scans',
+                    label: 'Assess Property',
+                    href: '/properties/assess-property',
                     icon: <City01Icon className="text-secondary-foreground" />,
                 },
+                {
+                    label: 'View Property',
+                    href: '/properties/view-property',
+                    icon: <City01Icon className="text-secondary-foreground" />,
+                },
+                // {
+                //     label: 'My Scans',
+                //     href: '/properties/scans',
+                //     icon: <City01Icon className="text-secondary-foreground" />,
+                // },
             ]
         },
         {
