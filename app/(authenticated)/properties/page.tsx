@@ -31,15 +31,17 @@ export default function Properties() {
         return;
       }
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/properties`, {
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/strproperties`, {
         // body: { profileId: user.id },
-        profileId: user.id,
+        userId: user.id,
         headers: {
+          'Content-Type': 'application/json',
           // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
         }
       });
 
-      // console.log("response", response);
+      console.log("response", response);
 
       if (response.data) {
         setProperties(response.data.properties);
@@ -68,7 +70,10 @@ export default function Properties() {
       <div className="flex flex-wrap gap-6 w-full">
 
         {properties.map((property: any, index: number) => (
-          <PropertyCard property={property} profileId={user.id} key={`property-${index}`} />
+          <div>
+            {property.title}
+          </div>
+          // <PropertyCard property={property} profileId={user.id} key={`property-${index}`} />
         ))}
 
       </div>
