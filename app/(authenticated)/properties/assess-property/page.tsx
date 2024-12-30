@@ -82,17 +82,16 @@ const GetComparables = () => {
   const onSubmit = async (data: any) => {
 
     let config = {
-      // data: {
       address: data.address,
       propertyId: data.propertyId,
-      // },
+      userId: profile.id,
       headers: {
         'Content-Type': 'application/json'
       }
     }
 
     try {
-      // const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/comps`, config);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/comps`, config);
       // console.log("response: ", response.data.comparables);
       // setComps(response.data.comparables);
 
@@ -113,9 +112,15 @@ const GetComparables = () => {
 
   const fetchComps = async (externalId: any) => {
     const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/comps/${externalId}`;
+    let config = {
+      userId: profile.id,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
 
     try {
-      const response = await axios.get(endpoint);
+      const response = await axios.post(endpoint, config);
       setComps(response.data.comparables);
       return response;
     } catch (error) {
