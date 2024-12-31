@@ -33,19 +33,13 @@ export default function AddressCard({ title, externalId, propertyId }: AddressCa
     const fetchComparables = async () => {
         try {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/ratings/${propertyId}`, {
-                // address: externalId,
-                // propertyId: props.propertyId,
-                // userId: props.userId,
                 headers: {
                     // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
                 }
             });
 
-            console.log("ratings", response);
-
             let ratings = response.data.properties;
             ratings = ratings.sort((a: any, b: any) => b.description_rating_number - a.description_rating_number);
-
             setRatedProperties(ratings);
 
             if (response.data) {
