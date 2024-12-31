@@ -63,7 +63,7 @@ const HeaderNav = (props: any) => {
                 <SheetContent side="left">
                     <div className="grid gap-2 py-6">
                         {pageLinks.map((link: any, index: number) => (
-                            <>
+                            <div key={`pagelinks-${index}`}>
                                 {link.enabled && (
                                     <Link key={`mobile-${index}`} href={link.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
                                         {link.label}
@@ -72,7 +72,7 @@ const HeaderNav = (props: any) => {
 
                                 {(link.label === "My Properties") ?
                                     (
-                                        <>
+                                        <div key={`prop-${index}`}>
                                             <div className="ml-5" onClick={() => setSheetOpen(false)}>
                                                 <Link href="/properties" className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
                                                     Properties
@@ -88,14 +88,14 @@ const HeaderNav = (props: any) => {
                                                     Scans
                                                 </Link>
                                             </div>
-                                        </>
+                                        </div>
                                     ) : (<></>)
                                 }
 
                                 {(link.label === "My Account") ?
                                     (
                                         <>
-                                            <div className="ml-5" onClick={() => setSheetOpen(false)}>
+                                            <div key={`account-${index}`} className="ml-5" onClick={() => setSheetOpen(false)}>
                                                 <Link href="/account" className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
                                                     Profile
                                                 </Link>
@@ -104,7 +104,7 @@ const HeaderNav = (props: any) => {
                                     ) : (<></>)
                                 }
 
-                            </>
+                            </div>
                         ))}
                         <form action="/auth/signout" method="post">
                             <button className="button block" type="submit">
@@ -131,7 +131,7 @@ const HeaderNav = (props: any) => {
             {/* desktop */}
             <nav className="ml-auto hidden lg:flex gap-3">
                 {pageLinks.map((link: any, index: number) => (
-                    <>
+                    <div key={`desktop-${index}`}>
                         {link.enabled && (
                             <>
                                 {link.icon && link.icon()}
@@ -145,7 +145,7 @@ const HeaderNav = (props: any) => {
                                 </Link>
                             </>
                         )}
-                    </>
+                    </div>
 
                 ))}
 
