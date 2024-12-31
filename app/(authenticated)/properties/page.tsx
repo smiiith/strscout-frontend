@@ -18,6 +18,7 @@ import Listing from '@/components/Listing';
 import { BarChart, House } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import PropertyCard from '@/components/PropertyCard';
+import AddressCard from './AddressCard';
 
 export default function Properties() {
   const browserClient = createClient()
@@ -30,8 +31,6 @@ export default function Properties() {
         console.log("No user ID available");
         return;
       }
-
-
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/strproperties`, {
         // body: { profileId: user.id },
         userId: user.id,
@@ -70,10 +69,9 @@ export default function Properties() {
       <div className="flex flex-wrap gap-6 w-full">
 
         {properties.map((property: any, index: number) => (
-          <div>
-            {property.title}
+          <div key={index}>
+            <AddressCard title={property.title} externalId={property.external_id} propertyId={property.id} />
           </div>
-          // <PropertyCard property={property} profileId={user.id} key={`property-${index}`} />
         ))}
 
       </div>
@@ -89,11 +87,11 @@ const ListingsDialog = (props: any) => {
 
   useEffect(() => {
     setPropertyId(props.propertyId);
-    console.log("props", props.propertyId);
+    // console.log("props", props.propertyId);
   })
 
   const handleOpenChange = (open: boolean) => {
-    console.log("open", propertyId);
+    // console.log("open", propertyId);
 
     getListings(propertyId);
   }
