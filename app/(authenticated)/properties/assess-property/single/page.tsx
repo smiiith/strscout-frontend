@@ -89,14 +89,6 @@ const GetComparables = () => {
       // scrape the property
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/assess/single`, config);
 
-      console.log("assess single", response.data.property);
-
-      // now make a call to LLM backend to get ratings
-
-      // get the comparables from the DB now
-      // const results = await fetchComps(data.propertyId);
-      // const comps = results?.data?.comparables;
-
       // now make a call to LLM backend to get ratings
       fetchRatings(response.data.property);
 
@@ -126,6 +118,8 @@ const GetComparables = () => {
 
   const fetchRatings = async (properties: any) => {
     const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/properties/`;
+
+    // console.log("properties to fetch", properties);
 
     let config = {
       properties,
