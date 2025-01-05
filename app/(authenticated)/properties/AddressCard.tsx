@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -16,39 +16,50 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import PropertyRatings from '@/components/PropertyRatings'
 
 
 interface AddressCardProps {
     title: string
     externalId: string
     propertyId: string
+    property: any
 }
 
-export default function AddressCard({ title, externalId, propertyId }: AddressCardProps) {
+export default function AddressCard({ title, externalId, propertyId, property }: AddressCardProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [ratedProperties, setRatedProperties] = useState<any[]>([]);
+    const [formattedRatings, setFormattedRatings] = useState<any>([]);
 
+    console.log("property", property);
 
-    // on click, get the comps for this property and show them in a table
-    const fetchComparables = async () => {
-        try {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/ratings/${propertyId}`, {
-                headers: {
-                    // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
-                }
-            });
+    useEffect(() => {
+        console.log("formatted ratings", property);
 
-            let ratings = response.data.properties;
-            ratings = ratings.sort((a: any, b: any) => b.description_rating_number - a.description_rating_number);
-            setRatedProperties(ratings);
-
-            if (response.data) {
-                // setComparables(response.data.comparables);
+        if (property) {
+            const ratings = {
+                description: {
+                    name: "Description",
+                    score: property.description_rating_number,
+                    feedback: property.feedback,
+                    suggestions: property.suggestions,
+                },
+                // amenities: {
+                //     name: "Amenities",
+                //     score: 70,
+                //     feedback: "You've listed a good range of amenities, which is attractive to potential guests.",
+                //     suggestions: "Think about adding some unique or standout amenities that could set your property apart from others in the area."
+                // },
+                // heroImage: {
+                //     name: "Hero Image",
+                //     score: 95,
+                //     feedback: "Your hero image is excellent! It showcases your property beautifully and is likely to catch the eye of potential guests.",
+                //     suggestions: "Consider adding a few more high-quality images to give guests a comprehensive view of your property."
+                // }
             }
-        } catch (error) {
-            console.error('Error loading comparables:', error);
+            setFormattedRatings(ratings);
         }
-    }
+    }, [property])
 
     return (
         <>
@@ -56,46 +67,26 @@ export default function AddressCard({ title, externalId, propertyId }: AddressCa
                 className="cursor-pointer hover:shadow-lg transition-shadow bg-secondary"
                 onClick={() => {
                     setIsOpen(true);
-                    fetchComparables();
                 }}
             >
                 <CardHeader>
-                    <CardTitle>{title}</CardTitle>
+                    <CardTitle>{property.property_id.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p>AirBnB ID: {externalId}</p>
+                    <p>AirBnB ID: {property.property_id.external_id}</p>
                 </CardContent>
             </Card>
 
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                <DialogContent className="sm:max-w-[100vw] sm:h-[100vh] sm:max-h-[100vh]">
+                <DialogContent className="sm:max-w-[90vw] sm:h-[100vh] sm:max-h-[90vh]">
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>
                     </DialogHeader>
-                    <Table>
-                        {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[100px]">Rating</TableHead>
-                                <TableHead>Level</TableHead>
-                                <TableHead>Feedback</TableHead>
-                                <TableHead>Suggestions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {ratedProperties.map((property) => (
-                                <TableRow key={property.id} className={propertyId === property.id ? "bg-red-500" : ""}>
-                                    <TableCell className="font-medium">{property.description_rating_number}</TableCell>
-                                    <TableCell>{property.description_rating_category}</TableCell>
-                                    <TableCell>{property.feedback}</TableCell>
-                                    <TableCell>{property.suggestions}</TableCell>
-                                    <TableCell>
-                                        {property.id} and {propertyId}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+
+                    {formattedRatings &&
+                        <PropertyRatings ratings={formattedRatings} />
+                    }
+
                 </DialogContent>
             </Dialog>
         </>

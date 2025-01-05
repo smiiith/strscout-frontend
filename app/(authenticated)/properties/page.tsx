@@ -70,7 +70,7 @@ export default function Properties() {
 
         {properties.map((property: any, index: number) => (
           <div key={index}>
-            <AddressCard title={property.title} externalId={property.external_id} propertyId={property.id} />
+            <AddressCard title={property.title} externalId={property.external_id} propertyId={property.id} property={property} />
           </div>
         ))}
 
