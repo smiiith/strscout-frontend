@@ -86,15 +86,19 @@ const GetComparables = () => {
     }
 
     try {
-      // create the comparables
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/comps`, config);
+      // scrape the property
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/assess/single`, config);
 
-      // get the comparables from the DB now
-      const results = await fetchComps(data.propertyId);
-      const comps = results?.data?.comparables;
+      console.log("assess single", response.data.property);
 
       // now make a call to LLM backend to get ratings
-      fetchRatings(comps);
+
+      // get the comparables from the DB now
+      // const results = await fetchComps(data.propertyId);
+      // const comps = results?.data?.comparables;
+
+      // now make a call to LLM backend to get ratings
+      fetchRatings(response.data.property);
 
       // router.push('/properties');
     } catch (error) {
@@ -146,7 +150,7 @@ const GetComparables = () => {
 
   return (
     <>
-      <h1 className="text-3xl mb-6">Assess Properties</h1>
+      <h1 className="text-3xl mb-6">Assess a Property</h1>
 
       <FormProvider {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-[500px]">
@@ -155,7 +159,7 @@ const GetComparables = () => {
           <Input
             id="propertyId"
             className="mt-2 mb-5"
-            defaultValue="41356680"
+            defaultValue="1324965150846314034"
             {...register('propertyId', {
               required: 'Enter the Airbnb ID for this property',
             })}
@@ -166,7 +170,7 @@ const GetComparables = () => {
           <Input
             id="address"
             className="mt-2 mb-5"
-            defaultValue="3516 Rowena Ct, Santa Clara, CA 95054"
+            defaultValue="6104 Montoro Court, San Jose CA"
             {...register('address', {
               required: 'Enter the address for this property',
             })}
@@ -175,7 +179,7 @@ const GetComparables = () => {
 
           <div className="flex justify-end">
             <Button className="mx-2" variant="outline" onClick={() => router.push('/properties')}>Cancel</Button>
-            <Button type="submit">Save</Button>
+            <Button type="submit">Run</Button>
           </div>
         </form>
       </FormProvider>
