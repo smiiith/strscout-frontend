@@ -41,15 +41,19 @@ export default function AddressCard({ title, externalId, propertyId, property }:
                 description: {
                     name: "Description",
                     score: property.description_rating_number,
-                    feedback: property.feedback,
-                    suggestions: property.suggestions,
+                    category: property.description_rating_category,
+                    // feedback: property.feedback,
+                    // suggestions: property.suggestions,
                 },
-                // amenities: {
-                //     name: "Amenities",
-                //     score: 70,
-                //     feedback: "You've listed a good range of amenities, which is attractive to potential guests.",
-                //     suggestions: "Think about adding some unique or standout amenities that could set your property apart from others in the area."
-                // },
+                amenities: {
+                    name: "Amenities",
+                    score: property.amenities_rating_number,
+                    category: property.amenities_rating_category,
+                    // feedback: property.feedback,
+                    // suggestions: property.suggestions,
+                },
+                feedback: property.feedback,
+                suggestions: property.suggestions,
                 // heroImage: {
                 //     name: "Hero Image",
                 //     score: 95,
