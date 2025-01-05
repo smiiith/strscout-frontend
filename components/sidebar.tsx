@@ -32,14 +32,14 @@ export function Sidebar() {
                 // },
                 {
                     label: 'Assess Property',
-                    href: '/properties/assess-property',
+                    href: '/properties/assess-property/single',
                     icon: <City01Icon className="text-secondary-foreground" />,
                 },
-                {
-                    label: 'View Property',
-                    href: '/properties/view-property',
-                    icon: <City01Icon className="text-secondary-foreground" />,
-                },
+                // {
+                //     label: 'View Property',
+                //     href: '/properties/view-property',
+                //     icon: <City01Icon className="text-secondary-foreground" />,
+                // },
                 // {
                 //     label: 'My Scans',
                 //     href: '/properties/scans',
