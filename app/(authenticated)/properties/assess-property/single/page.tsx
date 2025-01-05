@@ -15,6 +15,7 @@ import axios from 'axios';
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import LoadingOverlay from '@/components/LoadingOverlay'
 
 
 // const formSchema = z.object({
@@ -39,6 +40,7 @@ const GetComparables = () => {
   const router = useRouter();
   const [comps, setComps] = useState<any>([]);
   const [ratings, setRatings] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -75,6 +77,7 @@ const GetComparables = () => {
   })
 
   const onSubmit = async (data: any) => {
+    setIsLoading(true);
 
     let config = {
       address: data.address,
@@ -91,35 +94,16 @@ const GetComparables = () => {
 
       // now make a call to LLM backend to get ratings
       fetchRatings(response.data.property);
-
-      // router.push('/properties');
+      setIsLoading(true);
+      location.href = "/properties"; // using location.href to make sure the page is reloaded
     } catch (error) {
       console.error('Error assessing property:', error);
-    }
-  }
-
-  const fetchComps = async (externalId: any) => {
-    const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/comps/${externalId}`;
-    let config = {
-      userId: profile.id,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-
-    try {
-      const response = await axios.post(endpoint, config);
-      setComps(response.data.comparables);
-      return response;
-    } catch (error) {
-      console.error('Error fetching comparables:', error);
+      setIsLoading(true);
     }
   }
 
   const fetchRatings = async (properties: any) => {
     const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/properties/`;
-
-    // console.log("properties to fetch", properties);
 
     let config = {
       properties,
@@ -145,6 +129,8 @@ const GetComparables = () => {
   return (
     <>
       <h1 className="text-3xl mb-6">Assess a Property</h1>
+
+      {isLoading && <LoadingOverlay message="Assessing property. Should just be a few seconds." />}
 
       <FormProvider {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-[500px]">
@@ -178,13 +164,6 @@ const GetComparables = () => {
         </form>
       </FormProvider>
 
-      {/* "property_name": "Cozy Mountain Cabin",
-            "description_rating": "satisfactory",
-            "description_rating_number": 65,
-            "descsription_feedback": "The listing provides a decent overview of the property and its amenities, but lacks detail about the location and nearby attractions. It also could use more engaging language to draw potential guests in.",
-            "descsription_suggestions": "Consider including specific details about the nearby attractions, activities, and the unique aspects of the cabin. Using more descriptive and inviting language could enhance the overall appeal.",
-            "id": "listing123"
-  */}
       {ratings && ratings.length > 0 && (
         <Table>
           <TableCaption>Your recent scans</TableCaption>
