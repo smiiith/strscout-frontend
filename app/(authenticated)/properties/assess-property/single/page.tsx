@@ -139,7 +139,7 @@ const GetComparables = () => {
           <Input
             id="propertyId"
             className="mt-2 mb-5"
-            defaultValue="1324965150846314034"
+            // defaultValue="1324965150846314034"
             {...register('propertyId', {
               required: 'Enter the Airbnb ID for this property',
             })}
@@ -150,7 +150,7 @@ const GetComparables = () => {
           <Input
             id="address"
             className="mt-2 mb-5"
-            defaultValue="6104 Montoro Court, San Jose CA"
+            // defaultValue="6104 Montoro Court, San Jose CA"
             {...register('address', {
               required: 'Enter the address for this property',
             })}
