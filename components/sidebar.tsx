@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { use, useEffect, useState } from 'react';
-import { City01Icon } from './Icons';
+import { Analytics01Icon, City01Icon } from './Icons';
 import { useRouter } from 'next/navigation';
 
 export function Sidebar() {
@@ -34,6 +34,11 @@ export function Sidebar() {
                     label: 'Assess Property',
                     href: '/properties/assess-property/single',
                     icon: <City01Icon className="text-secondary-foreground" />,
+                },
+                {
+                    label: 'View Comparables',
+                    href: '/properties/comps',
+                    icon: <Analytics01Icon className="text-secondary-foreground" />,
                 },
                 // {
                 //     label: 'View Property',
