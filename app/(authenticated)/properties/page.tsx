@@ -40,8 +40,6 @@ export default function Properties() {
         }
       });
 
-      console.log("response", response);
-
       if (response.data) {
         setProperties(response.data.properties);
       }

@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/tooltip"
 import PropertyRatings from '@/components/PropertyRatings'
 import { Home, Sparkles, Image } from 'lucide-react'
+import PropertyComps from '@/components/PropertyComps'
+import { Button } from '@react-email/components'
 
 
 interface AddressCardProps {
@@ -22,6 +24,7 @@ interface AddressCardProps {
 
 export default function AddressCard({ title, externalId, propertyId, property }: AddressCardProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const [isOpenComps, setIsOpenComps] = useState(false);
     const [ratedProperties, setRatedProperties] = useState<any[]>([]);
     const [formattedRatings, setFormattedRatings] = useState<any>([]);
 
@@ -71,15 +74,30 @@ export default function AddressCard({ title, externalId, propertyId, property }:
         <>
             <Card
                 className="cursor-pointer hover:shadow-lg transition-shadow border border-border"
-                onClick={() => {
-                    setIsOpen(true);
-                }}
+            // onClick={() => {
+            //     setIsOpen(true);
+            // }}
             >
                 <CardHeader>
                     <CardTitle>{property.property_id.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <p>AirBnB ID: {property.property_id.external_id}</p>
+
+                    <Button
+                        onClick={() => {
+                            setIsOpen(true);
+                        }}>
+                        View Ratings
+                    </Button>
+
+                    <Button
+                        onClick={() => {
+                            setIsOpenComps(true);
+                        }}>
+                        View Comps
+                    </Button>
+
                 </CardContent>
                 <CardFooter className="flex justify-end">
                     <div className="flex items-start gap-4">
@@ -133,6 +151,18 @@ export default function AddressCard({ title, externalId, propertyId, property }:
 
                 </DialogContent>
             </Dialog>
+
+            <Dialog open={isOpenComps} onOpenChange={setIsOpenComps}>
+                <DialogContent className="sm:max-w-[90vw] sm:h-[100vh] sm:max-h-[90vh]">
+                    <DialogHeader>
+                        <DialogTitle>View comps</DialogTitle>
+                    </DialogHeader>
+
+                    <PropertyComps propertyId={property.property_id.id} />
+
+                </DialogContent>
+            </Dialog>
+
         </>
     )
 }
