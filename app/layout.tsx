@@ -1,12 +1,5 @@
-import HeaderNav from '@/components/header'
 import './globals.css'
 import { ThemeProvider } from './providers'
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable"
-import { Sidebar } from '@/components/sidebar'
 import { createClient } from '@/utils/supabase/server'
 
 export const metadata = {
@@ -16,11 +9,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
-  const { data, error } = await supabase.auth.getUser()
-
-  // if (error) {
-  //   console.log("error", error);
-  // }
+  const { data } = await supabase.auth.getUser()
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -31,10 +20,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           enableSystem
           disableTransitionOnChange
         >
-
-          {/* @ts-ignore */}
-          <HeaderNav user={data.user} />
-
           {children}
         </ThemeProvider>
       </body>

@@ -34,34 +34,20 @@ const getColorClass = (rating: string) => {
 
 export default function PropertyComps(props: any) {
     const propertyId = props.propertyId;
+    const propRatings = props.ratings;
     const [ratings, setRatings] = useState<any[]>([]);
 
-    const fetchPropertyRatings = async (propertyId: string) => {
-        console.log("property id", propertyId);
+    const resetArray = () => {
+        setRatings([]); // Set the array to an empty array
+    };
 
-        try {
-            if (!propertyId) {
-                console.log("No property ID available");
-                return;
-            }
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/ratings/${propertyId}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
-                }
-            });
+    const fetchPropertyRatings = async (propertyId: string, rate: any) => {
+        console.log("ratings", rate); // empty
 
-            if (response.data) {
-                console.log("response: ", response.data);
-                const propertyRatings = response.data.ratings;
-                propertyRatings["visible"] = true;
-                comps.splice(4, 0, propertyRatings);
-                // comps.push(PropertyRatings);
-                setRatings(comps);
-            }
-        } catch (error) {
-            console.error('Error loading user properties:', error);
-        }
+        const mockComps = comps;
+        mockComps.splice(4, 0, rate);
+        setRatings(mockComps);
+        console.log("ratings AFTER", rate);
     }
 
     useEffect(() => {
@@ -69,7 +55,7 @@ export default function PropertyComps(props: any) {
     }, []);
 
     const getData = async () => {
-        const ratings = await fetchPropertyRatings(propertyId);
+        const propertyRatings = await fetchPropertyRatings(propertyId, propRatings);
     }
 
 
@@ -89,7 +75,7 @@ export default function PropertyComps(props: any) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {ratings.map((comp) => (
+                        {ratings && ratings.map((comp) => (
                             <>
                                 {comp.visible === false ?
                                     <TableRow key={comp.id}>
@@ -102,7 +88,8 @@ export default function PropertyComps(props: any) {
                                     </TableRow>
                                     :
                                     <TableRow key={comp.id}>
-                                        <TableCell className="font-medium">(coming)</TableCell>
+                                        {/* <TableCell className="font-medium"><pre>{JSON.stringify(comp, null, 2)}</pre></TableCell> */}
+                                        <TableCell className="font-medium">(coming soon)</TableCell>
                                         <TableCell className="font-medium">(coming)</TableCell>
                                         <TableCell className="font-medium">(coming)</TableCell>
                                         <TableCell className={`${getColorClass(comp.description_rating_category)}`}>{comp.description_rating_number} ({comp.description_rating_category})</TableCell>
@@ -113,6 +100,9 @@ export default function PropertyComps(props: any) {
                             </>
                         ))}
                     </TableBody>
+                    <TableFooter>
+                        <button onClick={resetArray}>Reset Array</button>
+                    </TableFooter>
                 </Table>
             )}
         </div>

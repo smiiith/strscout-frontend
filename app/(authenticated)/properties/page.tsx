@@ -19,8 +19,11 @@ import { BarChart, House } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import PropertyCard from '@/components/PropertyCard';
 import AddressCard from './AddressCard';
+import { useRouter } from 'next/navigation';
+
 
 export default function Properties() {
+  const router = useRouter();
   const browserClient = createClient()
   const [properties, setProperties] = useState<any[]>([])
   const [user, setUser] = useState<any>(null);
@@ -41,6 +44,9 @@ export default function Properties() {
       });
 
       if (response.data) {
+        if (response.data.properties.length === 0) {
+          router.push("/properties/assess-property/single");
+        }
         setProperties(response.data.properties);
       }
     } catch (error) {
