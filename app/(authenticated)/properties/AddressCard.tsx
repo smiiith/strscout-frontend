@@ -12,7 +12,9 @@ import {
 import PropertyRatings from '@/components/PropertyRatings'
 import { Home, Sparkles, Image } from 'lucide-react'
 import PropertyComps from '@/components/PropertyComps'
-import { Button } from '@react-email/components'
+import { Button } from '@/components/ui/button'
+import axios from 'axios'
+import { useRouter } from 'next/navigation';
 
 
 interface AddressCardProps {
@@ -23,10 +25,12 @@ interface AddressCardProps {
 }
 
 export default function AddressCard({ title, externalId, propertyId, property }: AddressCardProps) {
+    const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenComps, setIsOpenComps] = useState(false);
     const [ratedProperties, setRatedProperties] = useState<any[]>([]);
     const [formattedRatings, setFormattedRatings] = useState<any>([]);
+    const [ratings, setRatings] = useState<any>(null);
 
     useEffect(() => {
         if (property) {
@@ -52,6 +56,35 @@ export default function AddressCard({ title, externalId, propertyId, property }:
             setFormattedRatings(ratings);
         }
     }, [property]);
+
+    const fetchPropertyRatings = async (propertyId: string) => {
+        try {
+            if (!propertyId) {
+                console.log("No property ID available");
+                return;
+            }
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/ratings/${propertyId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
+                }
+            });
+
+
+            if (response.data) {
+
+                const propertyRatings = response.data.ratings;
+                console.log("ratings from card", propertyRatings);
+
+                propertyRatings["visible"] = true;
+                setRatings(propertyRatings);
+                // setIsOpenComps(true); // open the dialog
+            }
+        } catch (error) {
+            console.error('Error loading user properties:', error);
+        }
+    }
+
 
     const getColorClass = (rating: string) => {
         switch (rating) {
@@ -84,19 +117,24 @@ export default function AddressCard({ title, externalId, propertyId, property }:
                 <CardContent>
                     <p>AirBnB ID: {property.property_id.external_id}</p>
 
-                    <Button
-                        onClick={() => {
-                            setIsOpen(true);
-                        }}>
-                        View Ratings
-                    </Button>
+                    <div className="mt-3">
+                        <Button
+                            onClick={() => {
+                                setIsOpen(true);
+                            }}>
+                            View Ratings
+                        </Button>
 
-                    <Button
-                        onClick={() => {
-                            setIsOpenComps(true);
-                        }}>
-                        View Comps
-                    </Button>
+                        <Button
+                            variant="outline"
+                            className="mx-3"
+                            onClick={() => {
+                                router.push(`/properties/comps/${property.property_id.id}`);
+                                // fetchPropertyRatings(property.property_id.id);
+                            }}>
+                            View Comps
+                        </Button>
+                    </div>
 
                 </CardContent>
                 <CardFooter className="flex justify-end">
@@ -153,12 +191,16 @@ export default function AddressCard({ title, externalId, propertyId, property }:
             </Dialog>
 
             <Dialog open={isOpenComps} onOpenChange={setIsOpenComps}>
-                <DialogContent className="sm:max-w-[90vw] sm:h-[100vh] sm:max-h-[90vh]">
+                <DialogContent className="sm:max-w-[90vw] sm:h-[100vh] sm:max-h-[90vh]"
+                    onCloseAutoFocus={() => console.log('closed')}
+                >
+                    {/* <DialogContent onCloseAutoFocus={() => console.log('closed')}> */}
                     <DialogHeader>
                         <DialogTitle>View comps</DialogTitle>
                     </DialogHeader>
 
-                    <PropertyComps propertyId={property.property_id.id} />
+                    {isOpenComps && <PropertyComps propertyId={property.property_id.id} ratings={ratings} />}
+                    {/* <PropertyComps propertyId={property.property_id.id} /> */}
 
                 </DialogContent>
             </Dialog>
