@@ -2,14 +2,12 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { createClient } from '@/utils/supabase/server'
+import { createAdminClient, createClient } from '@/utils/supabase/server'
 
 
 export async function login(formData: FormData) {
 
-  // console.log("formData", formData);
-
-  const supabase = createClient()
+  const supabase = createClient();
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -29,7 +27,8 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
-  const supabase = createClient()
+  const supabase = createClient();
+  const supabaseAdmin = createAdminClient();
   const rawWhitelist = process.env.NEXT_PUBLIC_REGISTRATION_WHITELIST || ''
   const registrationWhitelist = rawWhitelist.split(',').map((item: string) => item.trim())
 
@@ -45,11 +44,22 @@ export async function signup(formData: FormData) {
     redirect('/no-registration')
   }
 
-  const { error } = await supabase.auth.signUp(data)
+  const { data: user, error } = await supabase.auth.signUp(data)
 
   if (error) {
-    // console.log("registration error", error);
+    console.log("registration error", error);
     redirect('/registration-issue')
+  }
+
+  // update user to add role/plan
+  const { data: udpateData, error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.user.id, {
+    app_metadata: { role: 'freemium' },
+  });
+
+  if (updateError) {
+    console.error('Error updating app_metadata:', updateError);
+  } else {
+    console.log('Updated app_metadata:', udpateData);
   }
 
   revalidatePath('/', 'layout')
@@ -85,16 +95,12 @@ export async function resetPassword(formData: FormData) {
 export async function updatePassword(formData: FormData) {
   const supabase = createClient()
 
-  // console.log("update password");
-
   // type-casting here for convenience
   // in practice, you should validate your inputs
   const data = {
     password: formData.get('password') as string,
     // nonce: formData.get('code') as string,
   }
-
-  // console.log("update password data", data);
 
   const { error } = await supabase.auth.updateUser(data)
 
