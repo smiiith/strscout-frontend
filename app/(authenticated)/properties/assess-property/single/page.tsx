@@ -95,7 +95,6 @@ const GetComparables = () => {
       // now make a call to LLM backend to get ratings
       fetchRatings(response.data.property);
       setIsLoading(true);
-      console.log("response data", response.data);
 
       router.push(`/properties/comps/${response.data?.property[0]?.id}`);
       // location.href = `/properties/comps/${response.data?.property[0]?.id}`; // using location.href to make sure the page is reloaded
