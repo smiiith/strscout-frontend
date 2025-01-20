@@ -26,8 +26,6 @@ interface PropertyRatingsProps {
 export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
-  console.log("ratings", ratings);
-
   const categories: RatingCategory[] = [
     { ...ratings.description, icon: <Home className="w-5 h-5" /> },
     { ...ratings.amenities, icon: <Sparkles className="w-5 h-5" /> },
