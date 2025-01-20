@@ -6,6 +6,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from 'next/navigation';
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import PropertyRatings from "@/components/PropertyRatings";
+import { title } from "process";
 
 const fetchPropertyRatings = async (propertyId: any) => {
     try {
@@ -46,12 +49,38 @@ const PropertyCompsPage = () => {
     const propertyId = params.propertyId;
     const [loading, setLoading] = useState(false);
     const [ratings, setRatings] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [categorizedRatings, setFormattedRatings] = useState<any>([]);
 
     useEffect(() => {
         if (propertyId && !ratings) {
             const loadRatings = async () => {
                 setLoading(true);
                 const propertyRatings = await fetchPropertyRatings(propertyId);
+
+                if (propertyRatings) {
+                    const categorized = {
+                        description: {
+                            name: "Description",
+                            score: propertyRatings.description_rating_number,
+                            category: propertyRatings.description_rating_category,
+                        },
+                        amenities: {
+                            name: "Amenities",
+                            score: propertyRatings.amenities_rating_number,
+                            category: propertyRatings.amenities_rating_category,
+                        },
+                        heroImage: {
+                            name: "Hero Image",
+                            score: propertyRatings.hero_image_rating_number,
+                            category: propertyRatings.hero_image_rating_category,
+                        },
+                        feedback: propertyRatings.feedback,
+                        suggestions: propertyRatings.suggestions,
+                    }
+                    setFormattedRatings(categorized);
+                }
+
                 setRatings(propertyRatings);
                 setLoading(false);
             };
@@ -70,8 +99,6 @@ const PropertyCompsPage = () => {
                             <Analytics01Icon className="h-8 w-8 inline-block mb-2 mr-2 text-secondary-foreground" />
                             Property Comparables
                         </h1>
-                        <div>{ratings.description_rating_category}</div>
-                        {/* <PropertyComps propertyId={propertyId} ratings={ratings} /> */}
                         {ratings && (
                             <Table>
                                 <TableCaption>How your property compares to similar properties in the area.</TableCaption>
@@ -126,9 +153,17 @@ const PropertyCompsPage = () => {
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                     </TableRow>
+
                                     {ratings &&
                                         (
-                                            <TableRow key={ratings.id}>
+                                            <TableRow
+                                                key={ratings.id}
+                                                onClick={() => {
+                                                    setIsOpen(true);
+                                                }}
+                                                className="cursor-pointer"
+                                                title="View Detailed Ratings"
+                                            >
                                                 {/* <TableCell className="font-medium"><pre>{JSON.stringify(comp, null, 2)}</pre></TableCell> */}
                                                 <TableCell className="font-medium">(coming soon)</TableCell>
                                                 <TableCell className="font-medium">(coming)</TableCell>
@@ -136,6 +171,7 @@ const PropertyCompsPage = () => {
                                                 <TableCell className={`${getColorClass(ratings.description_rating_category)}`}>{ratings.description_rating_number} ({ratings.description_rating_category})</TableCell>
                                                 <TableCell className={`${getColorClass(ratings.amenities_rating_category)}`}>{ratings.amenities_rating_number} ({ratings.amenities_rating_category})</TableCell>
                                                 <TableCell className={`${getColorClass(ratings.hero_image_rating_category)}`}>{ratings.hero_image_rating_number} ({ratings.hero_image_rating_category})</TableCell>
+
                                             </TableRow>
                                         )}
                                     <TableRow>
@@ -181,6 +217,21 @@ const PropertyCompsPage = () => {
                                 </TableBody>
                             </Table>
                         )}
+
+                        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                            <DialogContent className="sm:max-w-[90vw] sm:h-[100vh] sm:max-h-[90vh]">
+                                <DialogHeader>
+                                    <DialogTitle>Property Ratings</DialogTitle>
+                                </DialogHeader>
+
+                                {categorizedRatings &&
+                                    <PropertyRatings ratings={categorizedRatings} />
+                                }
+
+                            </DialogContent>
+                        </Dialog>
+
+
                     </>
                 )
             )}

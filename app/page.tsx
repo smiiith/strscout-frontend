@@ -19,6 +19,8 @@ export default function Home() {
 
   return (
     <>
+      <HeaderNav />
+
       <Parallax>
         <Layer className="" settings={{ speed: 0.3 }}>
           <div className="w-full">

@@ -95,7 +95,9 @@ const GetComparables = () => {
       // now make a call to LLM backend to get ratings
       fetchRatings(response.data.property);
       setIsLoading(true);
-      location.href = "/properties"; // using location.href to make sure the page is reloaded
+
+      router.push(`/properties/comps/${response.data?.property[0]?.id}`);
+      // location.href = `/properties/comps/${response.data?.property[0]?.id}`; // using location.href to make sure the page is reloaded
     } catch (error) {
       console.error('Error assessing property:', error);
       setIsLoading(true);
