@@ -93,6 +93,8 @@ const GetComparables = () => {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/assess/single`, config);
 
       // now make a call to LLM backend to get ratings
+      console.log("response.data", response.data);
+
       fetchRatings(response.data.property);
       setIsLoading(true);
 
@@ -104,11 +106,11 @@ const GetComparables = () => {
     }
   }
 
-  const fetchRatings = async (properties: any) => {
+  const fetchRatings = async (property: any) => {
     const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/properties/`;
 
     let config = {
-      properties,
+      properties: property,
       headers: {
         'Content-Type': 'application/json'
       }
@@ -148,7 +150,7 @@ const GetComparables = () => {
           />
           {errors.propertyId && <div className="text-destructive mb-5 mt-2">{errors.propertyId.message}</div>}
 
-          <Label htmlFor="address" className="mt-5">Address</Label>
+          {/* <Label htmlFor="address" className="mt-5">Address</Label>
           <Input
             id="address"
             className="mt-2 mb-5"
@@ -156,8 +158,8 @@ const GetComparables = () => {
             {...register('address', {
               required: 'Enter the address for this property',
             })}
-          />
-          {errors.address && <div className="text-destructive mb-5 mt-2">{errors.address.message}</div>}
+          /> */}
+          {/* {errors.address && <div className="text-destructive mb-5 mt-2">{errors.address.message}</div>} */}
 
           <div className="flex justify-end">
             <Button className="mx-2" variant="outline" onClick={() => router.push('/properties')}>Cancel</Button>
