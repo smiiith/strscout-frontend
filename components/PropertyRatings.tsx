@@ -16,6 +16,7 @@ interface RatingCategory {
 interface PropertyRatingsProps {
   ratings: {
     description: RatingCategory
+    title: RatingCategory
     amenities: RatingCategory
     heroImage: RatingCategory
     feedback: string
@@ -28,6 +29,7 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
 
   const categories: RatingCategory[] = [
     { ...ratings.description, icon: <Home className="w-5 h-5" /> },
+    { ...ratings.title, icon: <ChevronDown className="w-5 h-5" /> },
     { ...ratings.amenities, icon: <Sparkles className="w-5 h-5" /> },
     { ...ratings.heroImage, icon: <Image className="w-5 h-5" /> },
   ]
