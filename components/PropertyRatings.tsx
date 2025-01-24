@@ -19,6 +19,8 @@ interface PropertyRatingsProps {
     title: RatingCategory
     amenities: RatingCategory
     heroImage: RatingCategory
+    otherImages: RatingCategory
+    interiorDesign: RatingCategory
     feedback: string
     suggestions: string
   }
@@ -32,6 +34,8 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
     { ...ratings.title, icon: <ChevronDown className="w-5 h-5" /> },
     { ...ratings.amenities, icon: <Sparkles className="w-5 h-5" /> },
     { ...ratings.heroImage, icon: <Image className="w-5 h-5" /> },
+    { ...ratings.otherImages, icon: <Image className="w-5 h-5" /> },
+    { ...ratings.interiorDesign, icon: <Image className="w-5 h-5" /> },
   ]
 
   const getColorClass = (rating: string) => {

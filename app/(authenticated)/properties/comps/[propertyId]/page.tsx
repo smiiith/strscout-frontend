@@ -58,8 +58,6 @@ const PropertyCompsPage = () => {
                 setLoading(true);
                 const propertyRatings = await fetchPropertyRatings(propertyId);
 
-                console.log("propertyratings", propertyRatings)
-
                 if (propertyRatings) {
                     const categorized = {
                         description: {
@@ -81,6 +79,11 @@ const PropertyCompsPage = () => {
                             name: "Other Images",
                             score: propertyRatings.other_images_rating_number,
                             category: propertyRatings.other_images_rating_category,
+                        },
+                        interiorDesign: {
+                            name: "Interior Design",
+                            score: propertyRatings.interior_rating_number,
+                            category: propertyRatings.interior_rating_category,
                         },
                         title: {
                             name: "Title",
@@ -116,11 +119,12 @@ const PropertyCompsPage = () => {
                                 <TableCaption>How your property compares to similar properties in the area.</TableCaption>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead className="">Description Rating</TableHead>
-                                        <TableHead className="">Title Rating</TableHead>
-                                        <TableHead className="">Amenities Rating</TableHead>
-                                        <TableHead className="">Hero Image Rating</TableHead>
-                                        <TableHead className="">Other Images Rating</TableHead>
+                                        <TableHead className="">Description</TableHead>
+                                        <TableHead className="">Title</TableHead>
+                                        <TableHead className="">Amenities</TableHead>
+                                        <TableHead className="">Hero Image</TableHead>
+                                        <TableHead className="">Other Images</TableHead>
+                                        <TableHead className="">Interior Design</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -130,12 +134,6 @@ const PropertyCompsPage = () => {
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                     </TableRow>
                                     <TableRow>
@@ -144,6 +142,15 @@ const PropertyCompsPage = () => {
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
                                     </TableRow>
                                     <TableRow>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
@@ -151,8 +158,10 @@ const PropertyCompsPage = () => {
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
                                     </TableRow>
                                     <TableRow>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
@@ -176,6 +185,7 @@ const PropertyCompsPage = () => {
                                                 <TableCell className={`${getColorClass(ratings.amenities_rating_category)}`}>{ratings.amenities_rating_number} ({ratings.amenities_rating_category})</TableCell>
                                                 <TableCell className={`${getColorClass(ratings.hero_image_rating_category)}`}>{ratings.hero_image_rating_number} ({ratings.hero_image_rating_category})</TableCell>
                                                 <TableCell className={`${getColorClass(ratings.other_images_rating_category)}`}>{ratings.other_images_rating_number} ({ratings.other_images_rating_category})</TableCell>
+                                                <TableCell className={`${getColorClass(ratings.interior_rating_category)}`}>{ratings.interior_rating_number} ({ratings.interior_rating_category})</TableCell>
                                             </TableRow>
                                         )}
                                     <TableRow>
@@ -184,12 +194,6 @@ const PropertyCompsPage = () => {
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                     </TableRow>
                                     <TableRow>
@@ -198,6 +202,15 @@ const PropertyCompsPage = () => {
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
                                     </TableRow>
                                     <TableRow>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
@@ -205,8 +218,10 @@ const PropertyCompsPage = () => {
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
                                     </TableRow>
                                     <TableRow>
+                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>
                                         <TableCell className="blur-md">sampledatasampledata</TableCell>

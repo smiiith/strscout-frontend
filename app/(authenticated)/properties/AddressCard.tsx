@@ -33,12 +33,20 @@ export default function AddressCard({ title, externalId, propertyId, property }:
     const [ratings, setRatings] = useState<any>(null);
 
     useEffect(() => {
+
+        console.log("property", property);
+
         if (property) {
             const ratings = {
                 description: {
                     name: "Description",
                     score: property.description_rating_number,
                     category: property.description_rating_category,
+                },
+                title: {
+                    name: "Title",
+                    score: property.title_rating_number,
+                    category: property.title_rating_category,
                 },
                 amenities: {
                     name: "Amenities",
@@ -49,6 +57,11 @@ export default function AddressCard({ title, externalId, propertyId, property }:
                     name: "Hero Image",
                     score: property.hero_image_rating_number,
                     category: property.hero_image_rating_category,
+                },
+                otherImages: {
+                    name: "Other Images",
+                    score: property.other_images_rating_number,
+                    category: property.other_images_rating_category,
                 },
                 feedback: property.feedback,
                 suggestions: property.suggestions,
