@@ -58,40 +58,56 @@ const PropertyCompsPage = () => {
                 setLoading(true);
                 const propertyRatings = await fetchPropertyRatings(propertyId);
 
+                console.log("propertyRatings: ", propertyRatings);
+
                 if (propertyRatings) {
                     const categorized = {
                         description: {
                             name: "Description",
-                            score: propertyRatings.description_rating_number,
-                            category: propertyRatings.description_rating_category,
+                            score: propertyRatings.ratings.description.rating_number,
+                            category: propertyRatings.ratings.description.rating_category,
+                            feedback: propertyRatings.ratings.description.feedback,
+                            suggestions: propertyRatings.ratings.description.suggestions,
                         },
                         amenities: {
                             name: "Amenities",
-                            score: propertyRatings.amenities_rating_number,
-                            category: propertyRatings.amenities_rating_category,
+                            score: propertyRatings.ratings.amenities.rating_number,
+                            category: propertyRatings.ratings.amenities.rating_category,
+                            feedback: propertyRatings.ratings.amenities.feedback,
+                            suggestions: propertyRatings.ratings.amenities.suggestions,
                         },
                         heroImage: {
                             name: "Hero Image",
-                            score: propertyRatings.hero_image_rating_number,
-                            category: propertyRatings.hero_image_rating_category,
+                            score: propertyRatings.ratings.hero_image.rating_number,
+                            category: propertyRatings.ratings.hero_image.rating_category,
+                            feedback: propertyRatings.ratings.hero_image.feedback,
+                            suggestions: propertyRatings.ratings.hero_image.suggestions,
                         },
                         otherImages: {
                             name: "Other Images",
-                            score: propertyRatings.other_images_rating_number,
-                            category: propertyRatings.other_images_rating_category,
+                            score: propertyRatings.ratings.other_images.rating_number,
+                            category: propertyRatings.ratings.other_images.rating_category,
+                            feedback: propertyRatings.ratings.other_images.feedback,
+                            suggestions: propertyRatings.ratings.other_images.suggestions,
                         },
                         interiorDesign: {
                             name: "Interior Design",
-                            score: propertyRatings.interior_rating_number,
-                            category: propertyRatings.interior_rating_category,
+                            score: propertyRatings.ratings.interior_design.rating_number,
+                            category: propertyRatings.ratings.interior_design.rating_category,
+                            feedback: propertyRatings.ratings.interior_design.feedback,
+                            suggestions: propertyRatings.ratings.interior_design.suggestions,
                         },
                         title: {
                             name: "Title",
-                            score: propertyRatings.title_rating_number,
-                            category: propertyRatings.title_rating_category,
+                            score: propertyRatings.ratings.title.rating_number,
+                            category: propertyRatings.ratings.title.rating_category,
+                            feedback: propertyRatings.ratings.title.feedback,
+                            suggestions: propertyRatings.ratings.title.suggestions,
                         },
-                        feedback: propertyRatings.feedback,
-                        suggestions: propertyRatings.suggestions,
+                        feedback: propertyRatings.ratings.feedback,
+                        suggestions: propertyRatings.ratings.suggestions,
+                        overall_rating_number: propertyRatings.ratings.overall_rating_number,
+                        overall_rating_category: propertyRatings.ratings.overall_rating_category,
                     }
                     setFormattedRatings(categorized);
                 }
@@ -180,12 +196,12 @@ const PropertyCompsPage = () => {
                                                 title="View Detailed Ratings"
                                             >
                                                 {/* <TableCell className="font-medium"><pre>{JSON.stringify(comp, null, 2)}</pre></TableCell> */}
-                                                <TableCell className={`${getColorClass(ratings.description_rating_category)}`}>{ratings.description_rating_number} ({ratings.description_rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.title_rating_category)}`}>{ratings.title_rating_number} ({ratings.title_rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.amenities_rating_category)}`}>{ratings.amenities_rating_number} ({ratings.amenities_rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.hero_image_rating_category)}`}>{ratings.hero_image_rating_number} ({ratings.hero_image_rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.other_images_rating_category)}`}>{ratings.other_images_rating_number} ({ratings.other_images_rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.interior_rating_category)}`}>{ratings.interior_rating_number} ({ratings.interior_rating_category})</TableCell>
+                                                <TableCell className={`${getColorClass(ratings.ratings.description.rating_category)}`}>{ratings.ratings.description.rating_number} ({ratings.ratings.description.rating_category})</TableCell>
+                                                <TableCell className={`${getColorClass(ratings.ratings.title.rating_category)}`}>{ratings.ratings.title.rating_number} ({ratings.ratings.title.rating_category})</TableCell>
+                                                <TableCell className={`${getColorClass(ratings.ratings.amenities.rating_category)}`}>{ratings.ratings.amenities.rating_number} ({ratings.ratings.amenities.rating_category})</TableCell>
+                                                <TableCell className={`${getColorClass(ratings.ratings.hero_image.rating_category)}`}>{ratings.ratings.hero_image.rating_number} ({ratings.ratings.hero_image.rating_category})</TableCell>
+                                                <TableCell className={`${getColorClass(ratings.ratings.other_images.rating_category)}`}>{ratings.ratings.other_images.rating_number} ({ratings.ratings.other_images.rating_category})</TableCell>
+                                                <TableCell className={`${getColorClass(ratings.ratings.interior_design.rating_category)}`}>{ratings.ratings.interior_design.rating_number} ({ratings.ratings.interior_design.rating_category})</TableCell>
                                             </TableRow>
                                         )}
                                     <TableRow>
