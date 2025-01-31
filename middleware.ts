@@ -10,6 +10,39 @@ const protectedRoutes = [
 
 
 export async function middleware(request: NextRequest) {
+  const url = request.nextUrl.clone()
+
+  // Handle PostHog requests first, before any auth logic
+  if (url.pathname.startsWith('/ingest/')) {
+    let posthogUrl: URL;
+
+    // Special case for /e endpoint
+    if (url.pathname.startsWith('/ingest/e')) {
+      posthogUrl = new URL('/e/' + url.search, 'https://us.i.posthog.com')
+    }
+    // Special case for /decide endpoint
+    else if (url.pathname.startsWith('/ingest/decide')) {
+      posthogUrl = new URL('/decide' + url.search, 'https://us.i.posthog.com')
+    }
+    // Special case for /decide endpoint
+    else if (url.pathname.startsWith('/ingest/array')) {
+      posthogUrl = new URL('/array' + url.search, 'https://us.i.posthog.com')
+    }
+    // Handle other PostHog endpoints
+    else {
+      posthogUrl = new URL(url.pathname.replace('/ingest', '') + url.search, 'https://us.i.posthog.com')
+    }
+
+    return NextResponse.rewrite(posthogUrl)
+  }
+
+  // let response = NextResponse.next({
+  //     request: {
+  //         headers: request.headers,
+  //     },
+  // });
+
+  // return response;
 
   // update user's auth session
   const isAuthenticated = await updateSession(request);
