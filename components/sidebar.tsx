@@ -35,21 +35,6 @@ export function Sidebar() {
                     href: '/properties/assess-property/single',
                     icon: <City01Icon className="text-secondary-foreground" />,
                 },
-                {
-                    label: 'View Comparables',
-                    href: '/properties/comps',
-                    icon: <Analytics01Icon className="text-secondary-foreground" />,
-                },
-                // {
-                //     label: 'View Property',
-                //     href: '/properties/view-property',
-                //     icon: <City01Icon className="text-secondary-foreground" />,
-                // },
-                // {
-                //     label: 'My Scans',
-                //     href: '/properties/scans',
-                //     icon: <City01Icon className="text-secondary-foreground" />,
-                // },
             ]
         },
         {
