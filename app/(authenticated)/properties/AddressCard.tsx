@@ -131,12 +131,12 @@ export default function AddressCard({ title, externalId, propertyId, property }:
                     <p>AirBnB ID: {property.property_id.external_id}</p>
 
                     <div className="mt-3">
-                        <Button
+                        {/* <Button
                             onClick={() => {
                                 setIsOpen(true);
                             }}>
                             View Ratings
-                        </Button>
+                        </Button> */}
 
                         <Button
                             variant="outline"

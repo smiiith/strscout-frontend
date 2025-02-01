@@ -9,6 +9,7 @@ import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, Tabl
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import PropertyRatings from "@/components/PropertyRatings";
 import { title } from "process";
+import { Button } from "@/components/ui/button";
 
 const fetchPropertyRatings = async (propertyId: any) => {
     try {
@@ -130,6 +131,17 @@ const PropertyCompsPage = () => {
                             <Analytics01Icon className="h-8 w-8 inline-block mb-2 mr-2 text-secondary-foreground" />
                             Property Comparables
                         </h1>
+
+                        <Button
+                            onClick={() => {
+                                setIsOpen(true);
+                            }}
+                            variant="ghost"
+                            size="sm"
+                            className="text-blue-600"
+                        >
+                            View Individual Ratings
+                        </Button>
                         {ratings && (
                             <Table>
                                 <TableCaption>How your property compares to similar properties in the area.</TableCaption>
