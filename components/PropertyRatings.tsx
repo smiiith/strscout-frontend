@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { Progress } from "@/components/ui/progress"
-import { Home, Sparkles, Image, ChevronDown, ChevronUp } from 'lucide-react'
 import {
   Accordion,
   AccordionContent,
