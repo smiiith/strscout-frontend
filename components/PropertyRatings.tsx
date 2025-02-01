@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 import { Progress } from "@/components/ui/progress"
-import { Home, Sparkles, Image, ChevronDown, ChevronUp } from 'lucide-react'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { Album02Icon, File02Icon, Image02Icon, PoolIcon, Sofa01Icon, SubtitleIcon } from './Icons'
 
 
 interface RatingCategory {
@@ -39,12 +39,12 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
   const categories: RatingCategory[] = [
-    { ...ratings.description, icon: <Home className="w-5 h-5" /> },
-    { ...ratings.title, icon: <ChevronDown className="w-5 h-5" /> },
-    { ...ratings.amenities, icon: <Sparkles className="w-5 h-5" /> },
-    { ...ratings.heroImage, icon: <Image className="w-5 h-5" /> },
-    { ...ratings.otherImages, icon: <Image className="w-5 h-5" /> },
-    { ...ratings.interiorDesign, icon: <Image className="w-5 h-5" /> },
+    { ...ratings.description, icon: <File02Icon className="w-5 h-5" /> },
+    { ...ratings.title, icon: <SubtitleIcon className="w-5 h-5" /> },
+    { ...ratings.amenities, icon: <PoolIcon className="w-5 h-5" /> },
+    { ...ratings.heroImage, icon: <Image02Icon className="w-5 h-5" /> },
+    { ...ratings.otherImages, icon: <Album02Icon className="w-5 h-5" /> },
+    { ...ratings.interiorDesign, icon: <Sofa01Icon className="w-5 h-5" /> },
   ]
 
   const getColorClass = (rating: string) => {
