@@ -35,18 +35,18 @@ const HeaderNav = (props: any) => {
             enabled: isAuthorized,
             icon: () => { return <House01Icon className="text-red-500 ml-6" /> },
         },
-        {
-            label: 'Pricing',
-            href: '/pricing',
-            enabled: true,
-            icon: () => { return <PiggyBankIcon className="text-blue-500 ml-6" /> },
-        },
-        {
-            label: 'Contact',
-            href: '/contact',
-            enabled: true,
-            icon: () => { return <Mailbox01Icon className="text-green-500 ml-6" /> },
-        },
+        // {
+        //     label: 'Pricing',
+        //     href: '/pricing',
+        //     enabled: true,
+        //     icon: () => { return <PiggyBankIcon className="text-blue-500 ml-6" /> },
+        // },
+        // {
+        //     label: 'Contact',
+        //     href: '/contact',
+        //     enabled: true,
+        //     icon: () => { return <Mailbox01Icon className="text-green-500 ml-6" /> },
+        // },
     ]
 
     return (
@@ -134,14 +134,15 @@ const HeaderNav = (props: any) => {
                     <div key={`desktop-${index}`}>
                         {link.enabled && (
                             <>
-                                {link.icon && link.icon()}
                                 <Link
                                     href={link.href}
                                     className="hover:underline whitespace-nowrap"
                                     prefetch={false}
                                     key={`desktop-${index}`}
+                                    title={link.label}
                                 >
-                                    {link.label}
+                                    {link.icon && link.icon()}
+                                    {/* {link.label} */}
                                 </Link>
                             </>
                         )}

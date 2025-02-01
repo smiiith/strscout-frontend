@@ -10,11 +10,11 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 import PropertyRatings from '@/components/PropertyRatings'
-import { Home, Sparkles, Image } from 'lucide-react'
 import PropertyComps from '@/components/PropertyComps'
 import { Button } from '@/components/ui/button'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
+import { Album02Icon, File02Icon, Image02Icon, PoolIcon, Sofa01Icon, SubtitleIcon } from '@/components/Icons'
 
 
 interface AddressCardProps {
@@ -34,7 +34,7 @@ export default function AddressCard({ title, externalId, propertyId, property }:
 
     useEffect(() => {
 
-        console.log("property", property);
+        // console.log("property", property);
 
         if (property) {
             const ratings = {
@@ -87,7 +87,7 @@ export default function AddressCard({ title, externalId, propertyId, property }:
             if (response.data) {
 
                 const propertyRatings = response.data.ratings;
-                console.log("ratings from card", propertyRatings);
+                // console.log("ratings from card", propertyRatings);
 
                 propertyRatings["visible"] = true;
                 setRatings(propertyRatings);
@@ -156,8 +156,8 @@ export default function AddressCard({ title, externalId, propertyId, property }:
                         <TooltipProvider delayDuration={200}>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <span className={`flex items-start gap-1 ${getColorClass(property.description_rating_category)}`}>
-                                        <Home className="w-5 h-5" /> {property.description_rating_number}
+                                    <span className={`flex items-start gap-1 ${getColorClass(property.ratings?.description?.rating_category)}`}>
+                                        <File02Icon className="w-5 h-5" /> {property.ratings.description.rating_number}
                                     </span>
                                 </TooltipTrigger>
                                 <TooltipContent>
@@ -166,9 +166,19 @@ export default function AddressCard({ title, externalId, propertyId, property }:
                             </Tooltip>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <span className={`flex items-start gap-1 ${getColorClass(property.amenities_rating_category)}`}>
-                                        <Sparkles className="w-5 h-5" />
-                                        {property.amenities_rating_number}
+                                    <span className={`flex items-start gap-1 ${getColorClass(property.ratings?.title?.rating_category)}`}>
+                                        <SubtitleIcon className="w-5 h-5" /> {property.ratings?.title?.rating_number}
+                                    </span>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Title Rating</p>
+                                </TooltipContent>
+                            </Tooltip>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <span className={`flex items-start gap-1 ${getColorClass(property.ratings?.amenities?.rating_category)}`}>
+                                        <PoolIcon className="w-5 h-5" />
+                                        {property.ratings?.amenities?.rating_number}
                                     </span>
                                 </TooltipTrigger>
                                 <TooltipContent>
@@ -177,12 +187,32 @@ export default function AddressCard({ title, externalId, propertyId, property }:
                             </Tooltip>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <span className={`flex items-start gap-1 ${getColorClass(property.hero_image_rating_category)}`}>
-                                        <Image className="w-5 h-5" /> {property.hero_image_rating_number}
+                                    <span className={`flex items-start gap-1 ${getColorClass(property.ratings?.hero_image?.rating_category)}`}>
+                                        <Image02Icon className="w-5 h-5" /> {property.ratings?.hero_image?.rating_number}
                                     </span>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>Hero Image Rating</p>
+                                </TooltipContent>
+                            </Tooltip>
+                            <Tooltip key="other-images">
+                                <TooltipTrigger asChild>
+                                    <span className={`flex items-start gap-1 ${getColorClass(property.ratings?.other_images?.rating_category)}`}>
+                                        <Album02Icon className="w-5 h-5" /> {property.ratings?.other_images?.rating_number}
+                                    </span>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Other Images Rating</p>
+                                </TooltipContent>
+                            </Tooltip>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <span className={`flex items-start gap-1 ${getColorClass(property.ratings?.interior_design?.rating_category)}`}>
+                                        <Sofa01Icon className="w-5 h-5" /> {property.ratings?.interior_design?.rating_number}
+                                    </span>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Interior Design Rating</p>
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>

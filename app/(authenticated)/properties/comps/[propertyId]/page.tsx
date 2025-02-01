@@ -59,7 +59,7 @@ const PropertyCompsPage = () => {
                 setLoading(true);
                 const propertyRatings = await fetchPropertyRatings(propertyId);
 
-                console.log("propertyRatings: ", propertyRatings);
+                // console.log("propertyRatings: ", propertyRatings);
 
                 if (propertyRatings) {
                     const categorized = {
@@ -72,31 +72,31 @@ const PropertyCompsPage = () => {
                         },
                         amenities: {
                             name: "Amenities",
-                            score: propertyRatings.ratings.amenities.rating_number,
-                            category: propertyRatings.ratings.amenities.rating_category,
-                            feedback: propertyRatings.ratings.amenities.feedback,
-                            suggestions: propertyRatings.ratings.amenities.suggestions,
+                            score: propertyRatings.ratings?.amenities?.rating_number,
+                            category: propertyRatings.ratings?.amenities?.rating_category,
+                            feedback: propertyRatings.ratings?.amenities?.feedback,
+                            suggestions: propertyRatings.ratings?.amenities?.suggestions,
                         },
                         heroImage: {
                             name: "Hero Image",
-                            score: propertyRatings.ratings.hero_image.rating_number,
-                            category: propertyRatings.ratings.hero_image.rating_category,
-                            feedback: propertyRatings.ratings.hero_image.feedback,
-                            suggestions: propertyRatings.ratings.hero_image.suggestions,
+                            score: propertyRatings.ratings?.hero_image?.rating_number,
+                            category: propertyRatings.ratings?.hero_image?.rating_category,
+                            feedback: propertyRatings.ratings?.hero_image?.feedback,
+                            suggestions: propertyRatings.ratings?.hero_image?.suggestions,
                         },
                         otherImages: {
                             name: "Other Images",
-                            score: propertyRatings.ratings.other_images.rating_number,
-                            category: propertyRatings.ratings.other_images.rating_category,
-                            feedback: propertyRatings.ratings.other_images.feedback,
-                            suggestions: propertyRatings.ratings.other_images.suggestions,
+                            score: propertyRatings.ratings?.other_images?.rating_number,
+                            category: propertyRatings.ratings?.other_images?.rating_category,
+                            feedback: propertyRatings.ratings?.other_images?.feedback,
+                            suggestions: propertyRatings.ratings?.other_images?.suggestions,
                         },
                         interiorDesign: {
                             name: "Interior Design",
-                            score: propertyRatings.ratings.interior_design.rating_number,
-                            category: propertyRatings.ratings.interior_design.rating_category,
-                            feedback: propertyRatings.ratings.interior_design.feedback,
-                            suggestions: propertyRatings.ratings.interior_design.suggestions,
+                            score: propertyRatings.ratings?.interior_design?.rating_number,
+                            category: propertyRatings.ratings?.interior_design?.rating_category,
+                            feedback: propertyRatings.ratings?.interior_design?.feedback,
+                            suggestions: propertyRatings.ratings?.interior_design?.suggestions,
                         },
                         title: {
                             name: "Title",
@@ -210,10 +210,10 @@ const PropertyCompsPage = () => {
                                                 {/* <TableCell className="font-medium"><pre>{JSON.stringify(comp, null, 2)}</pre></TableCell> */}
                                                 <TableCell className={`${getColorClass(ratings.ratings.description.rating_category)}`}>{ratings.ratings.description.rating_number} ({ratings.ratings.description.rating_category})</TableCell>
                                                 <TableCell className={`${getColorClass(ratings.ratings.title.rating_category)}`}>{ratings.ratings.title.rating_number} ({ratings.ratings.title.rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.ratings.amenities.rating_category)}`}>{ratings.ratings.amenities.rating_number} ({ratings.ratings.amenities.rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.ratings.hero_image.rating_category)}`}>{ratings.ratings.hero_image.rating_number} ({ratings.ratings.hero_image.rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.ratings.other_images.rating_category)}`}>{ratings.ratings.other_images.rating_number} ({ratings.ratings.other_images.rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.ratings.interior_design.rating_category)}`}>{ratings.ratings.interior_design.rating_number} ({ratings.ratings.interior_design.rating_category})</TableCell>
+                                                <TableCell className={`${getColorClass(ratings.ratings?.amenities?.rating_category)}`}>{ratings.ratings?.amenities?.rating_number} ({ratings.ratings?.amenities?.rating_category})</TableCell>
+                                                <TableCell className={`${getColorClass(ratings.ratings?.hero_image?.rating_category)}`}>{ratings.ratings?.hero_image?.rating_number} ({ratings.ratings?.hero_image?.rating_category})</TableCell>
+                                                <TableCell className={`${getColorClass(ratings.ratings?.other_images?.rating_category)}`}>{ratings.ratings?.other_images?.rating_number} ({ratings.ratings?.other_images?.rating_category})</TableCell>
+                                                <TableCell className={`${getColorClass(ratings.ratings?.interior_design?.rating_category)}`}>{ratings.ratings?.interior_design?.rating_number} ({ratings.ratings?.interior_design?.rating_category})</TableCell>
                                             </TableRow>
                                         )}
                                     <TableRow>
