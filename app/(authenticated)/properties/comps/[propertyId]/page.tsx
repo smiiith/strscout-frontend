@@ -261,7 +261,7 @@ const PropertyCompsPage = () => {
                         )}
 
                         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                            <DialogContent className="sm:max-w-[90vw] sm:h-[100vh] sm:max-h-[90vh]">
+                            <DialogContent className="sm:max-w-[90vw] sm:h-[100vh] sm:max-h-[90vh] overflow-y-auto">
                                 <DialogHeader>
                                     <DialogTitle>Property Ratings</DialogTitle>
                                 </DialogHeader>
