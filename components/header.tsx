@@ -3,7 +3,7 @@
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import ThemeSwitch from "./ThemeSwitch"
+// import ThemeSwitch from "./ThemeSwitch"
 import Image from "next/image"
 import { Login01Icon, Logout01Icon, MyAccountIcon } from "./Icons"
 import { useState } from "react"
@@ -50,7 +50,7 @@ const HeaderNav = (props: any) => {
     ]
 
     return (
-        <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
+        <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 bg-primary text-white">
             <link rel="icon" href="/favicon.ico" sizes="any" />
             <Sheet key="left" open={sheetOpen} onOpenChange={() => setSheetOpen(!sheetOpen)}>
                 {/* <Sheet> */}
@@ -119,10 +119,10 @@ const HeaderNav = (props: any) => {
             <div className="relative w-[400px] h-[50px]">
                 <Link href="/" className="mr-6 md:w-[200px] w-[200px] md:relative absolute right-0 top-0" prefetch={false}>
                     <Image
-                        src="/home/logo.png"
-                        alt="SyncNanny"
-                        width={200}
-                        height={200}
+                        src="/home/str-feedback-genius-logo.png"
+                        alt="STR Feedback Genius"
+                        width={150}
+                        height={150}
                     // layout="responsive"
                     />
                 </Link>
@@ -165,7 +165,7 @@ const HeaderNav = (props: any) => {
                 }
 
                 <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light">
-                    <ThemeSwitch />
+                    {/* <ThemeSwitch /> */}
                 </div>
             </nav>
         </header >

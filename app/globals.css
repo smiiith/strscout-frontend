@@ -14,11 +14,11 @@
   :root {
     --background: 210 2% 95%;
     --foreground: 210 2% 0%;
-    --card: 210 2% 90%;
+    --card: 206 68% 78%;
     --card-foreground: 210 2% 10%;
     --popover: 210 2% 95%;
     --popover-foreground: 210 95% 0%;
-    --primary: 210 80% 26%;
+    --primary: 205 100% 35%;
     --primary-foreground: 0 0% 100%;
     --secondary: 210 10% 70%;
     --secondary-foreground: 0 0% 0%;
@@ -36,7 +36,8 @@
   .dark {
     --background: 210 10% 5%;
     --foreground: 210 2% 90%;
-    --card: 210 2% 0%;
+    /* --card: 210 2% 0%; */
+    --card: 206 32% 93%;
     --card-foreground: 210 2% 90%;
     --popover: 210 10% 5%;
     --popover-foreground: 210 2% 90%;
