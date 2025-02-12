@@ -9,7 +9,7 @@ const AnswersSection = () => {
                 <Card className="border-none bg-transparent">
                     <CardContent className="px-2 py-4 space-y-4">
                         <h1 className="text-5xl font-bold text-gray-900 tracking-tight">
-                            Got Questions? We’ve Got Answers.
+                            Got Questions? We've Got Answers.
                         </h1>
 
                         <p className="text-xl font-bold !mb-0">How does the feedback process work?</p>
@@ -42,10 +42,10 @@ const AnswersSection = () => {
                         </p>
 
                         <p className="text-xl font-bold !mb-0">
-                            Is it really free? What’s the catch?
+                            Is it really free? What's the catch?
                         </p>
                         <p className="!mt-0">
-                            Yes, it’s really free. Seriously, no credit card, no BS, it’s free. While we offer other paid services, this one is on
+                            Yes, it's really free. Seriously, no credit card, no BS, it's free. While we offer other paid services, this one is on
                             us, no catch.
                         </p>
 
