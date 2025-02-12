@@ -16,9 +16,9 @@ const HowItWorksSection = () => {
 
                         <p className="text-lg text-gray-800 max-w-3xl">
                             <span className="font-bold">STR Feedback Genius</span> analyzes every detail of your Airbnb listing -- your photos, your headlines, your
-                            description, your amenities, even your interior design -- and provides clear, actionable feedback. We’ll rate
-                            each element, highlight what’s working, and guide you on where to improve. It’s like having a listing coach by
-                            your side. Best of all, it’s free. Seriously, no credit card, no BS, it’s free.
+                            description, your amenities, even your interior design -- and provides clear, actionable feedback. We'll rate
+                            each element, highlight what's working, and guide you on where to improve. It's like having a listing coach by
+                            your side. Best of all, it's free. Seriously, no credit card, no BS, it's free.
                         </p>
 
                         <Button className="hover:opacity-80 h-auto">
