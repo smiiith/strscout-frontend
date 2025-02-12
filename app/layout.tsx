@@ -2,6 +2,8 @@ import './globals.css'
 import { ThemeProvider } from './providers'
 import { createClient } from '@/utils/supabase/server'
 import { PostHogTracker } from "./PostHogTracker";
+import HeaderNav from '@/components/header';
+import Footer from '@/components/footer';
 
 export const metadata = {
   title: 'User Management',
@@ -14,15 +16,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="px-5">
+      <body className="px-5 bg-muted">
         <PostHogTracker>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <div className="min-h-screen">
+              {children}
+              <Footer />
+            </div>
           </ThemeProvider>
         </PostHogTracker>
       </body>
