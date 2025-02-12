@@ -1,284 +1,136 @@
-"use client";
-
-import { Analytics01Icon } from "@/components/Icons";
-import LoadingOverlay from "@/components/LoadingOverlay";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from 'next/navigation';
-import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import PropertyRatings from "@/components/PropertyRatings";
-import { title } from "process";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from 'react';
 
-const fetchPropertyRatings = async (propertyId: any) => {
-    try {
-        const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_ENDPOINT}/ratings/${propertyId}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            }
-        );
-        return response.data?.ratings ? { ...response.data.ratings, visible: true } : null;
-    } catch (error) {
-        console.error('Error loading property ratings:', error);
-        return null;
-    }
-};
+export default function Home() {
+    const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-const getColorClass = (rating: string) => {
-    switch (rating) {
-        case 'excellent':
-            return 'text-green-600 dark:text-green-400';
-        case 'good':
-            return 'text-blue-600 dark:text-blue-400';
-        case 'satisfactory':
-            return 'text-yellow-600 dark:text-yellow-400';
-        case 'needs_work':
-            return 'text-orange-600 dark:text-orange-400';
-        case 'fail':
-            return 'text-red-600 dark:text-red-400';
-        default:
-            return 'text-gray-600 dark:text-gray-400';
-    }
-};
+    const features = [
+        "your hero photo",
+        "your headline",
+        "your listing description",
+        "your listing photos",
+        "your amenities",
+        "your interior design"
+    ];
 
-const PropertyCompsPage = () => {
-    const params = useParams();
-    const propertyId = params.propertyId;
-    const [loading, setLoading] = useState(false);
-    const [ratings, setRatings] = useState(null);
-    const [isOpen, setIsOpen] = useState(false);
-    const [categorizedRatings, setFormattedRatings] = useState<any>([]);
-
-    useEffect(() => {
-        if (propertyId && !ratings) {
-            const loadRatings = async () => {
-                setLoading(true);
-                const propertyRatings = await fetchPropertyRatings(propertyId);
-
-                // console.log("propertyRatings: ", propertyRatings);
-
-                if (propertyRatings) {
-                    const categorized = {
-                        description: {
-                            name: "Description",
-                            score: propertyRatings.ratings.description.rating_number,
-                            category: propertyRatings.ratings.description.rating_category,
-                            feedback: propertyRatings.ratings.description.feedback,
-                            suggestions: propertyRatings.ratings.description.suggestions,
-                        },
-                        amenities: {
-                            name: "Amenities",
-                            score: propertyRatings.ratings?.amenities?.rating_number,
-                            category: propertyRatings.ratings?.amenities?.rating_category,
-                            feedback: propertyRatings.ratings?.amenities?.feedback,
-                            suggestions: propertyRatings.ratings?.amenities?.suggestions,
-                        },
-                        heroImage: {
-                            name: "Hero Image",
-                            score: propertyRatings.ratings?.hero_image?.rating_number,
-                            category: propertyRatings.ratings?.hero_image?.rating_category,
-                            feedback: propertyRatings.ratings?.hero_image?.feedback,
-                            suggestions: propertyRatings.ratings?.hero_image?.suggestions,
-                        },
-                        otherImages: {
-                            name: "Other Images",
-                            score: propertyRatings.ratings?.other_images?.rating_number,
-                            category: propertyRatings.ratings?.other_images?.rating_category,
-                            feedback: propertyRatings.ratings?.other_images?.feedback,
-                            suggestions: propertyRatings.ratings?.other_images?.suggestions,
-                        },
-                        interiorDesign: {
-                            name: "Interior Design",
-                            score: propertyRatings.ratings?.interior_design?.rating_number,
-                            category: propertyRatings.ratings?.interior_design?.rating_category,
-                            feedback: propertyRatings.ratings?.interior_design?.feedback,
-                            suggestions: propertyRatings.ratings?.interior_design?.suggestions,
-                        },
-                        title: {
-                            name: "Title",
-                            score: propertyRatings.ratings.title.rating_number,
-                            category: propertyRatings.ratings.title.rating_category,
-                            feedback: propertyRatings.ratings.title.feedback,
-                            suggestions: propertyRatings.ratings.title.suggestions,
-                        },
-                        feedback: propertyRatings.ratings.feedback,
-                        suggestions: propertyRatings.ratings.suggestions,
-                        overall_rating_number: propertyRatings.ratings.overall_rating_number,
-                        overall_rating_category: propertyRatings.ratings.overall_rating_category,
-                    }
-                    setFormattedRatings(categorized);
-                }
-
-                setRatings(propertyRatings);
-                setLoading(false);
-            };
-            loadRatings();
+    const faqs = [
+        {
+            question: "How does the feedback process work?",
+            answer: "Simply share your listing link, and we'll analyze it and provide a detailed report."
+        },
+        {
+            question: "Is STR Feedback Genius only for AirBnB hosts?",
+            answer: "At this time we specialize in AirBnB listings."
+        },
+        {
+            question: "How much time does it take?",
+            answer: "Most feedback reports are ready in minutes and are displayed here on the STR Feedback Genius site. However, you don't need to wait as our feedback reports are also sent to your email free of charge."
+        },
+        {
+            question: "Do I need to give my personal information?",
+            answer: "No. We only need your email address and the link to your listing."
+        },
+        {
+            question: "Is it really free? What's the catch?",
+            answer: "Yes, it's really free. Seriously, no credit card, no BS, it's free. While we offer other paid services, this one is on us, no catch."
         }
-    }, [propertyId]);
+    ];
 
     return (
-        <>
-            {loading ? (
-                <LoadingOverlay />
-            ) : (
-                propertyId && ratings && (
-                    <>
-                        <h1 className="text-3xl mb-6">
-                            <Analytics01Icon className="h-8 w-8 inline-block mb-2 mr-2 text-secondary-foreground" />
-                            Property Comparables
-                        </h1>
+        <main className="min-h-screen bg-white">
+            {/* Hero Section */}
+            <section className="container mx-auto px-4 py-24 text-center">
+                <h1 className="text-5xl font-bold mb-4">You Need Clarity.</h1>
+                <h2 className="text-4xl font-bold mb-8">We Get It.</h2>
+                <p className="text-lg mb-8 max-w-2xl mx-auto">
+                    Navigating the world of short-term rentals can be overwhelming, especially
+                    when it comes to creating a standout listing. Whether you're a first-time host
+                    or a seasoned pro, understanding what works -- and what doesn't -- can
+                    feel like a guessing game.
+                </p>
+                <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+                    Get Your Free Feedback
+                </Button>
+            </section>
 
-                        <Button
-                            onClick={() => {
-                                setIsOpen(true);
-                            }}
-                            variant="ghost"
-                            size="sm"
-                            className="text-blue-600"
-                        >
-                            View Individual Ratings
-                        </Button>
-                        {ratings && (
-                            <Table>
-                                <TableCaption>How your property compares to similar properties in the area.</TableCaption>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="">Description</TableHead>
-                                        <TableHead className="">Title</TableHead>
-                                        <TableHead className="">Amenities</TableHead>
-                                        <TableHead className="">Hero Image</TableHead>
-                                        <TableHead className="">Other Images</TableHead>
-                                        <TableHead className="">Interior Design</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                    </TableRow>
+            {/* How It Works Section */}
+            <section className="bg-gray-50 py-24">
+                <div className="container mx-auto px-4">
+                    <h2 className="text-3xl font-bold text-center mb-16">How It Works</h2>
+                    <Card className="max-w-3xl mx-auto">
+                        <CardHeader>
+                            <CardTitle>Expert Insights Bring Your Listing into Focus</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="mb-6">
+                                STR Feedback Genius analyzes every detail of your Airbnb listing -- your photos, your headlines, your
+                                description, your amenities, even your interior design -- and provides clear, actionable feedback.
+                            </p>
+                            <div className="space-y-4">
+                                <h3 className="font-semibold text-xl">We'll analyze, rate, and provide actionable feedback on:</h3>
+                                <ul className="list-disc pl-6 space-y-2">
+                                    {features.map((feature, index) => (
+                                        <li key={index} className="text-gray-700">{feature}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="mt-8 text-center">
+                                <p className="font-bold mb-4">Best of all, it's free.</p>
+                                <p className="italic mb-6">Seriously, no credit card, no BS, it's free.</p>
+                                <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+                                    Get Your Free Feedback
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+            </section>
 
-                                    {ratings &&
-                                        (
-                                            <TableRow
-                                                key={ratings.id}
-                                                onClick={() => {
-                                                    setIsOpen(true);
-                                                }}
-                                                className="cursor-pointer"
-                                                title="View Detailed Ratings"
-                                            >
-                                                {/* <TableCell className="font-medium"><pre>{JSON.stringify(comp, null, 2)}</pre></TableCell> */}
-                                                <TableCell className={`${getColorClass(ratings.ratings.description.rating_category)}`}>{ratings.ratings.description.rating_number} ({ratings.ratings.description.rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.ratings.title.rating_category)}`}>{ratings.ratings.title.rating_number} ({ratings.ratings.title.rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.ratings?.amenities?.rating_category)}`}>{ratings.ratings?.amenities?.rating_number} ({ratings.ratings?.amenities?.rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.ratings?.hero_image?.rating_category)}`}>{ratings.ratings?.hero_image?.rating_number} ({ratings.ratings?.hero_image?.rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.ratings?.other_images?.rating_category)}`}>{ratings.ratings?.other_images?.rating_number} ({ratings.ratings?.other_images?.rating_category})</TableCell>
-                                                <TableCell className={`${getColorClass(ratings.ratings?.interior_design?.rating_category)}`}>{ratings.ratings?.interior_design?.rating_number} ({ratings.ratings?.interior_design?.rating_category})</TableCell>
-                                            </TableRow>
-                                        )}
-                                    <TableRow>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                        <TableCell className="blur-md">sampledatasampledata</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        )}
+            {/* FAQ Section */}
+            <section className="container mx-auto px-4 py-24">
+                <h2 className="text-3xl font-bold text-center mb-16">Got Questions? We've Got Answers.</h2>
+                <div className="max-w-2xl mx-auto space-y-4">
+                    {faqs.map((faq, index) => (
+                        <div key={index} className="border rounded-lg">
+                            <button
+                                className="w-full px-4 py-3 text-left font-medium flex justify-between items-center"
+                                onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                            >
+                                {faq.question}
+                                <span className={`transform transition-transform ${openFaq === index ? 'rotate-180' : ''}`}>
+                                    ▼
+                                </span>
+                            </button>
+                            {openFaq === index && (
+                                <div className="px-4 py-3 border-t">
+                                    {faq.answer}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </section>
 
-                        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                            <DialogContent className="sm:max-w-[90vw] sm:h-[100vh] sm:max-h-[90vh] overflow-y-auto">
-                                <DialogHeader>
-                                    <DialogTitle>Property Ratings</DialogTitle>
-                                </DialogHeader>
-
-                                {categorizedRatings &&
-                                    <PropertyRatings ratings={categorizedRatings} />
-                                }
-
-                            </DialogContent>
-                        </Dialog>
-
-
-                    </>
-                )
-            )}
-        </>
+            {/* Footer */}
+            <footer className="bg-gray-900 text-white py-12">
+                <div className="container mx-auto px-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                        <div>
+                            <h3 className="font-bold mb-4">STR Feedback Genius</h3>
+                            <p className="text-sm text-gray-400">Guidance by HostPower.tools</p>
+                        </div>
+                        <div>
+                            <h3 className="font-bold mb-4">Quick Links</h3>
+                            <ul className="space-y-2">
+                                <li><a href="/about" className="text-gray-400 hover:text-white">About Us</a></li>
+                                <li><a href="/pricing" className="text-gray-400 hover:text-white">Pricing</a></li>
+                                <li><a href="/contact" className="text-gray-400 hover:text-white">Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </main>
     );
-};
-
-export default PropertyCompsPage;
+}
