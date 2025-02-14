@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 
 export default function CreateAccount() {
   return (
-    <Card className="mx-auto max-w-sm">
+    <Card className="max-w-sm bg-background border-none">
       <form>
         <CardHeader>
           <CardTitle className="text-2xl">Create an account</CardTitle>
@@ -45,10 +45,10 @@ export default function CreateAccount() {
               Create
             </Button>
           </div>
-          <div className="mt-4 text-center text-sm">
+          <div className="mt-4 text-sm">
             Your password must contain at least one uppercase letter, one lowercase letter, one number and one special character. The minimum length for your password is 10 characters.
           </div>
-          <div className="mt-4 text-center text-sm">
+          <div className="mt-4 text-sm">
             Already have an account?{" "}
             <Link href="/login" className="underline" prefetch={false}>
               Log in
