@@ -10,6 +10,8 @@ import { Sidebar } from '@/components/sidebar'
 import { useState } from 'react'
 import { createClient } from '@/utils/supabase/server'
 import UserContext from '../UserContext'
+import Footer from '@/components/footer'
+import HeaderNav from '@/components/header'
 
 
 export const metadata = {
@@ -34,9 +36,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         disableTransitionOnChange
       >
 
-        <div className="flex h-full justify-center p-6">
-          <div className="container">
-            {children}
+        <div className="">
+          <div className="flex flex-col">
+            <div className="flex-grow">
+              <div className="container mx-auto p-0 max-w-7xl bg-background">
+
+                <HeaderNav />
+
+                <div className="px-6">
+                  {children}
+                  {/* <Footer /> */}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </ThemeProvider >
