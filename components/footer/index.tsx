@@ -9,11 +9,11 @@ const Footer = () => {
                             <div>
                                 <ul className="space-y-2">
                                     <li>Get Your Free Listing Feedback Now</li>
-                                    <li><a href="/about" className="hover:text-slate-300">About Us</a></li>
+                                    <li><a href="/about-us" className="hover:text-slate-300">About Us</a></li>
                                     <li><a href="/faq" className="hover:text-slate-300">FAQ</a></li>
                                     <li><a href="/pricing" className="hover:text-slate-300">Pricing</a></li>
                                     <li><a href="/login" className="hover:text-slate-300">Login</a></li>
-                                    <li><a href="/contact" className="hover:text-slate-300">Contact Us</a></li>
+                                    <li><a href="/contact-us" className="hover:text-slate-300">Contact Us</a></li>
                                     <li>Guidance by HostPower.tools</li>
                                 </ul>
                             </div>
