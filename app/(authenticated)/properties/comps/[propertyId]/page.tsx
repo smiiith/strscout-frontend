@@ -155,70 +155,58 @@ const PropertyCompsPage = () => {
         return (
             <div className="flex flex-col h-24">
                 <div className="flex h-48 w-32 items-center justify-center rounded-lg">{icon}</div>
-                <div className="text-center">
-                    <p className="text-xl font-bold text-blue-600">{score}/100</p>
-                    <p className={`font-semibold ${status === "Excellent" ? "text-green-600" : "text-blue-600"}`}>{status}</p>
+                <div className={`${getColorClass(status)} text-center`}>
+                    <p className="text-xl font-bold">{score}/100</p>
+                    <p className={`font-semibold`}>{status}</p>
                 </div>
             </div>
         )
     }
 
-    const YourRankSection = () => {
+    const YourRankSection = (props: any) => {
+        const ratings = props.ratings;
+
         const scores = [
             {
                 label: "Your Hero Image",
-                score: 88,
-                status: "Good" as const,
+                score: ratings.hero_image.rating_number,
+                status: ratings.hero_image.rating_category,
                 icon: <Image src="/images/icon-hero-image.png" width={100} height={100} alt="" />,
             },
             {
-                label: "Your Title",
-                score: 90,
-                status: "Excellent" as const,
+                label: <div>Your  <div>Title</div></div>,
+                score: ratings.title.rating_number,
+                status: ratings.title.rating_category,
                 icon: <Image src="/images/icon-title.png" width={100} height={100} alt="" />,
             },
             {
                 label: "Your Description",
-                score: 85,
-                status: "Good" as const,
+                score: ratings.description.rating_number,
+                status: ratings.description.rating_category,
                 icon: <Image src="/images/icon-description.png" width={100} height={100} alt="" />,
             },
             {
-                label: "Your Amenities",
-                score: 80,
-                status: "Good" as const,
+                label: <div>Your  <div>Amenities</div></div>,
+                score: ratings.amenities.rating_number,
+                status: ratings.amenities.rating_category,
                 icon: <Image src="/images/icon-amenities.png" width={100} height={100} alt="" />,
             },
             {
-                label: "Your Photos",
-                score: 82,
-                status: "Good" as const,
+                label: <div>Your  <div>Photos</div></div>,
+                score: ratings.other_images.rating_number,
+                status: ratings.other_images.rating_category,
                 icon: <Image src="/images/icon-photos.png" width={100} height={100} alt="" />,
             },
             {
                 label: "Your Interior Design",
-                score: 86,
-                status: "Good" as const,
+                score: ratings.interior_design.rating_number,
+                status: ratings.interior_design.rating_category,
                 icon: <Image src="/images/icon-interior-design.png" width={100} height={100} alt="" />,
             },
         ]
 
         return (
             <div className="w-full bg-gray-50 p-6">
-                {/* <div className="mb-8 flex items-center gap-2">
-                    <h2 className="text-center text-2xl font-bold">Your Regional Rank</h2>
-                    <HoverCard>
-                        <HoverCardTrigger asChild>
-                            <button className="rounded-full">
-                                <HelpCircle className="h-6 w-6 text-gray-500" />
-                            </button>
-                        </HoverCardTrigger>
-                        <HoverCardContent className="w-80">
-                            <p>Your ranking among similar properties in your region based on these key metrics.</p>
-                        </HoverCardContent>
-                    </HoverCard>
-                    <span className="text-4xl font-bold">7</span>
-                </div> */}
 
                 <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
 
@@ -243,7 +231,7 @@ const PropertyCompsPage = () => {
 
                     <div className="flex justify-between w-[1000px]">
                         {scores.map((score) => (
-                            <div key={score.label} className="">
+                            <div key={score.label}>
                                 <h3 className="mb-4 text-center text-lg font-semibold w-32 h-12">{score.label}</h3>
                                 <ScoreCard {...score} />
                             </div>
@@ -271,11 +259,6 @@ const PropertyCompsPage = () => {
             ) : (
                 propertyId && ratings && (
                     <>
-                        <h1 className="text-3xl mb-6">
-                            <Analytics01Icon className="h-8 w-8 inline-block mb-2 mr-2 text-secondary-foreground" />
-                            Property Comparables
-                        </h1>
-
                         <Button
                             onClick={() => {
                                 setIsOpen(true);
@@ -352,9 +335,25 @@ const PropertyCompsPage = () => {
                                                     </div>
 
                                                     <div className="flex items-center bg-primary-foreground">
+                                                        <YourRankSection ratings={ratings.ratings} />
+                                                    </div>
 
-                                                        <YourRankSection />
+                                                    <div className="flex items-center bg-primary hover:bg-primary py-6 px-4">
+                                                        <div className="flex text-5xl text-primary-foreground font-bold">
+                                                            You Rank #7 in Your Region
 
+
+                                                        </div>
+                                                        <Button
+                                                            onClick={() => {
+                                                                setIsOpen(true);
+                                                            }}
+                                                            variant="secondary"
+                                                            size="sm"
+                                                            className="mx-4 mb-[-7px] flex"
+                                                        >
+                                                            Get Feedback Now
+                                                        </Button>
                                                     </div>
 
                                                 </TableCell>
