@@ -67,7 +67,7 @@ const HeaderNav = (props: any) => {
             <Sheet key="left" open={sheetOpen} onOpenChange={() => setSheetOpen(!sheetOpen)}>
                 {/* <Sheet> */}
                 <SheetTrigger asChild>
-                    <Button variant="outline" size="icon" className="lg:hidden">
+                    <Button variant="ghost" size="icon" className="lg:hidden">
                         <MenuIcon className="h-6 w-6" />
                         <span className="sr-only">Toggle navigation menu</span>
                     </Button>
