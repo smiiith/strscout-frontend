@@ -24,6 +24,12 @@ const HeaderNav = (props: any) => {
 
     const pageLinks = [
         {
+            label: 'Get Your Free Listing Feedback Now',
+            href: '/properties/assess-property/single',
+            enabled: isAuthorized,
+            icon: () => { return <MyAccountIcon className="text-purple-500 ml-6" /> },
+        },
+        {
             label: 'My Account',
             href: '/account',
             enabled: isAuthorized,
@@ -35,18 +41,24 @@ const HeaderNav = (props: any) => {
             enabled: isAuthorized,
             icon: () => { return <House01Icon className="text-red-500 ml-6" /> },
         },
-        // {
-        //     label: 'Pricing',
-        //     href: '/pricing',
-        //     enabled: true,
-        //     icon: () => { return <PiggyBankIcon className="text-blue-500 ml-6" /> },
-        // },
-        // {
-        //     label: 'Contact',
-        //     href: '/contact',
-        //     enabled: true,
-        //     icon: () => { return <Mailbox01Icon className="text-green-500 ml-6" /> },
-        // },
+        {
+            label: 'Pricing',
+            href: '/pricing',
+            enabled: true,
+            icon: () => { return <PiggyBankIcon className="text-blue-500 ml-6" /> },
+        },
+        {
+            label: 'Contact Us',
+            href: '/contact-us',
+            enabled: true,
+            icon: () => { return <Mailbox01Icon className="text-green-500 ml-6" /> },
+        },
+        {
+            label: 'About Us',
+            href: '/about-us',
+            enabled: true,
+            icon: () => { return <MyAccountIcon className="text-purple-500 ml-6" /> },
+        },
     ]
 
     return (
@@ -141,8 +153,8 @@ const HeaderNav = (props: any) => {
                                     key={`desktop-${index}`}
                                     title={link.label}
                                 >
-                                    {link.icon && link.icon()}
-                                    {/* {link.label} */}
+                                    {/* {link.icon && link.icon()} */}
+                                    {link.label}
                                 </Link>
                             </>
                         )}
@@ -152,14 +164,16 @@ const HeaderNav = (props: any) => {
 
                 {!isAuthorized &&
                     <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light">
-                        <a href="/login" title="Log In"><Login01Icon className="h-6 w-6" /></a>
+                        {/* <a href="/login" title="Log In"><Login01Icon className="h-6 w-6" /></a> */}
+                        <a href="/login" title="Log In">Log In</a>
                     </div>
                 }
 
                 {isAuthorized &&
                     <form action="/auth/signout" method="post">
                         <button className="button block whitespace-nowrap ml-4" type="submit" title="Log Out">
-                            <Logout01Icon className="h-6 w-6" />
+                            Log Out
+                            {/* <Logout01Icon className="h-6 w-6" /> */}
                         </button>
                     </form>
                 }
@@ -168,7 +182,7 @@ const HeaderNav = (props: any) => {
                     {/* <ThemeSwitch /> */}
                 </div>
             </nav>
-        </header >
+        </header>
     )
 }
 
