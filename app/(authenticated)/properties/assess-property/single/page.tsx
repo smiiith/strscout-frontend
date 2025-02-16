@@ -16,6 +16,7 @@ import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import LoadingOverlay from '@/components/LoadingOverlay'
+import Image from 'next/image';
 
 
 // const formSchema = z.object({
@@ -23,6 +24,8 @@ import LoadingOverlay from '@/components/LoadingOverlay'
 //     message: "Username must be at least 2 characters.",
 //   }),
 // })
+
+const ERROR_FINDING_ID = "Could not find an Airbnb ID in the URL. Review the instructions below and try again.";
 
 const formSchema = z.object({
   nickname: z.string().min(1, "Nickname is required"),
@@ -47,6 +50,7 @@ const GetComparables = () => {
     handleSubmit,
     control,
     watch,
+    setError,
     setValue,
     formState: { errors },
   } = useForm<Inputs>()
@@ -130,19 +134,109 @@ const GetComparables = () => {
 
   }
 
+  const getIdFromUrl = (url: string) => {
+    const parts = url.split('/');
+    const index = parts.indexOf('rooms');
+
+    if (index === -1) {
+      setError("address", {
+        type: "custom",
+        message: ERROR_FINDING_ID,
+      });
+      return null;
+    }
+
+    const id = parts[index + 1];
+    const questionMarkIndex = id.indexOf('?');
+    const airbnbId = id.substring(0, questionMarkIndex !== -1 ? questionMarkIndex : undefined);
+    return airbnbId;
+  }
+
+  const fetchRatingsByUrl = async (url: string) => {
+    setError("address", {
+      type: "custom",
+      message: "",
+    });
+
+    const airbnbId = getIdFromUrl(url);
+
+    if (!airbnbId) {
+      return null;
+    }
+
+    await onSubmit({
+      address: "",
+      propertyId: airbnbId,
+
+    })
+    // await fetchRatings([airbnbId]);
+
+    // console.log("airbnbId", airbnbId);
+  }
+
+  // const INPUT_CSS = "mt-2 mb-5 w-2/3 lg:w-1/2 bg-pink-500 md:bg-green-500 lg:bg-blue-500";
+  const INPUT_CSS = "mt-2 mb-5 w-2/3 lg:w-1/2";
+
   return (
-    <>
-      <h1 className="text-3xl mb-6">Assess a Property</h1>
+    <div className="pb-6">
+      <Image
+        src="/STR-Feedback-Genius-Logo-single-line.png"
+        alt="STR Feedback Genius"
+        width="754"
+        height="72"
+        className="w-[754] h-auto my-6"
+      />
+
+      <h1 className="text-4xl mb-6">Getting Your Free STR Listing Feedback is Easy</h1>
 
       {isLoading && <LoadingOverlay message="Assessing property. Should just be a few seconds." />}
 
       <FormProvider {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="max-w-[500px]">
+        <form onSubmit={handleSubmit(onSubmit)} className="">
 
-          <Label htmlFor="propertyId" className="mt-5">Airbnb ID</Label>
+          <Label htmlFor="address" className="mt-5">Copy and paste the listing URL address from your browser and paste it here</Label>
+          <Input
+            id="address"
+            className={`${INPUT_CSS}`}
+            // defaultValue="6104 Montoro Court, San Jose CA"
+            {...register('address', {
+              required: 'Enter the address for this property',
+            })}
+          />
+          {errors.address && <div className="text-destructive mb-5 mt-2">{errors.address.message}</div>}
+
+          <div className={`${INPUT_CSS} flex justify-end`}>
+            <Button className="mx-2" variant="outline" onClick={() => router.push('/properties')}>Cancel</Button>
+            <Button
+              onClick={() => {
+                fetchRatingsByUrl(watch('address'));
+              }}
+              type="button"
+            >Run</Button>
+          </div>
+
+          <div className="directions mt-8 mb-12">
+            <p className="font-bold">How to Copy and Paste Your Airbnb Listing URL</p>
+            <ol className="ml-8 list-decimal">
+              <li>Go to Your Airbnb Listing</li>
+              <li>Open Airbnb.com and navigate to your listing.</li>
+              <li>Copy the URL
+                <ul className="list-disc ml-8">
+                  <li>Click on the address bar at the top of your browser.</li>
+                  <li>Right-click and select Copy, or press Ctrl + C (Windows) / Cmd + C (Mac).</li>
+                </ul>
+
+              </li>
+              <li>Paste It Here</li>
+              <li>Click inside the field above.</li>
+              <li>Right-click and select Paste, or press Ctrl + V (Windows) / Cmd + V (Mac).</li>
+            </ol>
+          </div>
+
+          <Label htmlFor="propertyId" className="mt-5">OR - if you know your <span className="font-bold">Airbnb ID</span> number, you can enter it here</Label>
           <Input
             id="propertyId"
-            className="mt-2 mb-5"
+            className="mt-2 mb-5 w-64"
             // defaultValue="1324965150846314034"
             {...register('propertyId', {
               required: 'Enter the Airbnb ID for this property',
@@ -150,18 +244,7 @@ const GetComparables = () => {
           />
           {errors.propertyId && <div className="text-destructive mb-5 mt-2">{errors.propertyId.message}</div>}
 
-          {/* <Label htmlFor="address" className="mt-5">Address</Label>
-          <Input
-            id="address"
-            className="mt-2 mb-5"
-            // defaultValue="6104 Montoro Court, San Jose CA"
-            {...register('address', {
-              required: 'Enter the address for this property',
-            })}
-          /> */}
-          {/* {errors.address && <div className="text-destructive mb-5 mt-2">{errors.address.message}</div>} */}
-
-          <div className="flex justify-end">
+          <div className="flex justify-end w-64">
             <Button className="mx-2" variant="outline" onClick={() => router.push('/properties')}>Cancel</Button>
             <Button type="submit">Run</Button>
           </div>
@@ -209,7 +292,7 @@ const GetComparables = () => {
         </Table>
       )}
 
-    </>
+    </div>
   )
 
 }
