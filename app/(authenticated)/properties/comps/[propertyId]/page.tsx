@@ -144,14 +144,7 @@ const PropertyCompsPage = () => {
         )
     }
 
-    interface ScoreCardProps {
-        score: number
-        label: string
-        status: "Good" | "Excellent"
-        icon: React.ReactNode
-    }
-
-    function ScoreCard({ score, label, status, icon }: ScoreCardProps) {
+    function ScoreCard({ score, label, status, icon }: any) {
         return (
             <div className="flex flex-col h-24">
                 <div className="flex h-48 w-32 items-center justify-center rounded-lg">{icon}</div>
@@ -230,8 +223,8 @@ const PropertyCompsPage = () => {
                     </div>
 
                     <div className="flex justify-between w-[1000px]">
-                        {scores.map((score) => (
-                            <div key={score.label}>
+                        {scores.map((score, index) => (
+                            <div key={`score-${index}`}>
                                 <h3 className="mb-4 text-center text-lg font-semibold w-32 h-12">{score.label}</h3>
                                 <ScoreCard {...score} />
                             </div>
