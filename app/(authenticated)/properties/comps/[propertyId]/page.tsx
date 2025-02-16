@@ -138,7 +138,7 @@ const PropertyCompsPage = () => {
             <TableRow>
                 <TableCell>{rowOrder}</TableCell>
                 {
-                    [...Array(columnCount)].map((_, i) => <BlurryCell />)
+                    [...Array(columnCount)].map((_, i) => <BlurryCell key={i} />)
                 }
             </TableRow>
         )
