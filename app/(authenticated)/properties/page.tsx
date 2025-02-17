@@ -68,16 +68,19 @@ export default function Properties() {
 
   return (
     <>
-      <h1 className="text-3xl mb-6"><House className="h-8 w-8 inline-block mb-2 mr-2" /> My Properties</h1>
+      <div className="min-h-[700px] py-6">
 
-      <div className="space-y-6 w-full">
+        <h1 className="text-3xl font-bold">My Properties</h1>
 
-        {properties.map((property: any, index: number) => (
-          <div key={index}>
-            <AddressCard title={property.title} externalId={property.external_id} propertyId={property.id} property={property} />
-          </div>
-        ))}
+        <div className="space-y-6 w-full mt-6">
 
+          {properties.map((property: any, index: number) => (
+            <div key={index}>
+              <AddressCard title={property.title} externalId={property.external_id} propertyId={property.id} property={property} />
+            </div>
+          ))}
+
+        </div>
       </div>
     </>
 
