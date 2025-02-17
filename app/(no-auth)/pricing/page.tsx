@@ -1,5 +1,6 @@
 "use client";
 
+import ServerBusyDialog from "@/components/server-busy";
 import { Button } from "@/components/ui/button"
 import { Lightbulb, TelescopeIcon, TelescopeIcon as Binoculars } from "lucide-react"
 import Image from 'next/image'
@@ -100,16 +101,23 @@ const FeatureSection = ({ imageSrc, alt, title, description, price, buttonText, 
       <div className="mb-2 text-lg">{description}</div>
 
       <p className="mb-8 text-xl font-bold">{price}</p>
-      <Button
-        className="bg-primary text-lg absolute bottom-0"
-        onClick={() => {
-          if (buttonAction) {
-            buttonAction()
-          }
-        }}
-      >
-        {buttonText}
-      </Button>
+
+      <>
+        {buttonAction ? (
+          <Button
+            className="bg-primary text-lg absolute bottom-0"
+            onClick={() => {
+              if (buttonAction) {
+                buttonAction()
+              }
+            }}
+          >
+            {buttonText}
+          </Button>
+        ) : (
+          <ServerBusyDialog buttonText={buttonText} triggerStyles="bg-primary text-lg absolute bottom-0" />
+        )}
+      </>
     </section>
   )
 }
