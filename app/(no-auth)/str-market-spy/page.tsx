@@ -1,4 +1,5 @@
 
+import ServerBusyDialog from "@/components/server-busy";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -73,9 +74,7 @@ const StrMarketSpyLandingPage = () => {
                                 </div>
                             </RadioGroup>
 
-                            <Button size="lg" className="w-full sm:w-auto text-xl px-8 py-6 bg-[#0B5394] hover:bg-[#0b5394]/90">
-                                Pay Securely Now
-                            </Button>
+                            <ServerBusyDialog buttonText="Pay Securely Now" />
 
                         </div>
                     </div>
