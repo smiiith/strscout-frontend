@@ -34,8 +34,6 @@ export default function AddressCard({ title, externalId, propertyId, property }:
 
     useEffect(() => {
 
-        // console.log("property", property);
-
         if (property) {
             const ratings = {
                 description: {
@@ -119,7 +117,7 @@ export default function AddressCard({ title, externalId, propertyId, property }:
     return (
         <>
             <Card
-                className="cursor-pointer hover:shadow-lg transition-shadow border border-border"
+                className="hover:shadow-lg transition-shadow border border-border bg-muted"
             // onClick={() => {
             //     setIsOpen(true);
             // }}
