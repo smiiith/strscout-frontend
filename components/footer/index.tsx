@@ -14,6 +14,8 @@ const Footer = () => {
                                     <li><a href="/pricing" className="hover:text-slate-300">Pricing</a></li>
                                     <li><a href="/login" className="hover:text-slate-300">Login</a></li>
                                     <li><a href="/contact-us" className="hover:text-slate-300">Contact Us</a></li>
+                                    <li><a href="/privacy-policy" className="hover:text-slate-300">Privacy Policy</a></li>
+                                    <li><a href="/terms" className="hover:text-slate-300">Terms & Conditions</a></li>
                                     <li>Guidance by HostPower.tools</li>
                                 </ul>
                             </div>
