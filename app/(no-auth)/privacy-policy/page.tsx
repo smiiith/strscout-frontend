@@ -128,10 +128,7 @@ const PrivacyPolicy = () => {
                 <p>If You have any questions about this Privacy Policy, You can contact us:</p>
                 <ul>
                     <li>
-                        By visiting this page on our website:
-                        <a href="https://www.strsage.com/privacypolicy" target="_blank" rel="noopener noreferrer">
-                            www.strsage.com/privacypolicy
-                        </a>
+                        By visiting this page on our website: <a href="/contact-us" className="text-primary hover:underline">www.strsage.com/contact-us</a>
                     </li>
                 </ul>
             </div>
