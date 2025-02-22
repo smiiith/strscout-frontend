@@ -4,16 +4,16 @@ import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
     return (
-        <div className="flex items-center">
-            <div className="container mx-auto px-0 grid md:grid-cols-12 gap-8 ">
-                <div className="relative col-span-4">
+        <div className="flex items-center w-full">
+            <div className="container mx-auto px-0 grid grid-cols-12 gap-8">
+                <div className="relative col-span-12 md:col-span-4 h-[300px] md:h-auto overflow-hidden">
                     <img
                         src="/home/feedback-genius-graphic-002.png"
-                        className="w-full"
+                        className="w-full md:h-auto md:h-auto mt-[-100px] md:mt-0"
                     />
                 </div>
 
-                <div className="space-y-6 col-span-8">
+                <div className="space-y-6 col-span-12 md:col-span-8 px-4 md:px-0 w-full pb-6 md:pb-0">
                     <h1 className="text-6xl font-bold leading-tight">
 
                         <div className="visible md:hidden text-5xl">
@@ -33,7 +33,7 @@ const HeroSection = () => {
 
                     </h1>
 
-                    <p className="text-xl text-gray-700">
+                    <p className="text-xl text-gray-700 w-full">
                         Navigating the world of short-term rentals can be overwhelming, especially
                         when it comes to creating a standout listing. Whether you're a first-time host
                         or a seasoned pro, understanding what works -- and what doesn't -- can

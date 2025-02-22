@@ -8,7 +8,7 @@ const AnswersSection = () => {
             <div className="container mx-auto px-4 gap-8">
                 <Card className="border-none bg-transparent">
                     <CardContent className="px-2 py-4 space-y-4">
-                        <h1 className="text-5xl font-bold text-gray-900 tracking-tight">
+                        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
                             Got Questions? We've Got Answers.
                         </h1>
 

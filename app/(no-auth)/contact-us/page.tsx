@@ -66,16 +66,14 @@ export default function ContactUsPage() {
                         <CardContent>
                             <div className="grid gap-8 mb-8">
 
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="grid gap-2">
-                                        <Label htmlFor="ame">Your name</Label>
-                                        <Input
-                                            id="name"
-                                            className="w-[500px]"
-                                            required
-                                            {...register("name")}
-                                        />
-                                    </div>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="name">Your name</Label>
+                                    <Input
+                                        id="name"
+                                        className="w-full md:w-[500px]"
+                                        required
+                                        {...register("name")}
+                                    />
                                 </div>
 
                                 <div className="grid gap-2">
@@ -83,7 +81,7 @@ export default function ContactUsPage() {
                                     <Input
                                         id="email"
                                         type="email"
-                                        className="w-[500px]"
+                                        className="w-full md:w-[500px]"
                                         required
                                         {...register("email")}
                                     />
@@ -98,7 +96,7 @@ export default function ContactUsPage() {
                                         maxLength={500}
                                         required
                                         {...register("message")}
-                                        className="w-[500px]"
+                                        className="w-full md:w-[500px]"
                                     />
                                 </div>
 
