@@ -11,7 +11,7 @@ const RatingsSection = () => {
                         <div className="flex justify-between">
 
                             <div className="space-y-8">
-                                <div className="text-4xl font-bold">
+                                <div className="text-3xl md:text-4xl font-bold">
                                     <p>
                                         Personalized Ratings.
                                     </p>
@@ -46,7 +46,7 @@ const RatingsSection = () => {
                                 </Button>
                             </div>
 
-                            <div className="relative col-span-4">
+                            <div className="relative md:col-span-4 hidden md:block">
                                 <img
                                     src="/home/feedback-genius-graphic-003.png"
                                     className=""

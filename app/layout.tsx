@@ -16,7 +16,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="px-5 bg-muted">
+      <body className="px-0 md:px-5 bg-muted">
         <PostHogTracker>
           <ThemeProvider
             attribute="class"

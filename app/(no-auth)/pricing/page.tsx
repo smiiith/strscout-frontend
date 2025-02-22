@@ -2,7 +2,6 @@
 
 import ServerBusyDialog from "@/components/server-busy";
 import { Button } from "@/components/ui/button"
-import { Lightbulb, TelescopeIcon, TelescopeIcon as Binoculars } from "lucide-react"
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 
@@ -12,8 +11,8 @@ export default function FeatureSections() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row md:divide-x md:divide-gray-300">
-        {/* STR Feedback Genius Section */}
 
+        {/* STR Feedback Genius Section */}
         <FeatureSection
           imageSrc="/images/str-feedback-genius-logo-stacked.png"
           alt="STR Feedback Genius"
@@ -83,7 +82,7 @@ export default function FeatureSections() {
 
 const FeatureSection = ({ imageSrc, alt, title, description, price, buttonText, buttonAction }) => {
   return (
-    <section className="flex-1 p-6 relative">
+    <section className="flex-1 py-6 px-0 md:p-6 relative mb-8 md:mb-0">
       <div className="mb-4 flex items-center gap-4">
 
         <Image
