@@ -252,7 +252,7 @@ const PropertyCompsPage = () => {
             ) : (
                 propertyId && ratings && (
                     <>
-                        <Button
+                        {/* <Button
                             onClick={() => {
                                 setIsOpen(true);
                             }}
@@ -261,27 +261,11 @@ const PropertyCompsPage = () => {
                             className="text-blue-600"
                         >
                             View Individual Ratings
-                        </Button>
+                        </Button> */}
                         {ratings && (
                             <Table>
-                                <TableCaption>How your property compares to similar properties in the area.</TableCaption>
-                                {/* <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="">Description</TableHead>
-                                        <TableHead className="">Title</TableHead>
-                                        <TableHead className="">Amenities</TableHead>
-                                        <TableHead className="">Hero Image</TableHead>
-                                        <TableHead className="">Other Images</TableHead>
-                                        <TableHead className="">Interior Design</TableHead>
-                                    </TableRow>
-                                </TableHeader> */}
                                 <TableBody>
-                                    <MockRow columnCount={6} rowOrder={1} />
-                                    <MockRow columnCount={6} rowOrder={2} />
-                                    <MockRow columnCount={6} rowOrder={3} />
-                                    <MockRow columnCount={6} rowOrder={4} />
-                                    <MockRow columnCount={6} rowOrder={5} />
-                                    <MockRow columnCount={6} rowOrder={6} />
+                                    {/* <MockRow columnCount={6} rowOrder={1} /> */}
 
                                     {ratings &&
                                         (
@@ -292,7 +276,7 @@ const PropertyCompsPage = () => {
                                                 // }}
                                                 className="cursor-pointer py-0"
                                             >
-                                                <TableCell className="bg-red-500 p-0" colSpan={7}>
+                                                <TableCell className="p-0" colSpan={7}>
 
                                                     <div className="flex items-center bg-primary hover:bg-primary">
 
@@ -337,7 +321,7 @@ const PropertyCompsPage = () => {
 
 
                                                         </div>
-                                                        <Button
+                                                        {/* <Button
                                                             onClick={() => {
                                                                 setIsOpen(true);
                                                             }}
@@ -346,25 +330,17 @@ const PropertyCompsPage = () => {
                                                             className="mx-4 mb-[-7px] flex"
                                                         >
                                                             Get Feedback Now
-                                                        </Button>
+                                                        </Button> */}
                                                     </div>
+
+                                                    <PropertyRatings ratings={categorizedRatings} />
+
 
                                                 </TableCell>
                                             </TableRow>
 
-                                            // <TableRow>
-                                            //     {/* <TableCell className="font-medium"><pre>{JSON.stringify(comp, null, 2)}</pre></TableCell> */}
-                                            //     <TableCell className={`${getColorClass(ratings.ratings.description.rating_category)}`}>{ratings.ratings.description.rating_number} ({ratings.ratings.description.rating_category})</TableCell>
-                                            //     <TableCell className={`${getColorClass(ratings.ratings.title.rating_category)}`}>{ratings.ratings.title.rating_number} ({ratings.ratings.title.rating_category})</TableCell>
-                                            //     <TableCell className={`${getColorClass(ratings.ratings?.amenities?.rating_category)}`}>{ratings.ratings?.amenities?.rating_number} ({ratings.ratings?.amenities?.rating_category})</TableCell>
-                                            //     <TableCell className={`${getColorClass(ratings.ratings?.hero_image?.rating_category)}`}>{ratings.ratings?.hero_image?.rating_number} ({ratings.ratings?.hero_image?.rating_category})</TableCell>
-                                            //     <TableCell className={`${getColorClass(ratings.ratings?.other_images?.rating_category)}`}>{ratings.ratings?.other_images?.rating_number} ({ratings.ratings?.other_images?.rating_category})</TableCell>
-                                            //     <TableCell className={`${getColorClass(ratings.ratings?.interior_design?.rating_category)}`}>{ratings.ratings?.interior_design?.rating_number} ({ratings.ratings?.interior_design?.rating_category})</TableCell>
-                                            // </TableRow>
                                         )}
-                                    <MockRow columnCount={6} rowOrder={8} />
-                                    <MockRow columnCount={6} rowOrder={9} />
-                                    <MockRow columnCount={6} rowOrder={10} />
+                                    {/* <MockRow columnCount={6} rowOrder={10} /> */}
 
                                 </TableBody>
                             </Table>

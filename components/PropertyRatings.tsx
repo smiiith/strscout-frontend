@@ -37,6 +37,7 @@ interface PropertyRatingsProps {
 
 export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [openSections, setOpenSections] = useState<string[]>([]);
 
   const categories: RatingCategory[] = [
     { ...ratings.description, icon: <File02Icon className="w-5 h-5" /> },
@@ -81,45 +82,30 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
     }
   }
 
+
   const toggleCategory = (name: string) => {
-    setExpandedCategory(expandedCategory === name ? null : name)
+
+    if (openSections.includes(name)) {
+      setOpenSections(
+        openSections.filter(a =>
+          a !== name
+        )
+      );
+
+    } else {
+      setOpenSections([
+        ...openSections,
+        name
+      ]);
+
+    }
   }
 
   return (
     <div>
 
-      {categories.map((category) => (
-        <div key={category.name} className="space-y-2 mb-6">
-
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1">
-              <AccordionTrigger
-                className="hover:bg-slate-200 dark:hover:bg-slate-800 hover:no-underline p-2"
-              >
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2 mr-6">
-                    {category.icon}
-                    <span className="font-medium text-nowrap">{category.name} ({category.category})</span>
-                  </div>
-                  <span className={`font-bold ${getColorClass(category.category)}`}>
-                    {category.score}%
-                  </span>
-                </div>
-                <Progress value={category.score} className="h-2" barClassName={`${getBarColorClass(category.category)}`} />
-
-              </AccordionTrigger>
-              <AccordionContent className="space-y-2 px-12 py-4">
-                <div><span className="font-bold">Feedback:</span> {category.feedback}</div>
-                <div><span className="font-bold">Suggestions:</span> {category.suggestions}</div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
-      ))}
-
-      <div className="mt-12 space-y-6 p-4 rounded-md border border-border">
-        <div>Property Summary</div>
+      <div className="mt-6 space-y-6 p-4 rounded-md border border-border">
+        <div>Listing Summary</div>
         <div>
           <h4 className="font-semibold">Rating:</h4>
           <p>{ratings.overall_rating_number} ({ratings.overall_rating_category})</p>
@@ -134,6 +120,49 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
           <p>{ratings.suggestions}</p>
         </div>
       </div>
+
+      <h2 className="text-2xl font-bold my-4 mx-2">Detailed Feedback and Suggestions</h2>
+
+      {categories.map((category) => (
+        <div key={category.name} className="space-y-2 mb-6">
+
+          {/* <div>
+            open items: {openSections.join()}
+          </div> */}
+
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger
+                className="hover:bg-slate-200 dark:hover:bg-slate-800 hover:no-underline p-2 items-start"
+                onClick={() => toggleCategory(category.name)}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start space-x-2 mr-6">
+                    {category.icon}
+
+                    <div className="font-medium text-nowrap text-left">
+                      <div className="">
+                        {category.name} ({category.category})
+                      </div>
+                      <div className="mt-4">{!openSections.includes(category.name) ? "Click for " : "Hide "} details +</div>
+                    </div>
+
+                  </div>
+                  <span className={`font-bold ${getColorClass(category.category)}`}>
+                    {category.score}%
+                  </span>
+                </div>
+                <Progress value={category.score} className="h-2 ml-2 mt-1.5" barClassName={`${getBarColorClass(category.category)}`} />
+
+              </AccordionTrigger>
+              <AccordionContent className="space-y-2 px-12 py-4">
+                <div><span className="font-bold">Feedback:</span> {category.feedback}</div>
+                <div><span className="font-bold">Suggestions:</span> {category.suggestions}</div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+      ))}
 
     </div>
 
