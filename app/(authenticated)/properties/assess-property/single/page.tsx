@@ -169,7 +169,7 @@ const GetComparables = () => {
       propertyId: airbnbId,
 
     })
-    // await fetchRatings([airbnbId]);
+    await fetchRatings([airbnbId]);
 
     // console.log("airbnbId", airbnbId);
   }
