@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 
 const GuessworkSection = () => {
+    const router = useRouter();
+
     return (
         <div className="bg-card w-full">
             <div className="container mx-auto px-4 gap-8">
@@ -20,7 +23,7 @@ const GuessworkSection = () => {
 
                         <Button
                             className="hover:opacity-80 h-auto"
-                            onClick={() => console.log('Improve listing clicked')}
+                            onClick={() => router.push('/properties/assess-property/single')}
                         >
                             Improve Your Listing Now
                         </Button>

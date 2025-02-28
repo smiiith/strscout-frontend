@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 
 const AnswersSection = () => {
+    const router = useRouter();
+
     return (
         <div className="w-full">
             <div className="container mx-auto px-4 gap-8">
@@ -49,7 +52,10 @@ const AnswersSection = () => {
                             us, no catch.
                         </p>
 
-                        <Button className="hover:opacity-80 h-auto">
+                        <Button
+                            onClick={() => router.push('/properties/assess-property/single')}
+                            className="hover:opacity-80 h-auto"
+                        >
                             Start Now
                         </Button>
                     </CardContent>

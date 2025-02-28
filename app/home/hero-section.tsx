@@ -1,8 +1,11 @@
 import { ReactFitty } from "react-fitty";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 
 const HeroSection = () => {
+    const router = useRouter();
+
     return (
         <div className="flex items-center w-full">
             <div className="container mx-auto px-0 grid grid-cols-12 gap-8">
@@ -48,6 +51,7 @@ const HeroSection = () => {
                     </p>
 
                     <Button
+                        onClick={() => router.push('/properties/assess-property/single')}
                         className="hover:opacity-80 h-auto"
                     >
                         Get Your Free Feedback

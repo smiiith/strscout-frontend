@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 
 const RatingsSection = () => {
+    const router = useRouter();
+
     return (
         <div className="w-full bg-primary">
             <div className="container mx-auto px-4 gap-8">
@@ -26,12 +29,12 @@ const RatingsSection = () => {
                                 </p>
 
                                 <ul className="list-disc px-4">
-                                    <li>your hero photo</li>
-                                    <li>your headline</li>
-                                    <li>your listing description</li>
-                                    <li>your listing photos</li>
-                                    <li>your amenities</li>
-                                    <li>your interior design</li>
+                                    <li>Your hero photo</li>
+                                    <li>Your headline</li>
+                                    <li>Your listing description</li>
+                                    <li>Your listing photos</li>
+                                    <li>Your amenities</li>
+                                    <li>Your interior design</li>
                                 </ul>
 
                                 <p className="text-xl font-bold mb-0">
@@ -41,7 +44,10 @@ const RatingsSection = () => {
                                     Seriously, no credit card, no BS, it's free.
                                 </p>
 
-                                <Button className="hover:opacity-80 h-auto bg-white" variant="secondary">
+                                <Button
+                                    onClick={() => router.push('/properties/assess-property/single')}
+                                    className="hover:opacity-80 h-auto bg-white"
+                                    variant="secondary">
                                     Get Your Free Feedback
                                 </Button>
                             </div>
