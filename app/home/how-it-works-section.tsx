@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 
 const HowItWorksSection = () => {
+    const router = useRouter();
     return (
         <div className="w-full">
             <div className="container mx-auto px-4 gap-8">
@@ -21,7 +23,10 @@ const HowItWorksSection = () => {
                             your side. Best of all, it's free. Seriously, no credit card, no BS, it's free.
                         </p>
 
-                        <Button className="hover:opacity-80 h-auto">
+                        <Button
+                            onClick={() => router.push('/properties/assess-property/single')}
+                            className="hover:opacity-80 h-auto"
+                        >
                             Get Your Free Feedback
                         </Button>
                     </CardContent>
