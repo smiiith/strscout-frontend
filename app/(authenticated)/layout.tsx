@@ -1,17 +1,16 @@
 import HeaderNav from '@/components/header'
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable"
-import { Sidebar } from '@/components/sidebar'
 import { createClient } from '@/utils/supabase/server'
-import Footer from '@/components/footer';
+import { redirect } from 'next/navigation';
 
 // Make this a client component if you need state
 export default async function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
-  const { data } = await supabase.auth.getUser()
+  const { data } = await supabase.auth.getUser();
+
+  if (!data?.user) {
+    // Redirect to login if not authenticated
+    redirect("/login");
+  }
 
   return (
     <>
