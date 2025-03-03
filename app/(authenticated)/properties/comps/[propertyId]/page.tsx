@@ -346,6 +346,42 @@ const PropertyCompsPage = () => {
                             </Table>
                         )}
 
+                        <div className="flex items-center bg-primary">
+
+                            <Image
+                                src="/images/arrow-white.png"
+                                alt="Your overall score"
+                                width="100"
+                                height="72"
+                                className="w-auto h-28 my-6 mx-4"
+                            />
+
+                            <div className="text-primary-foreground">
+                                <div className="flex flex-row mt-4 text-xl items-center">
+                                    <div className="">
+                                        <p className="font-bold text-3xl">See What Top-Performing Listings Are Doing Differently.</p>
+                                        STR Market Spy analyzes nearby listings that get more
+                                        bookings than yours, revealing patterns and strategies that
+                                        set them apart.
+                                    </div>
+
+                                    <Button
+                                        onClick={() => {
+                                            setIsOpen(true);
+                                        }}
+                                        variant="secondary"
+                                        size="sm"
+                                        className="mx-4 "
+                                    >
+                                        Get STR MarketSpy Now
+                                    </Button>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
                         <Dialog open={isOpen} onOpenChange={setIsOpen}>
                             <DialogContent className="sm:max-w-[90vw] sm:h-[100vh] sm:max-h-[90vh] overflow-y-auto">
                                 <DialogHeader>
