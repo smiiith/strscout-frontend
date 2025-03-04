@@ -21,12 +21,12 @@ export default function FeatureSections() {
             <>
               <p className="mb-2">Actionable feedback on:</p>
               <ul className="mb-6 space-y-2">
-                <li>• your hero photo</li>
-                <li>• your headline</li>
-                <li>• your listing description</li>
-                <li>• your listing photos</li>
-                <li>• your amenities</li>
-                <li>• your interior design</li>
+                <li>• Your hero photo</li>
+                <li>• Your headline</li>
+                <li>• Your listing description</li>
+                <li>• Your listing photos</li>
+                <li>• Your amenities</li>
+                <li>• Your interior design</li>
               </ul>
             </>
           }
@@ -90,7 +90,7 @@ const FeatureSection = ({ imageSrc, alt, title, description, price, buttonText, 
           alt={alt}
           width={100}
           height={100}
-          className="w-auto h-24 mb-4"
+          className="w-auto h-[80px] mb-4"
         />
 
       </div>
