@@ -88,8 +88,9 @@ const FeatureSection = ({ imageSrc, alt, title, description, price, buttonText, 
         <Image
           src={imageSrc}
           alt={alt}
-          width={100}
-          height={100}
+          width={233}
+          height={80}
+          quality={100}
           className="w-auto h-[80px] mb-4"
         />
 
