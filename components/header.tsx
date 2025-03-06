@@ -30,12 +30,6 @@ const HeaderNav = (props: any) => {
             icon: () => { return <MyAccountIcon className="text-purple-500 ml-6" /> },
         },
         {
-            label: "My Account",
-            href: "/account",
-            enabled: isAuthorized,
-            icon: () => { return <MyAccountIcon className="text-purple-500 ml-6" /> },
-        },
-        {
             label: "My Properties",
             href: "/properties",
             enabled: isAuthorized,
@@ -48,16 +42,22 @@ const HeaderNav = (props: any) => {
             icon: () => { return <PiggyBankIcon className="text-blue-500 ml-6" /> },
         },
         {
-            label: "Contact Us",
-            href: "/contact-us",
-            enabled: true,
-            icon: () => { return <Mailbox01Icon className="text-green-500 ml-6" /> },
-        },
-        {
             label: "About Us",
             href: "/about-us",
             enabled: true,
             icon: () => { return <MyAccountIcon className="text-purple-500 ml-6" /> },
+        },
+        {
+            label: "My Account",
+            href: "/account",
+            enabled: isAuthorized,
+            icon: () => { return <MyAccountIcon className="text-primary-foreground mx-1" /> },
+        },
+        {
+            label: "Contact Us",
+            href: "/contact-us",
+            enabled: true,
+            icon: () => { return <Mailbox01Icon className="text-primary-foreground mx-1" /> },
         },
     ]
 
@@ -153,8 +153,16 @@ const HeaderNav = (props: any) => {
                                     key={`desktop-${index}`}
                                     title={link.label}
                                 >
-                                    {/* {link.icon && link.icon()} */}
-                                    {link.label}
+                                    {(link.href === "/account" || link.href === "/contact-us") ? (
+                                        <>
+                                            {link.icon && link.icon()}
+                                        </>
+                                    ) :
+                                        (
+                                            <div className="mr-4">
+                                                {link.label}
+                                            </div>
+                                        )}
                                 </Link>
                             </>
                         )}
@@ -163,24 +171,24 @@ const HeaderNav = (props: any) => {
                 ))}
 
                 {!isAuthorized &&
-                    <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light">
-                        {/* <a href="/login" title="Log In"><Login01Icon className="h-6 w-6" /></a> */}
-                        <a href="/login" title="Log In">Log In</a>
+                    <div className="cursor-pointer mx-1 my-auto" title="Log In">
+                        <a href="/login" title="Log In"><Login01Icon className="h-6 w-6" /></a>
                     </div>
                 }
 
                 {isAuthorized &&
-                    <form action="/auth/signout" method="post">
-                        <button className="button block whitespace-nowrap ml-4" type="submit" title="Log Out">
-                            Log Out
-                            {/* <Logout01Icon className="h-6 w-6" /> */}
-                        </button>
-                    </form>
+                    <div className="cursor-pointer mx-1 my-auto" title="Log Out">
+                        <form action="/auth/signout" method="post">
+                            <button className="button block whitespace-nowrap" type="submit" title="Log Out">
+                                <Logout01Icon className="h-6 w-6" />
+                            </button>
+                        </form>
+                    </div>
                 }
 
-                <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light">
-                    {/* <ThemeSwitch /> */}
-                </div>
+                {/* <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light"> */}
+                {/* <ThemeSwitch /> */}
+                {/* </div> */}
             </nav>
         </header>
     )
