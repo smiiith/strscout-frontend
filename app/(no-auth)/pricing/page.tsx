@@ -49,7 +49,7 @@ export default function FeatureSections() {
               <li>• How can you improve to compete better?</li>
             </ul>
           }
-          price="$19.95 ($15.95 subscription)"
+          price=""
           buttonText="Sign Up Now"
           buttonAction={() => {
             router.push('/str-market-spy')
