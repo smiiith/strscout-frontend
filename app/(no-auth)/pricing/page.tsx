@@ -2,8 +2,8 @@
 
 import ServerBusyDialog from "@/components/server-busy";
 import { Button } from "@/components/ui/button"
-import Image from 'next/image'
-import { useRouter } from 'next/navigation';
+import Image from "next/image"
+import { useRouter } from "next/navigation";
 
 export default function FeatureSections() {
   const router = useRouter();
@@ -52,7 +52,7 @@ export default function FeatureSections() {
           price=""
           buttonText="Sign Up Now"
           buttonAction={() => {
-            router.push('/str-market-spy')
+            router.push("/str-market-spy")
           }}
         />
 
@@ -72,7 +72,9 @@ export default function FeatureSections() {
           }
           price=""
           buttonText="Apply for Beta Test"
-          buttonAction={null}
+          buttonAction={() => {
+            router.push("/contact-us")
+          }}
         />
 
       </div>
