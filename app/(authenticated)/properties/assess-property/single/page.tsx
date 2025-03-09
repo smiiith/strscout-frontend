@@ -99,7 +99,7 @@ const GetComparables = () => {
       // now make a call to LLM backend to get ratings
       console.log("response.data", response.data);
 
-      fetchRatings(response.data.property);
+      await fetchRatings(response.data.property);
       setIsLoading(true);
 
       router.push(`/properties/comps/${response.data?.property[0]?.id}`);
@@ -134,31 +134,54 @@ const GetComparables = () => {
 
   }
 
-  const getIdFromUrl = (url: string) => {
-    const parts = url.split('/');
-    const index = parts.indexOf('rooms');
+  // https://www.airbnb.com/rooms/<SOME_ID>?category_tag=Tag%3A8536&search_mode=flex_destinations_search&adults=1&check_in=2025-05-03&check_out=2025-05-08&children=0&infants=0&pets=0&photo_id=797304565&source_impression_id=p3_1740980072_P3v7bHyWjzTmhqTT&previous_page_section_name=1000&federated_search_id=1679d690-893b-4a8e-ac9a-7ece08439c18
+  // https://www.airbnb.com/hosting/listings/editor/<SOME_ID>/details/custom-link
+  // https://www.airbnb.com/hosting/listings/editor/<SOME_ID>/view-your-space
 
-    if (index === -1) {
-      setError("address", {
-        type: "custom",
-        message: ERROR_FINDING_ID,
-      });
-      return null;
+  function extractAirbnbId(url: string): string | null {
+    const roomsRegex = /\/rooms\/([^\/?]+)/;
+    const editorRegex = /\/editor\/([^\/]+)/;
+
+    const roomsMatch = url.match(roomsRegex);
+    if (roomsMatch && roomsMatch[1]) {
+      return roomsMatch[1];
     }
 
-    const id = parts[index + 1];
-    const questionMarkIndex = id.indexOf('?');
-    const airbnbId = id.substring(0, questionMarkIndex !== -1 ? questionMarkIndex : undefined);
-    return airbnbId;
+    const editorMatch = url.match(editorRegex);
+    if (editorMatch && editorMatch[1]) {
+      return editorMatch[1];
+    }
+
+    return null;
   }
 
-  const fetchRatingsByUrl = async (url: string) => {
-    setError("address", {
-      type: "custom",
-      message: "",
-    });
+  // const getIdFromUrl = (url: string) => {
+  //   const parts = url.split('/');
+  //   const index = parts.indexOf('rooms');
 
-    const airbnbId = getIdFromUrl(url);
+  //   if (index === -1) {
+  //     setError("address", {
+  //       type: "custom",
+  //       message: ERROR_FINDING_ID,
+  //     });
+  //     return null;
+  //   }
+
+  //   const id = parts[index + 1];
+  //   const questionMarkIndex = id.indexOf('?');
+  //   const airbnbId = id.substring(0, questionMarkIndex !== -1 ? questionMarkIndex : undefined);
+  //   return airbnbId;
+  // }
+
+  const fetchRatingsByUrl = async (url: string) => {
+    if (!url) {
+      setError("address", {
+        type: "custom",
+        message: "Listing URL is required",
+      });
+    }
+
+    const airbnbId = extractAirbnbId(url);
 
     if (!airbnbId) {
       return null;
@@ -170,8 +193,6 @@ const GetComparables = () => {
 
     })
     await fetchRatings([airbnbId]);
-
-    // console.log("airbnbId", airbnbId);
   }
 
   // const INPUT_CSS = "mt-2 mb-5 w-2/3 lg:w-1/2 bg-pink-500 md:bg-green-500 lg:bg-blue-500";
@@ -192,15 +213,14 @@ const GetComparables = () => {
       {isLoading && <LoadingOverlay message="Assessing property. Should just be a few seconds." />}
 
       <FormProvider {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="">
+        <form onSubmit={handleSubmit(onSubmit)} name="fullUrl">
 
           <Label htmlFor="address" className="mt-5">Copy and paste the listing URL address from your browser and paste it here</Label>
           <Input
             id="address"
             className={`${INPUT_CSS}`}
-            // defaultValue="6104 Montoro Court, San Jose CA"
             {...register('address', {
-              required: 'Enter the address for this property',
+              // required: 'Enter the address for this property',
             })}
           />
           {errors.address && <div className="text-destructive mb-5 mt-2">{errors.address.message}</div>}
@@ -232,12 +252,15 @@ const GetComparables = () => {
               <li>Right-click and select Paste, or press Ctrl + V (Windows) / Cmd + V (Mac).</li>
             </ol>
           </div>
+        </form>
+      </FormProvider>
 
+      <FormProvider {...form}>
+        <form onSubmit={handleSubmit(onSubmit)} name="idOnly">
           <Label htmlFor="propertyId" className="mt-5">OR - if you know your <span className="font-bold">Airbnb ID</span> number, you can enter it here</Label>
           <Input
             id="propertyId"
             className="mt-2 mb-5 w-64"
-            // defaultValue="1324965150846314034"
             {...register('propertyId', {
               required: 'Enter the Airbnb ID for this property',
             })}

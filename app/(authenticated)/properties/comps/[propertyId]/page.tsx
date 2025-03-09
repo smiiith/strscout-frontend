@@ -13,6 +13,7 @@ import Image from 'next/image';
 import { HelpCircle, ImageIcon, Megaphone, FileEdit, Wifi, Images, Sofa } from "lucide-react"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Badge } from "@/components/ui/badge";
+import { useRouter } from "next/navigation";
 
 
 const fetchPropertyRatings = async (propertyId: any) => {
@@ -50,6 +51,7 @@ const getColorClass = (rating: string) => {
 };
 
 const PropertyCompsPage = () => {
+    const router = useRouter();
     const params = useParams();
     const propertyId = params.propertyId;
     const [loading, setLoading] = useState(false);
@@ -297,7 +299,8 @@ const PropertyCompsPage = () => {
 
                                                                 <Button
                                                                     onClick={() => {
-                                                                        setIsOpen(true);
+                                                                        router.push(`/properties/assess-property/single`);
+                                                                        // setIsOpen(true);
                                                                     }}
                                                                     variant="secondary"
                                                                     size="sm"
@@ -367,7 +370,8 @@ const PropertyCompsPage = () => {
 
                                     <Button
                                         onClick={() => {
-                                            setIsOpen(true);
+                                            router.push(`/properties/assess-property/single`);
+                                            // setIsOpen(true);
                                         }}
                                         variant="secondary"
                                         size="sm"
@@ -378,7 +382,6 @@ const PropertyCompsPage = () => {
 
                                 </div>
                             </div>
-
                         </div>
 
 
