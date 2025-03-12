@@ -14,6 +14,7 @@ import { HelpCircle, ImageIcon, Megaphone, FileEdit, Wifi, Images, Sofa } from "
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
+import { mockResults } from "./mock";
 
 
 const fetchPropertyRatings = async (propertyId: any) => {
@@ -64,6 +65,7 @@ const PropertyCompsPage = () => {
             const loadRatings = async () => {
                 setLoading(true);
                 const propertyRatings = await fetchPropertyRatings(propertyId);
+                // const propertyRatings = mockResults;
 
                 // console.log("propertyRatings: ", propertyRatings);
 
@@ -73,48 +75,74 @@ const PropertyCompsPage = () => {
                             name: "Description",
                             score: propertyRatings.ratings.description.rating_number,
                             category: propertyRatings.ratings.description.rating_category,
-                            feedback: propertyRatings.ratings.description.feedback,
+                            feedback: {
+                                summary: propertyRatings.ratings.description.feedback.summary,
+                                items: propertyRatings.ratings.description.feedback.items,
+                            },
                             suggestions: propertyRatings.ratings.description.suggestions,
                         },
                         amenities: {
                             name: "Amenities",
                             score: propertyRatings.ratings?.amenities?.rating_number,
                             category: propertyRatings.ratings?.amenities?.rating_category,
-                            feedback: propertyRatings.ratings?.amenities?.feedback,
+                            feedback: {
+                                summary: propertyRatings.ratings?.amenities?.feedback?.summary,
+                                items: propertyRatings.ratings?.amenities?.feedback?.items,
+                            },
+                            // feedback: propertyRatings.ratings?.amenities?.feedback,
                             suggestions: propertyRatings.ratings?.amenities?.suggestions,
                         },
                         heroImage: {
                             name: "Hero Image",
                             score: propertyRatings.ratings?.hero_image?.rating_number,
                             category: propertyRatings.ratings?.hero_image?.rating_category,
-                            feedback: propertyRatings.ratings?.hero_image?.feedback,
+                            feedback: {
+                                summary: propertyRatings.ratings?.hero_image?.feedback?.summary,
+                                items: propertyRatings.ratings?.hero_image?.feedback?.items,
+                            },
+                            // feedback: propertyRatings.ratings?.hero_image?.feedback,
                             suggestions: propertyRatings.ratings?.hero_image?.suggestions,
                         },
                         otherImages: {
                             name: "Other Images",
                             score: propertyRatings.ratings?.other_images?.rating_number,
                             category: propertyRatings.ratings?.other_images?.rating_category,
-                            feedback: propertyRatings.ratings?.other_images?.feedback,
+                            feedback: {
+                                summary: propertyRatings.ratings?.other_images?.feedback?.summary,
+                                items: propertyRatings.ratings?.other_images?.feedback?.items,
+                            },
+                            // feedback: propertyRatings.ratings?.other_images?.feedback,
                             suggestions: propertyRatings.ratings?.other_images?.suggestions,
                         },
                         interiorDesign: {
                             name: "Interior Design",
                             score: propertyRatings.ratings?.interior_design?.rating_number,
                             category: propertyRatings.ratings?.interior_design?.rating_category,
-                            feedback: propertyRatings.ratings?.interior_design?.feedback,
+                            feedback: {
+                                summary: propertyRatings.ratings?.interior_design?.feedback?.summary,
+                                items: propertyRatings.ratings?.interior_design?.feedback?.items,
+                            },
+                            // feedback: propertyRatings.ratings?.interior_design?.feedback,
                             suggestions: propertyRatings.ratings?.interior_design?.suggestions,
                         },
                         title: {
                             name: "Title",
                             score: propertyRatings.ratings.title.rating_number,
                             category: propertyRatings.ratings.title.rating_category,
-                            feedback: propertyRatings.ratings.title.feedback,
+                            feedback: {
+                                summary: propertyRatings.ratings.title.feedback.summary,
+                                items: propertyRatings.ratings.title.feedback.items,
+                            },
+                            // feedback: propertyRatings.ratings.title.feedback,
                             suggestions: propertyRatings.ratings.title.suggestions,
                         },
-                        feedback: propertyRatings.ratings.feedback,
-                        suggestions: propertyRatings.ratings.suggestions,
-                        overall_rating_number: propertyRatings.ratings.overall_rating_number,
-                        overall_rating_category: propertyRatings.ratings.overall_rating_category,
+                        feedback: {
+                            summary: propertyRatings.ratings.overall_ratings.feedback.summary,
+                            items: propertyRatings.ratings.overall_ratings.feedback.items,
+                        },
+                        suggestions: propertyRatings.ratings.overall_ratings.suggestions,
+                        overall_rating_number: propertyRatings.ratings.overall_ratings.rating_number,
+                        overall_rating_category: propertyRatings.ratings.overall_ratings.rating_category,
                     }
                     setFormattedRatings(categorized);
                 }
@@ -291,25 +319,7 @@ const PropertyCompsPage = () => {
                                                         />
 
                                                         <div className="text-5xl text-primary-foreground font-bold">
-                                                            Your Overall Score is {ratings.ratings.description.rating_number}/100 ({ratings.ratings.description.rating_category})
-                                                            <div className="mt-4 text-3xl relative">
-                                                                <span className="">
-                                                                    click here for full feedback & suggestions
-                                                                </span>
-
-                                                                <Button
-                                                                    onClick={() => {
-                                                                        router.push(`/properties/assess-property/single`);
-                                                                        // setIsOpen(true);
-                                                                    }}
-                                                                    variant="secondary"
-                                                                    size="sm"
-                                                                    className="mx-4 absolute"
-                                                                >
-                                                                    Get Feedback Now
-                                                                </Button>
-
-                                                            </div>
+                                                            Your Overall Score is {ratings.ratings.overall_ratings.rating_number}/100 ({ratings.ratings.overall_ratings.rating_category})
                                                         </div>
 
                                                     </div>
