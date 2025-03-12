@@ -30,6 +30,18 @@ interface PropertyRatingsProps {
     interiorDesign: RatingCategory
     feedback: string
     suggestions: string
+    // overall_ratings: {
+    //   feedback: {
+    //     summary: string
+    //     items: {
+    //       title: string
+    //       feedback: string
+    //     }[]
+    //   }
+    //   suggestions: string[]
+    //   overall_rating_number: number
+    //   overall_rating_category: string
+    // }
     overall_rating_number: number
     overall_rating_category: string
   }
@@ -39,14 +51,17 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [openSections, setOpenSections] = useState<string[]>([]);
 
-  const categories: RatingCategory[] = [
+  const categories: any[] = [
     { ...ratings.description, icon: <File02Icon className="w-5 h-5" /> },
     { ...ratings.title, icon: <SubtitleIcon className="w-5 h-5" /> },
     { ...ratings.amenities, icon: <PoolIcon className="w-5 h-5" /> },
     { ...ratings.heroImage, icon: <Image02Icon className="w-5 h-5" /> },
     { ...ratings.otherImages, icon: <Album02Icon className="w-5 h-5" /> },
     { ...ratings.interiorDesign, icon: <Sofa01Icon className="w-5 h-5" /> },
+    // { ...ratings.overall_ratings, icon: <Sofa01Icon className="w-5 h-5" /> },
   ]
+
+  console.log("ratings", ratings);
 
   const getColorClass = (rating: string) => {
     switch (rating) {
@@ -107,17 +122,29 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
       <div className="mt-6 space-y-6 p-4 rounded-md border border-border">
         <div>Listing Summary</div>
         <div>
-          <h4 className="font-semibold">Rating:</h4>
-          <p>{ratings.overall_rating_number} ({ratings.overall_rating_category})</p>
-        </div>
+          <h4 className="font-semibold">Rating: <span>{ratings.overall_rating_number} ({ratings.overall_rating_category})</span></h4>
+          {/* {JSON.stringify(ratings)} */}
 
-        <div>
-          <h4 className="font-semibold">Feedback:</h4>
-          <p>{ratings.feedback}</p>
-        </div>
-        <div>
-          <h4 className="font-bold">Suggestions:</h4>
-          <p>{ratings.suggestions}</p>
+          <div className="my-3">
+            {ratings.feedback.summary}
+          </div>
+
+          <div>
+            {ratings.feedback?.items.map((item: any, index: number) => (
+              <div key={index} className="my-3">
+                <h2 className="font-bold">{item.title}</h2>
+                <div>{item.feedback}</div>
+              </div>
+            ))}
+          </div>
+
+          <div><span className="font-bold">Suggestions</span>
+            <ul className="list-disc px-8">
+              {ratings?.suggestions.map((suggestion: any, index: number) => (
+                <li key={`suggestion-${index}`}>{suggestion}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -156,8 +183,26 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
 
               </AccordionTrigger>
               <AccordionContent className="space-y-2 px-12 py-4">
-                <div><span className="font-bold">Feedback:</span> {category.feedback}</div>
-                <div><span className="font-bold">Suggestions:</span> {category.suggestions}</div>
+                <div>
+                  <div>
+                    {category.feedback.summary}
+                  </div>
+                  <div className="">
+                    {category.feedback.items.map((item: any, index: number) => (
+                      <div key={index} className="my-3">
+                        <h2 className="font-bold">{item.title}</h2>
+                        <div>{item.feedback}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div><span className="font-bold">Suggestions</span>
+                  <ul className="list-disc px-8">
+                    {category.suggestions.map((suggestion: string, index: number) => (
+                      <li key={`suggestion-${index}`}>{suggestion}</li>
+                    ))}
+                  </ul>
+                </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
