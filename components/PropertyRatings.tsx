@@ -126,23 +126,30 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
           {/* {JSON.stringify(ratings)} */}
 
           <div className="my-3">
-            {ratings.feedback.summary}
+            {
+              // @ts-ignore
+              ratings.feedback.summary
+            }
           </div>
 
           <div>
-            {ratings.feedback?.items.map((item: any, index: number) => (
-              <div key={index} className="my-3">
-                <h2 className="font-bold">{item.title}</h2>
-                <div>{item.feedback}</div>
-              </div>
-            ))}
+            {
+              // @ts-ignore
+              ratings.feedback?.items.map((item: any, index: number) => (
+                <div key={index} className="my-3">
+                  <h2 className="font-bold">{item.title}</h2>
+                  <div>{item.feedback}</div>
+                </div>
+              ))}
           </div>
 
           <div><span className="font-bold">Suggestions</span>
             <ul className="list-disc px-8">
-              {ratings?.suggestions.map((suggestion: any, index: number) => (
-                <li key={`suggestion-${index}`}>{suggestion}</li>
-              ))}
+              {
+                // @ts-ignore
+                ratings?.suggestions.map((suggestion: any, index: number) => (
+                  <li key={`suggestion-${index}`}>{suggestion}</li>
+                ))}
             </ul>
           </div>
         </div>
