@@ -46,16 +46,16 @@ const StrMarketSpyLandingPage = () => {
                             </ul>
                         </div>
 
-                        <div className="text-xl font-bold my-8">
+                        {/* <div className="text-xl font-bold my-8">
                             <p>
                                 $19.95 ($15.95 subscription)
                             </p>
                             <p className="">Cancel at any time.</p>
-                        </div>
+                        </div> */}
 
                     </div>
 
-                    <div className="col-span-1 p-16">
+                    {/* <div className="col-span-1 p-16">
                         <div className="space-y-6 text-xl font-bold">
                             <RadioGroup defaultValue="one-time">
                                 <div className="flex flex-col gap-4">
@@ -77,7 +77,7 @@ const StrMarketSpyLandingPage = () => {
                             <ServerBusyDialog buttonText="Pay Securely Now" />
 
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>
