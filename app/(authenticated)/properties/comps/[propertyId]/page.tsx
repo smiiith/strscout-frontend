@@ -36,15 +36,15 @@ const fetchPropertyRatings = async (propertyId: any) => {
 
 const getColorClass = (rating: string) => {
     switch (rating) {
-        case 'excellent':
+        case 'Excellent':
             return 'text-green-600 dark:text-green-400';
-        case 'good':
+        case 'Good':
             return 'text-blue-600 dark:text-blue-400';
-        case 'satisfactory':
+        case 'Satisfactory':
             return 'text-yellow-600 dark:text-yellow-400';
-        case 'needs_work':
+        case 'Needs Work':
             return 'text-orange-600 dark:text-orange-400';
-        case 'fail':
+        case 'Fail':
             return 'text-red-600 dark:text-red-400';
         default:
             return 'text-gray-600 dark:text-gray-400';

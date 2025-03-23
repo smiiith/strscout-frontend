@@ -63,15 +63,15 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
 
   const getColorClass = (rating: string) => {
     switch (rating) {
-      case 'excellent':
+      case 'Excellent':
         return 'text-green-600 dark:text-green-400';
-      case 'good':
+      case 'Good':
         return 'text-blue-600 dark:text-blue-400';
-      case 'satisfactory':
+      case 'Satisfactory':
         return 'text-yellow-600 dark:text-yellow-400';
-      case 'needs_work':
+      case 'Needs Work':
         return 'text-orange-600 dark:text-orange-400';
-      case 'fail':
+      case 'Fail':
         return 'text-red-600 dark:text-red-400';
       default:
         return 'text-gray-600 dark:text-gray-400';
@@ -80,15 +80,15 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
 
   const getBarColorClass = (rating: string) => {
     switch (rating) {
-      case 'excellent':
+      case 'Excellent':
         return 'bg-green-600 dark:bg-green-400';
-      case 'good':
+      case 'Good':
         return 'bg-blue-600 dark:bg-blue-400';
-      case 'satisfactory':
+      case 'Satisfactory':
         return 'bg-yellow-600 dark:bg-yellow-400';
-      case 'needs_work':
+      case 'Needs Work':
         return 'bg-orange-600 dark:bg-orange-400';
-      case 'fail':
+      case 'Fail':
         return 'bg-red-600 dark:bg-red-400';
       default:
         return 'bg-gray-600 dark:bg-gray-400';
