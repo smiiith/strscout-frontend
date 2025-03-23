@@ -59,13 +59,23 @@ const PropertyCompsPage = () => {
     const [ratings, setRatings] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
     const [formattedRatings, setFormattedRatings] = useState<any>([]);
+    const [regionRank, setRegionRank] = useState<any>(0);
+
+    const getRank = (rating: number) => {
+        let overallRating = rating;
+        let rank = (overallRating * 2) / 10;
+        rank = Math.round(rank);
+        rank = 20 - rank;
+        return rank;
+    }
 
     useEffect(() => {
         if (propertyId && !ratings) {
             const loadRatings = async () => {
                 setLoading(true);
                 const propertyRatings = await fetchPropertyRatings(propertyId);
-                // const propertyRatings = mockResults;
+                const rank = getRank(propertyRatings.ratings.overall_ratings.rating_number);
+                setRegionRank(rank);
 
                 if (propertyRatings) {
                     const categorized = {
@@ -253,7 +263,7 @@ const PropertyCompsPage = () => {
                             </HoverCard>
                         </div>
 
-                        <div className="text-8xl font-bold">7</div>
+                        <div className="text-8xl font-bold">{regionRank}</div>
                     </div>
 
                     <div className="flex justify-between w-[1000px]">
@@ -334,9 +344,7 @@ const PropertyCompsPage = () => {
 
                                                     <div className="flex items-center bg-primary hover:bg-primary py-6 px-4">
                                                         <div className="flex text-5xl text-primary-foreground font-bold">
-                                                            You Rank #7 in Your Region
-
-
+                                                            You Rank {regionRank} in Your Region
                                                         </div>
                                                         {/* <Button
                                                             onClick={() => {
