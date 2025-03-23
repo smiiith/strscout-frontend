@@ -58,7 +58,7 @@ const PropertyCompsPage = () => {
     const [loading, setLoading] = useState(false);
     const [ratings, setRatings] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
-    const [categorizedRatings, setFormattedRatings] = useState<any>([]);
+    const [formattedRatings, setFormattedRatings] = useState<any>([]);
 
     useEffect(() => {
         if (propertyId && !ratings) {
@@ -67,31 +67,8 @@ const PropertyCompsPage = () => {
                 const propertyRatings = await fetchPropertyRatings(propertyId);
                 // const propertyRatings = mockResults;
 
-                // console.log("propertyRatings: ", propertyRatings);
-
                 if (propertyRatings) {
                     const categorized = {
-                        description: {
-                            name: "Description",
-                            score: propertyRatings.ratings.description.rating_number,
-                            category: propertyRatings.ratings.description.rating_category,
-                            feedback: {
-                                summary: propertyRatings.ratings.description.feedback.summary,
-                                items: propertyRatings.ratings.description.feedback.items,
-                            },
-                            suggestions: propertyRatings.ratings.description.suggestions,
-                        },
-                        amenities: {
-                            name: "Amenities",
-                            score: propertyRatings.ratings?.amenities?.rating_number,
-                            category: propertyRatings.ratings?.amenities?.rating_category,
-                            feedback: {
-                                summary: propertyRatings.ratings?.amenities?.feedback?.summary,
-                                items: propertyRatings.ratings?.amenities?.feedback?.items,
-                            },
-                            // feedback: propertyRatings.ratings?.amenities?.feedback,
-                            suggestions: propertyRatings.ratings?.amenities?.suggestions,
-                        },
                         heroImage: {
                             name: "Hero Image",
                             score: propertyRatings.ratings?.hero_image?.rating_number,
@@ -102,28 +79,7 @@ const PropertyCompsPage = () => {
                             },
                             // feedback: propertyRatings.ratings?.hero_image?.feedback,
                             suggestions: propertyRatings.ratings?.hero_image?.suggestions,
-                        },
-                        otherImages: {
-                            name: "Other Images",
-                            score: propertyRatings.ratings?.other_images?.rating_number,
-                            category: propertyRatings.ratings?.other_images?.rating_category,
-                            feedback: {
-                                summary: propertyRatings.ratings?.other_images?.feedback?.summary,
-                                items: propertyRatings.ratings?.other_images?.feedback?.items,
-                            },
-                            // feedback: propertyRatings.ratings?.other_images?.feedback,
-                            suggestions: propertyRatings.ratings?.other_images?.suggestions,
-                        },
-                        interiorDesign: {
-                            name: "Interior Design",
-                            score: propertyRatings.ratings?.interior_design?.rating_number,
-                            category: propertyRatings.ratings?.interior_design?.rating_category,
-                            feedback: {
-                                summary: propertyRatings.ratings?.interior_design?.feedback?.summary,
-                                items: propertyRatings.ratings?.interior_design?.feedback?.items,
-                            },
-                            // feedback: propertyRatings.ratings?.interior_design?.feedback,
-                            suggestions: propertyRatings.ratings?.interior_design?.suggestions,
+                            displayOrder: 0,
                         },
                         title: {
                             name: "Title",
@@ -135,6 +91,54 @@ const PropertyCompsPage = () => {
                             },
                             // feedback: propertyRatings.ratings.title.feedback,
                             suggestions: propertyRatings.ratings.title.suggestions,
+                            displayOrder: 1,
+                        },
+                        description: {
+                            name: "Description",
+                            score: propertyRatings.ratings.description.rating_number,
+                            category: propertyRatings.ratings.description.rating_category,
+                            feedback: {
+                                summary: propertyRatings.ratings.description.feedback.summary,
+                                items: propertyRatings.ratings.description.feedback.items,
+                            },
+                            suggestions: propertyRatings.ratings.description.suggestions,
+                            displayOrder: 2,
+                        },
+                        amenities: {
+                            name: "Amenities",
+                            score: propertyRatings.ratings?.amenities?.rating_number,
+                            category: propertyRatings.ratings?.amenities?.rating_category,
+                            feedback: {
+                                summary: propertyRatings.ratings?.amenities?.feedback?.summary,
+                                items: propertyRatings.ratings?.amenities?.feedback?.items,
+                            },
+                            // feedback: propertyRatings.ratings?.amenities?.feedback,
+                            suggestions: propertyRatings.ratings?.amenities?.suggestions,
+                            displayOrder: 3,
+                        },
+                        otherImages: {
+                            name: "Your photos",
+                            score: propertyRatings.ratings?.other_images?.rating_number,
+                            category: propertyRatings.ratings?.other_images?.rating_category,
+                            feedback: {
+                                summary: propertyRatings.ratings?.other_images?.feedback?.summary,
+                                items: propertyRatings.ratings?.other_images?.feedback?.items,
+                            },
+                            // feedback: propertyRatings.ratings?.other_images?.feedback,
+                            suggestions: propertyRatings.ratings?.other_images?.suggestions,
+                            displayOrder: 4,
+                        },
+                        interiorDesign: {
+                            name: "Interior Design",
+                            score: propertyRatings.ratings?.interior_design?.rating_number,
+                            category: propertyRatings.ratings?.interior_design?.rating_category,
+                            feedback: {
+                                summary: propertyRatings.ratings?.interior_design?.feedback?.summary,
+                                items: propertyRatings.ratings?.interior_design?.feedback?.items,
+                            },
+                            // feedback: propertyRatings.ratings?.interior_design?.feedback,
+                            suggestions: propertyRatings.ratings?.interior_design?.suggestions,
+                            displayOrder: 5,
                         },
                         feedback: {
                             summary: propertyRatings.ratings.overall_ratings.feedback.summary,
@@ -346,7 +350,7 @@ const PropertyCompsPage = () => {
                                                         </Button> */}
                                                     </div>
 
-                                                    <PropertyRatings ratings={categorizedRatings} />
+                                                    <PropertyRatings ratings={formattedRatings} />
 
 
                                                 </TableCell>
@@ -401,8 +405,8 @@ const PropertyCompsPage = () => {
                                     <DialogTitle>Property Ratings</DialogTitle>
                                 </DialogHeader>
 
-                                {categorizedRatings &&
-                                    <PropertyRatings ratings={categorizedRatings} />
+                                {formattedRatings &&
+                                    <PropertyRatings ratings={formattedRatings} />
                                 }
 
                             </DialogContent>

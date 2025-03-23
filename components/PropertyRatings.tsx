@@ -52,16 +52,14 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
   const [openSections, setOpenSections] = useState<string[]>([]);
 
   const categories: any[] = [
-    { ...ratings.description, icon: <File02Icon className="w-5 h-5" /> },
-    { ...ratings.title, icon: <SubtitleIcon className="w-5 h-5" /> },
-    { ...ratings.amenities, icon: <PoolIcon className="w-5 h-5" /> },
     { ...ratings.heroImage, icon: <Image02Icon className="w-5 h-5" /> },
+    { ...ratings.title, icon: <SubtitleIcon className="w-5 h-5" /> },
+    { ...ratings.description, icon: <File02Icon className="w-5 h-5" /> },
+    { ...ratings.amenities, icon: <PoolIcon className="w-5 h-5" /> },
     { ...ratings.otherImages, icon: <Album02Icon className="w-5 h-5" /> },
     { ...ratings.interiorDesign, icon: <Sofa01Icon className="w-5 h-5" /> },
     // { ...ratings.overall_ratings, icon: <Sofa01Icon className="w-5 h-5" /> },
   ]
-
-  console.log("ratings", ratings);
 
   const getColorClass = (rating: string) => {
     switch (rating) {
