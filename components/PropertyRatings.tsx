@@ -204,7 +204,7 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
                 <div><span className="font-bold">Suggestions</span>
                   <ul className="list-disc px-8">
                     {category.suggestions.map((suggestion: string, index: number) => (
-                      <li key={`suggestion-${index}`}>{suggestion}</li>
+                      <li key={`suggestion-${index}`} className="whitespace-pre-line">{suggestion}</li>
                     ))}
                   </ul>
                 </div>
