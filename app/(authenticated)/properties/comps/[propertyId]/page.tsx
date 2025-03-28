@@ -1,20 +1,17 @@
 "use client";
 
-import { Analytics01Icon } from "@/components/Icons";
 import LoadingOverlay from "@/components/LoadingOverlay";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from 'next/navigation';
-import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import PropertyRatings from "@/components/PropertyRatings";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
-import { HelpCircle, ImageIcon, Megaphone, FileEdit, Wifi, Images, Sofa } from "lucide-react"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
-import { mockResults } from "./mock";
 
 
 const fetchPropertyRatings = async (propertyId: any) => {
@@ -134,7 +131,6 @@ const PropertyCompsPage = () => {
                                 summary: propertyRatings.ratings?.other_images?.feedback?.summary,
                                 items: propertyRatings.ratings?.other_images?.feedback?.items,
                             },
-                            // feedback: propertyRatings.ratings?.other_images?.feedback,
                             suggestions: propertyRatings.ratings?.other_images?.suggestions,
                             displayOrder: 4,
                         },
