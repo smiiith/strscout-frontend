@@ -18,6 +18,7 @@ interface RatingCategory {
   icon: React.ReactNode
   feedback: string
   suggestions: string
+  description_rewrite?: string
 }
 
 interface PropertyRatingsProps {
@@ -30,6 +31,7 @@ interface PropertyRatingsProps {
     interiorDesign: RatingCategory
     feedback: string
     suggestions: string
+    description_rewrite?: string
     // overall_ratings: {
     //   feedback: {
     //     summary: string
@@ -157,11 +159,6 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
 
       {categories.map((category) => (
         <div key={category.name} className="space-y-2 mb-6">
-
-          {/* <div>
-            open items: {openSections.join()}
-          </div> */}
-
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger
@@ -201,13 +198,24 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
                     ))}
                   </div>
                 </div>
-                <div><span className="font-bold">Suggestions</span>
+                <div>
+                  <span className="font-bold">Suggestions</span>
                   <ul className="list-disc px-8">
                     {category.suggestions.map((suggestion: string, index: number) => (
                       <li key={`suggestion-${index}`} className="whitespace-pre-line">{suggestion}</li>
                     ))}
                   </ul>
                 </div>
+
+
+                {category.description_rewrite && (
+                  <div>
+                    <div className="font-bold">Suggested Description</div>
+                    <div className="cursor-text mt-2">
+                      {JSON.stringify(category.description_rewrite, null, 4)}
+                    </div>
+                  </div>
+                )}
               </AccordionContent>
             </AccordionItem>
           </Accordion>

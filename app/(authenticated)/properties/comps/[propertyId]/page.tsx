@@ -109,6 +109,7 @@ const PropertyCompsPage = () => {
                                 items: propertyRatings.ratings.description.feedback.items,
                             },
                             suggestions: propertyRatings.ratings.description.suggestions,
+                            description_rewrite: propertyRatings.ratings.description.description_rewrite,
                             displayOrder: 2,
                         },
                         amenities: {
