@@ -19,6 +19,7 @@ interface RatingCategory {
   feedback: string
   suggestions: string
   description_rewrite?: string
+  title_rewrites?: string
 }
 
 interface PropertyRatingsProps {
@@ -32,6 +33,7 @@ interface PropertyRatingsProps {
     feedback: string
     suggestions: string
     description_rewrite?: string
+    title_rewrites?: string
     // overall_ratings: {
     //   feedback: {
     //     summary: string
@@ -216,6 +218,20 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
                     </div>
                   </div>
                 )}
+
+                {category.title_rewrites && (
+                  <div className="font-bold">Suggested Titles</div>
+                )}
+
+                {category.title_rewrites && category.title_rewrites.map((title: string, index: number) => (
+                  <div key={index}>
+                    <li className="cursor-text mt-2 italic">
+                      {title}
+                    </li>
+                  </div>
+                ))
+                }
+
               </AccordionContent>
             </AccordionItem>
           </Accordion>
