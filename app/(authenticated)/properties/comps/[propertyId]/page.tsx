@@ -96,7 +96,7 @@ const PropertyCompsPage = () => {
                                 summary: propertyRatings.ratings.title.feedback.summary,
                                 items: propertyRatings.ratings.title.feedback.items,
                             },
-                            // feedback: propertyRatings.ratings.title.feedback,
+                            title_rewrites: propertyRatings.ratings.title.title_rewrites,
                             suggestions: propertyRatings.ratings.title.suggestions,
                             displayOrder: 1,
                         },
