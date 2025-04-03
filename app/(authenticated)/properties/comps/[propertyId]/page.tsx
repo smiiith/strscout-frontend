@@ -62,7 +62,7 @@ const PropertyCompsPage = () => {
         let overallRating = rating;
         let rank = (overallRating * 2) / 10;
         rank = Math.round(rank);
-        rank = 20 - rank;
+        rank = 24 - rank;
         return rank;
     }
 
@@ -255,7 +255,12 @@ const PropertyCompsPage = () => {
                                     </div>
                                 </HoverCardTrigger>
                                 <HoverCardContent className="w-80">
-                                    <p>Your ranking among similar properties in your region based on these key metrics.</p>
+                                    <p onClick={() => {
+                                        router.push("/str-market-spy");
+                                    }}>
+                                        Your ranking among similar properties in your region based on key metrics. Click to see why you rank here — and how to climb higher.
+
+                                    </p>
                                 </HoverCardContent>
                             </HoverCard>
                         </div>
