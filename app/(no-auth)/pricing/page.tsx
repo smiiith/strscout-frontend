@@ -32,7 +32,9 @@ export default function FeatureSections() {
           }
           price="Free"
           buttonText="Sign Up Free Now"
-          buttonAction={null}
+          buttonAction={() => {
+            router.push("/register")
+          }}
         />
 
         {/* STR Market Spy Section */}
@@ -41,19 +43,25 @@ export default function FeatureSections() {
           alt="STR Market Spy"
           title="We find listings that are nearby and similar to yours."
           description={
-            <ul className="mb-6 space-y-2">
-              <li>• Take a deep dive into your competitors</li>
-              <li>• Are they getting more bookings?</li>
-              <li>• what makes them tick?</li>
-              <li>• What is their secret sauce?</li>
-              <li>• How can you improve to compete better?</li>
-            </ul>
+            <div className="space-y-4 my-4">
+              <p>
+                Success in today's STR market depends on knowing what works.
+                Are your amenities competitive? Are your photos compelling? What about your policies?
+              </p>
+              <p>
+                That's where STR Market Spy comes in.
+              </p>
+              <p>
+                Just like STR Feedback Genius, STR Market Spy digs deep — but this time, into the listings around you. It analyzes nearby competitors across occupancy, amenities, photos, descriptions, policies & more — uncovering the secret sauce behind their success.
+              </p>
+              <p>
+                See the market clearly. Act with confidence.
+              </p>
+            </div>
           }
           price=""
-          buttonText="Sign Up Now"
-          buttonAction={() => {
-            router.push("/str-market-spy")
-          }}
+          buttonText="Only $19.95 - View Competitors Now"
+          buttonAction={null}
         />
 
         {/* STR Market Scout Section */}
