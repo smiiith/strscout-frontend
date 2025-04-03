@@ -9,6 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { Album02Icon, File02Icon, Image02Icon, PoolIcon, Sofa01Icon, SubtitleIcon } from './Icons'
+import React from 'react'
 
 
 interface RatingCategory {
@@ -99,6 +100,23 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
     }
   }
 
+  function replaceNewlinesWithBreaks(text) {
+    if (typeof text !== 'string') {
+      return null;
+    }
+
+    return text.split('\n').map((line, index, array) => {
+      if (index === array.length - 1) {
+        return line;
+      }
+      return (
+        <React.Fragment key={index}>
+          {line}
+          <br />
+        </React.Fragment>
+      );
+    });
+  }
 
   const toggleCategory = (name: string) => {
 
@@ -214,7 +232,7 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
                   <div>
                     <div className="font-bold">Suggested Description</div>
                     <div className="cursor-text mt-2">
-                      {JSON.stringify(category.description_rewrite, null, 4)}
+                      "{replaceNewlinesWithBreaks(category.description_rewrite)}""
                     </div>
                   </div>
                 )}
