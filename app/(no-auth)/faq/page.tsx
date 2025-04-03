@@ -1,5 +1,6 @@
 "use client";
 
+import AnswersSection from '@/app/home/answers-section';
 import Image from 'next/image'
 
 
@@ -16,7 +17,7 @@ export default function FAQPage() {
                     className="w-[754] h-auto my-6"
                 />
 
-                <h1>FAQ page</h1>
+                <AnswersSection />
             </div>
         </>
     )
