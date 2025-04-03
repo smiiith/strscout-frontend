@@ -38,9 +38,11 @@ const StrMarketSpyLandingPage = () => {
                             <p>
                                 See the market clearly. Act with confidence.
                             </p>
-                            <p>
-                                Only $19.95 - View Competitors Now (this price and phrase is clickable button)
-                            </p>
+
+                            <ServerBusyDialog
+                                buttonText={"Only $19.95 - View Competitors Now"}
+                                triggerStyles="bg-primary"
+                            />
                         </div>
 
                     </div>
