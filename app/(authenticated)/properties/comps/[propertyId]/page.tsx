@@ -394,14 +394,14 @@ const PropertyCompsPage = () => {
 
                                     <Button
                                         onClick={() => {
-                                            router.push(`/properties/assess-property/single`);
+                                            router.push(`/str-market-spy`);
                                             // setIsOpen(true);
                                         }}
                                         variant="secondary"
                                         size="sm"
                                         className="mx-4 "
                                     >
-                                        Get STR MarketSpy Now
+                                        Get STR Market Spy Now
                                     </Button>
 
                                 </div>
