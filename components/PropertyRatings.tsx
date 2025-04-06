@@ -274,6 +274,10 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
                         {replaceNewlinesWithBreaks(category.description_rewrite.other_details_to_note)}
                       </div>
                     </div>
+
+                    <div className="ml-8 mt-4">
+                      * Interaction with guests portion is only used when your listing is a private room.
+                    </div>
                   </div>
                 )}
 
