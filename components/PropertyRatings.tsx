@@ -19,7 +19,7 @@ interface RatingCategory {
   icon: React.ReactNode
   feedback: string
   suggestions: string
-  description_rewrite?: string
+  description_rewrite?: any
   title_rewrites?: string
 }
 
@@ -33,7 +33,7 @@ interface PropertyRatingsProps {
     interiorDesign: RatingCategory
     feedback: string
     suggestions: string
-    description_rewrite?: string
+    description_rewrite?: any
     title_rewrites?: string
     // overall_ratings: {
     //   feedback: {
@@ -198,7 +198,7 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
 
                   </div>
                   <span className={`font-bold ${getColorClass(category.category)}`}>
-                    {category.score}%
+                    {category.score}
                   </span>
                 </div>
                 <Progress value={category.score} className="h-2 ml-2 mt-1.5" barClassName={`${getBarColorClass(category.category)}`} />
@@ -227,12 +227,52 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
                   </ul>
                 </div>
 
-
                 {category.description_rewrite && (
                   <div>
-                    <div className="font-bold">Suggested Description</div>
-                    <div className="cursor-text mt-2">
-                      "{replaceNewlinesWithBreaks(category.description_rewrite)}""
+                    <div className="font-bold">For your convenience, here's a refined version of your listing—feel free to use or adapt it.</div>
+                    <div className="ml-8 my-2">
+                      <div className="font-bold">
+                        Listing description:
+                      </div>
+                      <div className="cursor-text italic">
+                        {replaceNewlinesWithBreaks(category.description_rewrite.listing_description)}
+                      </div>
+                    </div>
+
+                    <div className="ml-8 my-2">
+                      <div className="font-bold">
+                        Your property:
+                      </div>
+                      <div className="cursor-text italic">
+                        {replaceNewlinesWithBreaks(category.description_rewrite.your_property)}
+                      </div>
+                    </div>
+
+                    <div className="ml-8 my-2">
+                      <div className="font-bold">
+                        Guest access:
+                      </div>
+                      <div className="cursor-text italic">
+                        {replaceNewlinesWithBreaks(category.description_rewrite.guest_access)}
+                      </div>
+                    </div>
+
+                    <div className="ml-8 my-2">
+                      <div className="font-bold">
+                        Interactions with guests:
+                      </div>
+                      <div className="cursor-text italic">
+                        {replaceNewlinesWithBreaks(category.description_rewrite.interaction_with_guests)}
+                      </div>
+                    </div>
+
+                    <div className="ml-8 my-2">
+                      <div className="font-bold">
+                        Other details to note:
+                      </div>
+                      <div className="cursor-text italic">
+                        {replaceNewlinesWithBreaks(category.description_rewrite.other_details_to_note)}
+                      </div>
                     </div>
                   </div>
                 )}
