@@ -30,7 +30,7 @@ export async function signup(formData: FormData) {
   const supabase = createClient();
   const supabaseAdmin = createAdminClient();
   const rawWhitelist = process.env.NEXT_PUBLIC_REGISTRATION_WHITELIST || ''
-  const registrationWhitelist = rawWhitelist.split(',').map((item: string) => item.trim())
+  // const registrationWhitelist = rawWhitelist.split(',').map((item: string) => item.trim())
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -39,10 +39,10 @@ export async function signup(formData: FormData) {
     password: formData.get('password') as string,
   }
 
-  if (!registrationWhitelist.includes(data.email)) {
-    console.log("Not taking new registrations at this time");
-    redirect('/no-registration')
-  }
+  // if (!registrationWhitelist.includes(data.email)) {
+  //   console.log("Not taking new registrations at this time");
+  //   redirect('/no-registration')
+  // }
 
   const { data: user, error } = await supabase.auth.signUp(data)
 
