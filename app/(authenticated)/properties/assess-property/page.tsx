@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
-import styles from './page.module.css';
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
@@ -16,10 +15,6 @@ import axios from 'axios';
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Alert02Icon, CheckmarkCircle02Icon } from '@/components/Icons'
-// import { formatDate } from 'date-fns'
-import { formatDate, formatDateNoTime } from "@/lib/utils";
-import mockDescriptionRatings from './mock'
 
 
 // const formSchema = z.object({
@@ -82,25 +77,21 @@ const GetComparables = () => {
   const onSubmit = async (data: any) => {
 
     let config = {
-      // data: {
       address: data.address,
       propertyId: data.propertyId,
-      // },
+      userId: profile.id,
       headers: {
         'Content-Type': 'application/json'
       }
     }
 
     try {
-      // const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/comps`, config);
-      // console.log("response: ", response.data.comparables);
-      // setComps(response.data.comparables);
+      // create the comparables
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/comps`, config);
 
       // get the comparables from the DB now
       const results = await fetchComps(data.propertyId);
       const comps = results?.data?.comparables;
-      console.log("comps", comps);
-      // fetchComps("41356680");
 
       // now make a call to LLM backend to get ratings
       fetchRatings(comps);
@@ -113,9 +104,15 @@ const GetComparables = () => {
 
   const fetchComps = async (externalId: any) => {
     const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/comps/${externalId}`;
+    let config = {
+      userId: profile.id,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
 
     try {
-      const response = await axios.get(endpoint);
+      const response = await axios.post(endpoint, config);
       setComps(response.data.comparables);
       return response;
     } catch (error) {

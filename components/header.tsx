@@ -3,7 +3,7 @@
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import ThemeSwitch from "./ThemeSwitch"
+// import ThemeSwitch from "./ThemeSwitch"
 import Image from "next/image"
 import { Login01Icon, Logout01Icon, MyAccountIcon } from "./Icons"
 import { useState } from "react"
@@ -24,38 +24,50 @@ const HeaderNav = (props: any) => {
 
     const pageLinks = [
         {
-            label: 'My Account',
-            href: '/account',
+            label: "STR Genius",
+            href: "/properties/assess-property/single",
             enabled: isAuthorized,
             icon: () => { return <MyAccountIcon className="text-purple-500 ml-6" /> },
         },
         {
-            label: 'My Properties',
-            href: '/properties',
+            label: "My Properties",
+            href: "/properties",
             enabled: isAuthorized,
             icon: () => { return <House01Icon className="text-red-500 ml-6" /> },
         },
         {
-            label: 'Pricing',
-            href: '/pricing',
+            label: "Pricing",
+            href: "/pricing",
             enabled: true,
             icon: () => { return <PiggyBankIcon className="text-blue-500 ml-6" /> },
         },
         {
-            label: 'Contact',
-            href: '/contact',
+            label: "About Us",
+            href: "/about-us",
             enabled: true,
-            icon: () => { return <Mailbox01Icon className="text-green-500 ml-6" /> },
+            icon: () => { return <MyAccountIcon className="text-purple-500 ml-6" /> },
+        },
+        {
+            label: "My Account",
+            href: "/account",
+            enabled: isAuthorized,
+            icon: () => { return <MyAccountIcon className="text-primary-foreground mx-1" /> },
+        },
+        {
+            label: "Contact Us",
+            href: "/contact-us",
+            enabled: true,
+            icon: () => { return <Mailbox01Icon className="text-primary-foreground mx-1" /> },
         },
     ]
 
     return (
-        <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
+        <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 bg-primary text-white">
             <link rel="icon" href="/favicon.ico" sizes="any" />
             <Sheet key="left" open={sheetOpen} onOpenChange={() => setSheetOpen(!sheetOpen)}>
                 {/* <Sheet> */}
                 <SheetTrigger asChild>
-                    <Button variant="outline" size="icon" className="lg:hidden">
+                    <Button variant="ghost" size="icon" className="lg:hidden">
                         <MenuIcon className="h-6 w-6" />
                         <span className="sr-only">Toggle navigation menu</span>
                     </Button>
@@ -63,7 +75,7 @@ const HeaderNav = (props: any) => {
                 <SheetContent side="left">
                     <div className="grid gap-2 py-6">
                         {pageLinks.map((link: any, index: number) => (
-                            <>
+                            <div key={`pagelinks-${index}`}>
                                 {link.enabled && (
                                     <Link key={`mobile-${index}`} href={link.href} className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
                                         {link.label}
@@ -72,7 +84,7 @@ const HeaderNav = (props: any) => {
 
                                 {(link.label === "My Properties") ?
                                     (
-                                        <>
+                                        <div key={`prop-${index}`}>
                                             <div className="ml-5" onClick={() => setSheetOpen(false)}>
                                                 <Link href="/properties" className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
                                                     Properties
@@ -88,14 +100,14 @@ const HeaderNav = (props: any) => {
                                                     Scans
                                                 </Link>
                                             </div>
-                                        </>
+                                        </div>
                                     ) : (<></>)
                                 }
 
                                 {(link.label === "My Account") ?
                                     (
                                         <>
-                                            <div className="ml-5" onClick={() => setSheetOpen(false)}>
+                                            <div key={`account-${index}`} className="ml-5" onClick={() => setSheetOpen(false)}>
                                                 <Link href="/account" className="flex w-full items-center py-2 text-lg font-semibold" prefetch={false}>
                                                     Profile
                                                 </Link>
@@ -104,7 +116,7 @@ const HeaderNav = (props: any) => {
                                     ) : (<></>)
                                 }
 
-                            </>
+                            </div>
                         ))}
                         <form action="/auth/signout" method="post">
                             <button className="button block" type="submit">
@@ -119,10 +131,10 @@ const HeaderNav = (props: any) => {
             <div className="relative w-[400px] h-[50px]">
                 <Link href="/" className="mr-6 md:w-[200px] w-[200px] md:relative absolute right-0 top-0" prefetch={false}>
                     <Image
-                        src="/home/logo.png"
-                        alt="SyncNanny"
-                        width={200}
-                        height={200}
+                        src="/home/str-feedback-genius-logo.png"
+                        alt="STR Feedback Genius"
+                        width={150}
+                        height={150}
                     // layout="responsive"
                     />
                 </Link>
@@ -131,43 +143,54 @@ const HeaderNav = (props: any) => {
             {/* desktop */}
             <nav className="ml-auto hidden lg:flex gap-3">
                 {pageLinks.map((link: any, index: number) => (
-                    <>
+                    <div key={`desktop-${index}`}>
                         {link.enabled && (
                             <>
-                                {link.icon && link.icon()}
                                 <Link
                                     href={link.href}
                                     className="hover:underline whitespace-nowrap"
                                     prefetch={false}
                                     key={`desktop-${index}`}
+                                    title={link.label}
                                 >
-                                    {link.label}
+                                    {(link.href === "/account" || link.href === "/contact-us") ? (
+                                        <>
+                                            {link.icon && link.icon()}
+                                        </>
+                                    ) :
+                                        (
+                                            <div className="mr-4">
+                                                {link.label}
+                                            </div>
+                                        )}
                                 </Link>
                             </>
                         )}
-                    </>
+                    </div>
 
                 ))}
 
                 {!isAuthorized &&
-                    <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light">
+                    <div className="cursor-pointer mx-1 my-auto" title="Log In">
                         <a href="/login" title="Log In"><Login01Icon className="h-6 w-6" /></a>
                     </div>
                 }
 
                 {isAuthorized &&
-                    <form action="/auth/signout" method="post">
-                        <button className="button block whitespace-nowrap ml-4" type="submit" title="Log Out">
-                            <Logout01Icon className="h-6 w-6" />
-                        </button>
-                    </form>
+                    <div className="cursor-pointer mx-1 my-auto" title="Log Out">
+                        <form action="/auth/signout" method="post">
+                            <button className="button block whitespace-nowrap" type="submit" title="Log Out">
+                                <Logout01Icon className="h-6 w-6" />
+                            </button>
+                        </form>
+                    </div>
                 }
 
-                <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light">
-                    <ThemeSwitch />
-                </div>
+                {/* <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light"> */}
+                {/* <ThemeSwitch /> */}
+                {/* </div> */}
             </nav>
-        </header >
+        </header>
     )
 }
 
