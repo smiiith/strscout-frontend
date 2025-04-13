@@ -3,6 +3,70 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function Home() {
+
+  async function generateMetadata() {
+    const siteName = "STR Feedback Genius";
+    const title = `${siteName} - Home`;
+    const description = "We dive deep into your STR listing on airbnb to provide analysis and actionable insights.";
+    const keywords = [
+      "Airbnb listing feedback",
+      "STR",
+      "Short-term rental listing analysis",
+      "Free Airbnb listing feedback",
+      "Increase Airbnb bookings",
+      "How to improve my Airbnb listing photos",
+      "Analyze my short-term rental listing for free",
+      "Airbnb listing challenges",
+    ];
+    const imageUrl = "https://ynxbtvsbjzkcnkilnuts.supabase.co/storage/v1/object/public/logo//str-feedback-genius-logo.png";
+
+    return {
+      title,
+      description,
+      keywords,
+      openGraph: {
+        title,
+        description,
+        images: [
+          {
+            url: imageUrl,
+            width: 1200,
+            height: 630,
+            alt: "STR Feedback Genius Logo",
+          },
+        ],
+        siteName: siteName,
+        type: 'website',
+        locale: 'en_US',
+        url: "https://strsage.com",
+      },
+      // twitter: {
+      //   card: 'summary_large_image',
+      //   title,
+      //   description,
+      //   images: [imageUrl],
+      //   creator: '@yourtwitterhandle', // Replace with your Twitter handle
+      // },
+      robots: {
+        index: process.env.NODE_ENV === 'production',
+        follow: process.env.NODE_ENV === 'production',
+        googleBot: {
+          index: process.env.NODE_ENV === 'production',
+          follow: process.env.NODE_ENV === 'production',
+          'max-video-preview': -1,
+          'max-image-preview': 'large',
+          'max-snippet': -1,
+        },
+      },
+      alternates: {
+        canonical: "https://strsage.com",
+        languages: {
+          'en-US': "https://strsage.com",
+        },
+      }
+    };
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="py-6 px-4 md:px-6 lg:px-8">
