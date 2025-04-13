@@ -1,16 +1,7 @@
 import '../globals.css'
 import { ThemeProvider } from '../providers'
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable"
-import { Sidebar } from '@/components/sidebar'
 // import UserContext from "@/app/UserContext";
-import { useState } from 'react'
 import { createClient } from '@/utils/supabase/server'
-import UserContext from '../UserContext'
-import Footer from '@/components/footer'
 import HeaderNav from '@/components/header'
 
 
