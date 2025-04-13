@@ -1,8 +1,4 @@
-import { createClient } from '@/utils/supabase/server'
-
-const Footer = async () => {
-    const supabase = createClient();
-    const { data } = await supabase.auth.getUser();
+const Footer = ({ authenticated }: { authenticated: any }) => {
 
     return (
         <div className="flex flex-col">
@@ -12,7 +8,7 @@ const Footer = async () => {
                         <div className="flex justify-start space-x-12">
                             <div>
                                 <ul className="space-y-2">
-                                    {data.user && (
+                                    {authenticated && (
                                         <li><a href="/properties/assess-property/single" className="hover:text-slate-300">Get Your Free Listing Feedback Now</a></li>
                                     )}
                                     <li><a href="/about-us" className="hover:text-slate-300">About Us</a></li>

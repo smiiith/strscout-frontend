@@ -2,7 +2,6 @@ import './globals.css'
 import { ThemeProvider } from './providers'
 import { createClient } from '@/utils/supabase/server'
 import { PostHogTracker } from "./PostHogTracker";
-import HeaderNav from '@/components/header';
 import Footer from '@/components/footer';
 
 export const metadata = {
@@ -26,7 +25,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           >
             <div className="min-h-screen">
               {children}
-              <Footer />
+              <Footer authenticated={data.user} />
             </div>
           </ThemeProvider>
         </PostHogTracker>
