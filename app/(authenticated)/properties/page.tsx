@@ -18,8 +18,12 @@ import Listing from '@/components/Listing';
 import { BarChart, House } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import PropertyCard from '@/components/PropertyCard';
+import AddressCard from './AddressCard';
+import { useRouter } from 'next/navigation';
+
 
 export default function Properties() {
+  const router = useRouter();
   const browserClient = createClient()
   const [properties, setProperties] = useState<any[]>([])
   const [user, setUser] = useState<any>(null);
@@ -30,18 +34,19 @@ export default function Properties() {
         console.log("No user ID available");
         return;
       }
-
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/properties`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/strproperties`, {
         // body: { profileId: user.id },
-        profileId: user.id,
+        userId: user.id,
         headers: {
+          'Content-Type': 'application/json',
           // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
         }
       });
 
-      // console.log("response", response);
-
       if (response.data) {
+        if (response.data.properties.length === 0) {
+          router.push("/properties/assess-property/single");
+        }
         setProperties(response.data.properties);
       }
     } catch (error) {
@@ -63,80 +68,21 @@ export default function Properties() {
 
   return (
     <>
-      <h1 className="text-3xl mb-6"><House className="h-8 w-8 inline-block mb-2 mr-2" /> My Properties</h1>
+      <div className="min-h-[700px] py-6">
 
-      <div className="flex flex-wrap gap-6 w-full">
+        <h1 className="text-3xl font-bold">My Properties</h1>
 
-        {properties.map((property: any, index: number) => (
-          <PropertyCard property={property} profileId={user.id} key={`property-${index}`} />
-        ))}
+        <div className="space-y-6 w-full mt-6">
 
+          {properties.map((property: any, index: number) => (
+            <div key={index}>
+              <AddressCard title={property.title} externalId={property.external_id} propertyId={property.id} property={property} />
+            </div>
+          ))}
+
+        </div>
       </div>
     </>
 
-  )
-}
-
-
-const ListingsDialog = (props: any) => {
-  const [propertyId, setPropertyId] = useState<string | null>(null);
-  const [listings, setListings] = useState<any[]>([]);
-
-  useEffect(() => {
-    setPropertyId(props.propertyId);
-    console.log("props", props.propertyId);
-  })
-
-  const handleOpenChange = (open: boolean) => {
-    console.log("open", propertyId);
-
-    getListings(propertyId);
-  }
-
-  const getListings = async (propertyId: any) => {
-    try {
-      if (!propertyId) {
-        console.log("No property ID available");
-        return;
-      }
-
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/listings`, {
-        // body: { profileId: user.id },
-        propertyId: propertyId,
-        headers: {
-          // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
-        }
-      });
-
-      if (response.data) {
-        setListings(response.data);
-      }
-    } catch (error) {
-      console.error('Error loading user properties:', error);
-    }
-  }
-
-
-  return (
-    <Dialog onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>
-        <div title="View Listings" className="cursor-pointer">
-          <PencilEdit02Icon className="h-6 w-6" />
-        </div>
-      </DialogTrigger>
-      <DialogContent className="sm:min-w-[90%] bg-secondary">
-        <DialogHeader>
-          <DialogTitle className="">Listings for    {props.propertyName}</DialogTitle>
-        </DialogHeader>
-        <div className="flex flex-col gap-4 py-4">
-
-          {listings.map((listing: any) => (
-            <div key={listing.id} className="w-full">
-              <Listing listing={listing} />
-            </div>))}
-
-        </div>
-      </DialogContent>
-    </Dialog>
   )
 }

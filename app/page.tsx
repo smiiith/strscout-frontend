@@ -11,6 +11,11 @@ import Parallax, { Layer } from "react-parallax-scroll";
 import HeroThree from "@/components/home/HeroThree";
 import HeroFour from "@/components/home/HeroFour";
 import HeaderNav from "@/components/header";
+import HeroSection from "./(no-auth)/home/hero-section";
+import GuessworkSection from "./(no-auth)/home/guesswork-section";
+import HowItWorksSection from "./(no-auth)/home/how-it-works-section";
+import RatingsSection from "./(no-auth)/home/ratings-section";
+import AnswersSection from "./(no-auth)/home/answers-section";
 
 
 export default function Home() {
@@ -18,39 +23,75 @@ export default function Home() {
 
 
   return (
-    <>
-      <Parallax>
-        <Layer className="" settings={{ speed: 0.3 }}>
-          <div className="w-full">
-            <div className="md:h-full">
-              <HeroOne />
-            </div>
-          </div>
-        </Layer>
+    <div className="flex flex-col">
+      <div className="flex-grow">
+        <div className="container mx-auto p-0 max-w-7xl bg-background">
 
-        <Layer className="banner !h-auto" settings={{ speed: 0.3 }}>
-          <div className="flex flex-row-reverse w-full bg-secondary-background pt-5">
-            <div className="box md:w-3/4 h-full">
-              <HeroTwo />
-            </div>
-          </div>
-        </Layer>
+          <>
+            <HeaderNav />
 
-        <Layer className="banner banner-2 !bg-[auto_80%] !bg-right md:pt-0 pt-[380px]" settings={{ speed: 0.3 }}>
-          <div className="flex flex-row w-full md:pt-5">
-            <div className="box md:w-3/5 h-full">
-              <HeroThree />
-            </div>
-          </div>
-        </Layer>
+            <Parallax>
+              <Layer className="" settings={{ speed: 0.3 }}>
+                <div className="w-full">
+                  <div className="md:h-full">
+                    <HeroSection />
+                    {/* <HeroOne /> */}
+                  </div>
+                </div>
+              </Layer>
 
-        {/* <Layer className="banner banner-3" settings={{ speed: 0.3 }}>
+              <Layer className="!h-auto" settings={{ speed: 0.3 }}>
+                <div className="w-full pt-0">
+                  <div className="">
+                    <GuessworkSection />
+                  </div>
+                </div>
+              </Layer>
+
+              <Layer className="!h-auto" settings={{ speed: 0.3 }}>
+                <div className="w-full pt-0">
+                  <div className="">
+                    <HowItWorksSection />
+                  </div>
+                </div>
+              </Layer>
+
+              <Layer className="!h-auto" settings={{ speed: 0.3 }}>
+                <div className="w-full pt-0">
+                  <div className="">
+                    <RatingsSection />
+                  </div>
+                </div>
+              </Layer>
+
+              <Layer className="!h-auto" settings={{ speed: 0.3 }}>
+                <div className="w-full pt-0">
+                  <div className="">
+                    <AnswersSection />
+                  </div>
+                </div>
+              </Layer>
+
+              {/* <Layer className="banner banner-2 !bg-[auto_80%] !bg-right md:pt-0 pt-[380px]" settings={{ speed: 0.3 }}>
+                <div className="flex flex-row w-full md:pt-5">
+                  <div className="box md:w-3/5 h-full">
+                    <HeroThree />
+                  </div>
+                </div>
+              </Layer> */}
+
+              {/* <Layer className="banner banner-3" settings={{ speed: 0.3 }}>
           <div className="">
             <HeroFour />
           </div>
         </Layer> */}
-      </Parallax>
-    </>
+            </Parallax>
+          </>
+
+        </div>
+      </div>
+    </div>
+
   );
 }
 

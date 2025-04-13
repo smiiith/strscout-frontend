@@ -11,11 +11,14 @@ const Account = async () => {
 
   return (
     <>
-      <h1 className="text-3xl mb-6"><MyAccountIcon className="h-8 w-8 inline-block mb-2 mr-2 text-secondary-foreground" /> My Account</h1>
+      <div className="min-h-[700px] pt-6">
 
-      <div className="md:w-[500px]">
-        <AccountForm user={user} />
+        <h1 className="text-3xl font-bold">My Account</h1>
 
+        <div className="md:w-[500px]">
+          <AccountForm user={user} />
+
+        </div>
       </div>
     </>
   )
