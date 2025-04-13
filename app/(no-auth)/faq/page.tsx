@@ -1,6 +1,6 @@
 "use client";
 
-import AnswersSection from '@/app/home/answers-section';
+import AnswersSection from '@/app/(no-auth)/home/answers-section';
 import Image from 'next/image'
 
 

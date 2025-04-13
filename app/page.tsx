@@ -11,11 +11,11 @@ import Parallax, { Layer } from "react-parallax-scroll";
 import HeroThree from "@/components/home/HeroThree";
 import HeroFour from "@/components/home/HeroFour";
 import HeaderNav from "@/components/header";
-import HeroSection from "./home/hero-section";
-import GuessworkSection from "./home/guesswork-section";
-import HowItWorksSection from "./home/how-it-works-section";
-import RatingsSection from "./home/ratings-section";
-import AnswersSection from "./home/answers-section";
+import HeroSection from "./(no-auth)/home/hero-section";
+import GuessworkSection from "./(no-auth)/home/guesswork-section";
+import HowItWorksSection from "./(no-auth)/home/how-it-works-section";
+import RatingsSection from "./(no-auth)/home/ratings-section";
+import AnswersSection from "./(no-auth)/home/answers-section";
 
 
 export default function Home() {
