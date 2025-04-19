@@ -145,7 +145,7 @@ const AssessProperty = () => {
   }
 
   const verifyRequest = async (externalId: any, userId: string) => {
-    const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/verify/`;
+    const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/verify`;
 
     let config = {
       external_id: externalId,
