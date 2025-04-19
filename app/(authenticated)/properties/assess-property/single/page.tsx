@@ -35,15 +35,14 @@ type Inputs = {
   propertyId: string
 }
 
-const GetComparables = () => {
+const AssessProperty = () => {
   const browserClient = createClient()
   const [profile, setProfile] = useState<any>(null);
-  const searchParams = useSearchParams()
-  // const propertyId = searchParams.get('property');
   const router = useRouter();
-  const [comps, setComps] = useState<any>([]);
   const [ratings, setRatings] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [reachedUsageLimit, setReachedUsageLimit] = useState(false);
+  const [reachedPropertyLimit, setReachedPropertyLimit] = useState(false);
 
   const {
     register,
@@ -60,27 +59,37 @@ const GetComparables = () => {
     const getUser = async () => {
       const { data: { user }, } = await browserClient.auth.getUser();
       setProfile(user);
+
+      // fetchUserProperties(user);
     }
 
     getUser();
   }, [])
 
-  // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    // defaultValues: {
-    //   nickname: "",
-    //   address: "",
-    //   // airbnbId: "",
-    //   // primaryEmail: "",
-    //   // secondaryEmail: "",
-    //   // primaryPhone: "",
-    //   // secondaryPhone: "",
-    //   // notificationPreference: undefined,
-    // },
   })
 
   const onSubmit = async (data: any) => {
+
+    const verification = await verifyRequest(data.propertyId, profile.id);
+    const isVerified = verification.data.verified || false;
+
+    if (!isVerified) {
+      if (verification.data.reached_property_limit) {
+        setReachedPropertyLimit(true);
+        setIsLoading(false);
+        return;
+      }
+
+      if (verification.data.reached_usage_limit) {
+        setReachedUsageLimit(true);
+        setIsLoading(false);
+        return;
+      }
+      return;
+    }
+
     setIsLoading(true);
 
     let config = {
@@ -97,20 +106,67 @@ const GetComparables = () => {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/assess/single`, config);
 
       // now make a call to LLM backend to get ratings
-      console.log("response.data", response.data);
+      // console.log("response.data", response.data);
 
-      await fetchRatings(response.data.property);
+      const ratingResponse = await rateProperty(response.data.property);
       setIsLoading(true);
 
+      // if (ratingResponse.data.usage && ratingResponse.data.usage == "limit") {
+      //   setReachedUsageLimit(true);
+      //   setIsLoading(false);
+      //   return;
+      // }
+
       router.push(`/properties/comps/${response.data?.property[0]?.id}`);
-      // location.href = `/properties/comps/${response.data?.property[0]?.id}`; // using location.href to make sure the page is reloaded
     } catch (error) {
       console.error('Error assessing property:', error);
       setIsLoading(true);
     }
   }
 
-  const fetchRatings = async (property: any) => {
+  const fetchUserProperties = async (user: any) => {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/user_properties/`;
+
+    let config = {
+      user_id: user.id,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+
+    try {
+      const userProperties: any = await axios.post(endpoint, config);
+      // setReachedPropertyLimit()
+
+    } catch (error) {
+      console.error('Error fetching user properties:', error);
+    }
+
+  }
+
+  const verifyRequest = async (externalId: any, userId: string) => {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/verify/`;
+
+    let config = {
+      external_id: externalId,
+      user_id: userId,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+
+    try {
+      const verification: any = await axios.post(endpoint, config);
+      return verification;
+
+    } catch (error) {
+      console.error('Error fetching descriptions:', error);
+    }
+
+  }
+
+  const rateProperty = async (property: any) => {
+
     const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/properties/`;
 
     let config = {
@@ -123,20 +179,13 @@ const GetComparables = () => {
     try {
       const ratings: any = await axios.post(endpoint, config);
       setRatings(ratings.results);
-
-      // mock
-      // console.log("mock ratings", mockDescriptionRatings());
-      // setRatings(mockDescriptionRatings().results)
+      return ratings;
 
     } catch (error) {
       console.error('Error fetching descriptions:', error);
     }
 
   }
-
-  // https://www.airbnb.com/rooms/<SOME_ID>?category_tag=Tag%3A8536&search_mode=flex_destinations_search&adults=1&check_in=2025-05-03&check_out=2025-05-08&children=0&infants=0&pets=0&photo_id=797304565&source_impression_id=p3_1740980072_P3v7bHyWjzTmhqTT&previous_page_section_name=1000&federated_search_id=1679d690-893b-4a8e-ac9a-7ece08439c18
-  // https://www.airbnb.com/hosting/listings/editor/<SOME_ID>/details/custom-link
-  // https://www.airbnb.com/hosting/listings/editor/<SOME_ID>/view-your-space
 
   function extractAirbnbId(url: string): string | null {
     const roomsRegex = /\/rooms\/([^\/?]+)/;
@@ -155,25 +204,7 @@ const GetComparables = () => {
     return null;
   }
 
-  // const getIdFromUrl = (url: string) => {
-  //   const parts = url.split('/');
-  //   const index = parts.indexOf('rooms');
-
-  //   if (index === -1) {
-  //     setError("address", {
-  //       type: "custom",
-  //       message: ERROR_FINDING_ID,
-  //     });
-  //     return null;
-  //   }
-
-  //   const id = parts[index + 1];
-  //   const questionMarkIndex = id.indexOf('?');
-  //   const airbnbId = id.substring(0, questionMarkIndex !== -1 ? questionMarkIndex : undefined);
-  //   return airbnbId;
-  // }
-
-  const fetchRatingsByUrl = async (url: string) => {
+  const ratePropertyByUrl = async (url: string) => {
     if (!url) {
       setError("address", {
         type: "custom",
@@ -192,7 +223,7 @@ const GetComparables = () => {
       propertyId: airbnbId,
 
     })
-    await fetchRatings([airbnbId]);
+    await rateProperty([airbnbId]);
   }
 
   // const INPUT_CSS = "mt-2 mb-5 w-2/3 lg:w-1/2 bg-pink-500 md:bg-green-500 lg:bg-blue-500";
@@ -210,7 +241,19 @@ const GetComparables = () => {
 
       <h1 className="text-4xl mb-6">Getting Your Free STR Listing Feedback is Easy</h1>
 
-      {isLoading && <LoadingOverlay message="Assessing property. Should just be a few seconds." />}
+      {reachedUsageLimit && (
+        <div>
+          <p className="text-destructive bg-destructive-foreground mb-6 p-6 border border-border rounded-lg">You have reached your usage limit for this property. Free accounts are limited to 3 assessments per property per calendar month. Feel free to <a href="/contact-us">contact us</a> if you need to run more assessments before the end of the month.</p>
+        </div>
+      )}
+
+      {reachedPropertyLimit && (
+        <div>
+          <p className="text-destructive bg-destructive-foreground mb-6 p-6 border border-border rounded-lg">You have reached your limit of 6 properties for free accounts. Feel free to <a href="/contact-us">contact us</a> if you need to add more properties.</p>
+        </div>
+      )}
+
+      {isLoading && <LoadingOverlay message="Analyzing now and preparing your feedback. This takes about a minute." />}
 
       <FormProvider {...form}>
         <form onSubmit={handleSubmit(onSubmit)} name="fullUrl">
@@ -229,7 +272,7 @@ const GetComparables = () => {
             <Button className="mx-2" variant="outline" onClick={() => router.push('/properties')}>Cancel</Button>
             <Button
               onClick={() => {
-                fetchRatingsByUrl(watch('address'));
+                ratePropertyByUrl(watch('address'));
               }}
               type="button"
             >Run</Button>
@@ -320,4 +363,4 @@ const GetComparables = () => {
 
 }
 
-export default GetComparables;
+export default AssessProperty;
