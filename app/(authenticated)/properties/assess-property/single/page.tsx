@@ -190,6 +190,7 @@ const AssessProperty = () => {
   function extractAirbnbId(url: string): string | null {
     const roomsRegex = /\/rooms\/([^\/?]+)/;
     const editorRegex = /\/editor\/([^\/]+)/;
+    const hostingEditorRegex = /\/hosting\/listings\/editor\/([^\/]+)\//;
 
     const roomsMatch = url.match(roomsRegex);
     if (roomsMatch && roomsMatch[1]) {
@@ -199,6 +200,11 @@ const AssessProperty = () => {
     const editorMatch = url.match(editorRegex);
     if (editorMatch && editorMatch[1]) {
       return editorMatch[1];
+    }
+
+    const hostingEditorMatch = url.match(hostingEditorRegex);
+    if (hostingEditorMatch && hostingEditorMatch[1]) {
+      return hostingEditorMatch[1];
     }
 
     return null;
