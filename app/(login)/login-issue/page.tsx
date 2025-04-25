@@ -7,7 +7,7 @@ const LoginIssuePage = () => {
     const router = useRouter();
 
     return (
-        <div>
+        <div className="pt-8 pb-[300px]">
             <h1 className="text-3xl mb-6">Hmm, we couldn&apos;t log you in</h1>
 
             <p className="w-[400px] py-4">We do not have an account that matches the credentials you supplied.</p>
