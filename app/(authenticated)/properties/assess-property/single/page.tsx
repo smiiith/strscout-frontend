@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import LoadingOverlay from '@/components/LoadingOverlay'
 import Image from 'next/image';
+import { CustomAlertDialog } from '@/components/AlertDialog'
 
 
 // const formSchema = z.object({
@@ -43,6 +44,9 @@ const AssessProperty = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [reachedUsageLimit, setReachedUsageLimit] = useState(false);
   const [reachedPropertyLimit, setReachedPropertyLimit] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false)
+  const [notFoundMessage, setNotFoundMessage] = useState("")
+
 
   const {
     register,
@@ -102,14 +106,21 @@ const AssessProperty = () => {
     }
 
     try {
+      setIsLoading(true);
+
       // scrape the property
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/assess/single`, config);
+      const responseData = response.data;
 
-      // now make a call to LLM backend to get ratings
-      // console.log("response.data", response.data);
+      if (responseData.errorCode && responseData.errorCode == "404") {
+        setIsLoading(false);
+        setNotFoundMessage(`We could not find a property with that ID/URL. Please check the ID or URL and try again. If you are sure this is correct, please contact us.`)
+        setIsAlertOpen(true);
+        // console.error("property not found: ", responseData.errorMessage);
+        return;
+      }
 
       const ratingResponse = await rateProperty(response.data.property);
-      setIsLoading(true);
 
       // if (ratingResponse.data.usage && ratingResponse.data.usage == "limit") {
       //   setReachedUsageLimit(true);
@@ -237,6 +248,15 @@ const AssessProperty = () => {
 
   return (
     <div className="pb-6">
+
+      <CustomAlertDialog
+        isOpen={isAlertOpen}
+        setIsOpen={setIsAlertOpen}
+        title="Property not found"
+        message="We could not find a property with that ID/URL. Please check the ID or URL and try again. If you are sure this is correct, please contact us."
+        buttonText="OK"
+      />
+
       <Image
         src="/STR-Feedback-Genius-Logo-single-line.png"
         alt="STR Feedback Genius"
