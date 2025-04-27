@@ -187,13 +187,39 @@ const PropertyCompsPage = () => {
 
     function ScoreCard({ score, label, status, icon }: any) {
         return (
-            <div className="flex flex-col h-24">
-                <div className="flex h-48 w-32 items-center justify-center rounded-lg">{icon}</div>
-                <div className={`${getColorClass(status)} text-center`}>
-                    <p className="text-xl font-bold">{score}/100</p>
-                    <p className={`font-semibold`}>{status}</p>
+            <>
+                {/* mobile */}
+                <div className="mobile-only w-full my-2">
+                    <div className="flex items-center gap-4 p-4 rounded-lg border w-full">
+                        <div className="flex-shrink-0">
+                            <div className="flex h-[80px] w-[80px] rounded-md object-cover">{icon}</div>
+                            {/* <Image
+                                src={imageUrl || "/placeholder.svg"}
+                                width={80}
+                                height={80}
+                                alt={imageAlt}
+                                className="rounded-md object-cover"
+                            /> */}
+                        </div>
+                        <div className="space-y-1">
+                            <h3 className="font-medium text-xl">{label}</h3>
+                            <p className={`${getColorClass(status)} text-lg`}>{score} {status}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+                {/* desktop */}
+                <div className="desktop-only">
+                    <h3 className="mb-4 text-center text-lg font-semibold w-32 h-12">{label}</h3>
+                    <div className="flex flex-col h-24">
+                        <div className="flex h-48 w-32 items-center justify-center rounded-lg">{icon}</div>
+                        <div className={`${getColorClass(status)} text-center`}>
+                            <p className="text-xl font-bold">{score}/100</p>
+                            <p className={`font-semibold`}>{status}</p>
+                        </div>
+                    </div>
+                </div>
+            </>
         )
     }
 
@@ -251,9 +277,8 @@ const PropertyCompsPage = () => {
                     <div className="flex flex-col w-full items-center">
                         {scores.map((score, index) => (
                             <div key={`score-${index}`}
-                                className="h-[230px]"
+                                className="w-full"
                             >
-                                <h3 className="mb-4 text-center text-lg font-semibold w-32 h-12">{score.label}</h3>
                                 <ScoreCard {...score} />
                             </div>
                         ))}
@@ -292,7 +317,6 @@ const PropertyCompsPage = () => {
                         <div className="flex flex-wrap justify-between w-[1000px]">
                             {scores.map((score, index) => (
                                 <div key={`score-${index}`}>
-                                    <h3 className="mb-4 text-center text-lg font-semibold w-32 h-12">{score.label}</h3>
                                     <ScoreCard {...score} />
                                 </div>
                             ))}
