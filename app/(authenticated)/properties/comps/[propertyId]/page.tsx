@@ -242,42 +242,64 @@ const PropertyCompsPage = () => {
         return (
             <div className="w-full bg-gray-50 p-6">
 
-                <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
+                <div className="mobile-only w-full">
 
-                    <div className="mb-8 grid grid-cols-2 gap-2 items-end">
-                        <h2 className="text-center text-2xl font-bold col-span-1">Your Regional Rank</h2>
-
-                        <div className="mx-auto">
-                            <HoverCard>
-                                <HoverCardTrigger asChild>
-                                    <div>
-                                        <Badge className="bg-primary h-6 w-6 justify-center">?</Badge>
-                                    </div>
-                                </HoverCardTrigger>
-                                <HoverCardContent className="w-80">
-                                    <p onClick={() => {
-                                        router.push("/str-market-spy");
-                                    }}>
-                                        Your ranking among similar properties in your region based on key metrics. Click to see why you rank here — and how to climb higher.
-
-                                    </p>
-                                </HoverCardContent>
-                            </HoverCard>
-                        </div>
-
-                        <div className="text-8xl font-bold">{regionRank}</div>
+                    <div className="text-2xl mb-8">
+                        Your Regional Rank: <span className="font-bold">{regionRank}</span>
                     </div>
 
-                    <div className="flex justify-between w-[1000px]">
+                    <div className="flex flex-col w-full items-center">
                         {scores.map((score, index) => (
-                            <div key={`score-${index}`}>
+                            <div key={`score-${index}`}
+                                className="h-[230px]"
+                            >
                                 <h3 className="mb-4 text-center text-lg font-semibold w-32 h-12">{score.label}</h3>
                                 <ScoreCard {...score} />
                             </div>
                         ))}
                     </div>
                 </div>
-            </div>
+
+                <div className="desktop-only">
+                    <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
+                        <div className="desktop-only">
+
+                            <div className="mb-8 grid grid-cols-2 gap-2 items-end">
+                                <h2 className="text-center text-2xl font-bold col-span-1">Your Regional Rank</h2>
+
+                                <div className="mx-auto">
+                                    <HoverCard>
+                                        <HoverCardTrigger asChild>
+                                            <div>
+                                                <Badge className="bg-primary h-6 w-6 justify-center">?</Badge>
+                                            </div>
+                                        </HoverCardTrigger>
+                                        <HoverCardContent className="w-80">
+                                            <p onClick={() => {
+                                                router.push("/str-market-spy");
+                                            }}>
+                                                Your ranking among similar properties in your region based on key metrics. Click to see why you rank here — and how to climb higher.
+
+                                            </p>
+                                        </HoverCardContent>
+                                    </HoverCard>
+                                </div>
+
+                                <div className="text-8xl font-bold">{regionRank}</div>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-wrap justify-between w-[1000px]">
+                            {scores.map((score, index) => (
+                                <div key={`score-${index}`}>
+                                    <h3 className="mb-4 text-center text-lg font-semibold w-32 h-12">{score.label}</h3>
+                                    <ScoreCard {...score} />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div >
         )
 
     }
@@ -324,20 +346,30 @@ const PropertyCompsPage = () => {
                                             >
                                                 <TableCell className="p-0" colSpan={7}>
 
-                                                    <div className="flex items-center bg-primary hover:bg-primary">
+                                                    <div className="desktop-only">
+                                                        <div className="flex items-center bg-primary hover:bg-primary">
 
-                                                        <Image
-                                                            src="/images/arrow-white.png"
-                                                            alt="Your overall score"
-                                                            width="100"
-                                                            height="72"
-                                                            className="w-auto h-28 my-6 mx-4"
-                                                        />
+                                                            <Image
+                                                                src="/images/arrow-white.png"
+                                                                alt="Your overall score"
+                                                                width="100"
+                                                                height="72"
+                                                                className="w-auto h-28 my-6 mx-4"
+                                                            />
 
-                                                        <div className="text-5xl text-primary-foreground font-bold">
-                                                            Your Overall Score is {ratings.ratings.overall_ratings.rating_number}/100 ({ratings.ratings.overall_ratings.rating_category})
+                                                            <div className="text-5xl text-primary-foreground font-bold">
+                                                                Your Overall Score is {ratings.ratings.overall_ratings.rating_number}/100 ({ratings.ratings.overall_ratings.rating_category})
+                                                            </div>
+
                                                         </div>
+                                                    </div>
 
+                                                    <div className="mobile-only">
+                                                        <div className="flex items-center bg-primary p-2">
+                                                            <div className="text-3xl text-primary-foreground font-bold">
+                                                                Your Overall Score is {ratings.ratings.overall_ratings.rating_number}/100 ({ratings.ratings.overall_ratings.rating_category})
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                     <div className="flex items-center bg-primary-foreground">
@@ -345,7 +377,7 @@ const PropertyCompsPage = () => {
                                                     </div>
 
                                                     <div className="flex items-center bg-primary hover:bg-primary py-6 px-4">
-                                                        <div className="flex text-5xl text-primary-foreground font-bold">
+                                                        <div className="flex text-3xl md:text-5xl text-primary-foreground font-bold">
                                                             You Rank {regionRank} in Your Region
                                                         </div>
                                                         {/* <Button
