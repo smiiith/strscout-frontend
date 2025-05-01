@@ -18,6 +18,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import LoadingOverlay from '@/components/LoadingOverlay'
 import Image from 'next/image';
 import { CustomAlertDialog } from '@/components/AlertDialog'
+import posthog from 'posthog-js'
 
 
 // const formSchema = z.object({
@@ -75,6 +76,10 @@ const AssessProperty = () => {
   })
 
   const onSubmit = async (data: any) => {
+
+    posthog.capture('clicked_run_with_id', {
+      page: window.location.pathname,
+    });
 
     const verification = await verifyRequest(data.propertyId, profile.id);
     const isVerified = verification.data.verified || false;
@@ -299,6 +304,11 @@ const AssessProperty = () => {
             <Button
               onClick={() => {
                 ratePropertyByUrl(watch('address'));
+
+                posthog.capture('clicked_run_with_address', {
+                  page: window.location.pathname,
+                });
+
               }}
               type="button"
             >Run</Button>
