@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
+import posthog from "posthog-js";
 
 
 const AnswersSection = () => {
@@ -53,7 +54,13 @@ const AnswersSection = () => {
                         </p>
 
                         <Button
-                            onClick={() => router.push('/properties/assess-property/single')}
+                            onClick={() => {
+                                posthog.capture('faq_clicked_start_now', {
+                                    page: window.location.pathname,
+                                });
+
+                                router.push('/properties/assess-property/single');
+                            }}
                             className="hover:opacity-80 h-auto"
                         >
                             Start Now
