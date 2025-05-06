@@ -99,15 +99,15 @@ export default function AddressCard({ title, externalId, propertyId, property }:
 
     const getColorClass = (rating: string) => {
         switch (rating) {
-            case 'excellent':
+            case 'Excellent':
                 return 'text-green-600 dark:text-green-400';
-            case 'good':
+            case 'Good':
                 return 'text-blue-600 dark:text-blue-400';
-            case 'satisfactory':
+            case 'Satisfactory':
                 return 'text-yellow-600 dark:text-yellow-400';
-            case 'needs_work':
+            case 'Needs Work':
                 return 'text-orange-600 dark:text-orange-400';
-            case 'fail':
+            case 'Fail':
                 return 'text-red-600 dark:text-red-400';
             default:
                 return 'text-gray-600 dark:text-gray-400';
@@ -129,21 +129,13 @@ export default function AddressCard({ title, externalId, propertyId, property }:
                     <p>AirBnB ID: {property.property_id.external_id}</p>
 
                     <div className="mt-3">
-                        {/* <Button
-                            onClick={() => {
-                                setIsOpen(true);
-                            }}>
-                            View Ratings
-                        </Button> */}
-
                         <Button
-                            variant="outline"
                             className="mx-3"
                             onClick={() => {
                                 router.push(`/properties/comps/${property.property_id.id}`);
                                 // fetchPropertyRatings(property.property_id.id);
                             }}>
-                            View Comps
+                            View Assessment
                         </Button>
                     </div>
 
