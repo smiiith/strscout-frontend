@@ -11,6 +11,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { useRouter } from 'next/navigation';
+import posthog from 'posthog-js';
 
 
 const ServerBusyDialog = (props: any) => {
@@ -21,7 +22,14 @@ const ServerBusyDialog = (props: any) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className={`${triggerStyles}`}>{buttonText}</Button>
+                <Button
+                    className={`${triggerStyles}`}
+                    onClick={() => {
+                        posthog.capture('str_market_spy_button_click', {
+                            page: window.location.pathname,
+                        });
+                    }}
+                >{buttonText}</Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
                 <Card className="border-0 shadow-none bg-transparent">
