@@ -16,36 +16,38 @@ export default function PasswordReset({
 }) {
 
   return (
-    <Card className="mx-auto max-w-sm">
-      <form>
-        <CardHeader>
-          <CardTitle className="text-2xl">Reset Password</CardTitle>
-          <CardDescription>Enter your new password below to reset your account password.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-8">
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
+    <div>
+      <Card className="max-w-sm bg-background border-none">
+        <form>
+          <CardHeader>
+            <CardTitle className="text-2xl">Reset Password</CardTitle>
+            <CardDescription>Enter your new password below to reset your account password.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-8">
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+                </div>
+                <Input id="password" name="password" type="password" required />
+                <Input id="code" name="code" type="hidden" value={searchParams?.code} />
               </div>
-              <Input id="password" name="password" type="password" required />
-              <Input id="code" name="code" type="hidden" value={searchParams?.code} />
+              <Button disabled={false} type="submit" className="w-fit" formAction={updatePassword}>
+                Reset Password
+              </Button>
             </div>
-            <Button disabled={false} type="submit" className="w-full" formAction={updatePassword} variant={"outline"}>
-              Reset Password
-            </Button>
-          </div>
-          <div className="mt-4 text-center text-sm">
-            Your password must contain at least one uppercase letter, one lowercase letter, one number and one special character. The minimum length for your password is 10 characters.
-          </div>
-          <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{" "}
-            <Link href="/register" className="underline" prefetch={false}>
-              Create one
-            </Link>
-          </div>
-        </CardContent>
-      </form>
-    </Card>
+            <div className="mt-4 text-sm">
+              Your password must contain at least one uppercase letter, one lowercase letter, one number and one special character. The minimum length for your password is 10 characters.
+            </div>
+            <div className="mt-4 text-sm">
+              Don&apos;t have an account?{" "}
+              <Link href="/register" className="underline" prefetch={false}>
+                Create one
+              </Link>
+            </div>
+          </CardContent>
+        </form>
+      </Card>
+    </div>
   )
 }
