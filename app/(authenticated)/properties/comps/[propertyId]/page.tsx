@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
+import posthog from "posthog-js";
 
 
 const fetchPropertyRatings = async (propertyId: any) => {
@@ -301,6 +302,10 @@ const PropertyCompsPage = () => {
                                         </HoverCardTrigger>
                                         <HoverCardContent className="w-80">
                                             <p onClick={() => {
+                                                posthog.capture('feedback_clicked_help_link', {
+                                                    page: window.location.pathname,
+                                                });
+
                                                 router.push("/str-market-spy");
                                             }}>
                                                 Your ranking among similar properties in your region based on key metrics. Click to see why you rank here — and how to climb higher.
@@ -450,8 +455,10 @@ const PropertyCompsPage = () => {
 
                                     <Button
                                         onClick={() => {
+                                            posthog.capture('feedback_clicked_get_str_market_spy', {
+                                                page: window.location.pathname,
+                                            });
                                             router.push(`/str-market-spy`);
-                                            // setIsOpen(true);
                                         }}
                                         variant="secondary"
                                         size="sm"
