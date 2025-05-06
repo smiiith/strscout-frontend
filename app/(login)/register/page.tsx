@@ -48,13 +48,10 @@ export default function CreateAccount() {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <Link href="/password-request" className="ml-auto inline-block text-sm underline" prefetch={false}>
-                    Forgot your password?
-                  </Link>
                 </div>
                 <Input id="password" name="password" type="password" required />
               </div>
-              <Button type="submit" className="w-full" formAction={signup} variant={"outline"}>
+              <Button type="submit" className="w-fit" formAction={signup}>
                 Create
               </Button>
             </div>
