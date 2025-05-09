@@ -65,7 +65,13 @@ const AssessProperty = () => {
       const { data: { user }, } = await browserClient.auth.getUser();
       setProfile(user);
 
-      // fetchUserProperties(user);
+      posthog.identify(
+        user.id,
+        {
+          email: user.email,
+        }
+      );
+
     }
 
     getUser();
