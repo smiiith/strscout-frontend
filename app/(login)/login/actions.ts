@@ -46,9 +46,9 @@ export async function signup(formData: FormData) {
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
-    options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_DOMAIN}/properties/assess-property/single`,
-    }
+    // options: {
+    //   emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_DOMAIN}/properties/assess-property/single`,
+    // }
   }
 
   if (process.env.NEXT_PUBLIC_USE_WHITELIST == "true") {

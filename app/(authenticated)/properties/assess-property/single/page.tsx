@@ -1,6 +1,7 @@
 "use client"
 
 import React, { use, useEffect, useState } from 'react'
+// import { createClient } from '../../../../utils/supabase/server'
 import { createClient } from '@/utils/supabase/client'
 import { useForm, SubmitHandler, Controller, FormProvider, set } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -17,8 +18,8 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import LoadingOverlay from '@/components/LoadingOverlay'
 import Image from 'next/image';
 import { CustomAlertDialog } from '@/components/AlertDialog'
-import posthog from 'posthog-js';
-import { supabaseClient } from '@/utils/supabase/js-client';
+import posthog from 'posthog-js'
+
 
 // const formSchema = z.object({
 //   username: z.string().min(2, {
@@ -45,46 +46,8 @@ const AssessProperty = () => {
   const [reachedUsageLimit, setReachedUsageLimit] = useState(false);
   const [reachedPropertyLimit, setReachedPropertyLimit] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false)
-  const [notFoundMessage, setNotFoundMessage] = useState("");
-  const searchParams = useSearchParams();
+  const [notFoundMessage, setNotFoundMessage] = useState("")
 
-
-  // useEffect(() => {
-  //   const handleRedirect = async () => {
-  //     const accessToken = searchParams.get('access_token');
-  //     const refreshToken = searchParams.get('refresh_token');
-
-  //     if (accessToken && refreshToken) {
-  //       // We have the access and refresh tokens
-  //       const { error } = await browserClient.auth.setSession({
-  //         access_token: accessToken,
-  //         refresh_token: refreshToken,
-  //       });
-
-  //       if (error) {
-  //         console.error("Error setting session from URL:", error);
-  //         router.push('/login');
-  //         return;
-  //       }
-
-  //       // console.log("User logged in after email confirmation");
-  //       // router.push("/properties/assess-property/single");
-  //       // Optionally, remove the URL parameters to clean up the URL
-  //       router.replace(window.location.pathname + window.location.search.split('?')[0]);
-  //     } else {
-  //       // No session data in URL parameters
-  //       const { data: { session } } = await browserClient.auth.getSession();
-  //       if (!session) {
-  //         if (window.location.hash === '') {
-  //           router.push('/login');
-  //         }
-  //       }
-  //     }
-  //   };
-
-  //   // Run this on initial load
-  //   handleRedirect();
-  // }, [router, browserClient, searchParams]);
 
   const {
     register,
