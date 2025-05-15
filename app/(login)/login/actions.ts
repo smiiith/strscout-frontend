@@ -41,11 +41,17 @@ export async function signup(formData: FormData) {
   const rawWhitelist = process.env.NEXT_PUBLIC_REGISTRATION_WHITELIST || ''
   const registrationWhitelist = rawWhitelist.split(',').map((item: string) => item.trim())
 
+  // Define the redirect URL for after confirmation
+  const redirectUrl = `${process.env.NEXT_PUBLIC_APP_DOMAIN}/auth/callback`;
+
   // type-casting here for convenience
   // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
+    options: {
+      emailRedirectTo: redirectUrl,
+    }
   }
 
   if (process.env.NEXT_PUBLIC_USE_WHITELIST == "true") {
