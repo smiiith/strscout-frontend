@@ -56,8 +56,13 @@ export function UserSessionProvider({ children, initialSession }: { children: Re
                     setSession({
                         id: user.id,
                         email: user.email || '',
-                        plan: 'free',
-                        // role: 'freemium',
+                        plan: {
+                            id: '',
+                            name: '',
+                            description: '',
+                            active: true,
+                            key: 'freemium',
+                        },
                     });
                 }
             } else {
