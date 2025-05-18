@@ -22,8 +22,6 @@ export async function GET(request: NextRequest) {
       token_hash,
     })
 
-    console.log("data part", data);
-
     if (error || !data || !data.session) {
       console.log("error", error);
       return NextResponse.redirect(redirectTo)
