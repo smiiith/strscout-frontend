@@ -1,30 +1,52 @@
 import HeaderNav from '@/components/header'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation';
+import { getUserWithPlan } from './utils';
+import { UserSessionProvider } from '../../lib/context/UserSessionProvider';
 
 // Make this a client component if you need state
 export default async function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
-  const { data } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  if (!data?.user) {
-    // Redirect to login if not authenticated
+  console.log("user data in layout", user);
+
+  if (!user) {
     redirect("/login");
   }
 
+  const userProfile = await getUserWithPlan(user.id);
+
+  const initialUserSession = user ? {
+    id: user.id,
+    email: user.email || '',
+    plan: userProfile?.plan || '', // Adjust based on your logic
+  } : null;
+
+
+  // let user = data.user;
+  // user["profile"] = userProfile;
+
   return (
     <>
-      <div className="">
-        <div className="flex flex-col">
-          <div className="flex-grow">
-            <div className="container mx-auto p-0 max-w-7xl bg-background">
-              <HeaderNav user={data.user} />
-              <div className="px-6">
-                {children}
+      <UserSessionProvider initialSession={initialUserSession}>
+        <div className="">
+          <div className="flex flex-col">
+            <div className="flex-grow">
+              <div className="container mx-auto p-0 max-w-7xl bg-background">
+                <HeaderNav user={user} />
+
+                {/* <pre>
+                  user info: {JSON.stringify(user, null, 2)}
+                </pre> */}
+
+                <div className="px-6">
+                  {children}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </UserSessionProvider>
     </>)
 }
