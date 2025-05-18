@@ -1,10 +1,9 @@
 'use client';
 
 import { useUserSession } from '@/lib/context/UserSessionProvider';
-import { set } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { ReactNode } from 'react'; // Import ReactNode for the children prop
+import { ReactNode } from 'react';
 import UpgradeMarketSpy from './upgrade/market-spy';
 
 interface Props {
@@ -18,8 +17,6 @@ export default function ProtectedPage({ requiredPlan, children }: Props) {
     const router = useRouter();
 
     useEffect(() => {
-        console.log("session in protected page", session);
-        console.log("loading in protected page", loading);
 
         if (!loading && session) {
             const hasRequiredPlan = Array.isArray(requiredPlan)

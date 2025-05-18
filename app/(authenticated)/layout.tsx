@@ -9,8 +9,6 @@ export default async function AuthenticatedLayout({ children }: { children: Reac
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  console.log("user data in layout", user);
-
   if (!user) {
     redirect("/login");
   }
@@ -23,10 +21,6 @@ export default async function AuthenticatedLayout({ children }: { children: Reac
     plan: userProfile?.plan || '', // Adjust based on your logic
   } : null;
 
-
-  // let user = data.user;
-  // user["profile"] = userProfile;
-
   return (
     <>
       <UserSessionProvider initialSession={initialUserSession}>
@@ -35,11 +29,6 @@ export default async function AuthenticatedLayout({ children }: { children: Reac
             <div className="flex-grow">
               <div className="container mx-auto p-0 max-w-7xl bg-background">
                 <HeaderNav user={user} />
-
-                {/* <pre>
-                  user info: {JSON.stringify(user, null, 2)}
-                </pre> */}
-
                 <div className="px-6">
                   {children}
                 </div>
