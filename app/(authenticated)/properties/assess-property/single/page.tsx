@@ -19,6 +19,7 @@ import LoadingOverlay from '@/components/LoadingOverlay'
 import Image from 'next/image';
 import { CustomAlertDialog } from '@/components/AlertDialog'
 import posthog from 'posthog-js'
+import AirbnbDirections from './instructions'
 
 
 // const formSchema = z.object({
@@ -320,23 +321,9 @@ const AssessProperty = () => {
             >Run</Button>
           </div>
 
-          <div className="directions mt-8 mb-12">
-            <p className="font-bold">How to Copy and Paste Your Airbnb Listing URL</p>
-            <ol className="ml-8 list-decimal">
-              <li>Go to Your Airbnb Listing</li>
-              <li>Open Airbnb.com and navigate to your listing.</li>
-              <li>Copy the URL
-                <ul className="list-disc ml-8">
-                  <li>Click on the address bar at the top of your browser.</li>
-                  <li>Right-click and select Copy, or press Ctrl + C (Windows) / Cmd + C (Mac).</li>
-                </ul>
+          <p className="font-bold">How to Copy and Paste Your Airbnb Listing URL</p>
+          <AirbnbDirections />
 
-              </li>
-              <li>Paste It Here</li>
-              <li>Click inside the field above.</li>
-              <li>Right-click and select Paste, or press Ctrl + V (Windows) / Cmd + V (Mac).</li>
-            </ol>
-          </div>
         </form>
       </FormProvider>
 
