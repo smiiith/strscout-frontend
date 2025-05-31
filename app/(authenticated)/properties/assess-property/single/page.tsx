@@ -121,7 +121,7 @@ const AssessProperty = () => {
       setIsLoading(true);
 
       // scrape the property
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/assess/single`, config);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/assess/single`, config);
       const responseData = response.data;
 
       if (responseData.errorCode && responseData.errorCode == "404") {

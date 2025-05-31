@@ -34,7 +34,7 @@ export default function Properties() {
         console.log("No user ID available");
         return;
       }
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/strproperties`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/strproperties`, {
         // body: { profileId: user.id },
         userId: user.id,
         headers: {

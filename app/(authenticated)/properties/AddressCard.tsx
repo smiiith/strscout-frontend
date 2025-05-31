@@ -74,7 +74,7 @@ export default function AddressCard({ title, externalId, propertyId, property }:
                 console.log("No property ID available");
                 return;
             }
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/ratings/${propertyId}`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/ratings/${propertyId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
