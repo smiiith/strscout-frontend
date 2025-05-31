@@ -18,7 +18,7 @@ import posthog from "posthog-js";
 const fetchPropertyRatings = async (propertyId: any) => {
     try {
         const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_ENDPOINT}/ratings/${propertyId}`,
+            `${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/ratings/${propertyId}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
