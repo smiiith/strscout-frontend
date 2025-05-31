@@ -9,10 +9,6 @@ import { useState } from "react";
 const MarketSpyPage = () => {
     const [loading, setLoading] = useState(true);
 
-    function fireAndForget(event: any): void {
-        console.log("Fire and Forget button clicked");
-    }
-
     const mockData = {
         "geocode": "33.585850, -117.173878",
         "zoom_level": 50,
