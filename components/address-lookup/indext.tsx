@@ -25,7 +25,6 @@ const GeoapifyAddressAutocomplete: React.FC<GeoapifyAddressAutocompleteProps> = 
     const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     function onPlaceSelect(value: any) {
-        // console.log("Selected Place Data:", value);
         setIsLoading(false);
 
         if (loadingTimeoutRef.current) {
@@ -46,8 +45,6 @@ const GeoapifyAddressAutocomplete: React.FC<GeoapifyAddressAutocompleteProps> = 
                 onAddressSelect(addressData);
             }
 
-            console.log("Latitude:", lat);
-            console.log("Longitude:", lon);
         } else {
             setSelectedAddress(null);
             if (onAddressSelect) {
@@ -61,7 +58,6 @@ const GeoapifyAddressAutocomplete: React.FC<GeoapifyAddressAutocompleteProps> = 
     }
 
     function onSuggestionsChange(suggestions: any) {
-        console.log("Suggestions changed:", suggestions);
 
         if (loadingTimeoutRef.current) {
             clearTimeout(loadingTimeoutRef.current);
