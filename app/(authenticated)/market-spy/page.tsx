@@ -5,13 +5,14 @@ import GeoapifyAddressAutocomplete from "@/components/address-lookup/indext";
 import ProtectedPage from "@/components/ProtectedPage";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useUserSession } from "@/lib/context/UserSessionProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import Image from "next/image";
+
 
 const formSchema = z.object({
     address: z.object({
@@ -106,9 +107,20 @@ const MarketSpyPage = () => {
         <ProtectedPage requiredPlan={PLANS.FREEMIUM}>
             <div className="min-h-[700px] py-6">
 
-                <h1 className="text-3xl font-bold">Market Spy</h1>
+                <Image
+                    src="/market-spy-logo.png"
+                    alt="STR Market Spy"
+                    width={233}
+                    height={80}
+                />
+
+                <h1 className="text-3xl font-bold mt-6">Competitive Insights for Your Listing</h1>
 
                 <div className="space-y-6 w-full mt-6">
+
+                    <p className="w-1/2">
+                        Enter your listing info below. STR Market Spy will analyze local bookings, policies, amenities, and more — then show you exactly how you compare.
+                    </p>
 
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 max-w-[500px]">
