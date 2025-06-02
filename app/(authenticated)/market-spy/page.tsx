@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Image from "next/image";
+import { add } from "date-fns";
 
 
 const formSchema = z.object({
@@ -68,6 +69,7 @@ const MarketSpyPage = () => {
             try {
                 const requestData = {
                     geocode: `${data.address.latitude}, ${data.address.longitude}`,
+                    address: data.address.formattedAddress,
                     zoom_level: 50,
                     room_type: data.roomType,
                     bedrooms: data.bedrooms,
