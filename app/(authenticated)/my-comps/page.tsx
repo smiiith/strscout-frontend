@@ -64,7 +64,7 @@ const MyCompsPage = () => {
     }, [session]);
 
     return (
-        <ProtectedPage requiredPlan={PLANS.FREEMIUM}>
+        <ProtectedPage requiredPlan={PLANS.PRO}>
             {loading ? (
                 <div className="flex items-center justify-center min-h-screen">Loading</div>
             ) : (
