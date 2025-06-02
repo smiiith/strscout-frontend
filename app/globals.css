@@ -14,7 +14,8 @@
   :root {
     --background: 210 2% 95%;
     --foreground: 210 2% 0%;
-    --card: 206 68% 78%;
+    /* --card: 206 68% 78%; */
+    --card: 197 10% 87%;
     --card-foreground: 210 2% 10%;
     --popover: 210 2% 95%;
     --popover-foreground: 210 95% 0%;
