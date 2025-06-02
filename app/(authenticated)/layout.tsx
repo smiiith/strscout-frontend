@@ -28,7 +28,7 @@ export default async function AuthenticatedLayout({ children }: { children: Reac
           <div className="flex flex-col">
             <div className="flex-grow">
               <div className="container mx-auto p-0 max-w-7xl bg-background">
-                <HeaderNav user={user} />
+                <HeaderNav user={userProfile} />
                 <div className="px-6">
                   {children}
                 </div>

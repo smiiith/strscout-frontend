@@ -7,11 +7,15 @@ import Link from "next/link"
 import Image from "next/image"
 import { Login01Icon, Logout01Icon, MyAccountIcon } from "./Icons"
 import { useState } from "react"
+import { PLANS } from "@/app/types/plans";
 
 
 const HeaderNav = (props: any) => {
     const [sheetOpen, setSheetOpen] = useState(false);
     let isAuthorized = false;
+
+    console.log("user", props.user);
+
     if (props && props.user) {
         isAuthorized = true;
     }
@@ -33,6 +37,18 @@ const HeaderNav = (props: any) => {
             label: "My Properties",
             href: "/properties",
             enabled: isAuthorized,
+            icon: () => { return <House01Icon className="text-red-500 ml-6" /> },
+        },
+        {
+            label: "Market Spy",
+            href: "/market-spy",
+            enabled: isAuthorized && props.user && props.user.plan && (props.user.plan.key === PLANS.PRO),
+            icon: () => { return <House01Icon className="text-red-500 ml-6" /> },
+        },
+        {
+            label: "My Comps",
+            href: "/my-comps",
+            enabled: isAuthorized && props.user && props.user.plan && (props.user.plan.key === PLANS.PRO),
             icon: () => { return <House01Icon className="text-red-500 ml-6" /> },
         },
         {
