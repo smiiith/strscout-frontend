@@ -106,7 +106,7 @@ const MarketSpyPage = () => {
     };
 
     return (
-        <ProtectedPage requiredPlan={PLANS.FREEMIUM}>
+        <ProtectedPage requiredPlan={PLANS.PRO}>
             <div className="min-h-[700px] py-6">
 
                 <Image
