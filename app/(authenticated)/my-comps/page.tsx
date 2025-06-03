@@ -14,11 +14,14 @@ import * as z from "zod";
 import Image from "next/image";
 import { add } from "date-fns";
 import AddressList from "@/components/address-list";
+import { RefreshIcon } from "@/components/Icons";
+import LoadingOverlay from "@/components/LoadingOverlay";
 
 
 
 const MyCompsPage = () => {
     const [loading, setLoading] = useState(true);
+    const [loadingComps, setLoadingComps] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState<{
         formattedAddress: string;
         latitude: number;
@@ -28,7 +31,7 @@ const MyCompsPage = () => {
     const [comps, setComps] = useState<any[]>([]);
 
     const fetchComps = async () => {
-        setLoading(true);
+        // setLoading(true);
 
         if (session && session.id) {
 
@@ -45,6 +48,7 @@ const MyCompsPage = () => {
                 );
 
                 setLoading(false);
+                setLoadingComps(false);
                 setComps(response.data || []);
 
             } catch (error) {
@@ -66,7 +70,7 @@ const MyCompsPage = () => {
     return (
         <ProtectedPage requiredPlan={PLANS.PRO}>
             {loading ? (
-                <div className="flex items-center justify-center min-h-screen">Loading</div>
+                <LoadingOverlay />
             ) : (
                 <div className="min-h-[700px] py-6">
 
@@ -78,11 +82,26 @@ const MyCompsPage = () => {
                             Enter your listing info below. STR Market Spy will analyze local bookings, policies, amenities, and more — then show you exactly how you compare.
                         </p>
 
+                        <div className="flex flex-wrap" title="Refresh list">
+                            <RefreshIcon
+                                className="h-6 w-6 text-primary cursor-pointer"
+                                onClick={() => {
+                                    setLoadingComps(true);
+                                    setTimeout(() => {
+                                        fetchComps();
+                                    }, 500);
+                                }}
+                            />
+
+                            {loadingComps && <div className="mx-4 text-foreground/50">Refreshing comps</div>}
+                        </div>
+
                         {comps && (
                             <AddressList
                                 comps={comps}
                             />
                         )}
+
 
                     </div>
                 </div>
