@@ -11,6 +11,7 @@ interface Address {
     latitude: number
     longitude: number
     status: string
+    comps?: any
 }
 
 interface AddressListProps {
@@ -58,6 +59,7 @@ export default function AddressList({ comps: comps }: AddressListProps) {
                         latitude={comp.latitude}
                         longitude={comp.longitude}
                         status={comp.status}
+                        occupancyData={comp.comps}
                     />
                 ))}
             </div>
