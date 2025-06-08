@@ -1,9 +1,8 @@
 import ImageSlider from "@/components/image-slider";
 import RatingsDialog from "@/components/ratings-dialog";
-import { getMockRatings, MockRatingsSample } from "@/components/ratings-example/mock";
+import { MockRatingsSample } from "@/components/ratings-example/mock";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { set } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
