@@ -1,10 +1,24 @@
+import ImageSlider from "@/components/image-slider";
+import RatingsDialog from "@/components/ratings-dialog";
+import { getMockRatings, MockRatingsSample } from "@/components/ratings-example/mock";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { set } from "date-fns";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 
 const RatingsSection = () => {
     const router = useRouter();
+    const [slideImages, setSlideImages] = useState<string[]>([]);
+
+    useEffect(() => {
+        setSlideImages([
+            "/images/slide-ratings-1.png",
+            "/images/slide-ratings-2.png",
+            "/images/slide-ratings-3.png",
+        ]);
+    }, []);
 
     return (
         <div className="w-full bg-primary">
@@ -16,47 +30,41 @@ const RatingsSection = () => {
                             <div className="space-y-8">
                                 <div className="text-3xl md:text-4xl font-bold">
                                     <p>
-                                        Personalized Ratings.
+                                        See What's Really Going on
                                     </p>
                                     <p>
-                                        Clear scores for every part
-                                        of your listing.
+                                        in Your Market
                                     </p>
                                 </div>
 
                                 <p>
-                                    It's easy - simply show us your listing, We'll analyzie, rate, and provide actionable feedback on:
+                                    Your report includes:
                                 </p>
 
                                 <ul className="list-disc px-4">
-                                    <li>Your hero photo</li>
-                                    <li>Your headline</li>
-                                    <li>Your listing description</li>
-                                    <li>Your listing photos</li>
-                                    <li>Your amenities</li>
-                                    <li>Your interior design</li>
+                                    <li>Breakdown of bookings in your area</li>
+                                    <li>Policy and amenity analysis</li>
+                                    <li>Listing quality assessment</li>
+                                    <li>Clear summary of what's helping (or hurting) your positioning</li>
                                 </ul>
 
-                                <p className="text-xl font-bold mb-0">
-                                    Best of all, it's free.
-                                </p>
-                                <p className="text-lg font-bold !mt-0">
-                                    Seriously, no credit card, no BS, it's free.
-                                </p>
-
                                 <Button
-                                    onClick={() => router.push('/properties/assess-property/single')}
+                                    onClick={() => router.push('/market-spy')}
                                     className="hover:opacity-80 h-auto bg-white"
                                     variant="secondary">
-                                    Get Your Free Feedback
+                                    Generate My Report Now
                                 </Button>
+
                             </div>
 
-                            <div className="relative md:col-span-4 hidden md:block">
-                                <img
-                                    src="/home/feedback-genius-graphic-003.png"
-                                    className=""
-                                />
+                            <div className="relative md:col-span-4 hidden md:block w-[600px] rounded-lg border border-border overflow-hidden p-4 bg-background">
+
+                                <ImageSlider images={slideImages} interval={4000} />
+
+                                <div className="absolute bottom-4 right-4">
+                                    <RatingsDialog ratings={MockRatingsSample} />
+                                </div>
+
                             </div>
                         </div>
 
