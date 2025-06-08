@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Progress } from "@/components/ui/progress"
 import {
   Accordion,
@@ -143,7 +143,6 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
         <div>Listing Summary</div>
         <div>
           <h4 className="font-semibold">Rating: <span>{ratings.overall_rating_number} ({ratings.overall_rating_category})</span></h4>
-          {/* {JSON.stringify(ratings)} */}
 
           <div className="my-3">
             {
