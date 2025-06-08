@@ -28,34 +28,34 @@ interface PropertyRatingsProps {
     }
 }
 
-export const getMockRatings = () => {
-    const rawRatings = MockRatingsSample.results[0];
+// export const getMockRatings = () => {
+//     const rawRatings = MockRatingsSample;
 
-    if (!rawRatings) {
-        console.log("No ratings data available", rawRatings);
-        return {}
-    }
+//     if (!rawRatings) {
+//         console.log("No ratings data available", rawRatings);
+//         return {}
+//     }
 
-    const ratings: PropertyRatingsProps = {
-        ratings: {
-            description: rawRatings.description,
-            title: rawRatings.title,
-            amenities: rawRatings.amenities,
-            heroImage: rawRatings.hero_image,
-            otherImages: rawRatings.other_images,
-            interiorDesign: rawRatings.interior_design,
-            feedback: rawRatings.overall_ratings.feedback.summary,
-            suggestions: rawRatings.overall_ratings.suggestions,
-            description_rewrite: rawRatings.description.description_rewrite,
-            title_rewrites: rawRatings.title.title_rewrites,
-            overall_rating_number: rawRatings.overall_ratings.rating_number,
-            overall_rating_category: rawRatings.overall_ratings.rating_category
-        }
-    };
+//     const ratings: PropertyRatingsProps = {
+//         ratings: {
+//             description: rawRatings.description,
+//             title: rawRatings.title,
+//             amenities: rawRatings.amenities,
+//             heroImage: rawRatings.hero_image,
+//             otherImages: rawRatings.other_images,
+//             interiorDesign: rawRatings.interior_design,
+//             feedback: rawRatings.overall_ratings.feedback.summary,
+//             suggestions: rawRatings.overall_ratings.suggestions,
+//             description_rewrite: rawRatings.description.description_rewrite,
+//             title_rewrites: rawRatings.title.title_rewrites,
+//             overall_rating_number: rawRatings.overall_ratings.rating_number,
+//             overall_rating_category: rawRatings.overall_ratings.rating_category
+//         }
+//     };
 
-    console.log("Formatted ratings:", ratings);
-    return ratings;
-}
+//     console.log("Formatted ratings:", ratings);
+//     return ratings;
+// }
 
 export const MockRatingsSample = {
     "ratings": {
