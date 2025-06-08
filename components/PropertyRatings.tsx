@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Progress } from "@/components/ui/progress"
 import {
   Accordion,
@@ -135,6 +135,10 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
 
     }
   }
+
+  // useEffect(() => {
+  //   console.log("the ratings", ratings);
+  // }, []);
 
   return (
     <div>
