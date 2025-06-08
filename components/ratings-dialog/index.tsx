@@ -7,9 +7,6 @@ import PropertyCompsComponent from "./ratings";
 const RatingsDialog = ({ ratings }: any) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    console.log("RatingsDialog - ratings:", ratings);
-
-
     return (
         <div>
             <Button

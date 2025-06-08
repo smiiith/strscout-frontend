@@ -136,10 +136,6 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
     }
   }
 
-  // useEffect(() => {
-  //   console.log("the ratings", ratings);
-  // }, []);
-
   return (
     <div>
 
@@ -147,7 +143,6 @@ export default function PropertyRatings({ ratings }: PropertyRatingsProps) {
         <div>Listing Summary</div>
         <div>
           <h4 className="font-semibold">Rating: <span>{ratings.overall_rating_number} ({ratings.overall_rating_category})</span></h4>
-          {/* {JSON.stringify(ratings)} */}
 
           <div className="my-3">
             {
