@@ -60,15 +60,15 @@ interface PropertyRatingsProps {
 export const MockRatingsSample = {
     "ratings": {
         "title": {
-            "property_name": "The Golden Nugget",
+            "property_name": "The Goldmine Cottage",
             "rating_number": 84,
             "rating_category": "Good",
             "feedback": {
-                "summary": "The title 'The Golden Nugget' is catchy and memorable, instantly evoking a sense of value and uniqueness. However, it does lack some specific elements that could enhance its appeal to potential guests.",
+                "summary": "The title 'The Goldmine Cottage' is catchy and memorable, instantly evoking a sense of value and uniqueness. However, it does lack some specific elements that could enhance its appeal to potential guests.",
                 "items": [
                     {
                         "title": "Catchy Name",
-                        "feedback": "The name 'The Golden Nugget' is intriguing and stands out."
+                        "feedback": "The name 'The Goldmine Cottage' is intriguing and stands out."
                     },
                     {
                         "title": "Location Clarity",
@@ -80,7 +80,7 @@ export const MockRatingsSample = {
                     },
                     {
                         "title": "Vague Terms",
-                        "feedback": "The term 'Nugget' is somewhat vague; it doesn’t immediately convey that it's a rental property."
+                        "feedback": "The term 'Nugget' is somewhat vague; it doesn't immediately convey that it's a rental property."
                     },
                     {
                         "title": "Target Audience",
@@ -204,18 +204,18 @@ export const MockRatingsSample = {
                 82
             ],
             "title_rewrites": [
-                "The Golden Nugget: Your Quiet Retreat in Yuma",
-                "Relax at The Golden Nugget with Pool Access",
-                "Centrally Located Golden Nugget - Ideal for Professionals"
+                "The Goldmine Cottage: Your Quiet Retreat in Yuma",
+                "Relax at The Goldmine Cottage with Pool Access",
+                "Centrally Located Goldmine Cottage - Ideal for Professionals"
             ],
             "revisions": [
-                "The Golden Nugget: Poolside Oasis in Yuma",
-                "Golden Nugget Getaway: Central Location & Comfort",
-                "Peaceful Retreat at The Golden Nugget with Pool Access"
+                "The Goldmine Cottage: Poolside Oasis in Yuma",
+                "Goldmine Cottage Getaway: Central Location & Comfort",
+                "Peaceful Retreat at The Goldmine Cottage with Pool Access"
             ]
         },
         "description": {
-            "property_name": "The Golden Nugget",
+            "property_name": "The Goldmine Cottage",
             "rating_number": 65,
             "rating_category": "Needs Work",
             "feedback": {
@@ -239,7 +239,7 @@ export const MockRatingsSample = {
                     },
                     {
                         "title": "Guest Experience",
-                        "feedback": "Sharing more about what makes The Golden Nugget memorable for guests could entice more bookings."
+                        "feedback": "Sharing more about what makes The Goldmine Cottage memorable for guests could entice more bookings."
                     }
                 ]
             },
@@ -363,10 +363,10 @@ export const MockRatingsSample = {
                 84
             ],
             "description_rewrite": {
-                "listing_description": "Welcome to The Golden Nugget! Enjoy a peaceful stay in the heart of Yuma, AZ, just minutes from key destinations. This tranquil home offers a fully equipped kitchen, spacious living areas, and a year-round pool to unwind in the Arizona sun. Perfect for professionals or families seeking comfort and relaxation. With a nearby walking path, embrace nature right at your doorstep!",
-                "your_property": "The Golden Nugget is your home away from home, featuring a full kitchen, a cozy living room, and inviting dining areas. The backyard boasts a refreshing pool, ideal for socializing with fellow guests or relaxing. Enjoy all the comforts necessary for a pleasant stay!",
+                "listing_description": "Welcome to The Goldmine Cottage! Enjoy a peaceful stay in the heart of Yuma, AZ, just minutes from key destinations. This tranquil home offers a fully equipped kitchen, spacious living areas, and a year-round pool to unwind in the Arizona sun. Perfect for professionals or families seeking comfort and relaxation. With a nearby walking path, embrace nature right at your doorstep!",
+                "your_property": "The Goldmine Cottage is your home away from home, featuring a full kitchen, a cozy living room, and inviting dining areas. The backyard boasts a refreshing pool, ideal for socializing with fellow guests or relaxing. Enjoy all the comforts necessary for a pleasant stay!",
                 "guest_access": "You will have full access to the kitchen, living room, dining room, and backyard pool. Shared spaces are available with other guests in the additional rooms, allowing for social interactions while ensuring privacy as well.",
-                "interaction_with_guests": "I am happy to assist you during your stay at The Golden Nugget. Enjoy your time here and feel free to reach out for recommendations or assistance!",
+                "interaction_with_guests": "I am happy to assist you during your stay at The Goldmine Cottage. Enjoy your time here and feel free to reach out for recommendations or assistance!",
                 "other_details_to_note": "Please note that pets are welcome! Enjoy the convenience of self check-in and free parking on-site."
             },
             "revisions": null
@@ -511,11 +511,11 @@ export const MockRatingsSample = {
             "revisions": null
         },
         "hero_image": {
-            "property_name": "The Golden Nugget",
+            "property_name": "The Goldmine Cottage",
             "rating_number": 68,
             "rating_category": "Needs Work",
             "feedback": {
-                "summary": "The hero image of 'The Golden Nugget' presents a cozy bedroom but lacks standout features to make it memorable. Its simplicity is appealing, but it doesn’t capture the unique amenities mentioned in the listing.",
+                "summary": "The hero image of 'The Goldmine Cottage' presents a cozy bedroom but lacks standout features to make it memorable. Its simplicity is appealing, but it doesn’t capture the unique amenities mentioned in the listing.",
                 "items": [
                     {
                         "title": "Cozy Feel",
@@ -775,7 +775,7 @@ export const MockRatingsSample = {
             "revisions": null
         },
         "interior_design": {
-            "property_name": "The Golden Nugget",
+            "property_name": "The Goldmine Cottage",
             "rating_number": 80,
             "rating_category": "Satisfactory",
             "feedback": {
@@ -907,15 +907,15 @@ export const MockRatingsSample = {
             "revisions": null
         },
         "overall_ratings": {
-            "property_name": "The Golden Nugget",
+            "property_name": "The Goldmine Cottage",
             "rating_number": 73,
             "rating_category": "Satisfactory",
             "feedback": {
-                "summary": "Overall, 'The Golden Nugget' presents a promising option for potential guests, but several areas need enhancement for improved appeal and guest experience.",
+                "summary": "Overall, 'The Goldmine Cottage' presents a promising option for potential guests, but several areas need enhancement for improved appeal and guest experience.",
                 "items": [
                     {
                         "title": "Title and Description Clarity",
-                        "feedback": "The title 'The Golden Nugget' is catchy but could benefit from more descriptive elements regarding its location and features."
+                        "feedback": "The title 'The Goldmine Cottage' is catchy but could benefit from more descriptive elements regarding its location and features."
                     },
                     {
                         "title": "Engaging Listing",
