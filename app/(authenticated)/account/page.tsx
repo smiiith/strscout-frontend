@@ -1,6 +1,7 @@
 import AccountForm from "@/app/(authenticated)/account/update/page";
 import { MyAccountIcon } from "@/components/Icons";
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from '@/utils/supabase/server';
+import ManageSubscriptionButton from "@/components/ManageSubscriptionButton";
 
 const Account = async () => {
   const supabase = createClient()
@@ -8,6 +9,15 @@ const Account = async () => {
   const {
     data: { user },
   } = await supabase.auth.getUser()
+
+  // Get user profile with subscription status
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('subscription_status')
+    .eq('id', user?.id)
+    .single()
+
+  const hasActiveSubscription = profile?.subscription_status === 'active'
 
   return (
     <>
@@ -17,6 +27,13 @@ const Account = async () => {
 
         <div className="md:w-[500px]">
           <AccountForm user={user} />
+          
+          {hasActiveSubscription && (
+            <div className="mt-8 pt-8 border-t">
+              <h2 className="text-xl font-semibold mb-4">Subscription</h2>
+              <ManageSubscriptionButton />
+            </div>
+          )}
 
         </div>
       </div>
