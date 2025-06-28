@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/server';
 import { headers } from 'next/headers';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-12-18.acacia',
+  apiVersion: '2025-05-28.basil',
 });
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
@@ -149,7 +149,7 @@ export async function POST(request: Request) {
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice;
         
-        if (invoice.subscription) {
+        if ((invoice as any).subscription) {
           // Mark subscription as past_due
           const { error } = await supabase
             .from('profiles')
@@ -157,7 +157,7 @@ export async function POST(request: Request) {
               subscription_status: 'past_due',
               updated_at: new Date().toISOString(),
             })
-            .eq('stripe_subscription_id', invoice.subscription as string);
+            .eq('stripe_subscription_id', typeof (invoice as any).subscription === 'string' ? (invoice as any).subscription : (invoice as any).subscription.id);
 
           if (error) {
             console.error('Error updating subscription status:', error);
