@@ -11,12 +11,6 @@ export default function FeatureSections() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <StripeCheckoutButton
-        priceId="price_1Rf3qeRQojxLKgwUSlmUkEbH"
-        buttonText="Subscribe Now"
-        className="bg-primary text-lg absolute bottom-0"
-      />
-
       <div className="flex flex-col md:flex-row md:divide-x md:divide-gray-300">
         {/* STR Feedback Genius Section */}
         <FeatureSection
@@ -37,11 +31,16 @@ export default function FeatureSections() {
             </>
           }
           price="Free"
-          buttonText="Sign Up Free Now"
-          buttonAction={() => {
-            router.push("/register");
-          }}
-        />
+        >
+          <Button
+            className="bg-primary text-lg absolute bottom-0"
+            onClick={() => {
+              router.push("/register");
+            }}
+          >
+            Sign Up Free Now
+          </Button>
+        </FeatureSection>
 
         {/* STR Market Spy Section */}
         <FeatureSection
@@ -67,9 +66,13 @@ export default function FeatureSections() {
             </div>
           }
           price=""
-          buttonText="Only $19.95 - View Competitors Now"
-          buttonAction={null}
-        />
+        >
+          <StripeCheckoutButton
+            priceId="price_1Rf3qeRQojxLKgwUSlmUkEbH"
+            buttonText="Only $19.95 - View Competitors Now"
+            className="bg-primary text-lg absolute bottom-0"
+          />
+        </FeatureSection>
 
         {/* STR Market Scout Section */}
         <FeatureSection
@@ -89,11 +92,16 @@ export default function FeatureSections() {
             </ul>
           }
           price=""
-          buttonText="Apply for Beta Test"
-          buttonAction={() => {
-            router.push("/contact-us");
-          }}
-        />
+        >
+          <Button
+            className="bg-primary text-lg absolute bottom-0"
+            onClick={() => {
+              router.push("/contact-us");
+            }}
+          >
+            Apply for Beta Test
+          </Button>
+        </FeatureSection>
       </div>
     </div>
   );
@@ -105,8 +113,14 @@ const FeatureSection = ({
   title,
   description,
   price,
-  buttonText,
-  buttonAction,
+  children,
+}: {
+  imageSrc: any;
+  alt: string;
+  title: string;
+  description: React.ReactNode;
+  price: string;
+  children?: React.ReactNode;
 }) => {
   return (
     <section className="flex-1 py-6 px-0 md:p-6 relative mb-8 md:mb-0">
@@ -125,25 +139,7 @@ const FeatureSection = ({
 
       <p className="mb-8 text-xl font-bold">{price}</p>
 
-      <>
-        {buttonAction ? (
-          <Button
-            className="bg-primary text-lg absolute bottom-0"
-            onClick={() => {
-              if (buttonAction) {
-                buttonAction();
-              }
-            }}
-          >
-            {buttonText}
-          </Button>
-        ) : (
-          <ServerBusyDialog
-            buttonText={buttonText}
-            triggerStyles="bg-primary text-lg absolute bottom-0"
-          />
-        )}
-      </>
+      {children}
     </section>
   );
 };
