@@ -1,4 +1,4 @@
-import { supabaseClient } from "@/utils/supabase/js-client";
+import { createClient } from "@/utils/supabase/server";
 
 
 export const getUserWithPlan = async (userId: string) => {
@@ -6,7 +6,8 @@ export const getUserWithPlan = async (userId: string) => {
         return null; // Or handle unauthenticated user appropriately
     }
 
-    const { data: profile, error: profileError } = await supabaseClient
+    const supabase = createClient();
+    const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('*, plan:plans(id, name, description, active, key)')
         .eq('id', userId)

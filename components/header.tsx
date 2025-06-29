@@ -42,7 +42,7 @@ const HeaderNav = (props: any) => {
         {
             label: "Market Spy",
             href: "/market-spy",
-            enabled: isAuthorized && props.user && props.user.plan && (props.user.plan.key === PLANS.PRO),
+            enabled: isAuthorized && props.user && props.user.plan && (props.user.plan.key === PLANS.STANDARD || props.user.plan.key === PLANS.PRO),
             icon: () => { return <House01Icon className="text-red-500 ml-6" /> },
         },
         {
