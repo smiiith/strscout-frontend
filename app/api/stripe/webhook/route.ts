@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createClient } from '@/utils/supabase/server';
 import { headers } from 'next/headers';
+import { syncUserPlan, syncUserPlanBySubscriptionId } from '@/utils/stripe/plan-sync';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-05-28.basil',
@@ -89,6 +90,12 @@ export async function POST(request: Request) {
           console.log('🔄 Attempting to update user:', userId);
 
           if (userId) {
+            // Get subscription details to extract price ID for plan mapping
+            const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+            const priceId = subscription.items.data[0]?.price.id;
+            
+            console.log('💰 Price ID:', priceId);
+
             // Update user profile with subscription info
             const { error } = await supabase
               .from('profiles')
@@ -105,6 +112,16 @@ export async function POST(request: Request) {
             } else {
               console.log('✅ Successfully updated user profile');
             }
+
+            // Sync user's plan based on the subscription
+            if (priceId) {
+              const planSyncResult = await syncUserPlan(userId, priceId, 'active');
+              if (planSyncResult) {
+                console.log('✅ Successfully synced user plan');
+              } else {
+                console.error('❌ Failed to sync user plan');
+              }
+            }
           }
         }
         break;
@@ -112,6 +129,10 @@ export async function POST(request: Request) {
 
       case 'customer.subscription.updated': {
         const subscription = event.data.object as Stripe.Subscription;
+        const priceId = subscription.items.data[0]?.price.id;
+        
+        console.log('🔄 Subscription updated:', subscription.id, 'Status:', subscription.status);
+        console.log('💰 Price ID:', priceId);
         
         // Update subscription status
         const { error } = await supabase
@@ -124,12 +145,32 @@ export async function POST(request: Request) {
 
         if (error) {
           console.error('Error updating subscription status:', error);
+        } else {
+          console.log('✅ Successfully updated subscription status');
+        }
+
+        // Sync user's plan based on updated subscription
+        if (priceId) {
+          const planSyncResult = await syncUserPlanBySubscriptionId(
+            subscription.id, 
+            priceId, 
+            subscription.status
+          );
+          if (planSyncResult) {
+            console.log('✅ Successfully synced user plan on subscription update');
+          } else {
+            console.error('❌ Failed to sync user plan on subscription update');
+          }
         }
         break;
       }
 
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription;
+        const priceId = subscription.items.data[0]?.price.id;
+        
+        console.log('🗑️ Subscription deleted:', subscription.id);
+        console.log('💰 Price ID:', priceId);
         
         // Mark subscription as canceled
         const { error } = await supabase
@@ -142,6 +183,22 @@ export async function POST(request: Request) {
 
         if (error) {
           console.error('Error updating subscription status:', error);
+        } else {
+          console.log('✅ Successfully updated subscription status to canceled');
+        }
+
+        // Downgrade user's plan to freemium
+        if (priceId) {
+          const planSyncResult = await syncUserPlanBySubscriptionId(
+            subscription.id, 
+            priceId, 
+            'canceled'
+          );
+          if (planSyncResult) {
+            console.log('✅ Successfully downgraded user plan to freemium');
+          } else {
+            console.error('❌ Failed to downgrade user plan');
+          }
         }
         break;
       }

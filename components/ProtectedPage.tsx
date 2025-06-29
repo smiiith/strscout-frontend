@@ -17,17 +17,16 @@ export default function ProtectedPage({ requiredPlan, children }: Props) {
     const router = useRouter();
 
     useEffect(() => {
-
         if (!loading && session) {
             const hasRequiredPlan = Array.isArray(requiredPlan)
                 ? requiredPlan.includes(session.plan.key)
                 : session.plan.key === requiredPlan;
 
-            if (hasRequiredPlan) {
-                setUserHasPerms(true);
-            }
+            setUserHasPerms(hasRequiredPlan);
+        } else if (!loading && !session) {
+            setUserHasPerms(false);
         }
-    }, [session, loading, requiredPlan, router]);
+    }, [session, loading, requiredPlan]);
 
     if (loading) {
         return <div>Loading user data...</div>;
@@ -39,15 +38,13 @@ export default function ProtectedPage({ requiredPlan, children }: Props) {
 
     return (
         <div>
-            {loading ? <div>checking perms</div> :
-                userHasPerms ? (
-                    <div>
-                        {children}
-                    </div>
-                ) : (
-                    <UpgradeMarketSpy />
-                )
-            }
+            {userHasPerms ? (
+                <div>
+                    {children}
+                </div>
+            ) : (
+                <UpgradeMarketSpy />
+            )}
         </div>
     );
 }

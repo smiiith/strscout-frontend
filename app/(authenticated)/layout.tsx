@@ -15,10 +15,10 @@ export default async function AuthenticatedLayout({ children }: { children: Reac
 
   const userProfile = await getUserWithPlan(user.id);
 
-  const initialUserSession = user ? {
+  const initialUserSession = user && userProfile?.plan ? {
     id: user.id,
     email: user.email || '',
-    plan: userProfile?.plan || '', // Adjust based on your logic
+    plan: userProfile.plan, // Pass the full plan object
   } : null;
 
   return (

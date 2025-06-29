@@ -1,4 +1,5 @@
 export const PLANS = {
-    FREEMIUM: "freemium",
-    PRO: "pro",
+  FREEMIUM: "freemium",
+  STANDARD: "standard",
+  PRO: "pro",
 };
