@@ -1,3 +1,5 @@
+"use client";
+
 import ImageSlider from "@/components/image-slider";
 import RatingsDialog from "@/components/ratings-dialog";
 import { MockRatingsSample } from "@/components/ratings-example/mock";

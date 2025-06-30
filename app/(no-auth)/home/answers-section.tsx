@@ -1,3 +1,5 @@
+"use client";
+
 import RatingsDialog from "@/components/ratings-dialog";
 import { MockRatingsSample } from "@/components/ratings-example/mock";
 import { Button } from "@/components/ui/button";

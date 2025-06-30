@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactFitty } from "react-fitty";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
