@@ -1,25 +1,19 @@
-"use client"
-
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
 import "./home.css";
-import HeroOne from "@/components/home/HeroOne";
-import HeroTwo from "@/components/home/HeroTwo";
-import { useRouter } from 'next/navigation';
-// @ts-ignore
-import Parallax, { Layer } from "react-parallax-scroll";
-import HeroThree from "@/components/home/HeroThree";
-import HeroFour from "@/components/home/HeroFour";
 import HeaderNav from "@/components/header";
-import HeroSection from "./(no-auth)/home/hero-section";
-import GuessworkSection from "./(no-auth)/home/guesswork-section";
-import HowItWorksSection from "./(no-auth)/home/how-it-works-section";
-import RatingsSection from "./(no-auth)/home/ratings-section";
-import AnswersSection from "./(no-auth)/home/answers-section";
+import ParallaxContent from "./parallax-content";
+import { createClient } from '@/utils/supabase/server';
+import { getUserWithPlan } from './(authenticated)/utils';
 
 
-export default function Home() {
-  const router = useRouter()
+export default async function Home() {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  let userProfile = null;
+  if (user) {
+    userProfile = await getUserWithPlan(user.id);
+  }
 
 
   return (
@@ -28,64 +22,8 @@ export default function Home() {
         <div className="container mx-auto p-0 max-w-7xl bg-background">
 
           <>
-            <HeaderNav />
-
-            <Parallax>
-              <Layer className="" settings={{ speed: 0.3 }}>
-                <div className="w-full">
-                  <div className="md:h-full">
-                    <HeroSection />
-                    {/* <HeroOne /> */}
-                  </div>
-                </div>
-              </Layer>
-
-              <Layer className="!h-auto" settings={{ speed: 0.3 }}>
-                <div className="w-full pt-0">
-                  <div className="">
-                    <GuessworkSection />
-                  </div>
-                </div>
-              </Layer>
-
-              <Layer className="!h-auto" settings={{ speed: 0.3 }}>
-                <div className="w-full pt-0">
-                  <div className="">
-                    <HowItWorksSection />
-                  </div>
-                </div>
-              </Layer>
-
-              <Layer className="!h-auto" settings={{ speed: 0.3 }}>
-                <div className="w-full pt-0">
-                  <div className="">
-                    <RatingsSection />
-                  </div>
-                </div>
-              </Layer>
-
-              <Layer className="!h-auto" settings={{ speed: 0.3 }}>
-                <div className="w-full pt-0">
-                  <div className="">
-                    <AnswersSection />
-                  </div>
-                </div>
-              </Layer>
-
-              {/* <Layer className="banner banner-2 !bg-[auto_80%] !bg-right md:pt-0 pt-[380px]" settings={{ speed: 0.3 }}>
-                <div className="flex flex-row w-full md:pt-5">
-                  <div className="box md:w-3/5 h-full">
-                    <HeroThree />
-                  </div>
-                </div>
-              </Layer> */}
-
-              {/* <Layer className="banner banner-3" settings={{ speed: 0.3 }}>
-          <div className="">
-            <HeroFour />
-          </div>
-        </Layer> */}
-            </Parallax>
+            <HeaderNav user={userProfile} />
+            <ParallaxContent />
           </>
 
         </div>
