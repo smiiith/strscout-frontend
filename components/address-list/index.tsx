@@ -60,6 +60,7 @@ export default function AddressList({ comps: comps }: AddressListProps) {
                         longitude={comp.longitude}
                         status={comp.status}
                         occupancyData={comp.comps}
+                        useNavigation={true}
                     />
                 ))}
             </div>
