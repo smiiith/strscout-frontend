@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { MapPin, Navigation, TrendingUp } from "lucide-react"
 import { HourglassIcon, IncognitoIcon, MapPinIcon, Navigation03Icon, TaskDone01Icon } from "../Icons"
 import { getScanStatus } from "@/app/types/scanStatus"
+import { useRouter } from "next/navigation"
 
 interface OccupancyData {
     id: string
@@ -26,6 +27,7 @@ export interface AddressCardProps {
     longitude: number
     status: string
     occupancyData?: OccupancyData[]
+    useNavigation?: boolean
 }
 
 const getStatusIcon = (status: string) => {
@@ -49,8 +51,9 @@ const ScanStatusWidget = ({ status }: { status: string }) => {
     )
 }
 
-export default function AddressCard({ address, latitude, longitude, status, occupancyData = [] }: AddressCardProps) {
+export default function AddressCard({ address, latitude, longitude, status, occupancyData = [], useNavigation = false }: AddressCardProps) {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const router = useRouter()
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString("en-US", {
@@ -70,11 +73,26 @@ export default function AddressCard({ address, latitude, longitude, status, occu
         return "text-red-600"
     }
 
+    const handleCardClick = () => {
+        if (useNavigation) {
+            const searchParams = new URLSearchParams({
+                address,
+                latitude: latitude.toString(),
+                longitude: longitude.toString(),
+                status,
+                occupancyData: encodeURIComponent(JSON.stringify(occupancyData))
+            });
+            router.push(`/comp-details?${searchParams.toString()}`);
+        } else {
+            setIsDialogOpen(true);
+        }
+    }
+
     return (
         <>
             <Card
                 className="w-full h-fit cursor-pointer hover:shadow-lg transition-shadow duration-200 bg-card border border-black/30 relative"
-                onClick={() => setIsDialogOpen(true)}
+                onClick={handleCardClick}
             >
                 <CardHeader className="pb-3">
                     <CardTitle className="flex items-center gap-2 text-lg">
