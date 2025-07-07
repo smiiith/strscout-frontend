@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import { PasswordInput } from '@/components/ui/password-input'
 import Image from 'next/image'
 
 
@@ -49,7 +50,7 @@ export default function CreateAccount() {
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" name="password" type="password" required />
+                <PasswordInput id="password" name="password" required />
               </div>
               <Button type="submit" className="w-fit" formAction={signup}>
                 Create

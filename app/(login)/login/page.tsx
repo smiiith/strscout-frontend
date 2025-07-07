@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import { PasswordInput } from '@/components/ui/password-input'
 import Image from 'next/image'
 import HeaderNav from '@/components/header'
 
@@ -46,7 +47,7 @@ export default function LoginPage() {
                   </Link>
                 </div>
                 {/* <input id="password" name="password" type="password" required /> */}
-                <Input id="password" name="password" type="password" required />
+                <PasswordInput id="password" name="password" required />
               </div>
               <Button
                 type="submit"
