@@ -28,6 +28,7 @@ export interface AddressCardProps {
     status: string
     occupancyData?: OccupancyData[]
     useNavigation?: boolean
+    compBasisId?: string
 }
 
 const getStatusIcon = (status: string) => {
@@ -51,7 +52,7 @@ const ScanStatusWidget = ({ status }: { status: string }) => {
     )
 }
 
-export default function AddressCard({ address, latitude, longitude, status, occupancyData = [], useNavigation = false }: AddressCardProps) {
+export default function AddressCard({ address, latitude, longitude, status, occupancyData = [], useNavigation = false, compBasisId }: AddressCardProps) {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const router = useRouter()
 
@@ -74,13 +75,9 @@ export default function AddressCard({ address, latitude, longitude, status, occu
     }
 
     const handleCardClick = () => {
-        if (useNavigation) {
+        if (useNavigation && compBasisId) {
             const searchParams = new URLSearchParams({
-                address,
-                latitude: latitude.toString(),
-                longitude: longitude.toString(),
-                status,
-                occupancyData: encodeURIComponent(JSON.stringify(occupancyData))
+                compBasisId: compBasisId
             });
             router.push(`/comp-details?${searchParams.toString()}`);
         } else {

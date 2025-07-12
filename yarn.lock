@@ -170,6 +170,46 @@
   resolved "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-14.2.3.tgz"
   integrity sha512-3pEYo/RaGqPP0YzwnlmPN2puaF2WMLM3apt5jLW2fFdXD9+pqcoTzRk+iZsf8ta7+quAe4Q6Ms0nR0SFGFdS1A==
 
+"@next/swc-darwin-x64@14.2.3":
+  version "14.2.3"
+  resolved "https://registry.yarnpkg.com/@next/swc-darwin-x64/-/swc-darwin-x64-14.2.3.tgz#a3f8af05b5f9a52ac3082e66ac29e125ab1d7b9c"
+  integrity sha512-6adp7waE6P1TYFSXpY366xwsOnEXM+y1kgRpjSRVI2CBDOcbRjsJ67Z6EgKIqWIue52d2q/Mx8g9MszARj8IEA==
+
+"@next/swc-linux-arm64-gnu@14.2.3":
+  version "14.2.3"
+  resolved "https://registry.yarnpkg.com/@next/swc-linux-arm64-gnu/-/swc-linux-arm64-gnu-14.2.3.tgz#4e63f43879285b52554bfd39e6e0cc78a9b27bbf"
+  integrity sha512-cuzCE/1G0ZSnTAHJPUT1rPgQx1w5tzSX7POXSLaS7w2nIUJUD+e25QoXD/hMfxbsT9rslEXugWypJMILBj/QsA==
+
+"@next/swc-linux-arm64-musl@14.2.3":
+  version "14.2.3"
+  resolved "https://registry.yarnpkg.com/@next/swc-linux-arm64-musl/-/swc-linux-arm64-musl-14.2.3.tgz#ebdaed26214448b1e6f2c3e8b3cd29bfba387990"
+  integrity sha512-0D4/oMM2Y9Ta3nGuCcQN8jjJjmDPYpHX9OJzqk42NZGJocU2MqhBq5tWkJrUQOQY9N+In9xOdymzapM09GeiZw==
+
+"@next/swc-linux-x64-gnu@14.2.3":
+  version "14.2.3"
+  resolved "https://registry.yarnpkg.com/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-14.2.3.tgz#19e3bcc137c3b582a1ab867106817e5c90a20593"
+  integrity sha512-ENPiNnBNDInBLyUU5ii8PMQh+4XLr4pG51tOp6aJ9xqFQ2iRI6IH0Ds2yJkAzNV1CfyagcyzPfROMViS2wOZ9w==
+
+"@next/swc-linux-x64-musl@14.2.3":
+  version "14.2.3"
+  resolved "https://registry.yarnpkg.com/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-14.2.3.tgz#794a539b98e064169cf0ff7741b2a4fb16adec7d"
+  integrity sha512-BTAbq0LnCbF5MtoM7I/9UeUu/8ZBY0i8SFjUMCbPDOLv+un67e2JgyN4pmgfXBwy/I+RHu8q+k+MCkDN6P9ViQ==
+
+"@next/swc-win32-arm64-msvc@14.2.3":
+  version "14.2.3"
+  resolved "https://registry.yarnpkg.com/@next/swc-win32-arm64-msvc/-/swc-win32-arm64-msvc-14.2.3.tgz#eda9fa0fbf1ff9113e87ac2668ee67ce9e5add5a"
+  integrity sha512-AEHIw/dhAMLNFJFJIJIyOFDzrzI5bAjI9J26gbO5xhAKHYTZ9Or04BesFPXiAYXDNdrwTP2dQceYA4dL1geu8A==
+
+"@next/swc-win32-ia32-msvc@14.2.3":
+  version "14.2.3"
+  resolved "https://registry.yarnpkg.com/@next/swc-win32-ia32-msvc/-/swc-win32-ia32-msvc-14.2.3.tgz#7c1190e3f640ab16580c6bdbd7d0e766b9920457"
+  integrity sha512-vga40n1q6aYb0CLrM+eEmisfKCR45ixQYXuBXxOOmmoV8sYST9k7E3US32FsY+CkkF7NtzdcebiFT4CHuMSyZw==
+
+"@next/swc-win32-x64-msvc@14.2.3":
+  version "14.2.3"
+  resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-14.2.3.tgz#2be4e39ee25bfbd85be78eea17c0e7751dc4323c"
+  integrity sha512-Q1/zm43RWynxrO7lW4ehciQVj+5ePBhOK+/K2P7pLFX3JaJ/IZVC69SHidrmZSOkqz7ECIOhhy7XhAFG4JYyHA==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -178,7 +218,7 @@
     "@nodelib/fs.stat" "2.0.5"
     run-parallel "^1.1.9"
 
-"@nodelib/fs.stat@^2.0.2", "@nodelib/fs.stat@2.0.5":
+"@nodelib/fs.stat@2.0.5", "@nodelib/fs.stat@^2.0.2":
   version "2.0.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.stat/-/fs.stat-2.0.5.tgz"
   integrity sha512-RkhPPp2zrqDAQA/2jNhnztcPAlv64XdhIp7a7454A5ovI7Bukxgt7MX7udwAu3zg1DcpPU0rz3VV1SeaqvY4+A==
@@ -291,7 +331,7 @@
   resolved "https://registry.npmjs.org/@radix-ui/react-context/-/react-context-1.1.2.tgz"
   integrity sha512-jCi/QKUM2r1Ju5a3J64TH2A5SpKAgh0LpknyqdQ4m6DCV0xJ2HG1xARRwNGPQfi1SLdLWZ1OJz6F4OMBBNiGJA==
 
-"@radix-ui/react-dialog@^1.1.1", "@radix-ui/react-dialog@1.1.14":
+"@radix-ui/react-dialog@1.1.14", "@radix-ui/react-dialog@^1.1.1":
   version "1.1.14"
   resolved "https://registry.npmjs.org/@radix-ui/react-dialog/-/react-dialog-1.1.14.tgz"
   integrity sha512-+CpweKjqpzTmwRwcYECQcNYbI8V9VSQt0SNFKeEBLgfucbsLssU6Ppq7wUdNXEGb573bMjFhVjKVll8rmV6zMw==
@@ -430,6 +470,27 @@
     "@radix-ui/react-use-previous" "1.1.1"
     "@radix-ui/react-visually-hidden" "1.2.3"
 
+"@radix-ui/react-popover@^1.1.14":
+  version "1.1.14"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-popover/-/react-popover-1.1.14.tgz#5496d1986f0287cdfc77e73f70a887e4cb77ad08"
+  integrity sha512-ODz16+1iIbGUfFEfKx2HTPKizg2MN39uIOV8MXeHnmdd3i/N9Wt7vU46wbHsqA0xoaQyXVcs0KIlBdOA2Y95bw==
+  dependencies:
+    "@radix-ui/primitive" "1.1.2"
+    "@radix-ui/react-compose-refs" "1.1.2"
+    "@radix-ui/react-context" "1.1.2"
+    "@radix-ui/react-dismissable-layer" "1.1.10"
+    "@radix-ui/react-focus-guards" "1.1.2"
+    "@radix-ui/react-focus-scope" "1.1.7"
+    "@radix-ui/react-id" "1.1.1"
+    "@radix-ui/react-popper" "1.2.7"
+    "@radix-ui/react-portal" "1.1.9"
+    "@radix-ui/react-presence" "1.1.4"
+    "@radix-ui/react-primitive" "2.1.3"
+    "@radix-ui/react-slot" "1.2.3"
+    "@radix-ui/react-use-controllable-state" "1.2.2"
+    aria-hidden "^1.2.4"
+    react-remove-scroll "^2.6.3"
+
 "@radix-ui/react-popper@1.2.7":
   version "1.2.7"
   resolved "https://registry.npmjs.org/@radix-ui/react-popper/-/react-popper-1.2.7.tgz"
@@ -542,7 +603,7 @@
   dependencies:
     "@radix-ui/react-primitive" "2.1.3"
 
-"@radix-ui/react-slot@^1.1.2", "@radix-ui/react-slot@1.2.3":
+"@radix-ui/react-slot@1.2.3", "@radix-ui/react-slot@^1.1.2":
   version "1.2.3"
   resolved "https://registry.npmjs.org/@radix-ui/react-slot/-/react-slot-1.2.3.tgz"
   integrity sha512-aeNmHnBxbi2St0au6VBVC7JXFlhLlOnvIIlePNniyUNAClzmtAUEY8/pBiK3iHjufOlwA+c20/8jngo7xcrg8A==
@@ -773,6 +834,11 @@
   resolved "https://registry.npmjs.org/@react-email/text/-/text-0.0.10.tgz"
   integrity sha512-wNAnxeEAiFs6N+SxS0y6wTJWfewEzUETuyS2aZmT00xk50VijwyFRuhm4sYSjusMyshevomFwz5jNISCxRsGWw==
 
+"@rollup/rollup-linux-x64-gnu@^4.9.5":
+  version "4.45.0"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.45.0.tgz#e822632fe5b324b16bdc37149149c8c760b031fd"
+  integrity sha512-XZdD3fEEQcwG2KrJDdEQu7NrHonPxxaV0/w2HpvINBdcqebz1aL+0vM2WFJq4DeiAVT6F5SUQas65HY5JDqoPw==
+
 "@rushstack/eslint-patch@^1.1.3":
   version "1.2.0"
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.2.0.tgz"
@@ -810,7 +876,7 @@
   dependencies:
     "@supabase/node-fetch" "^2.6.14"
 
-"@supabase/node-fetch@^2.6.13", "@supabase/node-fetch@^2.6.14", "@supabase/node-fetch@2.6.15":
+"@supabase/node-fetch@2.6.15", "@supabase/node-fetch@^2.6.13", "@supabase/node-fetch@^2.6.14":
   version "2.6.15"
   resolved "https://registry.npmjs.org/@supabase/node-fetch/-/node-fetch-2.6.15.tgz"
   integrity sha512-1ibVeYUacxWYi9i0cf5efil6adJ9WRyZBLivgjs+AUpewx1F3xPi7gLgaASI2SmIQxPoCEjAsLAzKPgMJVgOUQ==
@@ -2136,7 +2202,7 @@ get-tsconfig@^4.5.0:
   resolved "https://registry.npmjs.org/get-tsconfig/-/get-tsconfig-4.5.0.tgz"
   integrity sha512-MjhiaIWCJ1sAU4pIQ5i5OfOuHHxVo1oYeNsWTON7jxYkod8pHocXeh+SSbmu5OZZZK73B6cbJ2XADzXehLyovQ==
 
-glob-parent@^5.1.2:
+glob-parent@^5.1.2, glob-parent@~5.1.2:
   version "5.1.2"
   resolved "https://registry.npmjs.org/glob-parent/-/glob-parent-5.1.2.tgz"
   integrity sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==
@@ -2150,38 +2216,7 @@ glob-parent@^6.0.2:
   dependencies:
     is-glob "^4.0.3"
 
-glob-parent@~5.1.2:
-  version "5.1.2"
-  resolved "https://registry.npmjs.org/glob-parent/-/glob-parent-5.1.2.tgz"
-  integrity sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==
-  dependencies:
-    is-glob "^4.0.1"
-
-glob@^10.3.10:
-  version "10.4.5"
-  resolved "https://registry.npmjs.org/glob/-/glob-10.4.5.tgz"
-  integrity sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==
-  dependencies:
-    foreground-child "^3.1.0"
-    jackspeak "^3.1.2"
-    minimatch "^9.0.4"
-    minipass "^7.1.2"
-    package-json-from-dist "^1.0.0"
-    path-scurry "^1.11.1"
-
-glob@^10.4.2:
-  version "10.4.5"
-  resolved "https://registry.npmjs.org/glob/-/glob-10.4.5.tgz"
-  integrity sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==
-  dependencies:
-    foreground-child "^3.1.0"
-    jackspeak "^3.1.2"
-    minimatch "^9.0.4"
-    minipass "^7.1.2"
-    package-json-from-dist "^1.0.0"
-    path-scurry "^1.11.1"
-
-glob@^7.1.3, glob@7.1.7:
+glob@7.1.7, glob@^7.1.3:
   version "7.1.7"
   resolved "https://registry.npmjs.org/glob/-/glob-7.1.7.tgz"
   integrity sha512-OvD9ENzPLbegENnYP5UUfJIirTg4+XwMWGaQfQTY0JenxNvvIKP3U3/tAQSPIu/lHxXYSZmpXlUHeqAIdKzBLQ==
@@ -2192,6 +2227,18 @@ glob@^7.1.3, glob@7.1.7:
     minimatch "^3.0.4"
     once "^1.3.0"
     path-is-absolute "^1.0.0"
+
+glob@^10.3.10, glob@^10.4.2:
+  version "10.4.5"
+  resolved "https://registry.npmjs.org/glob/-/glob-10.4.5.tgz"
+  integrity sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==
+  dependencies:
+    foreground-child "^3.1.0"
+    jackspeak "^3.1.2"
+    minimatch "^9.0.4"
+    minipass "^7.1.2"
+    package-json-from-dist "^1.0.0"
+    path-scurry "^1.11.1"
 
 globals@^13.19.0:
   version "13.20.0"
@@ -2293,7 +2340,7 @@ hasown@^2.0.2:
   dependencies:
     function-bind "^1.1.2"
 
-html-to-text@^9.0.5, html-to-text@9.0.5:
+html-to-text@9.0.5, html-to-text@^9.0.5:
   version "9.0.5"
   resolved "https://registry.npmjs.org/html-to-text/-/html-to-text-9.0.5.tgz"
   integrity sha512-qY60FjREgVZL03vJU6IfMV4GDjGBIoOyvuFdpBDIX9yTlDw0TjxVBQp+P8NvpdIXNJvfWBTNul7fsAQJq2FNpg==
@@ -2792,6 +2839,13 @@ mimic-fn@^4.0.0:
   resolved "https://registry.npmjs.org/mimic-fn/-/mimic-fn-4.0.0.tgz"
   integrity sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw==
 
+minimatch@9.0.1:
+  version "9.0.1"
+  resolved "https://registry.npmjs.org/minimatch/-/minimatch-9.0.1.tgz"
+  integrity sha512-0jWhJpD/MdhPXwPuiRkCbfYfSKp2qnn2eOc279qI7f+osl/l+prKSrvhg157zSYvx/1nmgn2NqdT6k2Z7zSH9w==
+  dependencies:
+    brace-expansion "^2.0.1"
+
 minimatch@^3.0.4, minimatch@^3.0.5, minimatch@^3.1.2:
   version "3.1.2"
   resolved "https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz"
@@ -2806,13 +2860,6 @@ minimatch@^9.0.4:
   dependencies:
     brace-expansion "^2.0.1"
 
-minimatch@9.0.1:
-  version "9.0.1"
-  resolved "https://registry.npmjs.org/minimatch/-/minimatch-9.0.1.tgz"
-  integrity sha512-0jWhJpD/MdhPXwPuiRkCbfYfSKp2qnn2eOc279qI7f+osl/l+prKSrvhg157zSYvx/1nmgn2NqdT6k2Z7zSH9w==
-  dependencies:
-    brace-expansion "^2.0.1"
-
 minimist@^1.2.0, minimist@^1.2.6:
   version "1.2.8"
   resolved "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz"
@@ -2823,7 +2870,7 @@ minimist@^1.2.0, minimist@^1.2.6:
   resolved "https://registry.npmjs.org/minipass/-/minipass-7.1.2.tgz"
   integrity sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==
 
-ms@^2.1.1, ms@2.1.2:
+ms@2.1.2, ms@^2.1.1:
   version "2.1.2"
   resolved "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
@@ -3175,15 +3222,6 @@ postcss-value-parser@^4.0.0, postcss-value-parser@^4.2.0:
   resolved "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
-postcss@^8.4.40, postcss@^8.4.47:
-  version "8.5.6"
-  resolved "https://registry.npmjs.org/postcss/-/postcss-8.5.6.tgz"
-  integrity sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==
-  dependencies:
-    nanoid "^3.3.11"
-    picocolors "^1.1.1"
-    source-map-js "^1.2.1"
-
 postcss@8.4.31:
   version "8.4.31"
   resolved "https://registry.npmjs.org/postcss/-/postcss-8.4.31.tgz"
@@ -3192,6 +3230,15 @@ postcss@8.4.31:
     nanoid "^3.3.6"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+postcss@^8.4.40, postcss@^8.4.47:
+  version "8.5.6"
+  resolved "https://registry.npmjs.org/postcss/-/postcss-8.5.6.tgz"
+  integrity sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==
+  dependencies:
+    nanoid "^3.3.11"
+    picocolors "^1.1.1"
+    source-map-js "^1.2.1"
 
 posthog-js@^1.214.0:
   version "1.255.1"
@@ -3294,7 +3341,7 @@ react-parallax-scroll@^0.1.1:
   resolved "https://registry.npmjs.org/react-parallax-scroll/-/react-parallax-scroll-0.1.1.tgz"
   integrity sha512-OpHGoO+p41F7YCtSMw4B4uAsEx38hZslx68GuTqaAQ7p2Jk1DEE6VszhRVXwoUt5/S5gCVj6ll3OzRNZ9RCJSQ==
 
-react-promise-suspense@^0.3.4, react-promise-suspense@0.3.4:
+react-promise-suspense@0.3.4, react-promise-suspense@^0.3.4:
   version "0.3.4"
   resolved "https://registry.npmjs.org/react-promise-suspense/-/react-promise-suspense-0.3.4.tgz"
   integrity sha512-I42jl7L3Ze6kZaq+7zXWSunBa3b1on5yfvUW6Eo/3fFOj6dZ5Bqmcd264nJbTK/gn1HjjILAjSwnZbV4RpSaNQ==
@@ -3560,16 +3607,7 @@ streamsearch@^1.1.0:
   resolved "https://registry.npmjs.org/streamsearch/-/streamsearch-1.1.0.tgz"
   integrity sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==
 
-"string-width-cjs@npm:string-width@^4.2.0":
-  version "4.2.3"
-  resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
-
-string-width@^4.1.0:
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -3628,14 +3666,7 @@ string.prototype.trimstart@^1.0.6:
     define-properties "^1.1.4"
     es-abstract "^1.20.4"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
-  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
-  dependencies:
-    ansi-regex "^5.0.1"
-
-strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==

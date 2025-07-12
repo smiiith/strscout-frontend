@@ -181,9 +181,13 @@ When you need to make schema changes:
 
 2. **Capture changes as migrations**:
 ```bash
-supabase db pull
+supabase db diff --schema public > supabase/migrations/$(date +%Y%m%d%H%M%S)_describe_your_changes.sql
 ```
-This creates migration files in `supabase/migrations/` folder
+Or for interactive review:
+```bash
+supabase db diff
+```
+This generates migration files capturing your local changes in `supabase/migrations/` folder
 
 3. **Review the generated migration files**:
    - Check the SQL in the migration files

@@ -61,6 +61,7 @@ export default function AddressList({ comps: comps }: AddressListProps) {
                         status={comp.status}
                         occupancyData={comp.comps}
                         useNavigation={true}
+                        compBasisId={comp.id}
                     />
                 ))}
             </div>
