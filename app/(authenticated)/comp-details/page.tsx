@@ -3,12 +3,37 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { ArrowLeft, TrendingUp, Star, Users, Home, Shield, Calendar, FileText } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  ArrowLeft,
+  TrendingUp,
+  Star,
+  Users,
+  Home,
+  Shield,
+  Calendar,
+  FileText,
+} from "lucide-react";
 import { MapPinIcon } from "@/components/Icons";
 import { useRouter } from "next/navigation";
 import ProtectedPage from "@/components/ProtectedPage";
@@ -17,6 +42,7 @@ import axios from "axios";
 
 interface CompAnalysisData {
   comp_id: string;
+  property_id: string;
   listing_id: string;
   overall_occupancy: number;
   overall_genius_score: any;
@@ -50,14 +76,15 @@ interface CompAnalysisResponse {
 export default function CompDetailsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [analysisResponse, setAnalysisResponse] = useState<CompAnalysisResponse | null>(null);
+  const [analysisResponse, setAnalysisResponse] =
+    useState<CompAnalysisResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCompAnalysis = async () => {
       const compBasisId = searchParams.get("compBasisId");
-      
+
       if (!compBasisId) {
         setError("No comp basis ID provided");
         setLoading(false);
@@ -97,12 +124,16 @@ export default function CompDetailsPage() {
     const stars = [];
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
-    
+
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
-        stars.push(<Star key={i} className="h-3 w-3 fill-yellow-400 text-yellow-400" />);
+        stars.push(
+          <Star key={i} className="h-3 w-3 fill-amber-500 text-amber-500" />
+        );
       } else if (i === fullStars && hasHalfStar) {
-        stars.push(<Star key={i} className="h-3 w-3 fill-yellow-400/50 text-yellow-400" />);
+        stars.push(
+          <Star key={i} className="h-3 w-3 fill-amber-500/50 text-amber-500" />
+        );
       } else {
         stars.push(<Star key={i} className="h-3 w-3 text-gray-300" />);
       }
@@ -112,13 +143,14 @@ export default function CompDetailsPage() {
 
   const renderPolicies = (policies: any) => {
     if (!policies) return <span className="text-muted-foreground">N/A</span>;
-    
+
     const policyList = [];
     if (policies.instant_book) policyList.push("Instant Book");
     if (policies.pets_allowed) policyList.push("Pets");
-    if (policies.cancellation_policy) policyList.push(policies.cancellation_policy);
+    if (policies.cancellation_policy)
+      policyList.push(policies.cancellation_policy);
     if (policies.self_checkin) policyList.push("Self Check-in");
-    
+
     return (
       <div className="flex flex-wrap gap-1">
         {policyList.map((policy, index) => (
@@ -174,28 +206,14 @@ export default function CompDetailsPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <MapPinIcon className="h-5 w-5 text-primary" color="red" />
-                  Comp Basis Details
+                  Comp Results for...
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">Address</p>
-                  <p className="text-lg">{analysisResponse.comp_basis.address}</p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground mb-1">Latitude</p>
-                    <p className="text-sm font-mono">{analysisResponse.comp_basis.latitude}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground mb-1">Longitude</p>
-                    <p className="text-sm font-mono">{analysisResponse.comp_basis.longitude}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground mb-1">Status</p>
-                    <p className="text-sm capitalize">{analysisResponse.comp_basis.status}</p>
-                  </div>
+                  <p className="text-lg">
+                    {analysisResponse.comp_basis.address}
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -205,13 +223,15 @@ export default function CompDetailsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <TrendingUp className="h-5 w-5" />
-                Summary from AI here: What is so good about top listings, why do they perform better?
+                Summary from AI here: What is so good about top listings, why do
+                they perform better?
               </CardTitle>
               <p className="text-sm text-muted-foreground">
                 (click here for your strategies to win)
               </p>
               <p className="text-xs text-muted-foreground mt-2">
-                note here to tell user to click on each point below for more detailed information
+                note here to tell user to click on each point below for more
+                detailed information
               </p>
             </CardHeader>
             <CardContent>
@@ -225,35 +245,34 @@ export default function CompDetailsPage() {
                             <FileText className="h-4 w-4" />
                             Listing ID
                           </div>
-                          <p className="text-xs font-normal text-muted-foreground">(clickable)</p>
                         </TableHead>
                         <TableHead className="w-[140px]">
                           <div className="flex items-center gap-1">
                             <TrendingUp className="h-4 w-4" />
                             Overall Occupancy
                           </div>
-                          <p className="text-xs font-normal text-muted-foreground">(drill down for 30+)</p>
                         </TableHead>
                         <TableHead className="w-[150px]">
                           <div className="flex items-center gap-1">
                             <Star className="h-4 w-4" />
                             Overall Genius Score
                           </div>
-                          <p className="text-xs font-normal text-muted-foreground">(drill down for full report)</p>
+                          <p className="text-xs font-normal text-muted-foreground"></p>
                         </TableHead>
                         <TableHead className="w-[120px]">
                           <div className="flex items-center gap-1">
                             <Home className="h-4 w-4" />
                             Bedrooms
                           </div>
-                          <p className="text-xs font-normal text-muted-foreground">(drill down for instant, pets, cancellation)</p>
                         </TableHead>
                         <TableHead className="w-[140px]">
                           <div className="flex items-center gap-1">
                             <Star className="h-4 w-4" />
                             Average Review
                           </div>
-                          <p className="text-xs font-normal text-muted-foreground">(how many stars)</p>
+                          <p className="text-xs font-normal text-muted-foreground">
+                            (how many stars)
+                          </p>
                         </TableHead>
                         <TableHead className="w-[140px]">
                           <div className="flex items-center gap-1">
@@ -266,20 +285,26 @@ export default function CompDetailsPage() {
                             <Shield className="h-4 w-4" />
                             Policies
                           </div>
-                          <p className="text-xs font-normal text-muted-foreground">(drill down for instant book, pets, cancellation, self check-in)</p>
                         </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {analysisResponse.comps.map((comp, index) => (
-                        <TableRow key={comp.comp_id} className="hover:bg-muted/50">
+                        <TableRow
+                          key={comp.comp_id}
+                          className="hover:bg-muted/50"
+                        >
                           <TableCell>
-                            <Button 
-                              variant="link" 
+                            {/* <pre>
+                              {JSON.stringify(analysisResponse, null, 2)}
+                            </pre> */}
+                            <Button
+                              variant="link"
                               className="h-auto p-0 font-mono text-sm text-blue-600 hover:text-blue-800"
                               onClick={() => {
-                                // You can implement the listing navigation here
-                                console.log("Navigate to listing:", comp.listing_id);
+                                router.push(
+                                  `/properties/comps/${comp.property_id}`
+                                );
                               }}
                             >
                               {comp.listing_id}
@@ -291,8 +316,8 @@ export default function CompDetailsPage() {
                                 <Popover>
                                   <TooltipTrigger asChild>
                                     <PopoverTrigger asChild>
-                                      <Button 
-                                        variant="ghost" 
+                                      <Button
+                                        variant="ghost"
                                         className={`h-auto p-1 font-semibold hover:bg-muted ${getOccupancyColor(comp.overall_occupancy)}`}
                                       >
                                         {comp.overall_occupancy?.toFixed(1)}%
@@ -301,23 +326,37 @@ export default function CompDetailsPage() {
                                   </TooltipTrigger>
                                   <PopoverContent className="w-48">
                                     <div className="space-y-2">
-                                      <h4 className="font-medium text-sm">Occupancy Breakdown</h4>
+                                      <h4 className="font-medium text-sm">
+                                        Occupancy Breakdown
+                                      </h4>
                                       <div className="space-y-1 text-sm">
                                         <div className="flex justify-between">
-                                          <span className="text-muted-foreground">30 days:</span>
-                                          <span className={`font-medium ${getOccupancyColor(comp.thirty_day)}`}>
+                                          <span className="text-muted-foreground">
+                                            30 days:
+                                          </span>
+                                          <span
+                                            className={`font-medium ${getOccupancyColor(comp.thirty_day)}`}
+                                          >
                                             {comp.thirty_day?.toFixed(1)}%
                                           </span>
                                         </div>
                                         <div className="flex justify-between">
-                                          <span className="text-muted-foreground">60 days:</span>
-                                          <span className={`font-medium ${getOccupancyColor(comp.sixty_day)}`}>
+                                          <span className="text-muted-foreground">
+                                            60 days:
+                                          </span>
+                                          <span
+                                            className={`font-medium ${getOccupancyColor(comp.sixty_day)}`}
+                                          >
                                             {comp.sixty_day?.toFixed(1)}%
                                           </span>
                                         </div>
                                         <div className="flex justify-between">
-                                          <span className="text-muted-foreground">90 days:</span>
-                                          <span className={`font-medium ${getOccupancyColor(comp.ninety_day)}`}>
+                                          <span className="text-muted-foreground">
+                                            90 days:
+                                          </span>
+                                          <span
+                                            className={`font-medium ${getOccupancyColor(comp.ninety_day)}`}
+                                          >
                                             {comp.ninety_day?.toFixed(1)}%
                                           </span>
                                         </div>
@@ -332,24 +371,27 @@ export default function CompDetailsPage() {
                             </TooltipProvider>
                           </TableCell>
                           <TableCell>
-                            <Button 
-                              variant="link" 
-                              className="h-auto p-0 text-left"
-                              onClick={() => {
-                                // You can implement the genius score drill-down here
-                                console.log("Show genius score details:", comp.overall_genius_score);
-                              }}
-                            >
-                              {comp.overall_genius_score ? (
-                                <Badge variant="secondary">View Report</Badge>
-                              ) : (
-                                <span className="text-muted-foreground">N/A</span>
-                              )}
-                            </Button>
+                            {comp.overall_genius_score ? (
+                              <Badge
+                                variant="secondary"
+                                className="cursor-pointer"
+                                onClick={() => {
+                                  router.push(
+                                    `/properties/comps/${comp.property_id}`
+                                  );
+                                }}
+                              >
+                                View Ratings
+                              </Badge>
+                            ) : (
+                              <span className="text-muted-foreground">N/A</span>
+                            )}
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center gap-2">
-                              <span className="font-medium">{comp.bedrooms || "N/A"}</span>
+                              <span className="font-medium">
+                                {comp.bedrooms || "N/A"}
+                              </span>
                               {comp.bedrooms && (
                                 <Home className="h-3 w-3 text-muted-foreground" />
                               )}
@@ -358,26 +400,28 @@ export default function CompDetailsPage() {
                           <TableCell>
                             <div className="flex flex-col gap-1">
                               {comp.average_review ? (
-                                <>
+                                <div className="flex">
                                   {renderStarRating(comp.average_review)}
-                                  <span className="text-xs text-muted-foreground">
-                                    {formatRating(comp.average_review)}
+                                  <span className="text-xs text-muted-foreground ml-2">
+                                    ({formatRating(comp.average_review)})
                                   </span>
-                                </>
+                                </div>
                               ) : (
-                                <span className="text-muted-foreground">N/A</span>
+                                <span className="text-muted-foreground">
+                                  N/A
+                                </span>
                               )}
                             </div>
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center gap-1">
                               <Users className="h-3 w-3 text-muted-foreground" />
-                              <span className="font-medium">{comp.number_of_reviews || 0}</span>
+                              <span className="font-medium">
+                                {comp.number_of_reviews || 0}
+                              </span>
                             </div>
                           </TableCell>
-                          <TableCell>
-                            {renderPolicies(comp.policies)}
-                          </TableCell>
+                          <TableCell>{renderPolicies(comp.policies)}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -385,7 +429,9 @@ export default function CompDetailsPage() {
                 </div>
               ) : (
                 <div className="flex items-center justify-center h-32">
-                  <p className="text-muted-foreground">No comp analysis data available</p>
+                  <p className="text-muted-foreground">
+                    No comp analysis data available
+                  </p>
                 </div>
               )}
             </CardContent>
