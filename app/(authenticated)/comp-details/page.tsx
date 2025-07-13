@@ -154,9 +154,10 @@ export default function CompDetailsPage() {
     // Parse policies if it's a string
     let parsedPolicies;
     try {
-      parsedPolicies = typeof policies === 'string' ? JSON.parse(policies) : policies;
+      parsedPolicies =
+        typeof policies === "string" ? JSON.parse(policies) : policies;
     } catch (error) {
-      console.error('Failed to parse policies:', error);
+      console.error("Failed to parse policies:", error);
       return <span className="text-muted-foreground">Invalid policies</span>;
     }
 
@@ -164,11 +165,18 @@ export default function CompDetailsPage() {
     const policyBadges = [];
     if (parsedPolicies.instant_book === true) policyBadges.push("Instant Book");
     if (parsedPolicies.pets_allowed === true) policyBadges.push("Pets");
-    if (parsedPolicies.self_checkin === true) policyBadges.push("Self Check-in");
-    if (parsedPolicies.cancellation_policy && typeof parsedPolicies.cancellation_policy === 'string') {
+    if (parsedPolicies.self_checkin === true)
+      policyBadges.push("Self Check-in");
+    if (
+      parsedPolicies.cancellation_policy &&
+      typeof parsedPolicies.cancellation_policy === "string"
+    ) {
       policyBadges.push("Cancellation");
     }
-    if (parsedPolicies.house_rules && typeof parsedPolicies.house_rules === 'string') {
+    if (
+      parsedPolicies.house_rules &&
+      typeof parsedPolicies.house_rules === "string"
+    ) {
       policyBadges.push("House Rules");
     }
 
@@ -179,24 +187,34 @@ export default function CompDetailsPage() {
           <PopoverTrigger asChild>
             <div className="flex flex-wrap gap-1 cursor-pointer">
               {policyBadges.map((policy, index) => (
-                <Badge key={index} variant="secondary" className="text-xs hover:bg-secondary/80">
+                <Badge
+                  key={index}
+                  variant="secondary"
+                  className="text-xs hover:bg-secondary/80"
+                >
                   {policy}
                 </Badge>
               ))}
             </div>
           </PopoverTrigger>
-          <PopoverContent className="w-80 max-h-96 overflow-y-auto" side="left" align="start">
+          <PopoverContent
+            className="w-80 max-h-96 overflow-y-auto"
+            side="left"
+            align="start"
+          >
             <div className="space-y-3">
               <h4 className="font-semibold text-sm flex items-center gap-2">
                 <Shield className="h-4 w-4" />
                 Policy Details
               </h4>
-              
+
               {parsedPolicies.self_checkin && (
                 <div className="text-xs">
                   <span className="font-medium">Self Check-in:</span> Available
                   {parsedPolicies.self_checkin_details && (
-                    <div className="text-muted-foreground mt-1">{parsedPolicies.self_checkin_details}</div>
+                    <div className="text-muted-foreground mt-1">
+                      {parsedPolicies.self_checkin_details}
+                    </div>
                   )}
                 </div>
               )}
@@ -214,21 +232,33 @@ export default function CompDetailsPage() {
                     {(() => {
                       // Try to extract meaningful cancellation policy text
                       let policyText = parsedPolicies.cancellation_policy;
-                      
+
                       // If it's a JSON string, try to extract meaningful parts
-                      if (typeof policyText === 'string' && policyText.includes('"')) {
+                      if (
+                        typeof policyText === "string" &&
+                        policyText.includes('"')
+                      ) {
                         // Look for common cancellation terms in the text
-                        const terms = ['Free cancellation', 'Non-refundable', 'Strict', 'Moderate', 'Flexible'];
-                        const foundTerm = terms.find(term => policyText.toLowerCase().includes(term.toLowerCase()));
+                        const terms = [
+                          "Free cancellation",
+                          "Non-refundable",
+                          "Strict",
+                          "Moderate",
+                          "Flexible",
+                        ];
+                        const foundTerm = terms.find((term) =>
+                          policyText.toLowerCase().includes(term.toLowerCase())
+                        );
                         if (foundTerm) {
                           policyText = foundTerm;
                         } else {
-                          policyText = "See full policy details on listing page";
+                          policyText =
+                            "See full policy details on listing page";
                         }
                       }
-                      
-                      return policyText.length > 200 
-                        ? policyText.substring(0, 200) + "..." 
+
+                      return policyText.length > 200
+                        ? policyText.substring(0, 200) + "..."
                         : policyText;
                     })()}
                   </div>
@@ -239,8 +269,8 @@ export default function CompDetailsPage() {
                 <div className="text-xs">
                   <span className="font-medium">House Rules:</span>
                   <div className="text-muted-foreground mt-1 max-h-20 overflow-y-auto">
-                    {parsedPolicies.house_rules.length > 200 
-                      ? parsedPolicies.house_rules.substring(0, 200) + "..." 
+                    {parsedPolicies.house_rules.length > 200
+                      ? parsedPolicies.house_rules.substring(0, 200) + "..."
                       : parsedPolicies.house_rules}
                   </div>
                 </div>
@@ -399,7 +429,7 @@ export default function CompDetailsPage() {
                               className="h-auto p-0 font-mono text-sm text-blue-600 hover:text-blue-800"
                               onClick={() => {
                                 router.push(
-                                  `/properties/comps/${comp.property_id}`
+                                  `https://www.airbnb.com/rooms/${comp.listing_id}`
                                 );
                               }}
                             >
@@ -477,7 +507,7 @@ export default function CompDetailsPage() {
                                   );
                                 }}
                               >
-                                View Ratings
+                                Rating
                               </Badge>
                             ) : (
                               <span className="text-muted-foreground">N/A</span>
