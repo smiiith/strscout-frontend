@@ -1,0 +1,178 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
+interface Listing {
+  id: string;
+  title: string;
+  thumbnail: string;
+}
+
+const mockListings: Listing[] = [
+  {
+    id: "123456789012",
+    title: "Modern Downtown Apartment with City Views",
+    thumbnail: "/placeholder.svg?height=60&width=60",
+  },
+  {
+    id: "234567890123",
+    title: "Cozy Suburban Home with Garden",
+    thumbnail: "/placeholder.svg?height=60&width=60",
+  },
+  {
+    id: "345678901234",
+    title: "Luxury Penthouse Suite",
+    thumbnail: "/placeholder.svg?height=60&width=60",
+  },
+  {
+    id: "456789012345",
+    title: "Charming Victorian House",
+    thumbnail: "/placeholder.svg?height=60&width=60",
+  },
+  {
+    id: "567890123456",
+    title: "Beachfront Condo with Ocean Views",
+    thumbnail: "/placeholder.svg?height=60&width=60",
+  },
+  {
+    id: "678901234567",
+    title: "Mountain Cabin Retreat",
+    thumbnail: "/placeholder.svg?height=60&width=60",
+  },
+  {
+    id: "789012345678",
+    title: "Urban Loft in Arts District",
+    thumbnail: "/placeholder.svg?height=60&width=60",
+  },
+  {
+    id: "890123456789",
+    title: "Family Home with Pool",
+    thumbnail: "/placeholder.svg?height=60&width=60",
+  },
+];
+
+interface CompareListingsDialogProps {
+  label: string;
+  listings?: Listing[];
+  onSelectionConfirm?: (selectedListingIds: string[]) => void;
+}
+
+const CompareListingsDialog = ({
+  listings = mockListings,
+  label,
+  onSelectionConfirm,
+}: CompareListingsDialogProps) => {
+  const [selectedListings, setSelectedListings] = useState<string[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleCheckboxChange = (listingId: string, checked: boolean) => {
+    if (checked) {
+      setSelectedListings([listingId]); // Only allow one selection
+    } else {
+      setSelectedListings([]);
+    }
+  };
+
+  const handleConfirm = () => {
+    if (onSelectionConfirm) {
+      onSelectionConfirm(selectedListings);
+    }
+    setIsOpen(false);
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button className="w-fit">{label}</Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-2xl max-h-[80vh]">
+        <DialogHeader>
+          <DialogTitle>Select Listings</DialogTitle>
+          <DialogDescription>
+            Choose the listings you want to include. You can select multiple
+            items.
+          </DialogDescription>
+        </DialogHeader>
+
+        <ScrollArea className="flex-1 max-h-96">
+          <div className="space-y-2">
+            {listings.map((listing) => (
+              <div
+                key={listing.id}
+                className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted/50 transition-colors"
+              >
+                <Checkbox
+                  id={listing.id}
+                  checked={selectedListings.includes(listing.id)}
+                  disabled={
+                    selectedListings.length > 0 &&
+                    !selectedListings.includes(listing.id)
+                  }
+                  onCheckedChange={(checked) =>
+                    handleCheckboxChange(listing.id, checked as boolean)
+                  }
+                />
+
+                <Image
+                  src={listing.thumbnail || "/placeholder.svg"}
+                  alt={listing.title}
+                  width={60}
+                  height={60}
+                  className="rounded-md object-cover flex-shrink-0"
+                />
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">
+                        {listing.title}
+                      </p>
+                      <p className="text-xs text-muted-foreground font-mono">
+                        ID:{" "}
+                        <a
+                          href={`https://www.airbnb.com/rooms/${listing.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:underline hover:text-primary"
+                        >
+                          {listing.id}
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
+
+        <DialogFooter className="flex-col sm:flex-row gap-2">
+          <Button variant="outline" onClick={() => setIsOpen(false)}>
+            Cancel
+          </Button>
+          <Button
+            onClick={handleConfirm}
+            disabled={selectedListings.length === 0}
+          >
+            Confirm Selection ({selectedListings.length})
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default CompareListingsDialog;

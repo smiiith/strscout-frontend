@@ -46,6 +46,7 @@ import { useRouter } from "next/navigation";
 import ProtectedPage from "@/components/ProtectedPage";
 import { PLANS } from "@/app/types/plans";
 import axios from "axios";
+import CompareListingsDialog from "@/components/compare-listings-dialog";
 
 interface CompAnalysisData {
   comp_id: string;
@@ -63,6 +64,7 @@ interface CompAnalysisData {
   sixty_day: number;
   ninety_day: number;
   created_at: string;
+  hero_image_link: string;
 }
 
 interface CompBasisData {
@@ -349,15 +351,21 @@ export default function CompDetailsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <TrendingUp className="h-5 w-5" />
-                Summary from AI here: What is so good about top listings, why do
-                they perform better?
+                Whey are these comps so successful?
               </CardTitle>
-              <p className="text-sm text-muted-foreground">
-                (click here for your strategies to win)
-              </p>
-              <p className="text-xs text-muted-foreground mt-2">
-                note here to tell user to click on each point below for more
-                detailed information
+              <p className="text-muted-foreground">
+                Find out how the top three listings are doing it and how your
+                listing compares to them.
+                <span className="ml-4">
+                  <CompareListingsDialog
+                    label="Compare"
+                    listings={analysisResponse?.comps?.map((comp) => ({
+                      id: comp.listing_id || comp.property_id || comp.comp_id,
+                      title: comp.title,
+                      thumbnail: comp.hero_image_link || "/placeholder.svg",
+                    }))}
+                  />
+                </span>
               </p>
             </CardHeader>
             <CardContent>
