@@ -40,6 +40,8 @@ import {
   Shield,
   Calendar,
   FileText,
+  Loader2,
+  Eye,
 } from "lucide-react";
 import { MapPinIcon } from "@/components/Icons";
 import { useRouter } from "next/navigation";
@@ -89,6 +91,26 @@ export default function CompDetailsPage() {
     useState<CompAnalysisResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [existingAnalysis, setExistingAnalysis] = useState<any>(null);
+  const [checkingAnalysis, setCheckingAnalysis] = useState(false);
+  const [isGeneratingAnalysis, setIsGeneratingAnalysis] = useState(false);
+
+  const checkForExistingAnalysis = async (compBasisId: string) => {
+    try {
+      setCheckingAnalysis(true);
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/comp-analysis/check-by-comp-basis/${compBasisId}`
+      );
+      if (response.data.success && response.data.data.exists) {
+        setExistingAnalysis(response.data.data.analysis);
+      }
+    } catch (err: any) {
+      console.error("Error checking existing analysis:", err);
+      // Don't set error, just continue without existing analysis
+    } finally {
+      setCheckingAnalysis(false);
+    }
+  };
 
   useEffect(() => {
     const fetchCompAnalysis = async () => {
@@ -107,6 +129,11 @@ export default function CompDetailsPage() {
         );
         setAnalysisResponse(response.data.data);
         setError(null);
+
+        // Check for existing analysis for this comp basis
+        if (response.data.data?.comp_basis?.id) {
+          await checkForExistingAnalysis(response.data.data.comp_basis.id);
+        }
       } catch (err: any) {
         console.error("Error fetching comp analysis:", err);
         setError("Failed to fetch comp analysis data");
@@ -357,18 +384,46 @@ export default function CompDetailsPage() {
                 Find out how the top three listings are doing it and how your
                 listing compares to them.
                 <span className="ml-4">
-                  <CompareListingsDialog
-                    label="Compare"
-                    listings={analysisResponse?.comps?.map((comp) => ({
-                      id: comp.listing_id || comp.property_id || comp.comp_id,
-                      title: comp.title,
-                      thumbnail: comp.hero_image_link || "/placeholder.svg",
-                      property_id: comp.property_id,
-                    }))}
-                    compBasisId={analysisResponse?.comp_basis?.id}
-                    topListingIds={analysisResponse?.comps?.map((comp) => comp.property_id).filter(Boolean) || []}
-                    profileId={analysisResponse?.comp_basis?.profile_id}
-                  />
+                  {isGeneratingAnalysis ? (
+                    <div className="flex flex-col items-start gap-2">
+                      <Button disabled className="flex items-center gap-2">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Generating Analysis...
+                      </Button>
+                      <p className="text-xs text-muted-foreground">
+                        This usually takes about 30 seconds
+                      </p>
+                    </div>
+                  ) : existingAnalysis ? (
+                    <Button
+                      onClick={() => router.push(`/comp-analysis?id=${existingAnalysis.id}`)}
+                      variant="outline"
+                      className="flex items-center gap-2"
+                    >
+                      <Eye className="h-4 w-4" />
+                      View Analysis
+                    </Button>
+                  ) : (
+                    <CompareListingsDialog
+                      label="Compare"
+                      listings={analysisResponse?.comps?.map((comp) => ({
+                        id: comp.listing_id || comp.property_id || comp.comp_id,
+                        title: comp.title,
+                        thumbnail: comp.hero_image_link || "/placeholder.svg",
+                        property_id: comp.property_id,
+                      }))}
+                      compBasisId={analysisResponse?.comp_basis?.id}
+                      topListingIds={analysisResponse?.comps?.map((comp) => comp.property_id).filter(Boolean) || []}
+                      profileId={analysisResponse?.comp_basis?.profile_id}
+                      onAnalysisStart={() => setIsGeneratingAnalysis(true)}
+                      onAnalysisComplete={(analysisId) => {
+                        setIsGeneratingAnalysis(false);
+                        // Fetch the newly created analysis
+                        const newAnalysis = { id: analysisId };
+                        setExistingAnalysis(newAnalysis);
+                      }}
+                    />
+                  )}
                 </span>
               </p>
             </CardHeader>
