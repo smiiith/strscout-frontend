@@ -19,6 +19,7 @@ interface Listing {
   id: string;
   title: string;
   thumbnail: string;
+  property_id?: string;
 }
 
 const mockListings: Listing[] = [
@@ -68,12 +69,16 @@ interface CompareListingsDialogProps {
   label: string;
   listings?: Listing[];
   onSelectionConfirm?: (selectedListingIds: string[]) => void;
+  compBasisId?: string;
+  topListingIds?: string[];
 }
 
 const CompareListingsDialog = ({
   listings = mockListings,
   label,
   onSelectionConfirm,
+  compBasisId,
+  topListingIds,
 }: CompareListingsDialogProps) => {
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -86,7 +91,55 @@ const CompareListingsDialog = ({
     }
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
+    if (selectedListings.length === 0) return;
+    
+    const selectedListingId = selectedListings[0];
+    
+    // Find the selected listing to get its property_id
+    const selectedListing = listings.find(listing => listing.id === selectedListingId);
+    const userPropertyId = selectedListing?.property_id;
+    
+    if (!userPropertyId) {
+      alert('Error: Could not find property ID for selected listing');
+      return;
+    }
+    
+    if (compBasisId) {
+      // Call the market spy analysis endpoint
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/comps/market_spy_from_comp_basis/${compBasisId}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              user_listing_id: userPropertyId,
+              top_listing_ids: topListingIds || []
+            }),
+          }
+        );
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch market spy analysis');
+        }
+        
+        const data = await response.json();
+        
+        // For now, just log the results - you can implement a proper results display
+        console.log('Market Spy Analysis Results:', data);
+        
+        // You could open a new dialog, navigate to a results page, or update the UI
+        alert('Market spy analysis complete! Check the console for results.');
+        
+      } catch (error) {
+        console.error('Error running market spy analysis:', error);
+        alert('Failed to run market spy analysis. Please try again.');
+      }
+    }
+    
     if (onSelectionConfirm) {
       onSelectionConfirm(selectedListings);
     }

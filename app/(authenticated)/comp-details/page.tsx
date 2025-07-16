@@ -363,7 +363,10 @@ export default function CompDetailsPage() {
                       id: comp.listing_id || comp.property_id || comp.comp_id,
                       title: comp.title,
                       thumbnail: comp.hero_image_link || "/placeholder.svg",
+                      property_id: comp.property_id,
                     }))}
+                    compBasisId={analysisResponse?.comp_basis?.id}
+                    topListingIds={analysisResponse?.comps?.map((comp) => comp.property_id).filter(Boolean) || []}
                   />
                 </span>
               </p>
