@@ -367,6 +367,7 @@ export default function CompDetailsPage() {
                     }))}
                     compBasisId={analysisResponse?.comp_basis?.id}
                     topListingIds={analysisResponse?.comps?.map((comp) => comp.property_id).filter(Boolean) || []}
+                    profileId={analysisResponse?.comp_basis?.profile_id}
                   />
                 </span>
               </p>
