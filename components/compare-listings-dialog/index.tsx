@@ -73,6 +73,8 @@ interface CompareListingsDialogProps {
   compBasisId?: string;
   topListingIds?: string[];
   profileId?: string;
+  onAnalysisStart?: () => void;
+  onAnalysisComplete?: (analysisId: string) => void;
 }
 
 const CompareListingsDialog = ({
@@ -82,6 +84,8 @@ const CompareListingsDialog = ({
   compBasisId,
   topListingIds,
   profileId,
+  onAnalysisStart,
+  onAnalysisComplete,
 }: CompareListingsDialogProps) => {
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -112,6 +116,11 @@ const CompareListingsDialog = ({
     if (compBasisId) {
       // Call the market spy analysis endpoint
       try {
+        // Notify parent component that analysis is starting
+        if (onAnalysisStart) {
+          onAnalysisStart();
+        }
+        
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/comps/market_spy_from_comp_basis/${compBasisId}`,
           {
@@ -133,10 +142,12 @@ const CompareListingsDialog = ({
         
         const data = await response.json();
         
-        console.log('Market Spy Analysis Results:', data);
-        
         // Navigate to the analysis results page if we have a comp_analysis_id
         if (data.comp_analysis_id) {
+          // Notify parent component that analysis is complete
+          if (onAnalysisComplete) {
+            onAnalysisComplete(data.comp_analysis_id);
+          }
           router.push(`/comp-analysis?id=${data.comp_analysis_id}`);
         } else {
           // Fallback if no ID is returned
@@ -146,6 +157,10 @@ const CompareListingsDialog = ({
       } catch (error) {
         console.error('Error running market spy analysis:', error);
         alert('Failed to run market spy analysis. Please try again.');
+        // Reset loading state on error
+        if (onAnalysisComplete) {
+          onAnalysisComplete("");
+        }
       }
     }
     
