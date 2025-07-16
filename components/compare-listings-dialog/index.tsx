@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -71,6 +72,7 @@ interface CompareListingsDialogProps {
   onSelectionConfirm?: (selectedListingIds: string[]) => void;
   compBasisId?: string;
   topListingIds?: string[];
+  profileId?: string;
 }
 
 const CompareListingsDialog = ({
@@ -79,9 +81,11 @@ const CompareListingsDialog = ({
   onSelectionConfirm,
   compBasisId,
   topListingIds,
+  profileId,
 }: CompareListingsDialogProps) => {
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const handleCheckboxChange = (listingId: string, checked: boolean) => {
     if (checked) {
@@ -117,7 +121,8 @@ const CompareListingsDialog = ({
             },
             body: JSON.stringify({
               user_listing_id: userPropertyId,
-              top_listing_ids: topListingIds || []
+              top_listing_ids: topListingIds || [],
+              profile_id: profileId
             }),
           }
         );
@@ -128,11 +133,15 @@ const CompareListingsDialog = ({
         
         const data = await response.json();
         
-        // For now, just log the results - you can implement a proper results display
         console.log('Market Spy Analysis Results:', data);
         
-        // You could open a new dialog, navigate to a results page, or update the UI
-        alert('Market spy analysis complete! Check the console for results.');
+        // Navigate to the analysis results page if we have a comp_analysis_id
+        if (data.comp_analysis_id) {
+          router.push(`/comp-analysis?id=${data.comp_analysis_id}`);
+        } else {
+          // Fallback if no ID is returned
+          alert('Market spy analysis complete! Check the console for results.');
+        }
         
       } catch (error) {
         console.error('Error running market spy analysis:', error);
