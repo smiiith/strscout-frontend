@@ -53,20 +53,29 @@ export interface AddressCardProps {
 const getStatusIcon = (status: string) => {
   switch (status) {
     case "pending":
-      return <HourglassIcon className="h-6 w-6 text-gray-500" />;
     case "in_progress":
-      return <IncognitoIcon className="h-6 w-6 text-blue-500" />;
+      return (
+        <HourglassIcon
+          className="h-6 w-6 text-gray-500 animate-spin"
+          style={{ animationDuration: "3s" }}
+        />
+      );
     case "completed":
       return <TaskDone01Icon className="h-6 w-6 text-green-500" />;
     default:
-      return <HourglassIcon className="h-6 w-6 text-gray-500" />;
+      return (
+        <HourglassIcon
+          className="h-6 w-6 text-gray-500 animate-spin"
+          style={{ animationDuration: "3s" }}
+        />
+      );
   }
 };
 
 const ScanStatusWidget = ({ status }: { status: string }) => {
   return (
     <div
-      className="flex items-center gap-2 absolute top-8 right-5"
+      className="flex items-center gap-2 absolute top-4 right-4"
       title={getScanStatus(status)}
     >
       Status: {getStatusIcon(status)}
@@ -122,10 +131,13 @@ export default function AddressCard({
         className="w-full h-fit cursor-pointer hover:shadow-lg transition-shadow duration-200 bg-card border border-black/30 relative"
         onClick={handleCardClick}
       >
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <MapPinIcon className="h-5 w-5 text-primary" color="red" />
-            Address
+        <CardHeader className="pb-3 pr-28">
+          <CardTitle className="flex items-center gap-2 text-lg truncate">
+            <MapPinIcon
+              className="h-5 w-5 text-primary flex-shrink-0"
+              color="red"
+            />
+            <span className="truncate">{address}</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -137,23 +149,16 @@ export default function AddressCard({
             <p className="text-sm">{address}</p>
           </div>
 
-          {/* <div className="grid grid-cols-2 gap-3">
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground mb-1">Latitude</p>
-                            <div className="flex items-center gap-1">
-                                <Navigation03Icon className="h-3 w-3 text-muted-foreground" />
-                                <p className="text-sm font-mono">{latitude}</p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground mb-1">Longitude</p>
-                            <div className="flex items-center gap-1">
-                                <Navigation03Icon className="h-3 w-3 text-muted-foreground" />
-                                <p className="text-sm font-mono">{longitude}</p>
-                            </div>
-                        </div>
-                    </div> */}
+          {runDate && (
+            <div>
+              <p className="text-sm">
+                <span className="font-medium text-muted-foreground">
+                  Created:{" "}
+                </span>
+                {formatDate(runDate)}
+              </p>
+            </div>
+          )}
 
           {occupancyData.length > 0 && (
             <div className="pt-2 border-t">
