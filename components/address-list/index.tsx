@@ -11,6 +11,7 @@ interface Address {
   latitude: number;
   longitude: number;
   status: string;
+  created_at: string;
   comps?: any;
 }
 
@@ -64,7 +65,7 @@ export default function AddressList({ comps: comps }: AddressListProps) {
             occupancyData={comp.comps}
             useNavigation={true}
             compBasisId={comp.id}
-            // runDate={comp.created_at}
+            runDate={comp.created_at}
           />
         ))}
       </div>
