@@ -146,7 +146,7 @@ export default function AddressCard({
                 <span className="font-medium text-muted-foreground">
                   Created:{" "}
                 </span>
-                {formatDate(runDate)}
+                {formatDate(new Date(runDate))}
               </p>
             </div>
           )}
@@ -191,7 +191,7 @@ export default function AddressCard({
                         {record.listing_id}
                       </TableCell>
                       <TableCell className="text-sm">
-                        {formatDate(record.created_at)}
+                        {formatDate(new Date(record.created_at))}
                       </TableCell>
                       <TableCell
                         className={`font-semibold ${getOccupancyColor(record.thirty_day)}`}
