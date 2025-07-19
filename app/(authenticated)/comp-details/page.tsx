@@ -49,6 +49,7 @@ import ProtectedPage from "@/components/ProtectedPage";
 import { PLANS } from "@/app/types/plans";
 import axios from "axios";
 import CompareListingsDialog from "@/components/compare-listings-dialog";
+import { formatDate } from "@/lib/utils";
 
 interface CompAnalysisData {
   comp_id: string;
@@ -77,6 +78,7 @@ interface CompBasisData {
   latitude: string;
   longitude: string;
   status: string;
+  created_at: string;
 }
 
 interface CompAnalysisResponse {
@@ -356,77 +358,107 @@ export default function CompDetailsPage() {
         </div>
 
         <div className="space-y-6">
-          {analysisResponse?.comp_basis && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MapPinIcon className="h-5 w-5 text-primary" color="red" />
-                  Comp Results for...
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <p className="text-lg">
-                    {analysisResponse.comp_basis.address}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
-                Whey are these comps so successful?
-              </CardTitle>
-              <p className="text-muted-foreground">
-                Find out how the top three listings are doing it and how your
-                listing compares to them.
-                <span className="ml-4">
-                  {isGeneratingAnalysis ? (
-                    <div className="flex flex-col items-start gap-2">
-                      <Button disabled className="flex items-center gap-2">
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        Generating Analysis...
-                      </Button>
-                      <p className="text-xs text-muted-foreground">
-                        This usually takes about 30 seconds
-                      </p>
+            {analysisResponse?.comp_basis && (
+              <CardHeader>
+                <div className="flex justify-between items-start gap-6">
+                  <div className="flex-1">
+                    <CardTitle className="flex items-center gap-2 pb-4">
+                      <MapPinIcon
+                        className="h-5 w-5 text-primary"
+                        color="red"
+                      />
+                      <span className="text-foreground/50">
+                        {analysisResponse.comp_basis.address}
+                      </span>
+                    </CardTitle>
+                    <div className="text-muted-foreground mt-2">
+                      {analysisResponse.comp_basis.created_at && (
+                        <p className="">
+                          Run date:
+                          <span className="mx-2">
+                            {formatDate(
+                              new Date(analysisResponse.comp_basis.created_at)
+                            )}
+                          </span>
+                        </p>
+                      )}
+                      <p className="">{analysisResponse.comp_basis.address}</p>
                     </div>
-                  ) : existingAnalysis ? (
-                    <Button
-                      onClick={() => router.push(`/comp-analysis?id=${existingAnalysis.id}`)}
-                      variant="outline"
-                      className="flex items-center gap-2"
-                    >
-                      <Eye className="h-4 w-4" />
-                      View Analysis
-                    </Button>
-                  ) : (
-                    <CompareListingsDialog
-                      label="Compare"
-                      listings={analysisResponse?.comps?.map((comp) => ({
-                        id: comp.listing_id || comp.property_id || comp.comp_id,
-                        title: comp.title,
-                        thumbnail: comp.hero_image_link || "/placeholder.svg",
-                        property_id: comp.property_id,
-                      }))}
-                      compBasisId={analysisResponse?.comp_basis?.id}
-                      topListingIds={analysisResponse?.comps?.map((comp) => comp.property_id).filter(Boolean) || []}
-                      profileId={analysisResponse?.comp_basis?.profile_id}
-                      onAnalysisStart={() => setIsGeneratingAnalysis(true)}
-                      onAnalysisComplete={(analysisId) => {
-                        setIsGeneratingAnalysis(false);
-                        // Fetch the newly created analysis
-                        const newAnalysis = { id: analysisId };
-                        setExistingAnalysis(newAnalysis);
-                      }}
-                    />
-                  )}
-                </span>
-              </p>
-            </CardHeader>
+                  </div>
+
+                  {/* Analysis Card - positioned in upper right */}
+                  <Card className="w-96 bg-background border shadow-lg flex-shrink-0">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="flex items-center gap-2 text-base">
+                        <TrendingUp className="h-4 w-4" />
+                        Why are these comps so successful?
+                      </CardTitle>
+                      <p className="text-sm text-muted-foreground">
+                        Find out how the{" "}
+                        <span className="font-bold">top 3</span> listings are
+                        doing it and how your listing compares to them.
+                      </p>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      {isGeneratingAnalysis ? (
+                        <div className="flex flex-col items-start gap-2">
+                          <Button disabled className="flex items-center gap-2">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            Generating Analysis...
+                          </Button>
+                          <p className="text-xs text-muted-foreground">
+                            This usually takes about 30 seconds
+                          </p>
+                        </div>
+                      ) : existingAnalysis ? (
+                        <Button
+                          onClick={() =>
+                            router.push(
+                              `/comp-analysis?id=${existingAnalysis.id}`
+                            )
+                          }
+                          variant="outline"
+                          className="flex items-center gap-2"
+                        >
+                          <Eye className="h-4 w-4" />
+                          View Analysis
+                        </Button>
+                      ) : (
+                        <CompareListingsDialog
+                          label="Compare"
+                          listings={analysisResponse?.comps?.map((comp) => ({
+                            id:
+                              comp.listing_id ||
+                              comp.property_id ||
+                              comp.comp_id,
+                            title: comp.title,
+                            thumbnail:
+                              comp.hero_image_link || "/placeholder.svg",
+                            property_id: comp.property_id,
+                          }))}
+                          compBasisId={analysisResponse?.comp_basis?.id}
+                          topListingIds={
+                            analysisResponse?.comps
+                              ?.map((comp) => comp.property_id)
+                              .filter(Boolean) || []
+                          }
+                          profileId={analysisResponse?.comp_basis?.profile_id}
+                          onAnalysisStart={() => setIsGeneratingAnalysis(true)}
+                          onAnalysisComplete={(analysisId) => {
+                            setIsGeneratingAnalysis(false);
+                            // Fetch the newly created analysis
+                            const newAnalysis = { id: analysisId };
+                            setExistingAnalysis(newAnalysis);
+                          }}
+                        />
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+              </CardHeader>
+            )}
+
             <CardContent>
               {analysisResponse?.comps && analysisResponse.comps.length > 0 ? (
                 <div className="overflow-x-auto">

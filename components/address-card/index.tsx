@@ -26,6 +26,7 @@ import {
 } from "../Icons";
 import { getScanStatus } from "@/app/types/scanStatus";
 import { useRouter } from "next/navigation";
+import { formatDate } from "@/lib/utils";
 
 interface OccupancyData {
   id: string;
@@ -95,16 +96,6 @@ export default function AddressCard({
 }: AddressCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const router = useRouter();
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
 
   const getOccupancyColor = (percentage: number) => {
     // const value = Number.parseInt(percentage.replace("%", ""))
