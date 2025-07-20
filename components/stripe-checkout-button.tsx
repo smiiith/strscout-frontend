@@ -6,16 +6,22 @@ import LoadingOverlay from "@/components/LoadingOverlay";
 
 interface StripeCheckoutButtonProps {
   priceId: string;
-  buttonText: string;
+  buttonText?: string;
   className?: string;
   disabled?: boolean;
+  quantity?: number;
+  successUrl?: string;
+  cancelUrl?: string;
 }
 
 export default function StripeCheckoutButton({
   priceId,
-  buttonText,
+  buttonText = "Subscribe Now",
   className = "",
   disabled = false,
+  quantity = 1,
+  successUrl,
+  cancelUrl,
 }: StripeCheckoutButtonProps) {
   const [loading, setLoading] = useState(false);
 
@@ -30,6 +36,9 @@ export default function StripeCheckoutButton({
         },
         body: JSON.stringify({
           priceId,
+          quantity,
+          successUrl,
+          cancelUrl,
         }),
       });
 
