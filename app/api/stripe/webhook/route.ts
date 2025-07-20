@@ -87,14 +87,14 @@ export async function POST(request: Request) {
           const customerId = session.customer as string;
           const subscriptionId = session.subscription as string;
 
-          console.log('🔄 Attempting to update user:', userId);
-
           if (userId) {
-            // Get subscription details to extract price ID for plan mapping
+            // Get subscription details to extract price ID and quantity for plan mapping
             const subscription = await stripe.subscriptions.retrieve(subscriptionId);
             const priceId = subscription.items.data[0]?.price.id;
+            const quantity = subscription.items.data[0]?.quantity || 1;
             
             console.log('💰 Price ID:', priceId);
+            console.log('🔢 Quantity:', quantity);
 
             // Update user profile with subscription info
             const { error } = await supabase
@@ -113,11 +113,11 @@ export async function POST(request: Request) {
               console.log('✅ Successfully updated user profile');
             }
 
-            // Sync user's plan based on the subscription
+            // Sync user's plan based on the subscription with quantity
             if (priceId) {
-              const planSyncResult = await syncUserPlan(userId, priceId, 'active');
+              const planSyncResult = await syncUserPlan(userId, priceId, 'active', quantity);
               if (planSyncResult) {
-                console.log('✅ Successfully synced user plan');
+                console.log('✅ Successfully synced user plan with quantity:', quantity);
               } else {
                 console.error('❌ Failed to sync user plan');
               }
@@ -130,9 +130,11 @@ export async function POST(request: Request) {
       case 'customer.subscription.updated': {
         const subscription = event.data.object as Stripe.Subscription;
         const priceId = subscription.items.data[0]?.price.id;
+        const quantity = subscription.items.data[0]?.quantity || 1;
         
         console.log('🔄 Subscription updated:', subscription.id, 'Status:', subscription.status);
         console.log('💰 Price ID:', priceId);
+        console.log('🔢 Quantity:', quantity);
         
         // Update subscription status
         const { error } = await supabase
@@ -149,15 +151,16 @@ export async function POST(request: Request) {
           console.log('✅ Successfully updated subscription status');
         }
 
-        // Sync user's plan based on updated subscription
+        // Sync user's plan based on updated subscription with quantity
         if (priceId) {
           const planSyncResult = await syncUserPlanBySubscriptionId(
             subscription.id, 
             priceId, 
-            subscription.status
+            subscription.status,
+            quantity
           );
           if (planSyncResult) {
-            console.log('✅ Successfully synced user plan on subscription update');
+            console.log('✅ Successfully synced user plan on subscription update with quantity:', quantity);
           } else {
             console.error('❌ Failed to sync user plan on subscription update');
           }
@@ -168,9 +171,11 @@ export async function POST(request: Request) {
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription;
         const priceId = subscription.items.data[0]?.price.id;
+        const quantity = subscription.items.data[0]?.quantity || 1;
         
         console.log('🗑️ Subscription deleted:', subscription.id);
         console.log('💰 Price ID:', priceId);
+        console.log('🔢 Quantity:', quantity);
         
         // Mark subscription as canceled
         const { error } = await supabase
@@ -187,12 +192,13 @@ export async function POST(request: Request) {
           console.log('✅ Successfully updated subscription status to canceled');
         }
 
-        // Downgrade user's plan to freemium
+        // Downgrade user's plan to freemium (quantity doesn't matter for cancellation)
         if (priceId) {
           const planSyncResult = await syncUserPlanBySubscriptionId(
             subscription.id, 
             priceId, 
-            'canceled'
+            'canceled',
+            0  // Set to 0 since subscription is canceled
           );
           if (planSyncResult) {
             console.log('✅ Successfully downgraded user plan to freemium');

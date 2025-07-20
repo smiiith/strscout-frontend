@@ -3,12 +3,13 @@ import { PLANS } from '@/app/types/plans';
 
 // Map Stripe price IDs to plan keys
 export const STRIPE_PRICE_TO_PLAN: Record<string, string> = {
-  // Market Spy (one-time purchase) -> Standard plan
+  // Legacy Market Spy (one-time purchase) -> Standard plan
   'price_1Rf3qeRQojxLKgwUSlmUkEbH': PLANS.STANDARD,
   
-  // Add your subscription price IDs here when created
-  // 'price_1XXXXXX': PLANS.STANDARD,  // Monthly standard
-  // 'price_1YYYYYY': PLANS.PRO,       // Monthly pro
+  // Pro Plan (monthly subscription with quantity support) -> Pro plan
+  'price_1RmiWnRQojxLKgwUZq8xx0lc': PLANS.PRO,
+  
+  // Add additional price IDs here when created
   // 'price_1ZZZZZZ': PLANS.PRO,       // Annual pro
 };
 
@@ -36,7 +37,8 @@ export const DEFAULT_PLAN_IDS = {
 export async function syncUserPlan(
   userId: string, 
   priceId: string, 
-  subscriptionStatus: string
+  subscriptionStatus: string,
+  quantity: number = 1
 ) {
   const supabase = await createClient();
   
@@ -61,11 +63,17 @@ export async function syncUserPlan(
       ? DEFAULT_PLAN_IDS.freemium
       : plan.id;
 
-    // Update user's plan
+    // Calculate Market Spy listings based on plan and quantity
+    const marketSpyLimit = calculateMarketSpyLimit(planKey, quantity, subscriptionStatus);
+
+    // Update user's plan and subscription details
     const { error: updateError } = await supabase
       .from('profiles')
       .update({ 
         plan_id: finalPlanId,
+        subscription_status: subscriptionStatus,
+        subscription_quantity: quantity,
+        market_spy_listings_limit: marketSpyLimit,
         updated_at: new Date().toISOString()
       })
       .eq('id', userId);
@@ -116,7 +124,8 @@ export async function getUserPlan(userId: string) {
 export async function syncUserPlanBySubscriptionId(
   subscriptionId: string,
   priceId: string,
-  subscriptionStatus: string
+  subscriptionStatus: string,
+  quantity: number = 1
 ) {
   const supabase = await createClient();
   
@@ -132,7 +141,28 @@ export async function syncUserPlanBySubscriptionId(
     return false;
   }
 
-  return await syncUserPlan(profile.id, priceId, subscriptionStatus);
+  return await syncUserPlan(profile.id, priceId, subscriptionStatus, quantity);
+}
+
+/**
+ * Calculate Market Spy listings limit based on plan and quantity
+ */
+function calculateMarketSpyLimit(planKey: string, quantity: number, subscriptionStatus: string): number {
+  // If subscription is inactive, no Market Spy access
+  if (shouldDowngradeToFreemium(subscriptionStatus)) {
+    return 0;
+  }
+
+  // Calculate based on plan type
+  switch (planKey) {
+    case PLANS.PRO:
+      return quantity * 2; // 2 listings per Pro Plan quantity
+    case PLANS.STANDARD:
+      return 2; // Legacy standard plan gets 2 listings
+    case PLANS.FREEMIUM:
+    default:
+      return 0; // Freemium gets no Market Spy access
+  }
 }
 
 /**
