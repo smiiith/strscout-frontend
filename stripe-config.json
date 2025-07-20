@@ -1,0 +1,13 @@
+{
+  "products": {
+    "proPlan": {
+      "productId": "prod_Si8opr9YEXPH3n",
+      "priceId": "price_1RmiWnRQojxLKgwUZq8xx0lc"
+    }
+  },
+  "pricingTable": {
+    "id": "MANUAL_SETUP_REQUIRED"
+  },
+  "createdAt": "2025-07-19T21:42:45.791Z",
+  "environment": "development"
+}

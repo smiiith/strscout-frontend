@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createAdminClient, createClient } from '@/utils/supabase/server'
-import posthog from 'posthog-js';
+// import posthog from 'posthog-js';
 
 
 export async function login(formData: FormData) {
@@ -23,13 +23,12 @@ export async function login(formData: FormData) {
     redirect('/login-issue')
   }
 
-  posthog.identify(
-    user.user.id,
-    {
-      email: data.email,
-
-    }
-  );
+  // posthog.identify(
+  //   user.user.id,
+  //   {
+  //     email: data.email,
+  //   }
+  // );
 
   revalidatePath('/', 'layout')
   redirect('/properties/assess-property/single')

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import Stripe from 'stripe';
 import { createClient } from '@/utils/supabase/server';
 
@@ -8,25 +9,30 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(request: Request) {
   try {
-    console.log('Stripe Secret Key exists:', !!process.env.STRIPE_SECRET_KEY);
-    
     const supabase = await createClient();
     
     // Get the current user
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     
-    console.log('Auth error:', authError);
-    console.log('User exists:', !!user);
-    
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { priceId } = await request.json();
+    const { priceId, quantity = 1, successUrl, cancelUrl } = await request.json();
 
     if (!priceId) {
       return NextResponse.json({ error: 'Price ID is required' }, { status: 400 });
     }
+
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3005';
+    
+    // Ensure URLs are absolute
+    const absoluteSuccessUrl = successUrl && successUrl.startsWith('http') 
+      ? successUrl 
+      : `${baseUrl}${successUrl || '/account?success=true'}`;
+    const absoluteCancelUrl = cancelUrl && cancelUrl.startsWith('http') 
+      ? cancelUrl 
+      : `${baseUrl}${cancelUrl || '/pricing?canceled=true'}`;
 
     // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
@@ -35,14 +41,15 @@ export async function POST(request: Request) {
       line_items: [
         {
           price: priceId,
-          quantity: 1,
+          quantity: quantity,
         },
       ],
       mode: 'subscription',
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3005'}/account?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3005'}/pricing?canceled=true`,
+      success_url: absoluteSuccessUrl,
+      cancel_url: absoluteCancelUrl,
       metadata: {
         userId: user.id,
+        quantity: quantity.toString(),
       },
     });
 
