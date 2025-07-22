@@ -22,15 +22,25 @@ import ProtectedPage from "@/components/ProtectedPage";
 import { PLANS } from "@/app/types/plans";
 import axios from "axios";
 
+interface Keypoint {
+  title: string;
+  description: string;
+}
+
+interface ActionItem {
+  title: string;
+  description: string;
+}
+
 interface MarketAnalysis {
   top_performers_intro: string;
-  keypoints: string[];
+  keypoints: Keypoint[];
   bottom_line: string;
 }
 
 interface CompetitiveAdvice {
   comparison_intro: string;
-  action_items: string[];
+  action_items: ActionItem[];
   bottom_line: string;
 }
 
@@ -209,8 +219,11 @@ export default function CompAnalysisPage() {
                           {index + 1}
                         </div>
                         <div className="flex-1">
+                          <h5 className="font-semibold text-foreground mb-2">
+                            {keypoint.title}
+                          </h5>
                           <p className="text-sm leading-relaxed text-foreground whitespace-pre-wrap">
-                            {keypoint}
+                            {keypoint.description}
                           </p>
                         </div>
                       </div>
@@ -289,8 +302,11 @@ export default function CompAnalysisPage() {
                             {index + 1}
                           </div>
                           <div className="flex-1">
+                            <h5 className="font-semibold text-foreground mb-2">
+                              {actionItem.title}
+                            </h5>
                             <p className="text-sm leading-relaxed text-foreground whitespace-pre-wrap">
-                              {actionItem}
+                              {actionItem.description}
                             </p>
                           </div>
                         </div>
