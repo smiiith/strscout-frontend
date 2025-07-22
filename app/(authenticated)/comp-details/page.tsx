@@ -411,7 +411,7 @@ export default function CompDetailsPage() {
                             This usually takes about 30 seconds
                           </p>
                         </div>
-                      ) : !existingAnalysis ? (
+                      ) : existingAnalysis ? (
                         <Button
                           onClick={() =>
                             router.push(
