@@ -58,7 +58,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <div className="flex-grow">
                 <div className="container mx-auto p-0 max-w-7xl bg-background">
 
-                  <HeaderNav />
+                  <HeaderNav user={initialSession} />
 
                   <div className="px-6">
                     {children}
