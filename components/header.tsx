@@ -154,63 +154,10 @@ const HeaderNav = (props: any) => {
                     href={link.href}
                     className="flex w-full items-center py-2 text-lg font-semibold"
                     prefetch={false}
+                    onClick={() => setSheetOpen(false)}
                   >
                     {link.label}
                   </Link>
-                )}
-
-                {link.label === "My Properties" ? (
-                  <div key={`prop-${index}`}>
-                    <div className="ml-5" onClick={() => setSheetOpen(false)}>
-                      <Link
-                        href="/properties"
-                        className="flex w-full items-center py-2 text-lg font-semibold"
-                        prefetch={false}
-                      >
-                        Properties
-                      </Link>
-                    </div>
-                    <div className="ml-5" onClick={() => setSheetOpen(false)}>
-                      <Link
-                        href="/properties/add"
-                        className="flex w-full items-center py-2 text-lg font-semibold"
-                        prefetch={false}
-                      >
-                        Add
-                      </Link>
-                    </div>
-                    <div className="ml-5" onClick={() => setSheetOpen(false)}>
-                      <Link
-                        href="/properties/scans"
-                        className="flex w-full items-center py-2 text-lg font-semibold"
-                        prefetch={false}
-                      >
-                        Scans
-                      </Link>
-                    </div>
-                  </div>
-                ) : (
-                  <></>
-                )}
-
-                {link.label === "My Account" ? (
-                  <>
-                    <div
-                      key={`account-${index}`}
-                      className="ml-5"
-                      onClick={() => setSheetOpen(false)}
-                    >
-                      <Link
-                        href="/account"
-                        className="flex w-full items-center py-2 text-lg font-semibold"
-                        prefetch={false}
-                      >
-                        Profile
-                      </Link>
-                    </div>
-                  </>
-                ) : (
-                  <></>
                 )}
               </div>
             ))}
@@ -221,6 +168,7 @@ const HeaderNav = (props: any) => {
                   size="sm"
                   type="submit"
                   className="w-full justify-start"
+                  onClick={() => setSheetOpen(false)}
                 >
                   <Logout01Icon className="h-4 w-4 mr-2" />
                   Sign out
@@ -228,7 +176,7 @@ const HeaderNav = (props: any) => {
               </form>
             )}
             {!isAuthorized && (
-              <Link href="/login" className="mt-4 block">
+              <Link href="/login" className="mt-4 block" onClick={() => setSheetOpen(false)}>
                 <Button variant="outline" size="sm" className="w-full justify-start">
                   <Login01Icon className="h-4 w-4 mr-2" />
                   Sign in

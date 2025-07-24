@@ -140,8 +140,8 @@ export default function AddressCard({ title, externalId, propertyId, property }:
                     </div>
 
                 </CardContent>
-                <CardFooter className="flex justify-end">
-                    <div className="flex items-start gap-4">
+                <CardFooter className="flex justify-center sm:justify-end">
+                    <div className="flex items-start gap-2 sm:gap-4 flex-wrap justify-center sm:justify-start">
 
                         <TooltipProvider delayDuration={200}>
                             <Tooltip>
