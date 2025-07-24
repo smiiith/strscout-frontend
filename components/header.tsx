@@ -3,7 +3,6 @@
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-// import ThemeSwitch from "./ThemeSwitch"
 import Image from "next/image";
 import { Login01Icon, Logout01Icon, MyAccountIcon } from "./Icons";
 import { useState } from "react";
@@ -196,18 +195,17 @@ const HeaderNav = (props: any) => {
         </SheetContent>
       </Sheet>
 
-      <div className="relative w-[400px] h-[50px]">
+      <div className="relative w-[400px] h-[50px] flex items-center">
         <Link
           href="/"
           className="mr-6 md:w-[200px] w-[200px] md:relative absolute right-0 top-0"
           prefetch={false}
         >
           <Image
-            src="/home/str-feedback-genius-logo.png"
-            alt="STR Feedback Genius"
+            src="/images/str-sage-logo-white.png"
+            alt="STR Sage"
             width={150}
             height={150}
-            // layout="responsive"
           />
         </Link>
       </div>
