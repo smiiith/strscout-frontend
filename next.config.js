@@ -19,7 +19,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: `frame-src 'self' https://js.stripe.com https://checkout.stripe.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com; connect-src 'self' https://api.stripe.com https://ynxbtvsbjzkcnkilnuts.supabase.co https://*.supabase.co wss://ynxbtvsbjzkcnkilnuts.supabase.co ${backendUrl} http://localhost:8000;`,
+            value: `frame-src 'self' https://js.stripe.com https://checkout.stripe.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com; connect-src 'self' https://api.stripe.com https://api.geoapify.com https://ynxbtvsbjzkcnkilnuts.supabase.co https://*.supabase.co wss://ynxbtvsbjzkcnkilnuts.supabase.co ${backendUrl} http://localhost:8000;`,
           },
         ],
       },

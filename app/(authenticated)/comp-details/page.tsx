@@ -527,8 +527,9 @@ export default function CompDetailsPage() {
                               variant="link"
                               className="h-auto p-0 font-mono text-sm text-blue-600 hover:text-blue-800"
                               onClick={() => {
-                                router.push(
-                                  `https://www.airbnb.com/rooms/${comp.listing_id}`
+                                window.open(
+                                  `https://www.airbnb.com/rooms/${comp.listing_id}`,
+                                  '_blank'
                                 );
                               }}
                             >
