@@ -272,7 +272,7 @@ export default function CompAnalysisPage() {
               <div>
                 <h4 className="font-semibold mb-3 flex items-center gap-2">
                   <Users className="h-4 w-4" />
-                  My Listing Compared to The Top Performers
+                  Your Listing Compared to the Top Performers
                 </h4>
                 <div className="bg-muted/30 p-4 rounded-lg">
                   <p className="text-sm leading-relaxed">
