@@ -24,11 +24,12 @@ const HeaderNav = (props: any) => {
   //     console.log("no user");
   // }
 
-  const pageLinks = [
+  // Authenticated users see all available links based on their permissions
+  const authenticatedLinks = [
     {
       label: "STR Genius",
       href: "/properties/assess-property/single",
-      enabled: isAuthorized,
+      enabled: true,
       icon: () => {
         return <MyAccountIcon className="text-purple-500 ml-6" />;
       },
@@ -36,7 +37,7 @@ const HeaderNav = (props: any) => {
     {
       label: "My Properties",
       href: "/properties",
-      enabled: isAuthorized,
+      enabled: true,
       icon: () => {
         return <House01Icon className="text-red-500 ml-6" />;
       },
@@ -45,7 +46,6 @@ const HeaderNav = (props: any) => {
       label: "Market Spy",
       href: "/market-spy",
       enabled:
-        isAuthorized &&
         props.user &&
         props.user.plan &&
         (props.user.plan.key === PLANS.STANDARD ||
@@ -58,7 +58,6 @@ const HeaderNav = (props: any) => {
       label: "My Comps",
       href: "/my-comps",
       enabled:
-        isAuthorized &&
         props.user &&
         props.user.plan &&
         props.user.plan.key === PLANS.STANDARD,
@@ -85,7 +84,7 @@ const HeaderNav = (props: any) => {
     {
       label: "My Account",
       href: "/account",
-      enabled: isAuthorized,
+      enabled: true,
       icon: () => {
         return <MyAccountIcon className="text-primary-foreground mx-1" />;
       },
@@ -99,6 +98,36 @@ const HeaderNav = (props: any) => {
       },
     },
   ];
+
+  // Unauthenticated users see limited links
+  const unauthenticatedLinks = [
+    {
+      label: "Pricing",
+      href: "/pricing",
+      enabled: true,
+      icon: () => {
+        return <PiggyBankIcon className="text-blue-500 ml-6" />;
+      },
+    },
+    {
+      label: "About Us",
+      href: "/about-us",
+      enabled: true,
+      icon: () => {
+        return <MyAccountIcon className="text-purple-500 ml-6" />;
+      },
+    },
+    {
+      label: "Contact Us",
+      href: "/contact-us",
+      enabled: true,
+      icon: () => {
+        return <Mailbox01Icon className="text-primary-foreground mx-1" />;
+      },
+    },
+  ];
+
+  const pageLinks = isAuthorized ? authenticatedLinks : unauthenticatedLinks;
 
   return (
     <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 bg-primary text-white">
@@ -185,12 +214,27 @@ const HeaderNav = (props: any) => {
                 )}
               </div>
             ))}
-            <form action="/auth/signout" method="post">
-              <button className="button block" type="submit">
-                Sign out
-              </button>
-            </form>
-            <a href="/login">Log In</a>
+            {isAuthorized && (
+              <form action="/auth/signout" method="post" className="mt-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  type="submit"
+                  className="w-full justify-start"
+                >
+                  <Logout01Icon className="h-4 w-4 mr-2" />
+                  Sign out
+                </Button>
+              </form>
+            )}
+            {!isAuthorized && (
+              <Link href="/login" className="mt-4 block">
+                <Button variant="outline" size="sm" className="w-full justify-start">
+                  <Login01Icon className="h-4 w-4 mr-2" />
+                  Sign in
+                </Button>
+              </Link>
+            )}
           </div>
         </SheetContent>
       </Sheet>
@@ -211,19 +255,21 @@ const HeaderNav = (props: any) => {
       </div>
 
       {/* desktop */}
-      <nav className="ml-auto hidden lg:flex gap-3">
+      <nav className="ml-auto hidden lg:flex gap-3 items-center">
         {pageLinks.map((link: any, index: number) => (
-          <div key={`desktop-${index}`}>
+          <div key={`desktop-${index}`} className="flex items-center">
             {link.enabled && (
               <>
                 <Link
                   href={link.href}
-                  className="hover:underline whitespace-nowrap"
+                  className="hover:underline whitespace-nowrap flex items-center"
                   prefetch={false}
                   key={`desktop-${index}`}
                   title={link.label}
                 >
-                  {link.href === "/account" || link.href === "/contact-us" ? (
+                  {link.href === "/contact-us" ? (
+                    <>{link.icon && link.icon()}</>
+                  ) : link.href === "/account" && isAuthorized ? (
                     <>{link.icon && link.icon()}</>
                   ) : (
                     <div className="mr-4">{link.label}</div>
@@ -235,25 +281,26 @@ const HeaderNav = (props: any) => {
         ))}
 
         {!isAuthorized && (
-          <div className="cursor-pointer mx-1 my-auto" title="Log In">
-            <a href="/login" title="Log In">
-              <Login01Icon className="h-6 w-6" />
-            </a>
-          </div>
+          <Link href="/login" className="flex items-center">
+            <Button variant="outline" size="sm" className="text-white border-white hover:bg-white hover:text-primary bg-transparent">
+              <Login01Icon className="h-4 w-4 mr-2" />
+              Sign in
+            </Button>
+          </Link>
         )}
 
         {isAuthorized && (
-          <div className="cursor-pointer mx-1 my-auto" title="Log Out">
-            <form action="/auth/signout" method="post">
-              <button
-                className="button block whitespace-nowrap"
-                type="submit"
-                title="Log Out"
-              >
-                <Logout01Icon className="h-6 w-6" />
-              </button>
-            </form>
-          </div>
+          <form action="/auth/signout" method="post" className="flex items-center">
+            <Button
+              variant="outline"
+              size="sm"
+              type="submit"
+              className="text-white border-white hover:bg-white hover:text-primary bg-transparent"
+            >
+              <Logout01Icon className="h-4 w-4 mr-2" />
+              Sign out
+            </Button>
+          </form>
         )}
 
         {/* <div className="cursor-pointer mx-6 my-auto" title="Switch mode to dark or light"> */}
