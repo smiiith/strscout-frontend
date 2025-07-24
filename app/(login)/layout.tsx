@@ -18,6 +18,36 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   //   console.log("error", error);
   // }
 
+  // Create initial session if user exists
+  let initialSession = null;
+  if (data?.user) {
+    const { data: profileData } = await supabase
+      .from('profiles')
+      .select('*, plan:plans(id, name, description, active, key)')
+      .eq('id', data.user.id)
+      .single();
+
+    if (profileData) {
+      initialSession = {
+        id: data.user.id,
+        email: data.user.email || '',
+        plan: profileData.plan,
+      };
+    } else {
+      initialSession = {
+        id: data.user.id,
+        email: data.user.email || '',
+        plan: {
+          id: '',
+          name: '',
+          description: '',
+          active: true,
+          key: 'freemium',
+        },
+      };
+    }
+  }
+
   return (
     <>
       <ThemeProvider
@@ -32,7 +62,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <div className="flex-grow">
               <div className="container mx-auto p-0 max-w-7xl bg-background">
 
-                <HeaderNav />
+                <HeaderNav user={initialSession} />
 
                 <div className="px-6">
                   {children}
