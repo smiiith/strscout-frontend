@@ -192,129 +192,51 @@ export default function CompDetailsPage() {
       return <span className="text-muted-foreground">Invalid policies</span>;
     }
 
-    // Simple safe check - only render badges for existing policies
-    const policyBadges = [];
-    if (parsedPolicies.instant_book === true) policyBadges.push("Instant Book");
-    if (parsedPolicies.pets_allowed === true) policyBadges.push("Pets");
-    if (parsedPolicies.self_checkin === true)
-      policyBadges.push("Self Check-in");
-    if (
-      parsedPolicies.cancellation_policy &&
-      typeof parsedPolicies.cancellation_policy === "string"
-    ) {
-      policyBadges.push("Cancellation");
-    }
-    if (
-      parsedPolicies.house_rules &&
-      typeof parsedPolicies.house_rules === "string"
-    ) {
-      policyBadges.push("House Rules");
-    }
+    // Extract cancellation policy if available
+    const getCancellationPolicy = () => {
+      if (!parsedPolicies.cancellation_policy) return null;
+      
+      const policyText = parsedPolicies.cancellation_policy.toLowerCase();
+      const validPolicies = ["flexible", "moderate", "firm", "strict"];
+      
+      for (const policy of validPolicies) {
+        if (policyText.includes(policy)) {
+          return policy.charAt(0).toUpperCase() + policy.slice(1);
+        }
+      }
+      return null;
+    };
 
-    // Return badges with popover for details
-    if (policyBadges.length > 0) {
-      return (
-        <Popover>
-          <PopoverTrigger asChild>
-            <div className="flex flex-wrap gap-1 cursor-pointer">
-              {policyBadges.map((policy, index) => (
-                <Badge
-                  key={index}
-                  variant="secondary"
-                  className="text-xs hover:bg-secondary/80"
-                >
-                  {policy}
-                </Badge>
-              ))}
-            </div>
-          </PopoverTrigger>
-          <PopoverContent
-            className="w-80 max-h-96 overflow-y-auto"
-            side="left"
-            align="start"
-          >
-            <div className="space-y-3">
-              <h4 className="font-semibold text-sm flex items-center gap-2">
-                <Shield className="h-4 w-4" />
-                Policy Details
-              </h4>
-
-              {parsedPolicies.self_checkin && (
-                <div className="text-xs">
-                  <span className="font-medium">Self Check-in:</span> Available
-                  {parsedPolicies.self_checkin_details && (
-                    <div className="text-muted-foreground mt-1">
-                      {parsedPolicies.self_checkin_details}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {parsedPolicies.instant_book && (
-                <div className="text-xs">
-                  <span className="font-medium">Instant Book:</span> Available
-                </div>
-              )}
-
-              {parsedPolicies.cancellation_policy && (
-                <div className="text-xs">
-                  <span className="font-medium">Cancellation Policy:</span>
-                  <div className="text-muted-foreground mt-1 max-h-20 overflow-y-auto">
-                    {(() => {
-                      // Try to extract meaningful cancellation policy text
-                      let policyText = parsedPolicies.cancellation_policy;
-
-                      // If it's a JSON string, try to extract meaningful parts
-                      if (
-                        typeof policyText === "string" &&
-                        policyText.includes('"')
-                      ) {
-                        // Look for common cancellation terms in the text
-                        const terms = [
-                          "Free cancellation",
-                          "Non-refundable",
-                          "Strict",
-                          "Moderate",
-                          "Flexible",
-                        ];
-                        const foundTerm = terms.find((term) =>
-                          policyText.toLowerCase().includes(term.toLowerCase())
-                        );
-                        if (foundTerm) {
-                          policyText = foundTerm;
-                        } else {
-                          policyText =
-                            "See full policy details on listing page";
-                        }
-                      }
-
-                      return policyText.length > 200
-                        ? policyText.substring(0, 200) + "..."
-                        : policyText;
-                    })()}
-                  </div>
-                </div>
-              )}
-
-              {parsedPolicies.house_rules && (
-                <div className="text-xs">
-                  <span className="font-medium">House Rules:</span>
-                  <div className="text-muted-foreground mt-1 max-h-20 overflow-y-auto">
-                    {parsedPolicies.house_rules.length > 200
-                      ? parsedPolicies.house_rules.substring(0, 200) + "..."
-                      : parsedPolicies.house_rules}
-                  </div>
-                </div>
-              )}
-            </div>
-          </PopoverContent>
-        </Popover>
-      );
-    }
+    const cancellationPolicy = getCancellationPolicy();
 
     return (
       <div className="flex flex-wrap gap-1">
-        <span className="text-muted-foreground text-xs">No policies</span>
+        <Badge
+          variant="secondary"
+          className="text-xs"
+        >
+          Pets: {parsedPolicies.pets_allowed === true ? "Yes" : "No"}
+        </Badge>
+        <Badge
+          variant="secondary"
+          className="text-xs"
+        >
+          Instant Book: {parsedPolicies.instant_book === true ? "Yes" : "No"}
+        </Badge>
+        <Badge
+          variant="secondary"
+          className="text-xs"
+        >
+          Self Check-In: {parsedPolicies.self_checkin === true ? "Yes" : "No"}
+        </Badge>
+        {cancellationPolicy && (
+          <Badge
+            variant="secondary"
+            className="text-xs"
+          >
+            Cancellation: {cancellationPolicy}
+          </Badge>
+        )}
       </div>
     );
   };
