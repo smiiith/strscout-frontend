@@ -2,6 +2,14 @@
 
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import Link from "next/link";
 import Image from "next/image";
 import { Login01Icon, Logout01Icon, MyAccountIcon } from "./Icons";
@@ -35,14 +43,6 @@ const HeaderNav = (props: any) => {
       },
     },
     {
-      label: "My Properties",
-      href: "/properties",
-      enabled: true,
-      icon: () => {
-        return <House01Icon className="text-red-500 ml-6" />;
-      },
-    },
-    {
       label: "Market Spy",
       href: "/market-spy",
       enabled:
@@ -50,17 +50,6 @@ const HeaderNav = (props: any) => {
         props.user.plan &&
         (props.user.plan.key === PLANS.STANDARD ||
           props.user.plan.key === PLANS.PRO),
-      icon: () => {
-        return <House01Icon className="text-red-500 ml-6" />;
-      },
-    },
-    {
-      label: "My Comps",
-      href: "/my-comps",
-      enabled:
-        props.user &&
-        props.user.plan &&
-        props.user.plan.key === PLANS.STANDARD,
       icon: () => {
         return <House01Icon className="text-red-500 ml-6" />;
       },
@@ -99,6 +88,30 @@ const HeaderNav = (props: any) => {
     },
   ];
 
+  // My Reports submenu items
+  const myReportsLinks = [
+    {
+      label: "Feedback Genius Reports",
+      href: "/properties",
+      enabled: true,
+      icon: () => {
+        return <House01Icon className="text-red-500 ml-6" />;
+      },
+    },
+    {
+      label: "Market Spy Reports",
+      href: "/my-comps",
+      enabled:
+        props.user && props.user.plan && props.user.plan.key === PLANS.STANDARD,
+      icon: () => {
+        return <House01Icon className="text-red-500 ml-6" />;
+      },
+    },
+  ];
+
+  // Check if any My Reports links are enabled
+  const hasMyReportsAccess = myReportsLinks.some((link) => link.enabled);
+
   // Unauthenticated users see limited links
   const unauthenticatedLinks = [
     {
@@ -128,6 +141,9 @@ const HeaderNav = (props: any) => {
   ];
 
   const pageLinks = isAuthorized ? authenticatedLinks : unauthenticatedLinks;
+  const mobileLinks = isAuthorized
+    ? [...authenticatedLinks, ...myReportsLinks]
+    : unauthenticatedLinks;
 
   return (
     <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 bg-primary text-white">
@@ -161,6 +177,27 @@ const HeaderNav = (props: any) => {
                 )}
               </div>
             ))}
+            {isAuthorized && hasMyReportsAccess && (
+              <div className="py-2">
+                <div className="text-lg font-semibold mb-2 text-gray-600">
+                  My Reports
+                </div>
+                {myReportsLinks.map((link: any, index: number) => (
+                  <div key={`my-reports-${index}`} className="ml-4">
+                    {link.enabled && (
+                      <Link
+                        href={link.href}
+                        className="flex w-full items-center py-2 text-base font-medium"
+                        prefetch={false}
+                        onClick={() => setSheetOpen(false)}
+                      >
+                        {link.label}
+                      </Link>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
             {isAuthorized && (
               <form action="/auth/signout" method="post" className="mt-4">
                 <Button
@@ -176,8 +213,16 @@ const HeaderNav = (props: any) => {
               </form>
             )}
             {!isAuthorized && (
-              <Link href="/login" className="mt-4 block" onClick={() => setSheetOpen(false)}>
-                <Button variant="outline" size="sm" className="w-full justify-start">
+              <Link
+                href="/login"
+                className="mt-4 block"
+                onClick={() => setSheetOpen(false)}
+              >
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full justify-start"
+                >
                   <Login01Icon className="h-4 w-4 mr-2" />
                   Sign in
                 </Button>
@@ -208,21 +253,74 @@ const HeaderNav = (props: any) => {
           <div key={`desktop-${index}`} className="flex items-center">
             {link.enabled && (
               <>
-                <Link
-                  href={link.href}
-                  className="hover:underline whitespace-nowrap flex items-center"
-                  prefetch={false}
-                  key={`desktop-${index}`}
-                  title={link.label}
-                >
-                  {link.href === "/contact-us" ? (
-                    <>{link.icon && link.icon()}</>
-                  ) : link.href === "/account" && isAuthorized ? (
-                    <>{link.icon && link.icon()}</>
-                  ) : (
-                    <div className="mr-4">{link.label}</div>
-                  )}
-                </Link>
+                {/* Insert My Reports dropdown after Market Spy */}
+                {link.href === "/market-spy" && (
+                  <>
+                    <Link
+                      href={link.href}
+                      className="hover:underline whitespace-nowrap flex items-center"
+                      prefetch={false}
+                      key={`desktop-${index}`}
+                      title={link.label}
+                    >
+                      <div className="mr-4">{link.label}</div>
+                    </Link>
+                    {/* My Reports Dropdown */}
+                    {isAuthorized && hasMyReportsAccess && (
+                      <div className="mx-4">
+                        <NavigationMenu>
+                          <NavigationMenuList>
+                            <NavigationMenuItem>
+                              <NavigationMenuTrigger className="bg-transparent hover:bg-transparent text-white hover:text-white p-0 h-auto text-base font-normal hover:underline focus:bg-transparent data-[state=open]:bg-transparent data-[active]:bg-transparent">
+                                My Reports
+                              </NavigationMenuTrigger>
+                              <NavigationMenuContent>
+                                <ul className="grid gap-3 p-4 w-[250px]">
+                                  {myReportsLinks.map(
+                                    (link: any, index: number) => (
+                                      <li key={`dropdown-${index}`}>
+                                        {link.enabled && (
+                                          <NavigationMenuLink asChild>
+                                            <Link
+                                              href={link.href}
+                                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                            >
+                                              <div className="text-sm font-medium leading-none">
+                                                {link.label}
+                                              </div>
+                                            </Link>
+                                          </NavigationMenuLink>
+                                        )}
+                                      </li>
+                                    )
+                                  )}
+                                </ul>
+                              </NavigationMenuContent>
+                            </NavigationMenuItem>
+                          </NavigationMenuList>
+                        </NavigationMenu>
+                      </div>
+                    )}
+                  </>
+                )}
+                {/* Regular navigation links */}
+                {link.href !== "/market-spy" && (
+                  <Link
+                    href={link.href}
+                    className="hover:underline whitespace-nowrap flex items-center"
+                    prefetch={false}
+                    key={`desktop-${index}`}
+                    title={link.label}
+                  >
+                    {link.href === "/contact-us" ? (
+                      <>{link.icon && link.icon()}</>
+                    ) : link.href === "/account" && isAuthorized ? (
+                      <>{link.icon && link.icon()}</>
+                    ) : (
+                      <div className="mr-4">{link.label}</div>
+                    )}
+                  </Link>
+                )}
               </>
             )}
           </div>
@@ -230,7 +328,11 @@ const HeaderNav = (props: any) => {
 
         {!isAuthorized && (
           <Link href="/login" className="flex items-center">
-            <Button variant="outline" size="sm" className="text-white border-white hover:bg-white hover:text-primary bg-transparent">
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-white border-white hover:bg-white hover:text-primary bg-transparent"
+            >
               <Login01Icon className="h-4 w-4 mr-2" />
               Sign in
             </Button>
@@ -238,7 +340,11 @@ const HeaderNav = (props: any) => {
         )}
 
         {isAuthorized && (
-          <form action="/auth/signout" method="post" className="flex items-center">
+          <form
+            action="/auth/signout"
+            method="post"
+            className="flex items-center"
+          >
             <Button
               variant="outline"
               size="sm"
