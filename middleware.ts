@@ -4,6 +4,7 @@ import { updateSession } from '@/utils/supabase/middleware'
 const protectedRoutes = [
   "/account",
   "/properties",
+  "/my-comps",
   // "/contact"
 ];
 
