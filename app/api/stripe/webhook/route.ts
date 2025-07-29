@@ -123,6 +123,45 @@ export async function POST(request: Request) {
               }
             }
           }
+        } else if (session.mode === 'payment') {
+          // Handle one-time payments
+          const userId = session.client_reference_id;
+          const customerId = session.customer as string;
+          const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+          const priceId = lineItems.data[0]?.price?.id;
+          const quantity = lineItems.data[0]?.quantity || 1;
+          
+          console.log('💳 One-time payment completed');
+          console.log('💰 Price ID:', priceId);
+          console.log('🔢 Quantity:', quantity);
+
+          if (userId && priceId) {
+            // Update user profile with customer info (no subscription for one-time)
+            const { error } = await supabase
+              .from('profiles')
+              .update({
+                stripe_customer_id: customerId,
+                stripe_subscription_id: null, // Clear any existing subscription
+                subscription_status: null, // No subscription status for one-time
+                updated_at: new Date().toISOString(),
+              })
+              .eq('id', userId);
+
+            if (error) {
+              console.error('❌ Error updating user profile:', error);
+            } else {
+              console.log('✅ Successfully updated user profile for one-time payment');
+            }
+
+            // Sync user's plan based on the one-time purchase
+            // Use 'active' status for one-time purchases to enable features
+            const planSyncResult = await syncUserPlan(userId, priceId, 'active', quantity);
+            if (planSyncResult) {
+              console.log('✅ Successfully synced user plan for one-time purchase with quantity:', quantity);
+            } else {
+              console.error('❌ Failed to sync user plan for one-time purchase');
+            }
+          }
         }
         break;
       }
