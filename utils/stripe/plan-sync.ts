@@ -6,11 +6,23 @@ export const STRIPE_PRICE_TO_PLAN: Record<string, string> = {
   // Legacy Market Spy (one-time purchase) -> Standard plan
   'price_1Rf3qeRQojxLKgwUSlmUkEbH': PLANS.STANDARD,
   
-  // Pro Plan (monthly subscription with quantity support) -> Pro plan
+  // Pro Plan (monthly subscription with graduated pricing) -> Pro plan
   'price_1RmiWnRQojxLKgwUZq8xx0lc': PLANS.PRO,
   
-  // Add additional price IDs here when created
-  // 'price_1ZZZZZZ': PLANS.PRO,       // Annual pro
+  // New graduated subscription price (update with your actual price ID)
+  [process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID || '']: PLANS.PRO,
+  
+  // One-time payment prices (all map to PRO plan with different usage limits)
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_1_PRICE_ID || '']: PLANS.PRO,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_2_PRICE_ID || '']: PLANS.PRO,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_3_PRICE_ID || '']: PLANS.PRO,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_4_PRICE_ID || '']: PLANS.PRO,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_5_PRICE_ID || '']: PLANS.PRO,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_6_PRICE_ID || '']: PLANS.PRO,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_7_PRICE_ID || '']: PLANS.PRO,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_8_PRICE_ID || '']: PLANS.PRO,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_9_PRICE_ID || '']: PLANS.PRO,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_10_PRICE_ID || '']: PLANS.PRO,
 };
 
 // Map subscription statuses to determine plan behavior
@@ -146,6 +158,7 @@ export async function syncUserPlanBySubscriptionId(
 
 /**
  * Calculate Market Spy listings limit based on plan and quantity
+ * For new pricing model, quantity directly represents the number of listings
  */
 function calculateMarketSpyLimit(planKey: string, quantity: number, subscriptionStatus: string): number {
   // If subscription is inactive, no Market Spy access
@@ -156,7 +169,8 @@ function calculateMarketSpyLimit(planKey: string, quantity: number, subscription
   // Calculate based on plan type
   switch (planKey) {
     case PLANS.PRO:
-      return quantity * 2; // 2 listings per Pro Plan quantity
+      // New model: quantity directly represents listings purchased
+      return quantity;
     case PLANS.STANDARD:
       return 2; // Legacy standard plan gets 2 listings
     case PLANS.FREEMIUM:

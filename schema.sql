@@ -1,150 +1,427 @@
-CREATE TABLE IF NOT EXISTS "features" (
-    id uuid NOT NULL DEFAULT gen_random_uuid(), 
-    created_at timestamp with time zone NOT NULL DEFAULT now(), 
-    name text, 
-    description text, 
-    key text NOT NULL
+-- public.comp_basis definition
+
+-- Drop table
+
+-- DROP TABLE public.comp_basis;
+
+CREATE TABLE public.comp_basis (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	profile_id uuid NOT NULL,
+	address text NOT NULL,
+	latitude text NOT NULL,
+	longitude text NOT NULL,
+	scan_id text NOT NULL,
+	status text DEFAULT 'pending'::text NOT NULL,
+	CONSTRAINT comp_basis_pkey PRIMARY KEY (id),
+	CONSTRAINT comp_basis_scan_id_key UNIQUE (scan_id)
 );
 
-CREATE TABLE IF NOT EXISTS "listing_feedback_usage" (
-    id uuid NOT NULL DEFAULT gen_random_uuid(), 
-    created_at timestamp with time zone NOT NULL DEFAULT now(), 
-    profile_id uuid NOT NULL, 
-    property_id uuid NOT NULL
+
+-- public.features definition
+
+-- Drop table
+
+-- DROP TABLE public.features;
+
+CREATE TABLE public.features (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	"name" text NULL,
+	description text NULL,
+	"key" text NOT NULL,
+	CONSTRAINT features_key_key UNIQUE (key),
+	CONSTRAINT features_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS "listings" (
-    id uuid NOT NULL DEFAULT gen_random_uuid(), 
-    created_at timestamp with time zone NOT NULL DEFAULT now(), 
-    profile_id uuid, 
-    listed_on text, 
-    external_listing_id text, 
-    property_id uuid
+
+-- public.llm_usage definition
+
+-- Drop table
+
+-- DROP TABLE public.llm_usage;
+
+CREATE TABLE public.llm_usage (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	run_id text NULL,
+	llm_name text NULL,
+	completion_tokens int2 NULL,
+	prompt_tokens int4 NULL,
+	total_tokens int4 NULL,
+	"cost" text NULL,
+	"name" text NULL,
+	CONSTRAINT llm_usage_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS "llm_usage" (
-    id uuid NOT NULL DEFAULT gen_random_uuid(), 
-    created_at timestamp with time zone NOT NULL DEFAULT now(), 
-    run_id text, 
-    llm_name text, 
-    completion_tokens smallint, 
-    prompt_tokens integer, 
-    total_tokens integer, 
-    cost text, 
-    name text
+
+-- public."plans" definition
+
+-- Drop table
+
+-- DROP TABLE public."plans";
+
+CREATE TABLE public."plans" (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	"name" text NULL,
+	description text NULL,
+	active bool DEFAULT true NULL,
+	"key" text NOT NULL,
+	CONSTRAINT plans_key_key UNIQUE (key),
+	CONSTRAINT plans_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS "plans" (
-    id uuid NOT NULL DEFAULT gen_random_uuid(), 
-    created_at timestamp with time zone NOT NULL DEFAULT now(), 
-    name text, 
-    description text, 
-    active boolean DEFAULT true, 
-    key text NOT NULL
+
+-- public.stripe_events definition
+
+-- Drop table
+
+-- DROP TABLE public.stripe_events;
+
+CREATE TABLE public.stripe_events (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	stripe_event_id text NOT NULL,
+	event_type text NOT NULL,
+	processed bool DEFAULT false NULL,
+	created_at timestamp DEFAULT now() NULL,
+	"data" jsonb NULL,
+	CONSTRAINT stripe_events_pkey PRIMARY KEY (id),
+	CONSTRAINT stripe_events_stripe_event_id_key UNIQUE (stripe_event_id)
 );
 
-CREATE TABLE IF NOT EXISTS "plans_features_map" (
-    id uuid NOT NULL DEFAULT gen_random_uuid(), 
-    created_at timestamp with time zone NOT NULL DEFAULT now(), 
-    plan_id uuid, 
-    feature_id uuid
+
+-- public.plans_features_map definition
+
+-- Drop table
+
+-- DROP TABLE public.plans_features_map;
+
+CREATE TABLE public.plans_features_map (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	plan_id uuid NULL,
+	feature_id uuid NULL,
+	CONSTRAINT plans_features_map_pkey PRIMARY KEY (id),
+	CONSTRAINT plans_features_map_feature_id_fkey FOREIGN KEY (feature_id) REFERENCES public.features(id),
+	CONSTRAINT plans_features_map_plan_id_fkey FOREIGN KEY (plan_id) REFERENCES public."plans"(id)
 );
 
-CREATE TABLE IF NOT EXISTS "profiles" (
-    id uuid NOT NULL, 
-    updated_at timestamp with time zone, 
-    username text, 
-    full_name text, 
-    avatar_url text, 
-    website text, 
-    primary_email text, 
-    secondary_email text, 
-    primary_phone text, 
-    secondary_phone text, 
-    notification_preference text, 
-    plan_id uuid
+
+-- public.comps definition
+
+-- Drop table
+
+-- DROP TABLE public.comps;
+
+CREATE TABLE public.comps (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	profile_id uuid NOT NULL,
+	scan_id text NOT NULL,
+	listing_id text NOT NULL,
+	thirty_day int2 NULL,
+	sixty_day int2 NULL,
+	ninety_day int2 NULL,
+	overall_occupancy int2 NULL,
+	comp_basis_id uuid NULL,
+	CONSTRAINT comps_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS "properties" (
-    id uuid NOT NULL DEFAULT gen_random_uuid(), 
-    created_at timestamp with time zone NOT NULL DEFAULT now(), 
-    name text, 
-    description text, 
-    profile_id uuid, 
-    primary_email text, 
-    secondary_email text, 
-    primary_phone text, 
-    secondary_phone text, 
-    primary_contact text, 
-    secondary_contact text, 
-    notification_preference text DEFAULT 'email'::text
+
+-- public.comps_analysis definition
+
+-- Drop table
+
+-- DROP TABLE public.comps_analysis;
+
+CREATE TABLE public.comps_analysis (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	profile_id uuid NOT NULL,
+	property_id uuid NOT NULL,
+	summary jsonb NOT NULL,
+	CONSTRAINT comps_analysis_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS "property_ratings" (
-    id uuid NOT NULL DEFAULT gen_random_uuid(), 
-    created_at timestamp with time zone NOT NULL DEFAULT now(), 
-    property_id uuid NOT NULL, 
-    ratings jsonb NOT NULL, 
-    modified_at timestamp without time zone DEFAULT now()
+
+-- public.listing_feedback_usage definition
+
+-- Drop table
+
+-- DROP TABLE public.listing_feedback_usage;
+
+CREATE TABLE public.listing_feedback_usage (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	profile_id uuid NOT NULL,
+	property_id uuid NOT NULL,
+	CONSTRAINT listing_feedback_usage_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS "scan_mismatches" (
-    id bigint NOT NULL, 
-    created_at timestamp with time zone NOT NULL DEFAULT now(), 
-    profile_id uuid, 
-    property_id uuid, 
-    mismatch_date timestamp with time zone DEFAULT now(), 
-    message text, 
-    scan_id bigint
+
+-- public.listings definition
+
+-- Drop table
+
+-- DROP TABLE public.listings;
+
+CREATE TABLE public.listings (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	profile_id uuid NULL,
+	listed_on text NULL,
+	external_listing_id text NULL,
+	property_id uuid NULL,
+	CONSTRAINT listings_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS "scans" (
-    id bigint NOT NULL, 
-    created_at timestamp with time zone NOT NULL DEFAULT now(), 
-    profile_id uuid, 
-    property_id uuid, 
-    has_mismatch boolean DEFAULT false
+
+-- public.profiles definition
+
+-- Drop table
+
+-- DROP TABLE public.profiles;
+
+CREATE TABLE public.profiles (
+	id uuid NOT NULL,
+	updated_at timestamptz NULL,
+	username text NULL,
+	full_name text NULL,
+	avatar_url text NULL,
+	website text NULL,
+	primary_email text NULL,
+	secondary_email text NULL,
+	primary_phone text NULL,
+	secondary_phone text NULL,
+	notification_preference text NULL,
+	plan_id uuid DEFAULT '5cb61d3c-306e-4518-8ec1-fa59585ce27c'::uuid NULL,
+	stripe_customer_id text NULL,
+	stripe_subscription_id text NULL,
+	subscription_status text NULL,
+	subscription_quantity int4 DEFAULT 1 NULL,
+	market_spy_listings_limit int4 DEFAULT 0 NULL,
+	market_spy_listings_used int4 DEFAULT 0 NULL,
+	CONSTRAINT profiles_pkey PRIMARY KEY (id),
+	CONSTRAINT profiles_username_key UNIQUE (username),
+	CONSTRAINT username_length CHECK ((char_length(username) >= 3))
+);
+CREATE INDEX idx_profiles_market_spy_usage ON public.profiles USING btree (market_spy_listings_used, market_spy_listings_limit);
+CREATE INDEX idx_profiles_plan_id ON public.profiles USING btree (plan_id);
+CREATE INDEX idx_profiles_stripe_subscription_id ON public.profiles USING btree (stripe_subscription_id);
+
+
+-- public.properties definition
+
+-- Drop table
+
+-- DROP TABLE public.properties;
+
+CREATE TABLE public.properties (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	"name" text NULL,
+	description text NULL,
+	profile_id uuid NULL,
+	primary_email text NULL,
+	secondary_email text NULL,
+	primary_phone text NULL,
+	secondary_phone text NULL,
+	primary_contact text NULL,
+	secondary_contact text NULL,
+	notification_preference text DEFAULT 'email'::text NULL,
+	CONSTRAINT properties_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS "str_properties" (
-    id uuid NOT NULL DEFAULT gen_random_uuid(), 
-    created_at timestamp with time zone NOT NULL DEFAULT now(), 
-    address text, 
-    title text NOT NULL, 
-    city text, 
-    state text, 
-    zip text, 
-    url text, 
-    external_id text NOT NULL, 
-    description text, 
-    user_id uuid, 
-    parent_id uuid, 
-    is_parent boolean, 
-    amenities json, 
-    hero_image_link text, 
-    other_image_links jsonb
+
+-- public.property_ratings definition
+
+-- Drop table
+
+-- DROP TABLE public.property_ratings;
+
+CREATE TABLE public.property_ratings (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	property_id uuid NOT NULL,
+	ratings jsonb NOT NULL,
+	modified_at timestamp DEFAULT now() NULL,
+	CONSTRAINT property_ratings_property_id_key UNIQUE (property_id)
 );
 
-CREATE TABLE IF NOT EXISTS "str_property_ratings" (
-    id uuid NOT NULL DEFAULT gen_random_uuid(), 
-    created_at timestamp with time zone NOT NULL DEFAULT now(), 
-    property_id uuid NOT NULL, 
-    description_rating_number text, 
-    hero_image_rating_number text, 
-    overall_photo_rating text, 
-    interior_rating_category text, 
-    "30_day_occupancy" text, 
-    "60_day_occupancy" text, 
-    "90_day_occupancy" text, 
-    feedback text, 
-    suggestions text, 
-    description_rating_category text, 
-    amenities_rating_category text, 
-    amenities_rating_number text, 
-    hero_image_rating_category text, 
-    title_rating_number text, 
-    title_rating_category text, 
-    interior_rating_number text, 
-    other_images_rating_category text, 
-    other_images_rating_number text
+
+-- public.scan_mismatches definition
+
+-- Drop table
+
+-- DROP TABLE public.scan_mismatches;
+
+CREATE TABLE public.scan_mismatches (
+	id int8 GENERATED BY DEFAULT AS IDENTITY( INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1 NO CYCLE) NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	profile_id uuid NULL,
+	property_id uuid NULL,
+	mismatch_date timestamptz DEFAULT now() NULL,
+	message text NULL,
+	scan_id int8 NULL,
+	CONSTRAINT scan_mismatches_pkey PRIMARY KEY (id)
 );
+
+
+-- public.scans definition
+
+-- Drop table
+
+-- DROP TABLE public.scans;
+
+CREATE TABLE public.scans (
+	id int8 GENERATED BY DEFAULT AS IDENTITY( INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1 NO CYCLE) NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	profile_id uuid NULL,
+	property_id uuid NULL,
+	has_mismatch bool DEFAULT false NULL,
+	CONSTRAINT scans_pkey PRIMARY KEY (id)
+);
+
+
+-- public.str_properties definition
+
+-- Drop table
+
+-- DROP TABLE public.str_properties;
+
+CREATE TABLE public.str_properties (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	address text NULL,
+	title text NOT NULL,
+	city text NULL,
+	state text NULL,
+	zip text NULL,
+	url text NULL,
+	external_id text NOT NULL,
+	description text NULL,
+	user_id uuid NULL,
+	parent_id uuid NULL,
+	is_parent bool NULL,
+	amenities json NULL,
+	hero_image_link text NULL,
+	other_image_links jsonb NULL,
+	is_comp bool DEFAULT false NULL,
+	comp_id uuid NULL,
+	bedrooms text NULL,
+	pets text NULL,
+	instant_book bool DEFAULT false NULL,
+	cancellation_policy text NULL,
+	review_count int4 DEFAULT 0 NULL,
+	average_rating numeric(3, 2) DEFAULT 0.0 NULL,
+	policies text NULL,
+	updated_at timestamptz DEFAULT now() NULL,
+	CONSTRAINT str_properties_external_id_key UNIQUE (external_id),
+	CONSTRAINT str_properties_pkey PRIMARY KEY (id)
+);
+
+-- Table Triggers
+
+create trigger update_str_properties_updated_at before
+update
+    on
+    public.str_properties for each row execute function update_updated_at_column();
+
+
+-- public.str_property_ratings definition
+
+-- Drop table
+
+-- DROP TABLE public.str_property_ratings;
+
+CREATE TABLE public.str_property_ratings (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	property_id uuid NOT NULL,
+	description_rating_number text NULL,
+	hero_image_rating_number text NULL,
+	overall_photo_rating text NULL,
+	interior_rating_category text NULL,
+	"30_day_occupancy" text NULL,
+	"60_day_occupancy" text NULL,
+	"90_day_occupancy" text NULL,
+	feedback text NULL,
+	suggestions text NULL,
+	description_rating_category text NULL,
+	amenities_rating_category text NULL,
+	amenities_rating_number text NULL,
+	hero_image_rating_category text NULL,
+	title_rating_number text NULL,
+	title_rating_category text NULL,
+	interior_rating_number text NULL,
+	other_images_rating_category text NULL,
+	other_images_rating_number text NULL,
+	CONSTRAINT str_property_ratings_pkey PRIMARY KEY (id),
+	CONSTRAINT str_property_ratings_property_id_key UNIQUE (property_id)
+);
+
+
+-- public.comps foreign keys
+
+ALTER TABLE public.comps ADD CONSTRAINT comps_comp_basis_id_fkey FOREIGN KEY (comp_basis_id) REFERENCES public.comp_basis(id);
+ALTER TABLE public.comps ADD CONSTRAINT comps_profile_id_fkey FOREIGN KEY (profile_id) REFERENCES public.profiles(id);
+ALTER TABLE public.comps ADD CONSTRAINT comps_scan_id_fkey FOREIGN KEY (scan_id) REFERENCES public.comp_basis(scan_id);
+
+
+-- public.comps_analysis foreign keys
+
+ALTER TABLE public.comps_analysis ADD CONSTRAINT comps_analysis_profile_id_fkey FOREIGN KEY (profile_id) REFERENCES public.profiles(id);
+ALTER TABLE public.comps_analysis ADD CONSTRAINT comps_analysis_property_id_fkey FOREIGN KEY (property_id) REFERENCES public.str_properties(id);
+
+
+-- public.listing_feedback_usage foreign keys
+
+ALTER TABLE public.listing_feedback_usage ADD CONSTRAINT listing_feedback_usage_profile_id_fkey FOREIGN KEY (profile_id) REFERENCES public.profiles(id);
+ALTER TABLE public.listing_feedback_usage ADD CONSTRAINT listing_feedback_usage_property_id_fkey FOREIGN KEY (property_id) REFERENCES public.str_properties(id);
+
+
+-- public.listings foreign keys
+
+ALTER TABLE public.listings ADD CONSTRAINT listings_profile_id_fkey FOREIGN KEY (profile_id) REFERENCES public.profiles(id);
+ALTER TABLE public.listings ADD CONSTRAINT listings_property_id_fkey FOREIGN KEY (property_id) REFERENCES public.properties(id);
+
+
+-- public.profiles foreign keys
+
+ALTER TABLE public.profiles ADD CONSTRAINT profiles_id_fkey FOREIGN KEY (id) REFERENCES auth.users(id);
+ALTER TABLE public.profiles ADD CONSTRAINT profiles_plan_id_fkey FOREIGN KEY (plan_id) REFERENCES public."plans"(id);
+
+
+-- public.properties foreign keys
+
+ALTER TABLE public.properties ADD CONSTRAINT properties_profile_id_fkey FOREIGN KEY (profile_id) REFERENCES public.profiles(id);
+
+
+-- public.property_ratings foreign keys
+
+ALTER TABLE public.property_ratings ADD CONSTRAINT property_ratings_property_id_fkey FOREIGN KEY (property_id) REFERENCES public.str_properties(id);
+
+
+-- public.scan_mismatches foreign keys
+
+ALTER TABLE public.scan_mismatches ADD CONSTRAINT scan_mismatches_profile_id_fkey FOREIGN KEY (profile_id) REFERENCES public.profiles(id);
+ALTER TABLE public.scan_mismatches ADD CONSTRAINT scan_mismatches_property_id_fkey FOREIGN KEY (property_id) REFERENCES public.properties(id);
+ALTER TABLE public.scan_mismatches ADD CONSTRAINT scan_mismatches_scan_id_fkey FOREIGN KEY (scan_id) REFERENCES public.scans(id);
+
+
+-- public.scans foreign keys
+
+ALTER TABLE public.scans ADD CONSTRAINT scans_profile_id_fkey FOREIGN KEY (profile_id) REFERENCES public.profiles(id);
+ALTER TABLE public.scans ADD CONSTRAINT scans_property_id_fkey FOREIGN KEY (property_id) REFERENCES public.properties(id);
+
+
+-- public.str_properties foreign keys
+
+ALTER TABLE public.str_properties ADD CONSTRAINT str_properties_comp_id_fkey FOREIGN KEY (comp_id) REFERENCES public.comps(id);
+ALTER TABLE public.str_properties ADD CONSTRAINT str_properties_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.profiles(id);
+
+
+-- public.str_property_ratings foreign keys
+
+ALTER TABLE public.str_property_ratings ADD CONSTRAINT str_property_ratings_property_id_fkey FOREIGN KEY (property_id) REFERENCES public.str_properties(id);

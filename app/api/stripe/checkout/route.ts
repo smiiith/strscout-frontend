@@ -26,6 +26,7 @@ export async function POST(request: Request) {
       quantity = 1,
       successUrl,
       cancelUrl,
+      mode, // Add mode parameter
     } = await request.json();
 
     if (!priceId) {
@@ -48,6 +49,9 @@ export async function POST(request: Request) {
         ? cancelUrl
         : `${baseUrl}${cancelUrl || "/pricing?canceled=true"}`;
 
+    // Determine checkout mode based on the mode parameter or price ID pattern
+    const checkoutMode = mode || (priceId.includes('subscription') ? 'subscription' : 'payment');
+    
     // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       customer_email: user.email,
@@ -58,7 +62,7 @@ export async function POST(request: Request) {
           quantity: quantity,
         },
       ],
-      mode: "subscription",
+      mode: checkoutMode,
       success_url: absoluteSuccessUrl,
       cancel_url: absoluteCancelUrl,
       metadata: {

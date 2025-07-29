@@ -8,6 +8,13 @@ const nextConfig = {
       },
     ],
   },
+  webpack: (config) => {
+    config.watchOptions = {
+      poll: 1000,
+      aggregateTimeout: 300,
+    }
+    return config
+  },
   async headers() {
     const isDev = process.env.NODE_ENV === 'development';
     const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT || 'http://localhost:3002/api';

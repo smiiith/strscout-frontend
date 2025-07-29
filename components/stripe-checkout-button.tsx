@@ -12,6 +12,7 @@ interface StripeCheckoutButtonProps {
   quantity?: number;
   successUrl?: string;
   cancelUrl?: string;
+  mode?: 'subscription' | 'payment';
 }
 
 export default function StripeCheckoutButton({
@@ -22,6 +23,7 @@ export default function StripeCheckoutButton({
   quantity = 1,
   successUrl,
   cancelUrl,
+  mode,
 }: StripeCheckoutButtonProps) {
   const [loading, setLoading] = useState(false);
 
@@ -39,6 +41,7 @@ export default function StripeCheckoutButton({
           quantity,
           successUrl,
           cancelUrl,
+          mode,
         }),
       });
 
