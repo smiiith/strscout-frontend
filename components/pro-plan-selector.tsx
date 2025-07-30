@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useUserSession } from '@/lib/context/UserSessionProvider';
 import StripeCheckoutButton from '@/components/stripe-checkout-button';
-import { calculateGraduatedPrice, getOneTimePriceId, getSubscriptionPriceId, getPerListingRate, type BillingType } from '@/lib/pricing';
+import { calculatePrice, getOneTimePriceId, getSubscriptionPriceId, getPerListingRate, type BillingType } from '@/lib/pricing';
 
 interface ProPlanSelectorProps {
   className?: string;
@@ -18,7 +18,7 @@ export default function ProPlanSelector({ className = "" }: ProPlanSelectorProps
   const [billingType, setBillingType] = useState<BillingType>('subscription');
   const { session } = useUserSession();
   
-  const totalPrice = calculateGraduatedPrice(listingCount, billingType);
+  const totalPrice = calculatePrice(listingCount, billingType);
   const perListingRate = getPerListingRate(listingCount, billingType);
 
 

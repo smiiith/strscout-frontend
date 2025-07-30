@@ -85,8 +85,8 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
 - TypeScript types in `app/database.types.ts` (auto-generated from Supabase)
 - Supabase client configurations: `utils/supabase/client.ts` (browser), `utils/supabase/server.ts` (SSR), `utils/supabase/middleware.ts` (auth)
 - User profiles with subscription plan integration
-- **New Stripe Payment Integration** with dual pricing model:
-  - Graduated subscription pricing (single price ID with quantity-based tiers)
+- **Stripe Payment Integration** with dual pricing model:
+  - Volume-based subscription pricing (single Stripe price ID with quantity tiers)
   - Individual one-time payment prices (10 separate price IDs for 1-10 listings)
   - Webhooks handle both subscription and one-time payment events (`app/api/stripe/webhook/route.ts`)
   - Plan sync utilities (`utils/stripe/plan-sync.ts`) manage user billing state
@@ -130,19 +130,37 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
   - Resend for email notifications
   - CORS enabled for frontend integration
 
-### New Pricing Model (Recently Implemented)
+### Volume-Based Pricing Model
 
-**Pricing Structure:**
-- **Subscription**: Graduated pricing via single Stripe price (1-∞ listings, $30 first + $10 each + $12 portfolio rate)
-- **One-time**: Fixed prices for 1-10 listings ($35-$140), custom pricing for 11+
-- **Tiers**: starter (1), growth (2-5), pro (4-5), portfolio (6+)
+**Pricing Structure (Volume-based tiers):**
+- **Subscription**: Volume pricing with per-listing rates based on quantity tier
+  - 1 listing: $30.00/listing ($30 total)
+  - 2 listings: $20.00/listing ($40 total)  
+  - 3 listings: $16.67/listing ($50 total)
+  - 4 listings: $15.00/listing ($60 total)
+  - 5 listings: $14.00/listing ($70 total)
+  - 6+ listings: $12.00/listing
+- **One-time**: Volume pricing with per-listing rates based on quantity tier
+  - 1 listing: $35.00/listing ($35 total)
+  - 2 listings: $22.50/listing ($45 total)
+  - 3 listings: $18.33/listing ($55 total)
+  - 4 listings: $16.25/listing ($65 total)
+  - 5 listings: $15.00/listing ($75 total)
+  - 6+ listings: $13.00/listing
+- **Tiers**: starter (1), growth (2-3), pro (4-5), portfolio (6+)
 
 **Key Files:**
-- `lib/pricing.ts` - Pricing calculation utilities and price ID mapping
-- `components/pro-plan-selector.tsx` - Updated pricing UI with subscription/one-time toggle
+- `lib/pricing.ts` - Volume pricing calculation utilities with `calculatePrice()` function
+- `components/pro-plan-selector.tsx` - Pricing UI with subscription/one-time toggle
 - `app/(authenticated)/account/page.tsx` - Account page shows billing type and usage
-- `migrations/add_new_pricing_fields.sql` - Database schema updates for new pricing model
-- `utils/stripe/plan-sync.ts` - Updated to handle new billing types and usage tracking
+- `migrations/add_new_pricing_fields.sql` - Database schema updates for pricing model
+- `utils/stripe/plan-sync.ts` - Handles billing types and usage tracking
+
+**Important Notes:**
+- Uses **volume pricing** (not graduated) - price per listing depends on quantity tier
+- Stripe subscription configured with volume pricing tiers (1-1, 2-2, 3-3, etc.)
+- One-time payments use separate fixed price IDs for each quantity (1-10 listings)
+- Custom pricing required for 11+ one-time listings
 
 **Database Schema Changes:**
 - Added `billing_type`, `current_tier`, `listings_purchased`, `purchase_date` fields to profiles
