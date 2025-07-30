@@ -7,24 +7,36 @@ export interface PricingTier {
   oneTimePrice: number;
 }
 
-// Graduated pricing calculation
-export function calculateGraduatedPrice(listings: number, billingType: BillingType): number {
-  const rates = billingType === 'subscription' 
-    ? { first: 30, additional: 10, portfolio: 12 }
-    : { first: 35, additional: 10, portfolio: 13 };
-  
-  if (listings === 1) {
-    return rates.first;
+/**
+ * Calculate total price using volume-based pricing tiers
+ * In volume pricing, the per-listing rate depends on the quantity tier
+ * @param listings - Number of listings
+ * @param billingType - 'subscription' or 'one_time'
+ * @returns Total price for the given quantity
+ */
+export function calculatePrice(listings: number, billingType: BillingType): number {
+  // Volume pricing - different rate per listing based on quantity tier
+  if (billingType === 'subscription') {
+    // Subscription volume pricing
+    switch (listings) {
+      case 1: return listings * 30.00;
+      case 2: return listings * 20.00;
+      case 3: return listings * 16.67;
+      case 4: return listings * 15.00;
+      case 5: return listings * 14.00;
+      default: return listings * 12.00; // 6+ listings
+    }
+  } else {
+    // One-time volume pricing
+    switch (listings) {
+      case 1: return listings * 35.00;
+      case 2: return listings * 22.50;
+      case 3: return listings * 18.33;
+      case 4: return listings * 16.25;
+      case 5: return listings * 15.00;
+      default: return listings * 13.00; // 6+ listings
+    }
   }
-  
-  if (listings <= 5) {
-    return rates.first + ((listings - 1) * rates.additional);
-  }
-  
-  // For 6+ listings: first 5 use lower rates, rest use portfolio rate
-  const basePrice = rates.first + (4 * rates.additional); // First 5 listings
-  const additionalListings = listings - 5;
-  return basePrice + (additionalListings * rates.portfolio);
 }
 
 // Get the appropriate Stripe price ID for one-time payments
@@ -59,8 +71,31 @@ export const PRICING_TIERS: PricingTier[] = [
   { name: 'Pro', listingCount: 5, subscriptionPrice: 70, oneTimePrice: 75 },
 ];
 
-// Calculate per-listing rate for display
+/**
+ * Get the per-listing rate for a given quantity tier
+ * @param listings - Number of listings
+ * @param billingType - 'subscription' or 'one_time'
+ * @returns Price per listing for this tier
+ */
 export function getPerListingRate(listings: number, billingType: BillingType): number {
-  const totalPrice = calculateGraduatedPrice(listings, billingType);
-  return Math.round((totalPrice / listings) * 100) / 100; // Round to 2 decimal places
+  // Return the exact rate used in volume pricing
+  if (billingType === 'subscription') {
+    switch (listings) {
+      case 1: return 30.00;
+      case 2: return 20.00;
+      case 3: return 16.67;
+      case 4: return 15.00;
+      case 5: return 14.00;
+      default: return 12.00; // 6+ listings
+    }
+  } else {
+    switch (listings) {
+      case 1: return 35.00;
+      case 2: return 22.50;
+      case 3: return 18.33;
+      case 4: return 16.25;
+      case 5: return 15.00;
+      default: return 13.00; // 6+ listings
+    }
+  }
 }
