@@ -103,11 +103,12 @@ export async function POST(request: Request) {
             console.log("🔢 Quantity:", quantity);
 
             // Update user profile with subscription info
-            const periodStart = subscription.current_period_start 
-              ? new Date(subscription.current_period_start * 1000).toISOString()
+            const sub = subscription as any;
+            const periodStart = sub.current_period_start 
+              ? new Date(sub.current_period_start * 1000).toISOString()
               : null;
-            const periodEnd = subscription.current_period_end
-              ? new Date(subscription.current_period_end * 1000).toISOString() 
+            const periodEnd = sub.current_period_end
+              ? new Date(sub.current_period_end * 1000).toISOString() 
               : null;
 
             const { error } = await supabase
@@ -314,11 +315,12 @@ export async function POST(request: Request) {
             await stripe.subscriptions.retrieve(subscriptionId);
 
           // Reset Market Spy usage for subscription billing cycles
-          const periodStart = subscription.current_period_start 
-            ? new Date(subscription.current_period_start * 1000).toISOString()
+          const sub = subscription as any;
+          const periodStart = sub.current_period_start 
+            ? new Date(sub.current_period_start * 1000).toISOString()
             : null;
-          const periodEnd = subscription.current_period_end
-            ? new Date(subscription.current_period_end * 1000).toISOString() 
+          const periodEnd = sub.current_period_end
+            ? new Date(sub.current_period_end * 1000).toISOString() 
             : null;
 
           const { error: resetError } = await supabase
