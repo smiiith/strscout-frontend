@@ -68,7 +68,7 @@ const MyCompsPage = () => {
   }, [session]);
 
   return (
-    <ProtectedPage requiredPlan={PLANS.STANDARD}>
+    <ProtectedPage requiredPlan={PLANS.PRO}>
       {loading ? (
         <LoadingOverlay />
       ) : (

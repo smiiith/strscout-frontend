@@ -10,7 +10,7 @@ const UpgradeMarketSpy = () => {
         <div className="col-span-1">
           <h1 className="text-3xl font-bold mb-8">
             STR Market Spy requires a{" "}
-            <span className="capitalize">{PLANS.STANDARD}</span> plan
+            <span className="capitalize">{PLANS.PRO}</span> plan
           </h1>
 
           <Image

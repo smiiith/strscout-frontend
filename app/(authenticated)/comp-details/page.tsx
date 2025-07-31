@@ -195,10 +195,10 @@ export default function CompDetailsPage() {
     // Extract cancellation policy if available
     const getCancellationPolicy = () => {
       if (!parsedPolicies.cancellation_policy) return null;
-      
+
       const policyText = parsedPolicies.cancellation_policy.toLowerCase();
       const validPolicies = ["flexible", "moderate", "firm", "strict"];
-      
+
       for (const policy of validPolicies) {
         if (policyText.includes(policy)) {
           return policy.charAt(0).toUpperCase() + policy.slice(1);
@@ -211,29 +211,17 @@ export default function CompDetailsPage() {
 
     return (
       <div className="flex flex-wrap gap-1">
-        <Badge
-          variant="secondary"
-          className="text-xs"
-        >
+        <Badge variant="secondary" className="text-xs">
           Pets: {parsedPolicies.pets_allowed === true ? "Yes" : "No"}
         </Badge>
-        <Badge
-          variant="secondary"
-          className="text-xs"
-        >
+        <Badge variant="secondary" className="text-xs">
           Instant Book: {parsedPolicies.instant_book === true ? "Yes" : "No"}
         </Badge>
-        <Badge
-          variant="secondary"
-          className="text-xs"
-        >
+        <Badge variant="secondary" className="text-xs">
           Self Check-In: {parsedPolicies.self_checkin === true ? "Yes" : "No"}
         </Badge>
         {cancellationPolicy && (
-          <Badge
-            variant="secondary"
-            className="text-xs"
-          >
+          <Badge variant="secondary" className="text-xs">
             Cancellation: {cancellationPolicy}
           </Badge>
         )}
@@ -243,7 +231,7 @@ export default function CompDetailsPage() {
 
   if (loading) {
     return (
-      <ProtectedPage requiredPlan={PLANS.STANDARD}>
+      <ProtectedPage requiredPlan={PLANS.PRO}>
         <div className="min-h-[700px] py-6">
           <div className="flex items-center justify-center h-64">
             <p className="text-muted-foreground">Loading comp analysis...</p>
@@ -255,7 +243,7 @@ export default function CompDetailsPage() {
 
   if (error) {
     return (
-      <ProtectedPage requiredPlan={PLANS.STANDARD}>
+      <ProtectedPage requiredPlan={PLANS.PRO}>
         <div className="min-h-[700px] py-6">
           <div className="flex items-center justify-center h-64">
             <p className="text-red-500">{error}</p>
@@ -266,7 +254,7 @@ export default function CompDetailsPage() {
   }
 
   return (
-    <ProtectedPage requiredPlan={PLANS.STANDARD}>
+    <ProtectedPage requiredPlan={PLANS.PRO}>
       <div className="min-h-[700px] py-6">
         <div className="flex items-center gap-4 mb-6">
           <Button
@@ -451,7 +439,7 @@ export default function CompDetailsPage() {
                               onClick={() => {
                                 window.open(
                                   `https://www.airbnb.com/rooms/${comp.listing_id}`,
-                                  '_blank'
+                                  "_blank"
                                 );
                               }}
                             >
