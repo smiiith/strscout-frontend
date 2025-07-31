@@ -57,7 +57,7 @@ export function getOneTimePriceId(listings: number): string | null {
   return priceMap[listings] || null;
 }
 
-// Get subscription price ID (single graduated price for all quantities)
+// Get subscription price ID (single volume-based price for all quantities)
 export function getSubscriptionPriceId(): string {
   return process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID!;
 }

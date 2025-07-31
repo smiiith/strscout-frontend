@@ -99,7 +99,7 @@ export default function ProPlanSelector({ className = "" }: ProPlanSelectorProps
             billingType === 'subscription' ? (
               <StripeCheckoutButton
                 priceId={getSubscriptionPriceId()}
-                quantity={listingCount}
+                quantity={listingCount} // Volume pricing handles quantity automatically
                 buttonText={`Subscribe for $${totalPrice.toFixed(2)}/month`}
                 successUrl="/account?success=true"
                 cancelUrl="/pricing"

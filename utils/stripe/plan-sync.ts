@@ -9,7 +9,7 @@ export const STRIPE_PRICE_TO_PLAN: Record<string, string> = {
   // Pro Plan (monthly subscription with graduated pricing) -> Pro plan
   'price_1RmiWnRQojxLKgwUZq8xx0lc': PLANS.PRO,
   
-  // New graduated subscription price (update with your actual price ID)
+  // Old single subscription price (now inactive, keeping for webhook compatibility)
   [process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID || '']: PLANS.PRO,
   
   // One-time payment prices (all map to PRO plan with different usage limits)
