@@ -103,6 +103,8 @@ export async function POST(request: Request) {
                 stripe_customer_id: customerId,
                 stripe_subscription_id: subscriptionId,
                 subscription_status: 'active',
+                current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
+                current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
                 updated_at: new Date().toISOString(),
               })
               .eq('id', userId);
@@ -243,6 +245,40 @@ export async function POST(request: Request) {
             console.log('✅ Successfully downgraded user plan to freemium');
           } else {
             console.error('❌ Failed to downgrade user plan');
+          }
+        }
+        break;
+      }
+
+      case 'invoice.payment_succeeded': {
+        const invoice = event.data.object as Stripe.Invoice;
+        
+        if ((invoice as any).subscription) {
+          const subscriptionId = typeof (invoice as any).subscription === 'string' 
+            ? (invoice as any).subscription 
+            : (invoice as any).subscription.id;
+          
+          console.log('💰 Invoice payment succeeded for subscription:', subscriptionId);
+          
+          // Get subscription details to check billing period
+          const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+          
+          // Reset Market Spy usage for subscription billing cycles
+          const { error: resetError } = await supabase
+            .from('profiles')
+            .update({
+              market_spy_listings_used: 0,
+              current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
+              current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+              subscription_status: 'active',
+              updated_at: new Date().toISOString(),
+            })
+            .eq('stripe_subscription_id', subscriptionId);
+
+          if (resetError) {
+            console.error('Error resetting Market Spy usage:', resetError);
+          } else {
+            console.log('✅ Successfully reset Market Spy usage for billing cycle');
           }
         }
         break;

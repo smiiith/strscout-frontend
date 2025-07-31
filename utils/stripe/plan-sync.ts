@@ -3,8 +3,8 @@ import { PLANS } from '@/app/types/plans';
 
 // Map Stripe price IDs to plan keys
 export const STRIPE_PRICE_TO_PLAN: Record<string, string> = {
-  // Legacy Market Spy (one-time purchase) -> Standard plan
-  'price_1Rf3qeRQojxLKgwUSlmUkEbH': PLANS.STANDARD,
+  // Legacy Market Spy (one-time purchase) -> Pro plan (upgraded from Standard)
+  'price_1Rf3qeRQojxLKgwUSlmUkEbH': PLANS.PRO,
   
   // Pro Plan (monthly subscription with graduated pricing) -> Pro plan
   'price_1RmiWnRQojxLKgwUZq8xx0lc': PLANS.PRO,
@@ -171,8 +171,6 @@ function calculateMarketSpyLimit(planKey: string, quantity: number, subscription
     case PLANS.PRO:
       // New model: quantity directly represents listings purchased
       return quantity;
-    case PLANS.STANDARD:
-      return 2; // Legacy standard plan gets 2 listings
     case PLANS.FREEMIUM:
     default:
       return 0; // Freemium gets no Market Spy access

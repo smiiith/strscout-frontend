@@ -15,11 +15,12 @@ import {
 import { useUserSession } from "@/lib/context/UserSessionProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Image from "next/image";
 import { add } from "date-fns";
+import { supabaseClient } from "@/utils/supabase/js-client";
 
 const formSchema = z.object({
   address: z.object({
@@ -40,7 +41,76 @@ const MarketSpyPage = () => {
     latitude: number;
     longitude: number;
   } | null>(null);
+  const [userProfile, setUserProfile] = useState<{
+    market_spy_listings_limit: number;
+    market_spy_listings_used: number;
+    billing_type: string;
+    subscription_status: string;
+  } | null>(null);
   const { session } = useUserSession();
+
+  // Fetch user profile data with Market Spy usage
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (session?.id) {
+        try {
+          const { data: profile } = await supabaseClient
+            .from('profiles')
+            .select(`
+              market_spy_listings_limit,
+              market_spy_listings_used,
+              billing_type,
+              subscription_status
+            `)
+            .eq('id', session.id)
+            .single();
+
+          if (profile) {
+            setUserProfile(profile);
+          }
+        } catch (error) {
+          console.error('Error fetching user profile:', error);
+        }
+      }
+    };
+
+    fetchUserProfile();
+  }, [session?.id]);
+
+  // Calculate remaining Market Spy runs
+  const getRemainingRuns = () => {
+    if (!userProfile) return 0;
+    const used = userProfile.market_spy_listings_used || 0;
+    const limit = userProfile.market_spy_listings_limit || 0;
+    return Math.max(0, limit - used);
+  };
+
+  // Get usage message text
+  const getUsageMessage = () => {
+    if (!userProfile) return null;
+    
+    const remainingRuns = getRemainingRuns();
+    const hasActiveSubscription = userProfile.subscription_status === 'active';
+    const isOneTime = userProfile.billing_type === 'one_time';
+    
+    if (remainingRuns > 0) {
+      if (hasActiveSubscription) {
+        return `You have ${remainingRuns} Market Spy ${remainingRuns === 1 ? 'run' : 'runs'} remaining this month.`;
+      } else if (isOneTime) {
+        return `You have ${remainingRuns} Market Spy ${remainingRuns === 1 ? 'run' : 'runs'} remaining.`;
+      }
+    } else {
+      if (hasActiveSubscription) {
+        return "You've used all your Market Spy runs for this month. Your usage will reset at the start of your next billing cycle.";
+      } else if (isOneTime) {
+        return "You've used all your Market Spy runs. Purchase more listings to continue using Market Spy.";
+      } else {
+        return "Upgrade your plan to start using Market Spy.";
+      }
+    }
+    
+    return null;
+  };
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -68,10 +138,37 @@ const MarketSpyPage = () => {
   const onSubmit = async (data: FormData) => {
     setLoading(true);
 
-    // console.log("session", session);
-
     if (session && session.id) {
       try {
+        // Check if user has remaining runs
+        const remainingRuns = getRemainingRuns();
+        if (remainingRuns <= 0) {
+          alert("You've used all your Market Spy runs. Please upgrade your plan or purchase more listings.");
+          setLoading(false);
+          return;
+        }
+
+        // Increment usage before running Market Spy
+        const usageResponse = await fetch('/api/market-spy/increment-usage', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userId: session.id }),
+        });
+
+        if (!usageResponse.ok) {
+          const usageError = await usageResponse.json();
+          if (usageResponse.status === 403) {
+            alert("You've reached your Market Spy usage limit. Please upgrade your plan or purchase more listings.");
+          } else {
+            alert("Failed to process usage. Please try again.");
+            console.error("Usage increment error:", usageError);
+          }
+          setLoading(false);
+          return;
+        }
+
         const requestData = {
           geocode: `${data.address.latitude}, ${data.address.longitude}`,
           address: data.address.formattedAddress,
@@ -91,12 +188,29 @@ const MarketSpyPage = () => {
         });
 
         if (response.data) {
+          // Refresh user profile to show updated usage
+          const { data: updatedProfile } = await supabaseClient
+            .from('profiles')
+            .select(`
+              market_spy_listings_limit,
+              market_spy_listings_used,
+              billing_type,
+              subscription_status
+            `)
+            .eq('id', session.id)
+            .single();
+
+          if (updatedProfile) {
+            setUserProfile(updatedProfile);
+          }
+
           if (response.data.properties.length === 0) {
             // router.push("/properties/assess-property/single");
           }
         }
       } catch (error) {
         console.error("Error submitting form:", error);
+        alert("An error occurred while running Market Spy. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -107,7 +221,7 @@ const MarketSpyPage = () => {
   };
 
   return (
-    <ProtectedPage requiredPlan={PLANS.STANDARD}>
+    <ProtectedPage requiredPlan={PLANS.PRO}>
       <div className="min-h-[700px] py-6">
         <Image
           src="/market-spy-logo.png"
@@ -126,6 +240,19 @@ const MarketSpyPage = () => {
             bookings, policies, amenities, and more — then show you exactly how
             you compare.
           </p>
+
+          {/* Market Spy Usage Message */}
+          {getUsageMessage() && (
+            <div className={`p-4 rounded-lg border ${
+              getRemainingRuns() > 0 
+                ? 'bg-blue-50 border-blue-200 text-blue-800' 
+                : 'bg-amber-50 border-amber-200 text-amber-800'
+            }`}>
+              <p className="text-sm font-medium">
+                {getUsageMessage()}
+              </p>
+            </div>
+          )}
 
           <Form {...form}>
             <form
@@ -214,10 +341,11 @@ const MarketSpyPage = () => {
               <Button
                 type="submit"
                 variant="default"
-                disabled={loading}
+                disabled={loading || getRemainingRuns() <= 0}
                 className="w-fit"
               >
-                {loading ? "Searching..." : "Search Market"}
+                {loading ? "Searching..." : 
+                 getRemainingRuns() <= 0 ? "No runs remaining" : "Search Market"}
               </Button>
             </form>
           </Form>
