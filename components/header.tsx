@@ -102,7 +102,7 @@ const HeaderNav = (props: any) => {
       label: "Market Spy Reports",
       href: "/my-comps",
       enabled:
-        props.user && props.user.plan && props.user.plan.key === PLANS.STANDARD,
+        props.user && props.user.plan && props.user.plan.key === PLANS.PRO,
       icon: () => {
         return <House01Icon className="text-red-500 ml-6" />;
       },

@@ -109,7 +109,7 @@ export default function CompAnalysisPage() {
 
   if (loading) {
     return (
-      <ProtectedPage requiredPlan={PLANS.STANDARD}>
+      <ProtectedPage requiredPlan={PLANS.PRO}>
         <div className="min-h-[700px] py-6">
           <div className="flex items-center justify-center h-64">
             <p className="text-muted-foreground">Loading analysis...</p>
@@ -121,7 +121,7 @@ export default function CompAnalysisPage() {
 
   if (error) {
     return (
-      <ProtectedPage requiredPlan={PLANS.STANDARD}>
+      <ProtectedPage requiredPlan={PLANS.PRO}>
         <div className="min-h-[700px] py-6">
           <div className="flex items-center justify-center h-64">
             <p className="text-red-500">{error}</p>
@@ -133,7 +133,7 @@ export default function CompAnalysisPage() {
 
   if (!analysisData) {
     return (
-      <ProtectedPage requiredPlan={PLANS.STANDARD}>
+      <ProtectedPage requiredPlan={PLANS.PRO}>
         <div className="min-h-[700px] py-6">
           <div className="flex items-center justify-center h-64">
             <p className="text-muted-foreground">Analysis not found</p>
@@ -146,7 +146,7 @@ export default function CompAnalysisPage() {
   const { market_analysis, competitive_advice } = analysisData.summary;
 
   return (
-    <ProtectedPage requiredPlan={PLANS.STANDARD}>
+    <ProtectedPage requiredPlan={PLANS.PRO}>
       <div className="min-h-[700px] py-6">
         <div className="flex items-center gap-4 mb-6">
           <Button
