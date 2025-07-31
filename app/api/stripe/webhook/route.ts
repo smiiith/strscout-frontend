@@ -103,8 +103,8 @@ export async function POST(request: Request) {
                 stripe_customer_id: customerId,
                 stripe_subscription_id: subscriptionId,
                 subscription_status: 'active',
-                current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-                current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+                current_period_start: new Date((subscription as any).current_period_start * 1000).toISOString(),
+                current_period_end: new Date((subscription as any).current_period_end * 1000).toISOString(),
                 updated_at: new Date().toISOString(),
               })
               .eq('id', userId);
@@ -268,8 +268,8 @@ export async function POST(request: Request) {
             .from('profiles')
             .update({
               market_spy_listings_used: 0,
-              current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-              current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+              current_period_start: new Date((subscription as any).current_period_start * 1000).toISOString(),
+              current_period_end: new Date((subscription as any).current_period_end * 1000).toISOString(),
               subscription_status: 'active',
               updated_at: new Date().toISOString(),
             })
