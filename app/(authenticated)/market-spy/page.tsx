@@ -4,6 +4,7 @@ import { PLANS } from "@/app/types/plans";
 import GeoapifyAddressAutocomplete from "@/components/address-lookup/indext";
 import ProtectedPage from "@/components/ProtectedPage";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -19,6 +20,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Image from "next/image";
+import Link from "next/link";
 import { add } from "date-fns";
 import { supabaseClient } from "@/utils/supabase/js-client";
 
@@ -36,6 +38,7 @@ type FormData = z.infer<typeof formSchema>;
 
 const MarketSpyPage = () => {
   const [loading, setLoading] = useState(false);
+  const [searchCompleted, setSearchCompleted] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<{
     formattedAddress: string;
     latitude: number;
@@ -55,21 +58,23 @@ const MarketSpyPage = () => {
       if (session?.id) {
         try {
           const { data: profile } = await supabaseClient
-            .from('profiles')
-            .select(`
+            .from("profiles")
+            .select(
+              `
               market_spy_listings_limit,
               market_spy_listings_used,
               billing_type,
               subscription_status
-            `)
-            .eq('id', session.id)
+            `
+            )
+            .eq("id", session.id)
             .single();
 
           if (profile) {
             setUserProfile(profile);
           }
         } catch (error) {
-          console.error('Error fetching user profile:', error);
+          console.error("Error fetching user profile:", error);
         }
       }
     };
@@ -88,16 +93,16 @@ const MarketSpyPage = () => {
   // Get usage message text
   const getUsageMessage = () => {
     if (!userProfile) return null;
-    
+
     const remainingRuns = getRemainingRuns();
-    const hasActiveSubscription = userProfile.subscription_status === 'active';
-    const isOneTime = userProfile.billing_type === 'one_time';
-    
+    const hasActiveSubscription = userProfile.subscription_status === "active";
+    const isOneTime = userProfile.billing_type === "one_time";
+
     if (remainingRuns > 0) {
       if (hasActiveSubscription) {
-        return `You have ${remainingRuns} Market Spy ${remainingRuns === 1 ? 'run' : 'runs'} remaining this month.`;
+        return `You have ${remainingRuns} Market Spy ${remainingRuns === 1 ? "run" : "runs"} remaining this month.`;
       } else if (isOneTime) {
-        return `You have ${remainingRuns} Market Spy ${remainingRuns === 1 ? 'run' : 'runs'} remaining.`;
+        return `You have ${remainingRuns} Market Spy ${remainingRuns === 1 ? "run" : "runs"} remaining.`;
       }
     } else {
       if (hasActiveSubscription) {
@@ -108,7 +113,7 @@ const MarketSpyPage = () => {
         return "Upgrade your plan to start using Market Spy.";
       }
     }
-    
+
     return null;
   };
 
@@ -143,16 +148,18 @@ const MarketSpyPage = () => {
         // Check if user has remaining runs
         const remainingRuns = getRemainingRuns();
         if (remainingRuns <= 0) {
-          alert("You've used all your Market Spy runs. Please upgrade your plan or purchase more listings.");
+          alert(
+            "You've used all your Market Spy runs. Please upgrade your plan or purchase more listings."
+          );
           setLoading(false);
           return;
         }
 
         // Increment usage before running Market Spy
-        const usageResponse = await fetch('/api/market-spy/increment-usage', {
-          method: 'POST',
+        const usageResponse = await fetch("/api/market-spy/increment-usage", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ userId: session.id }),
         });
@@ -160,7 +167,9 @@ const MarketSpyPage = () => {
         if (!usageResponse.ok) {
           const usageError = await usageResponse.json();
           if (usageResponse.status === 403) {
-            alert("You've reached your Market Spy usage limit. Please upgrade your plan or purchase more listings.");
+            alert(
+              "You've reached your Market Spy usage limit. Please upgrade your plan or purchase more listings."
+            );
           } else {
             alert("Failed to process usage. Please try again.");
             console.error("Usage increment error:", usageError);
@@ -189,24 +198,32 @@ const MarketSpyPage = () => {
 
         if (response.data) {
           // Refresh user profile to show updated usage
-          const { data: updatedProfile } = await supabaseClient
-            .from('profiles')
-            .select(`
-              market_spy_listings_limit,
-              market_spy_listings_used,
-              billing_type,
-              subscription_status
-            `)
-            .eq('id', session.id)
-            .single();
+          try {
+            const { data: updatedProfile, error: profileError } =
+              await supabaseClient
+                .from("profiles")
+                .select(
+                  `
+                market_spy_listings_limit,
+                market_spy_listings_used,
+                billing_type,
+                subscription_status
+              `
+                )
+                .eq("id", session.id)
+                .single();
 
-          if (updatedProfile) {
-            setUserProfile(updatedProfile);
+            if (profileError) {
+              console.error("Error fetching updated profile:", profileError);
+            } else if (updatedProfile) {
+              setUserProfile(updatedProfile);
+            }
+          } catch (profileErr) {
+            console.error("Profile update error:", profileErr);
           }
 
-          if (response.data.properties.length === 0) {
-            // router.push("/properties/assess-property/single");
-          }
+          // Mark search as completed
+          setSearchCompleted(true);
         }
       } catch (error) {
         console.error("Error submitting form:", error);
@@ -243,14 +260,14 @@ const MarketSpyPage = () => {
 
           {/* Market Spy Usage Message */}
           {getUsageMessage() && (
-            <div className={`p-4 rounded-lg border ${
-              getRemainingRuns() > 0 
-                ? 'bg-blue-50 border-blue-200 text-blue-800' 
-                : 'bg-amber-50 border-amber-200 text-amber-800'
-            }`}>
-              <p className="text-sm font-medium">
-                {getUsageMessage()}
-              </p>
+            <div
+              className={`p-4 rounded-lg border ${
+                getRemainingRuns() > 0
+                  ? "bg-blue-50 border-blue-200 text-blue-800"
+                  : "bg-amber-50 border-amber-200 text-amber-800"
+              }`}
+            >
+              <p className="text-sm font-medium">{getUsageMessage()}</p>
             </div>
           )}
 
@@ -344,11 +361,54 @@ const MarketSpyPage = () => {
                 disabled={loading || getRemainingRuns() <= 0}
                 className="w-fit"
               >
-                {loading ? "Searching..." : 
-                 getRemainingRuns() <= 0 ? "No runs remaining" : "Search Market"}
+                {loading
+                  ? "Searching..."
+                  : getRemainingRuns() <= 0
+                    ? "No runs remaining"
+                    : "Search Market"}
               </Button>
             </form>
           </Form>
+
+          {/* Post-search status message */}
+          {searchCompleted && (
+            <Card className="mt-8 max-w-lg">
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  <p className="font-medium">
+                    You have {getRemainingRuns()} Market Spy{" "}
+                    {getRemainingRuns() === 1 ? "run" : "runs"} left for this month after this search.
+                  </p>
+
+                  <p className="text-sm text-muted-foreground">
+                    You can now check on the status of your current search on
+                    the My Comps page.{" "}
+                    {getRemainingRuns() > 0 &&
+                      "You can also run another Market Spy search if needed."}
+                  </p>
+
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Link
+                      href="/my-comps"
+                      className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+                    >
+                      My Comps
+                    </Link>
+
+                    {getRemainingRuns() > 0 && (
+                      <Button
+                        onClick={() => setSearchCompleted(false)}
+                        variant="outline"
+                        className="w-fit"
+                      >
+                        Search Again
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </ProtectedPage>
