@@ -117,6 +117,7 @@ export async function POST(request: Request) {
                 stripe_customer_id: customerId,
                 stripe_subscription_id: subscriptionId,
                 subscription_status: "active",
+                billing_type: "subscription",
                 current_period_start: periodStart,
                 current_period_end: periodEnd,
                 updated_at: new Date().toISOString(),
@@ -169,6 +170,9 @@ export async function POST(request: Request) {
                 stripe_customer_id: customerId,
                 stripe_subscription_id: null, // Clear any existing subscription
                 subscription_status: null, // No subscription status for one-time
+                billing_type: "one_time",
+                listings_purchased: quantity,
+                purchase_date: new Date().toISOString(),
                 updated_at: new Date().toISOString(),
               })
               .eq("id", userId);

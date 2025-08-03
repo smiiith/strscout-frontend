@@ -78,16 +78,32 @@ export async function syncUserPlan(
     // Calculate Market Spy listings based on plan and quantity
     const marketSpyLimit = calculateMarketSpyLimit(planKey, quantity, subscriptionStatus);
 
+    // Determine billing type based on price ID
+    const billingType = isOneTimePriceId(priceId) ? 'one_time' : 'subscription';
+
     // Update user's plan and subscription details
+    const updateData: any = { 
+      plan_id: finalPlanId,
+      subscription_status: subscriptionStatus,
+      subscription_quantity: quantity,
+      market_spy_listings_limit: marketSpyLimit,
+      updated_at: new Date().toISOString()
+    };
+
+    // Only update billing_type if not already set correctly by webhook
+    const { data: currentProfile } = await supabase
+      .from('profiles')
+      .select('billing_type')
+      .eq('id', userId)
+      .single();
+
+    if (!currentProfile?.billing_type || currentProfile.billing_type !== billingType) {
+      updateData.billing_type = billingType;
+    }
+
     const { error: updateError } = await supabase
       .from('profiles')
-      .update({ 
-        plan_id: finalPlanId,
-        subscription_status: subscriptionStatus,
-        subscription_quantity: quantity,
-        market_spy_listings_limit: marketSpyLimit,
-        updated_at: new Date().toISOString()
-      })
+      .update(updateData)
       .eq('id', userId);
 
     if (updateError) {
@@ -95,7 +111,7 @@ export async function syncUserPlan(
       return false;
     }
 
-    console.log(`✅ Updated user ${userId} to plan: ${planKey} (status: ${subscriptionStatus})`);
+    console.log(`✅ Updated user ${userId} to plan: ${planKey} (status: ${subscriptionStatus}, billing: ${billingType})`);
     return true;
 
   } catch (error) {
@@ -183,6 +199,26 @@ function calculateMarketSpyLimit(planKey: string, quantity: number, subscription
 function shouldDowngradeToFreemium(status: string): boolean {
   const behavior = SUBSCRIPTION_STATUS_TO_PLAN_BEHAVIOR[status as keyof typeof SUBSCRIPTION_STATUS_TO_PLAN_BEHAVIOR];
   return behavior === 'downgrade_to_freemium';
+}
+
+/**
+ * Determine if a price ID is for one-time payment
+ */
+function isOneTimePriceId(priceId: string): boolean {
+  const oneTimePriceIds = [
+    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_1_PRICE_ID,
+    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_2_PRICE_ID,
+    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_3_PRICE_ID,
+    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_4_PRICE_ID,
+    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_5_PRICE_ID,
+    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_6_PRICE_ID,
+    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_7_PRICE_ID,
+    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_8_PRICE_ID,
+    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_9_PRICE_ID,
+    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_10_PRICE_ID,
+  ].filter(Boolean); // Remove undefined values
+  
+  return oneTimePriceIds.includes(priceId);
 }
 
 /**
