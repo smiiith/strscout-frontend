@@ -388,7 +388,7 @@ const MarketSpyPage = () => {
 
                   <p className="text-sm text-muted-foreground">
                     You can now check on the status of your current search on
-                    the My Comps page.{" "}
+                    the Market Spy Reports page.{" "}
                     {getRemainingRuns() > 0 &&
                       "You can also run another Market Spy search if needed."}
                   </p>
@@ -398,7 +398,7 @@ const MarketSpyPage = () => {
                       href="/my-comps"
                       className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
                     >
-                      My Comps
+                      Market Spy Reports
                     </Link>
 
                     {getRemainingRuns() > 0 && (
