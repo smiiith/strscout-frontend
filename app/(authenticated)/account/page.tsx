@@ -79,6 +79,7 @@ const Account = async () => {
             {/* One-time Payment Users */}
             {isOneTime && (
               <div className="space-y-4">
+                <pre>{JSON.stringify(profile, null, 2)}</pre>
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="font-medium text-blue-800">

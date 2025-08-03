@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import {
   syncUserPlan,
   syncUserPlanBySubscriptionId,
+  getListingCountFromPriceId,
 } from "@/utils/stripe/plan-sync";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -156,11 +157,15 @@ export async function POST(request: Request) {
             session.id
           );
           const priceId = lineItems.data[0]?.price?.id;
-          const quantity = lineItems.data[0]?.quantity || 1;
+          const stripeQuantity = lineItems.data[0]?.quantity || 1;
+          
+          // Get actual listing count from price ID (not Stripe quantity)
+          const actualListingCount = getListingCountFromPriceId(priceId || '');
 
           console.log("💳 One-time payment completed");
           console.log("💰 Price ID:", priceId);
-          console.log("🔢 Quantity:", quantity);
+          console.log("🔢 Stripe Quantity:", stripeQuantity);
+          console.log("📊 Actual Listing Count:", actualListingCount);
 
           if (userId && priceId) {
             // Update user profile with customer info (no subscription for one-time)
@@ -171,7 +176,7 @@ export async function POST(request: Request) {
                 stripe_subscription_id: null, // Clear any existing subscription
                 subscription_status: null, // No subscription status for one-time
                 billing_type: "one_time",
-                listings_purchased: quantity,
+                listings_purchased: actualListingCount, // Use actual listing count
                 purchase_date: new Date().toISOString(),
                 updated_at: new Date().toISOString(),
               })
@@ -186,17 +191,17 @@ export async function POST(request: Request) {
             }
 
             // Sync user's plan based on the one-time purchase
-            // Use 'active' status for one-time purchases to enable features
+            // Use null status for one-time purchases (no subscription status)
             const planSyncResult = await syncUserPlan(
               userId,
               priceId,
-              "active",
-              quantity
+              null, // No subscription status for one-time payments
+              actualListingCount // Use actual listing count
             );
             if (planSyncResult) {
               console.log(
-                "✅ Successfully synced user plan for one-time purchase with quantity:",
-                quantity
+                "✅ Successfully synced user plan for one-time purchase with listing count:",
+                actualListingCount
               );
             } else {
               console.error(
