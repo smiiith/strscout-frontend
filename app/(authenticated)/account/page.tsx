@@ -79,31 +79,29 @@ const Account = async () => {
             {/* One-time Payment Users */}
             {isOneTime && (
               <div className="space-y-4">
-                <pre>{JSON.stringify(profile, null, 2)}</pre>
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <Message variant="info">
+                  {/* <pre>{JSON.stringify(profile, null, 2)}</pre> */}
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-medium text-blue-800">
-                      One-time Purchase
-                    </h3>
-                    <span className="text-sm text-blue-600 capitalize">
+                    <h3 className="font-medium">One-time Purchase</h3>
+                    <span className="text-sm capitalize">
                       {profile.current_tier || "Pro"} Plan
                     </span>
                   </div>
                   {profile.purchase_date && (
-                    <p className="text-sm text-blue-700 mb-3">
+                    <p className="text-sm mb-3">
                       Purchased on{" "}
                       {new Date(profile.purchase_date).toLocaleDateString()}
                     </p>
                   )}
-                  <div className="flex items-center justify-between text-sm text-blue-700 mb-4">
+                  <div className="flex items-center justify-between text-sm mb-4">
                     <span>
                       Listings: {profile.market_spy_listings_used || 0} /{" "}
                       {profile.market_spy_listings_limit || 0} used
                     </span>
                   </div>
-                </div>
+                </Message>
 
-                <div className="flex gap-3">
+                <div className="flex gap-3 pt-6 pb-8">
                   <Link href="/pricing">
                     <Button variant="outline">Buy More Listings</Button>
                   </Link>
