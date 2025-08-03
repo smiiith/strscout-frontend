@@ -13,6 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Message } from "@/components/ui/message";
 import { useUserSession } from "@/lib/context/UserSessionProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -260,14 +261,10 @@ const MarketSpyPage = () => {
 
           {/* Market Spy Usage Message */}
           {getUsageMessage() && (
-            <div
-              className={`p-4 rounded-lg border ${
-                getRemainingRuns() > 0
-                  ? "bg-blue-50 border-blue-200 text-blue-800"
-                  : "bg-amber-50 border-amber-200 text-amber-800"
-              }`}
-            >
-              <p className="text-sm font-medium">{getUsageMessage()}</p>
+            <div className="w-1/2">
+              <Message variant={getRemainingRuns() > 0 ? "info" : "warning"}>
+                {getUsageMessage()}
+              </Message>
             </div>
           )}
 
@@ -355,6 +352,14 @@ const MarketSpyPage = () => {
                 )}
               />
 
+              <div className="text-sm text-muted-foreground">
+                Run your report now - it typically takes 12-15 minutes.
+                <div>
+                  Head to the Market Spy Reports page to check its progress on
+                  your reports page.
+                </div>
+              </div>
+
               <Button
                 type="submit"
                 variant="default"
@@ -377,7 +382,8 @@ const MarketSpyPage = () => {
                 <div className="space-y-4">
                   <p className="font-medium">
                     You have {getRemainingRuns()} Market Spy{" "}
-                    {getRemainingRuns() === 1 ? "run" : "runs"} left for this month after this search.
+                    {getRemainingRuns() === 1 ? "run" : "runs"} left for this
+                    month after this search.
                   </p>
 
                   <p className="text-sm text-muted-foreground">
