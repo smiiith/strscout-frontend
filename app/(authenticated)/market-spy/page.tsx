@@ -24,6 +24,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { add } from "date-fns";
 import { supabaseClient } from "@/utils/supabase/js-client";
+import { useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
   address: z.object({
@@ -52,6 +53,10 @@ const MarketSpyPage = () => {
     subscription_status: string;
   } | null>(null);
   const { session } = useUserSession();
+  const searchParams = useSearchParams();
+  
+  // Check for success parameter from checkout redirect
+  const showSuccess = searchParams?.get('success') === 'true';
 
   // Fetch user profile data with Market Spy usage
   useEffect(() => {
@@ -258,6 +263,15 @@ const MarketSpyPage = () => {
             bookings, policies, amenities, and more — then show you exactly how
             you compare.
           </p>
+
+          {/* Success Message from Checkout */}
+          {showSuccess && (
+            <div className="w-1/2">
+              <Message variant="success">
+                🎉 Payment successful! You can now use Market Spy with your new plan.
+              </Message>
+            </div>
+          )}
 
           {/* Market Spy Usage Message */}
           {getUsageMessage() && (

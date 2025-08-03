@@ -60,7 +60,7 @@ const Account = async () => {
                       {profile.current_tier || "Pro"} Plan
                     </span>
                   </div>
-                  <pre>{JSON.stringify(profile, null, 2)}</pre>
+                  {/* <pre>{JSON.stringify(profile, null, 2)}</pre> */}
                   <p className="text-sm mb-3">
                     {profile.market_spy_listings_limit} Market Spy reports
                   </p>
