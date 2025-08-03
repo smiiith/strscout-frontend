@@ -49,7 +49,7 @@ export const DEFAULT_PLAN_IDS = {
 export async function syncUserPlan(
   userId: string, 
   priceId: string, 
-  subscriptionStatus: string,
+  subscriptionStatus: string | null,
   quantity: number = 1
 ) {
   const supabase = await createClient();
@@ -84,11 +84,18 @@ export async function syncUserPlan(
     // Update user's plan and subscription details
     const updateData: any = { 
       plan_id: finalPlanId,
-      subscription_status: subscriptionStatus,
       subscription_quantity: quantity,
       market_spy_listings_limit: marketSpyLimit,
       updated_at: new Date().toISOString()
     };
+
+    // Only set subscription_status for actual subscriptions
+    if (billingType === 'subscription') {
+      updateData.subscription_status = subscriptionStatus;
+    } else {
+      // For one-time payments, explicitly set to null
+      updateData.subscription_status = null;
+    }
 
     // Only update billing_type if not already set correctly by webhook
     const { data: currentProfile } = await supabase
@@ -174,18 +181,19 @@ export async function syncUserPlanBySubscriptionId(
 
 /**
  * Calculate Market Spy listings limit based on plan and quantity
- * For new pricing model, quantity directly represents the number of listings
+ * For subscriptions: quantity represents subscription quantity
+ * For one-time: quantity represents actual listing count from price ID
  */
-function calculateMarketSpyLimit(planKey: string, quantity: number, subscriptionStatus: string): number {
+function calculateMarketSpyLimit(planKey: string, quantity: number, subscriptionStatus: string | null): number {
   // If subscription is inactive, no Market Spy access
-  if (shouldDowngradeToFreemium(subscriptionStatus)) {
+  if (subscriptionStatus && shouldDowngradeToFreemium(subscriptionStatus)) {
     return 0;
   }
 
   // Calculate based on plan type
   switch (planKey) {
     case PLANS.PRO:
-      // New model: quantity directly represents listings purchased
+      // Quantity directly represents listings (works for both subscription and one-time)
       return quantity;
     case PLANS.FREEMIUM:
     default:
@@ -202,23 +210,44 @@ function shouldDowngradeToFreemium(status: string): boolean {
 }
 
 /**
+ * Map one-time price IDs to their listing counts
+ */
+export const ONE_TIME_PRICE_TO_LISTINGS: Record<string, number> = {
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_1_PRICE_ID || '']: 1,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_2_PRICE_ID || '']: 2,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_3_PRICE_ID || '']: 3,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_4_PRICE_ID || '']: 4,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_5_PRICE_ID || '']: 5,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_6_PRICE_ID || '']: 6,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_7_PRICE_ID || '']: 7,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_8_PRICE_ID || '']: 8,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_9_PRICE_ID || '']: 9,
+  [process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_10_PRICE_ID || '']: 10,
+};
+
+/**
+ * Get the number of listings for a given price ID
+ */
+export function getListingCountFromPriceId(priceId: string): number {
+  // Check one-time prices first
+  if (ONE_TIME_PRICE_TO_LISTINGS[priceId]) {
+    return ONE_TIME_PRICE_TO_LISTINGS[priceId];
+  }
+  
+  // For subscription price, use the quantity parameter
+  if (priceId === process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID) {
+    return 1; // Default, will be overridden by actual quantity
+  }
+  
+  // Legacy or unknown prices default to 1
+  return 1;
+}
+
+/**
  * Determine if a price ID is for one-time payment
  */
 function isOneTimePriceId(priceId: string): boolean {
-  const oneTimePriceIds = [
-    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_1_PRICE_ID,
-    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_2_PRICE_ID,
-    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_3_PRICE_ID,
-    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_4_PRICE_ID,
-    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_5_PRICE_ID,
-    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_6_PRICE_ID,
-    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_7_PRICE_ID,
-    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_8_PRICE_ID,
-    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_9_PRICE_ID,
-    process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_10_PRICE_ID,
-  ].filter(Boolean); // Remove undefined values
-  
-  return oneTimePriceIds.includes(priceId);
+  return priceId in ONE_TIME_PRICE_TO_LISTINGS;
 }
 
 /**
