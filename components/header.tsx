@@ -269,7 +269,7 @@ const HeaderNav = (props: any) => {
                         <NavigationMenu>
                           <NavigationMenuList>
                             <NavigationMenuItem>
-                              <NavigationMenuTrigger className="bg-transparent hover:bg-transparent text-white hover:text-white p-0 h-auto text-base font-normal hover:underline focus:bg-transparent data-[state=open]:bg-transparent data-[active]:bg-transparent">
+                              <NavigationMenuTrigger className="bg-transparent hover:bg-transparent text-white hover:text-white p-0 h-auto text-base font-normal hover:underline focus:bg-transparent focus:text-white data-[state=open]:bg-transparent data-[active]:bg-transparent">
                                 My Reports
                               </NavigationMenuTrigger>
                               <NavigationMenuContent>

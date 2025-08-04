@@ -70,8 +70,8 @@ const Footer = ({ authenticated }: { authenticated: any }) => {
               <Image
                 src="/images/str-sage-logo-white.png"
                 alt="STR Sage"
-                width={500}
-                height={500}
+                width={400}
+                height={400}
               />
             </div>
           </footer>
