@@ -78,8 +78,9 @@ async function testPlanSync() {
 
   // Verify the change
   const userPlan1 = await getUserPlan(TEST_CONFIG.testUserId);
-  if (userPlan1?.plan?.key !== 'standard') {
-    console.error('❌ Test 1 failed: User plan is not standard, got:', userPlan1?.plan?.key);
+  const planData1 = Array.isArray(userPlan1?.plan) ? userPlan1.plan[0] : userPlan1?.plan;
+  if (planData1?.key !== 'standard') {
+    console.error('❌ Test 1 failed: User plan is not standard, got:', planData1?.key);
     return false;
   }
   console.log('✅ Test 1 passed: User successfully upgraded to Standard plan');
@@ -99,8 +100,9 @@ async function testPlanSync() {
 
   // Verify the change
   const userPlan2 = await getUserPlan(TEST_CONFIG.testUserId);
-  if (userPlan2?.plan?.key !== 'freemium') {
-    console.error('❌ Test 2 failed: User plan is not freemium, got:', userPlan2?.plan?.key);
+  const planData2 = Array.isArray(userPlan2?.plan) ? userPlan2.plan[0] : userPlan2?.plan;
+  if (planData2?.key !== 'freemium') {
+    console.error('❌ Test 2 failed: User plan is not freemium, got:', planData2?.key);
     return false;
   }
   console.log('✅ Test 2 passed: User successfully downgraded to Freemium plan');

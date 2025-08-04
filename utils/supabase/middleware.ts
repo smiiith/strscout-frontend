@@ -68,7 +68,9 @@ export async function checkUserPlan(request: NextRequest, requiredPlan: string) 
       return { hasAccess: false, reason: 'plan_check_failed' };
     }
 
-    const userPlanKey = profile?.plan?.key;
+    // Handle both single object and array responses from Supabase join
+    const planData = Array.isArray(profile?.plan) ? profile.plan[0] : profile?.plan;
+    const userPlanKey = planData?.key;
     const hasAccess = userPlanKey === requiredPlan;
 
     return { 
