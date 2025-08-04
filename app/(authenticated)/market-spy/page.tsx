@@ -1,8 +1,6 @@
 "use client";
 
-import { PLANS } from "@/app/types/plans";
 import GeoapifyAddressAutocomplete from "@/components/address-lookup/indext";
-import ProtectedPage from "@/components/ProtectedPage";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -39,11 +37,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const MarketSpyPage = () => {
-  return (
-    <ProtectedPage requiredPlan={PLANS.PRO}>
-      <MarketSpyContent />
-    </ProtectedPage>
-  );
+  return <MarketSpyContent />;
 };
 
 const MarketSpyContent = () => {
@@ -62,9 +56,9 @@ const MarketSpyContent = () => {
   } | null>(null);
   const { session } = useUserSession();
   const searchParams = useSearchParams();
-  
+
   // Check for success parameter from checkout redirect
-  const showSuccess = searchParams?.get('success') === 'true';
+  const showSuccess = searchParams?.get("success") === "true";
 
   // Fetch user profile data with Market Spy usage
   useEffect(() => {
@@ -253,190 +247,191 @@ const MarketSpyContent = () => {
 
   return (
     <div className="min-h-[700px] py-6">
-        <Image
-          src="/market-spy-logo.png"
-          alt="STR Market Spy"
-          width={233}
-          height={80}
-        />
+      <Image
+        src="/market-spy-logo.png"
+        alt="STR Market Spy"
+        width={233}
+        height={80}
+      />
 
-        <h1 className="text-3xl font-bold mt-6">
-          Competitive Insights for Your Listing
-        </h1>
+      <h1 className="text-3xl font-bold mt-6">
+        Competitive Insights for Your Listing
+      </h1>
 
-        <div className="space-y-6 w-full mt-6">
-          <p className="w-1/2">
-            Enter your listing info below. STR Market Spy will analyze local
-            bookings, policies, amenities, and more — then show you exactly how
-            you compare.
-          </p>
+      <div className="space-y-6 w-full mt-6">
+        <p className="w-1/2">
+          Enter your listing info below. STR Market Spy will analyze local
+          bookings, policies, amenities, and more — then show you exactly how
+          you compare.
+        </p>
 
-          {/* Success Message from Checkout */}
-          {showSuccess && (
-            <div className="w-1/2">
-              <Message variant="success">
-                🎉 Payment successful! You can now use Market Spy with your new plan.
-              </Message>
+        {/* Success Message from Checkout */}
+        {showSuccess && (
+          <div className="w-1/2">
+            <Message variant="success">
+              🎉 Payment successful! You can now use Market Spy with your new
+              plan.
+            </Message>
+          </div>
+        )}
+
+        {/* Market Spy Usage Message */}
+        {getUsageMessage() && (
+          <div className="w-1/2">
+            <Message variant={getRemainingRuns() > 0 ? "info" : "warning"}>
+              {getUsageMessage()}
+            </Message>
+          </div>
+        )}
+
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6 max-w-[500px]"
+          >
+            {/* Address Field */}
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <div>
+                      <GeoapifyAddressAutocomplete
+                        apiKey={process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY}
+                        onAddressSelect={handleAddressSelect}
+                      />
+                      {selectedAddress && (
+                        <div className="mt-2 p-3 bg-gray-50 rounded-md">
+                          <p className="text-sm text-gray-600">
+                            Selected: {selectedAddress.formattedAddress}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Room Type Field */}
+            <FormField
+              control={form.control}
+              name="roomType"
+              render={({ field }) => (
+                <FormItem className="max-w-[300px]">
+                  <FormLabel>Type of Stay</FormLabel>
+                  <FormControl>
+                    <select
+                      {...field}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-[300px]"
+                    >
+                      <option value="">Select room type</option>
+                      <option value="any type">Any Type</option>
+                      <option value="room">Room</option>
+                      <option value="entire home">Entire Home</option>
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Bedrooms Field */}
+            <FormField
+              control={form.control}
+              name="bedrooms"
+              render={({ field }) => (
+                <FormItem className="max-w-[300px]">
+                  <FormLabel>Number of Bedrooms</FormLabel>
+                  <FormControl>
+                    <select
+                      {...field}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-[300px]"
+                    >
+                      <option value="">Select number of bedrooms</option>
+                      <option value="any">Any</option>
+                      <option value="1+">1+</option>
+                      <option value="2+">2+</option>
+                      <option value="3+">3+</option>
+                      <option value="4+">4+</option>
+                      <option value="5+">5+</option>
+                      <option value="6+">6+</option>
+                      <option value="7+">7+</option>
+                      <option value="8+">8+</option>
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="text-sm text-muted-foreground">
+              Run your report now - it typically takes 12-15 minutes.
+              <div>
+                Head to the Market Spy Reports page to check its progress on
+                your reports page.
+              </div>
             </div>
-          )}
 
-          {/* Market Spy Usage Message */}
-          {getUsageMessage() && (
-            <div className="w-1/2">
-              <Message variant={getRemainingRuns() > 0 ? "info" : "warning"}>
-                {getUsageMessage()}
-              </Message>
-            </div>
-          )}
-
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6 max-w-[500px]"
+            <Button
+              type="submit"
+              variant="default"
+              disabled={loading || getRemainingRuns() <= 0}
+              className="w-fit"
             >
-              {/* Address Field */}
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Address</FormLabel>
-                    <FormControl>
-                      <div>
-                        <GeoapifyAddressAutocomplete
-                          apiKey={process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY}
-                          onAddressSelect={handleAddressSelect}
-                        />
-                        {selectedAddress && (
-                          <div className="mt-2 p-3 bg-gray-50 rounded-md">
-                            <p className="text-sm text-gray-600">
-                              Selected: {selectedAddress.formattedAddress}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {loading
+                ? "Searching..."
+                : getRemainingRuns() <= 0
+                  ? "No runs remaining"
+                  : "Search Market"}
+            </Button>
+          </form>
+        </Form>
 
-              {/* Room Type Field */}
-              <FormField
-                control={form.control}
-                name="roomType"
-                render={({ field }) => (
-                  <FormItem className="max-w-[300px]">
-                    <FormLabel>Type of Stay</FormLabel>
-                    <FormControl>
-                      <select
-                        {...field}
-                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-[300px]"
-                      >
-                        <option value="">Select room type</option>
-                        <option value="any type">Any Type</option>
-                        <option value="room">Room</option>
-                        <option value="entire home">Entire Home</option>
-                      </select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+        {/* Post-search status message */}
+        {searchCompleted && (
+          <Card className="mt-8 max-w-lg">
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                <p className="font-medium">
+                  You have {getRemainingRuns()} Market Spy{" "}
+                  {getRemainingRuns() === 1 ? "run" : "runs"} left for this
+                  month after this search.
+                </p>
 
-              {/* Bedrooms Field */}
-              <FormField
-                control={form.control}
-                name="bedrooms"
-                render={({ field }) => (
-                  <FormItem className="max-w-[300px]">
-                    <FormLabel>Number of Bedrooms</FormLabel>
-                    <FormControl>
-                      <select
-                        {...field}
-                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-[300px]"
-                      >
-                        <option value="">Select number of bedrooms</option>
-                        <option value="any">Any</option>
-                        <option value="1+">1+</option>
-                        <option value="2+">2+</option>
-                        <option value="3+">3+</option>
-                        <option value="4+">4+</option>
-                        <option value="5+">5+</option>
-                        <option value="6+">6+</option>
-                        <option value="7+">7+</option>
-                        <option value="8+">8+</option>
-                      </select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <p className="text-sm text-muted-foreground">
+                  You can now check on the status of your current search on the
+                  Market Spy Reports page.{" "}
+                  {getRemainingRuns() > 0 &&
+                    "You can also run another Market Spy search if needed."}
+                </p>
 
-              <div className="text-sm text-muted-foreground">
-                Run your report now - it typically takes 12-15 minutes.
-                <div>
-                  Head to the Market Spy Reports page to check its progress on
-                  your reports page.
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Link
+                    href="/my-comps"
+                    className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+                  >
+                    Market Spy Reports
+                  </Link>
+
+                  {getRemainingRuns() > 0 && (
+                    <Button
+                      onClick={() => setSearchCompleted(false)}
+                      variant="outline"
+                      className="w-fit"
+                    >
+                      Search Again
+                    </Button>
+                  )}
                 </div>
               </div>
-
-              <Button
-                type="submit"
-                variant="default"
-                disabled={loading || getRemainingRuns() <= 0}
-                className="w-fit"
-              >
-                {loading
-                  ? "Searching..."
-                  : getRemainingRuns() <= 0
-                    ? "No runs remaining"
-                    : "Search Market"}
-              </Button>
-            </form>
-          </Form>
-
-          {/* Post-search status message */}
-          {searchCompleted && (
-            <Card className="mt-8 max-w-lg">
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  <p className="font-medium">
-                    You have {getRemainingRuns()} Market Spy{" "}
-                    {getRemainingRuns() === 1 ? "run" : "runs"} left for this
-                    month after this search.
-                  </p>
-
-                  <p className="text-sm text-muted-foreground">
-                    You can now check on the status of your current search on
-                    the Market Spy Reports page.{" "}
-                    {getRemainingRuns() > 0 &&
-                      "You can also run another Market Spy search if needed."}
-                  </p>
-
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Link
-                      href="/my-comps"
-                      className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
-                    >
-                      Market Spy Reports
-                    </Link>
-
-                    {getRemainingRuns() > 0 && (
-                      <Button
-                        onClick={() => setSearchCompleted(false)}
-                        variant="outline"
-                        className="w-fit"
-                      >
-                        Search Again
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
     </div>
   );
 };
