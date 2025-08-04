@@ -18,8 +18,6 @@ import {
   Calendar,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import ProtectedPage from "@/components/ProtectedPage";
-import { PLANS } from "@/app/types/plans";
 import axios from "axios";
 
 interface Keypoint {
@@ -109,45 +107,38 @@ export default function CompAnalysisPage() {
 
   if (loading) {
     return (
-      <ProtectedPage requiredPlan={PLANS.PRO}>
-        <div className="min-h-[700px] py-6">
-          <div className="flex items-center justify-center h-64">
-            <p className="text-muted-foreground">Loading analysis...</p>
-          </div>
+      <div className="min-h-[700px] py-6">
+        <div className="flex items-center justify-center h-64">
+          <p className="text-muted-foreground">Loading analysis...</p>
         </div>
-      </ProtectedPage>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <ProtectedPage requiredPlan={PLANS.PRO}>
-        <div className="min-h-[700px] py-6">
-          <div className="flex items-center justify-center h-64">
-            <p className="text-red-500">{error}</p>
-          </div>
+      <div className="min-h-[700px] py-6">
+        <div className="flex items-center justify-center h-64">
+          <p className="text-red-500">{error}</p>
         </div>
-      </ProtectedPage>
+      </div>
     );
   }
 
   if (!analysisData) {
     return (
-      <ProtectedPage requiredPlan={PLANS.PRO}>
-        <div className="min-h-[700px] py-6">
-          <div className="flex items-center justify-center h-64">
-            <p className="text-muted-foreground">Analysis not found</p>
-          </div>
+      <div className="min-h-[700px] py-6">
+        <div className="flex items-center justify-center h-64">
+          <p className="text-muted-foreground">Analysis not found</p>
         </div>
-      </ProtectedPage>
+      </div>
     );
   }
 
   const { market_analysis, competitive_advice } = analysisData.summary;
 
   return (
-    <ProtectedPage requiredPlan={PLANS.PRO}>
-      <div className="min-h-[700px] py-6">
+    <div className="min-h-[700px] py-6">
         <div className="flex items-center gap-4 mb-6">
           <Button
             variant="ghost"
@@ -341,6 +332,5 @@ export default function CompAnalysisPage() {
           </Card>
         </div>
       </div>
-    </ProtectedPage>
   );
 }
