@@ -3,7 +3,8 @@ import { updateSession } from '@/utils/supabase/middleware'
 
 const protectedRoutes = [
   "/account",
-  "/properties",
+  "/properties", 
+  "/market-spy",
   "/my-comps",
   // "/contact"
 ];

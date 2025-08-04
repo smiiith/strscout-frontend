@@ -25,6 +25,14 @@ import { RefreshIcon } from "@/components/Icons";
 import LoadingOverlay from "@/components/LoadingOverlay";
 
 const MyCompsPage = () => {
+  return (
+    <ProtectedPage requiredPlan={PLANS.PRO}>
+      <MyCompsContent />
+    </ProtectedPage>
+  );
+};
+
+const MyCompsContent = () => {
   const [loading, setLoading] = useState(true);
   const [loadingComps, setLoadingComps] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<{
@@ -32,7 +40,9 @@ const MyCompsPage = () => {
     latitude: number;
     longitude: number;
   } | null>(null);
-  const { session } = useUserSession();
+  
+  const { session, loading: sessionLoading } = useUserSession();
+  
   const [comps, setComps] = useState<any[]>([]);
 
   const fetchComps = async () => {
@@ -68,7 +78,7 @@ const MyCompsPage = () => {
   }, [session]);
 
   return (
-    <ProtectedPage requiredPlan={PLANS.PRO}>
+    <div>
       {loading ? (
         <LoadingOverlay />
       ) : (
@@ -102,7 +112,7 @@ const MyCompsPage = () => {
           </div>
         </div>
       )}
-    </ProtectedPage>
+    </div>
   );
 };
 

@@ -39,6 +39,14 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const MarketSpyPage = () => {
+  return (
+    <ProtectedPage requiredPlan={PLANS.PRO}>
+      <MarketSpyContent />
+    </ProtectedPage>
+  );
+};
+
+const MarketSpyContent = () => {
   const [loading, setLoading] = useState(false);
   const [searchCompleted, setSearchCompleted] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<{
@@ -244,8 +252,7 @@ const MarketSpyPage = () => {
   };
 
   return (
-    <ProtectedPage requiredPlan={PLANS.PRO}>
-      <div className="min-h-[700px] py-6">
+    <div className="min-h-[700px] py-6">
         <Image
           src="/market-spy-logo.png"
           alt="STR Market Spy"
@@ -430,8 +437,7 @@ const MarketSpyPage = () => {
             </Card>
           )}
         </div>
-      </div>
-    </ProtectedPage>
+    </div>
   );
 };
 

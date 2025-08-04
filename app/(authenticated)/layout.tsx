@@ -20,6 +20,11 @@ export default async function AuthenticatedLayout({ children }: { children: Reac
     email: user.email || '',
     plan: userProfile.plan, // Pass the full plan object
   } : null;
+  
+  // Debug logging
+  console.log('Layout - User:', user?.id);
+  console.log('Layout - User Profile:', userProfile);
+  console.log('Layout - Initial Session:', initialUserSession);
 
   return (
     <>

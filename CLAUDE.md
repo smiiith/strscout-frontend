@@ -70,13 +70,15 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
 ### Authentication & Security
 - Supabase Auth with Row Level Security (RLS)
 - Middleware-based route protection (`middleware.ts:4-8`)
-- Session management with `UserSessionProvider` context
-- Protected routes: `/account`, `/properties` (configured in middleware)
+- Session management with `UserSessionProvider` context using SSR-compatible Supabase client
+- Protected routes: `/account`, `/properties`, `/market-spy` (configured in middleware)
 - PostHog analytics proxy with CORS handling (`/ingest/` routes)
 - User subscription plans integrated with authentication state
+- **Important**: Uses `utils/supabase/client.ts` (SSR-compatible) not `utils/supabase/js-client.ts` for authentication
 
 ### Key Components Structure
 - `components/ui/` - Radix UI-based design system components
+  - `components/ui/message.tsx` - Reusable message component with variants (info, success, warning, error) using theme colors
 - `components/` - Feature-specific components (PropertyCard, Ratings, etc.)
 - `app/` - Next.js App Router pages and layouts
 - `utils/supabase/` - Supabase client configurations (client, server, middleware)
@@ -172,6 +174,7 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
 - Account page shows different UI for subscription vs one-time users
 - Stripe customer portal only shown for subscription users
 - One-time users get "Buy More Listings" functionality
+- Stripe checkout success redirects to `/market-spy` (not `/account`)
 
 ### Testing & Deployment
 - Stripe testing guide available in `STRIPE_TESTING_GUIDE.md`

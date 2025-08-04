@@ -1,7 +1,8 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
-import { supabaseClient } from '@/utils/supabase/js-client';
+import { createClient } from '@/utils/supabase/client';
+import { usePathname } from 'next/navigation';
 
 interface UserPlan {
     id: string
@@ -31,29 +32,32 @@ const UserSessionContext = createContext<{
 export function UserSessionProvider({ children, initialSession }: { children: ReactNode; initialSession: UserSession | null }) {
     const [session, setSession] = useState<UserSession | null>(initialSession)
     const [loading, setLoading] = useState(false) // Initially not loading as we have initial data
+    const pathname = usePathname();
+    const supabase = createClient(); // Create SSR-compatible client
 
     const refreshSession = async () => {
-        console.log("refreshSession");
         setLoading(true);
         try {
-            const { data: { user } } = await supabaseClient.auth.getUser();
+            const { data: { user }, error: userError } = await supabase.auth.getUser();
+            
             if (user) {
                 // Fetch additional user data on the client if needed
-                const { data: profileData } = await supabaseClient
+                const { data: profileData, error: profileError } = await supabase
                     .from('profiles')
                     .select('*, plan:plans(id, name, description, active, key)')
                     .eq('id', user.id)
                     .single();
 
                 if (profileData) {
-                    setSession({
+                    const newSession = {
                         id: user.id,
                         email: user.email || '',
                         plan: profileData.plan,
                         // role: profileData.role,
-                    });
+                    };
+                    setSession(newSession);
                 } else {
-                    setSession({
+                    const fallbackSession = {
                         id: user.id,
                         email: user.email || '',
                         plan: {
@@ -63,27 +67,28 @@ export function UserSessionProvider({ children, initialSession }: { children: Re
                             active: true,
                             key: 'freemium',
                         },
-                    });
+                    };
+                    setSession(fallbackSession);
                 }
             } else {
                 setSession(null);
             }
         } catch (error) {
             console.error('Error refreshing session:', error);
+            setSession(null);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        console.log("init session (client-side)");
-        if (!initialSession) {
-            refreshSession(); // Only fetch if no initial session was provided
-        }
+        // Always refresh session to ensure it's current, regardless of initialSession
+        refreshSession();
+    }, [pathname]); // Trigger refresh on route changes
 
-        const { data: { subscription } } = supabaseClient.auth.onAuthStateChange(
+    useEffect(() => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
             async (event, authSession) => {
-                console.log("Auth state change:", event, authSession);
                 if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
                     await refreshSession();
                 } else if (event === 'SIGNED_OUT') {
@@ -95,7 +100,7 @@ export function UserSessionProvider({ children, initialSession }: { children: Re
         return () => {
             subscription.unsubscribe();
         };
-    }, [initialSession]); // Depend on initialSession to avoid unnecessary initial fetches
+    }, []); // Auth listener only needs to run once
 
     return (
         <UserSessionContext.Provider value={{ session, loading, refreshSession }}>
