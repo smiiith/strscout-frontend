@@ -20,8 +20,6 @@ const HeaderNav = (props: any) => {
   const [sheetOpen, setSheetOpen] = useState(false);
   let isAuthorized = false;
 
-  console.log("user", props.user);
-
   if (props && props.user) {
     isAuthorized = true;
   }
