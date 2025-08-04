@@ -41,35 +41,19 @@ export function UserSessionProvider({ children, initialSession }: { children: Re
             const { data: { user }, error: userError } = await supabase.auth.getUser();
             
             if (user) {
-                // Fetch additional user data on the client if needed
-                const { data: profileData, error: profileError } = await supabase
-                    .from('profiles')
-                    .select('*, plan:plans(id, name, description, active, key)')
-                    .eq('id', user.id)
-                    .single();
-
-                if (profileData) {
-                    const newSession = {
-                        id: user.id,
-                        email: user.email || '',
-                        plan: profileData.plan,
-                        // role: profileData.role,
-                    };
-                    setSession(newSession);
-                } else {
-                    const fallbackSession = {
-                        id: user.id,
-                        email: user.email || '',
-                        plan: {
-                            id: '',
-                            name: '',
-                            description: '',
-                            active: true,
-                            key: 'freemium',
-                        },
-                    };
-                    setSession(fallbackSession);
-                }
+                // Simple session without plan data since middleware handles authorization
+                const newSession = {
+                    id: user.id,
+                    email: user.email || '',
+                    plan: {
+                        id: '',
+                        name: '',
+                        description: '',
+                        active: true,
+                        key: 'authenticated', // Generic authenticated user
+                    },
+                };
+                setSession(newSession);
             } else {
                 setSession(null);
             }
@@ -82,9 +66,13 @@ export function UserSessionProvider({ children, initialSession }: { children: Re
     };
 
     useEffect(() => {
-        // Always refresh session to ensure it's current, regardless of initialSession
-        refreshSession();
-    }, [pathname]); // Trigger refresh on route changes
+        // Only refresh if we don't have session data yet
+        if (!session && !initialSession) {
+            refreshSession();
+        } else if (!session && initialSession) {
+            setSession(initialSession);
+        }
+    }, [pathname, initialSession]); // Trigger refresh on route changes
 
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(

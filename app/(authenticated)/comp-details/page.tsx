@@ -45,8 +45,6 @@ import {
 } from "lucide-react";
 import { MapPinIcon } from "@/components/Icons";
 import { useRouter } from "next/navigation";
-import ProtectedPage from "@/components/ProtectedPage";
-import { PLANS } from "@/app/types/plans";
 import axios from "axios";
 import CompareListingsDialog from "@/components/compare-listings-dialog";
 import { formatDate } from "@/lib/utils";
@@ -231,31 +229,26 @@ export default function CompDetailsPage() {
 
   if (loading) {
     return (
-      <ProtectedPage requiredPlan={PLANS.PRO}>
-        <div className="min-h-[700px] py-6">
-          <div className="flex items-center justify-center h-64">
-            <p className="text-muted-foreground">Loading comp analysis...</p>
-          </div>
+      <div className="min-h-[700px] py-6">
+        <div className="flex items-center justify-center h-64">
+          <p className="text-muted-foreground">Loading comp analysis...</p>
         </div>
-      </ProtectedPage>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <ProtectedPage requiredPlan={PLANS.PRO}>
-        <div className="min-h-[700px] py-6">
-          <div className="flex items-center justify-center h-64">
-            <p className="text-red-500">{error}</p>
-          </div>
+      <div className="min-h-[700px] py-6">
+        <div className="flex items-center justify-center h-64">
+          <p className="text-red-500">{error}</p>
         </div>
-      </ProtectedPage>
+      </div>
     );
   }
 
   return (
-    <ProtectedPage requiredPlan={PLANS.PRO}>
-      <div className="min-h-[700px] py-6">
+    <div className="min-h-[700px] py-6">
         <div className="flex items-center gap-4 mb-6">
           <Button
             variant="ghost"
@@ -574,6 +567,5 @@ export default function CompDetailsPage() {
           </Card>
         </div>
       </div>
-    </ProtectedPage>
   );
 }

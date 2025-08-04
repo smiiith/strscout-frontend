@@ -1,8 +1,6 @@
 "use client";
 
-import { PLANS } from "@/app/types/plans";
 import GeoapifyAddressAutocomplete from "@/components/address-lookup/indext";
-import ProtectedPage from "@/components/ProtectedPage";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -25,11 +23,7 @@ import { RefreshIcon } from "@/components/Icons";
 import LoadingOverlay from "@/components/LoadingOverlay";
 
 const MyCompsPage = () => {
-  return (
-    <ProtectedPage requiredPlan={PLANS.PRO}>
-      <MyCompsContent />
-    </ProtectedPage>
-  );
+  return <MyCompsContent />;
 };
 
 const MyCompsContent = () => {

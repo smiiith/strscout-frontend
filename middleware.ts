@@ -1,13 +1,22 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { updateSession } from '@/utils/supabase/middleware'
+import { updateSession, checkUserPlan } from '@/utils/supabase/middleware'
 
 const protectedRoutes = [
   "/account",
   "/properties", 
   "/market-spy",
   "/my-comps",
+  "/comp-details",
+  "/comp-analysis",
   // "/contact"
 ];
+
+const planProtectedRoutes = {
+  "/market-spy": "pro",
+  "/my-comps": "pro",
+  "/comp-details": "pro",
+  "/comp-analysis": "pro",
+};
 
 const ALLOWED_ORIGINS = ['https://strsage.com']; // Add other production domains if needed
 
@@ -59,10 +68,28 @@ export async function middleware(request: NextRequest) {
   // update user's auth session
   const isAuthenticated = await updateSession(request);
 
+  const currentPath = request.nextUrl.pathname;
+
   // if the user is not authenticated and trying to access a protected route, redirect to login
-  if (!isAuthenticated && protectedRoutes.includes(request.nextUrl.pathname)) {
+  if (!isAuthenticated && protectedRoutes.includes(currentPath)) {
     const absoluteURL = new URL("/login", request.nextUrl.origin);
     return NextResponse.redirect(absoluteURL.toString());
+  }
+
+  // if authenticated and accessing a plan-protected route, check their plan
+  if (isAuthenticated && planProtectedRoutes[currentPath as keyof typeof planProtectedRoutes]) {
+    const requiredPlan = planProtectedRoutes[currentPath as keyof typeof planProtectedRoutes];
+    const planCheck = await checkUserPlan(request, requiredPlan);
+    
+    if (!planCheck.hasAccess) {
+      console.log(`Access denied to ${currentPath}: ${planCheck.reason}, user plan: ${planCheck.userPlan}`);
+      
+      // Redirect to upgrade page with context
+      const upgradeURL = new URL("/pricing", request.nextUrl.origin);
+      upgradeURL.searchParams.set("upgrade", "market-spy");
+      upgradeURL.searchParams.set("reason", planCheck.reason);
+      return NextResponse.redirect(upgradeURL.toString());
+    }
   }
 
   return NextResponse.next(); // Ensure you have this for non-/ingest/ requests
