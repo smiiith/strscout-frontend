@@ -69,11 +69,12 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
 
 ### Authentication & Security
 - Supabase Auth with Row Level Security (RLS)
-- Middleware-based route protection (`middleware.ts:4-8`)
+- **Server-side authorization**: Middleware checks both authentication AND subscription plans (`middleware.ts`)
+- Plan-protected routes: `/market-spy`, `/my-comps` require "pro" plan (enforced server-side)
 - Session management with `UserSessionProvider` context using SSR-compatible Supabase client
-- Protected routes: `/account`, `/properties`, `/market-spy` (configured in middleware)
+- Protected routes: `/account`, `/properties`, `/market-spy`, `/my-comps` (configured in middleware)
 - PostHog analytics proxy with CORS handling (`/ingest/` routes)
-- User subscription plans integrated with authentication state
+- **Security**: Plan authorization happens server-side in middleware, not client-side (prevents bypassing)
 - **Important**: Uses `utils/supabase/client.ts` (SSR-compatible) not `utils/supabase/js-client.ts` for authentication
 
 ### Key Components Structure
