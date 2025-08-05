@@ -107,6 +107,26 @@ const HeaderNav = (props: any) => {
     },
   ];
 
+  // Products submenu items for unauthenticated users
+  const productsLinks = [
+    {
+      label: "STR Feedback Genius",
+      href: "/str-feedback-genius",
+      enabled: true,
+      icon: () => {
+        return <House01Icon className="text-red-500 ml-6" />;
+      },
+    },
+    {
+      label: "STR Market Spy",
+      href: "/",
+      enabled: true,
+      icon: () => {
+        return <House01Icon className="text-red-500 ml-6" />;
+      },
+    },
+  ];
+
   // Check if any My Reports links are enabled
   const hasMyReportsAccess = myReportsLinks.some((link) => link.enabled);
 
@@ -141,7 +161,7 @@ const HeaderNav = (props: any) => {
   const pageLinks = isAuthorized ? authenticatedLinks : unauthenticatedLinks;
   const mobileLinks = isAuthorized
     ? [...authenticatedLinks, ...myReportsLinks]
-    : unauthenticatedLinks;
+    : [...unauthenticatedLinks, ...productsLinks];
 
   return (
     <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 bg-primary text-white">
@@ -182,6 +202,27 @@ const HeaderNav = (props: any) => {
                 </div>
                 {myReportsLinks.map((link: any, index: number) => (
                   <div key={`my-reports-${index}`} className="ml-4">
+                    {link.enabled && (
+                      <Link
+                        href={link.href}
+                        className="flex w-full items-center py-2 text-base font-medium"
+                        prefetch={false}
+                        onClick={() => setSheetOpen(false)}
+                      >
+                        {link.label}
+                      </Link>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+            {!isAuthorized && (
+              <div className="py-2">
+                <div className="text-lg font-semibold mb-2 text-gray-600">
+                  Products
+                </div>
+                {productsLinks.map((link: any, index: number) => (
+                  <div key={`products-mobile-${index}`} className="ml-4">
                     {link.enabled && (
                       <Link
                         href={link.href}
@@ -247,6 +288,40 @@ const HeaderNav = (props: any) => {
 
       {/* desktop */}
       <nav className="ml-auto hidden lg:flex gap-3 items-center">
+        {/* Products Dropdown for unauthenticated users */}
+        {!isAuthorized && (
+          <div className="mx-4">
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="bg-transparent hover:bg-transparent text-white hover:text-white p-0 h-auto text-base font-normal hover:underline focus:bg-transparent focus:text-white data-[state=open]:bg-transparent data-[active]:bg-transparent">
+                    Products
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid gap-3 p-4 w-[250px]">
+                      {productsLinks.map((link: any, index: number) => (
+                        <li key={`products-dropdown-${index}`}>
+                          {link.enabled && (
+                            <NavigationMenuLink asChild>
+                              <Link
+                                href={link.href}
+                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                              >
+                                <div className="text-sm font-medium leading-none">
+                                  {link.label}
+                                </div>
+                              </Link>
+                            </NavigationMenuLink>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+        )}
         {pageLinks.map((link: any, index: number) => (
           <div key={`desktop-${index}`} className="flex items-center">
             {link.enabled && (
