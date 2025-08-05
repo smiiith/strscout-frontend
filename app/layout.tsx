@@ -1,17 +1,22 @@
-import './globals.css'
-import { ThemeProvider } from './providers'
-import { createClient } from '@/utils/supabase/server'
+import "./globals.css";
+import { ThemeProvider } from "./providers";
+import { createClient } from "@/utils/supabase/server";
 import { PostHogTracker } from "./PostHogTracker";
-import Footer from '@/components/footer';
+import Footer from "@/components/footer";
 
 export const metadata = {
   title: "STR Feeeback Genius",
-  description: "We dive deep into your listing to provide analysis and actionable insights, ensuring you have the clarity you need to attract more guests and maximize your success.",
-}
+  description:
+    "We dive deep into your listing to provide analysis and actionable insights, ensuring you have the clarity you need to attract more guests and maximize your success.",
+};
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const supabase = createClient();
-  const { data } = await supabase.auth.getUser()
+  const { data } = await supabase.auth.getUser();
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -31,5 +36,5 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </PostHogTracker>
       </body>
     </html>
-  )
+  );
 }
