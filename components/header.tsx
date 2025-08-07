@@ -12,7 +12,12 @@ import {
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 import Image from "next/image";
-import { Login01Icon, Logout01Icon, MyAccountIcon } from "./Icons";
+import {
+  Login01Icon,
+  Logout01Icon,
+  MailEdit02Icon,
+  MyAccountIcon,
+} from "./Icons";
 import { useState } from "react";
 import { PLANS } from "@/app/types/plans";
 
@@ -81,7 +86,7 @@ const HeaderNav = (props: any) => {
       href: "/contact-us",
       enabled: true,
       icon: () => {
-        return <Mailbox01Icon className="text-primary-foreground mx-1" />;
+        return <MailEdit02Icon className="text-primary-foreground mx-1" />;
       },
     },
   ];
@@ -153,7 +158,7 @@ const HeaderNav = (props: any) => {
       href: "/contact-us",
       enabled: true,
       icon: () => {
-        return <Mailbox01Icon className="text-primary-foreground mx-1" />;
+        return <MailEdit02Icon className="text-primary-foreground mx-1" />;
       },
     },
   ];
