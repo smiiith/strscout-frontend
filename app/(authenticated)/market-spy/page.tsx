@@ -21,7 +21,7 @@ import * as z from "zod";
 import Image from "next/image";
 import Link from "next/link";
 import { add } from "date-fns";
-import { supabaseClient } from "@/utils/supabase/js-client";
+import { createClient } from "@/utils/supabase/client";
 import { useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
@@ -54,41 +54,68 @@ const MarketSpyContent = () => {
     billing_type: string;
     subscription_status: string;
   } | null>(null);
-  const { session } = useUserSession();
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileError, setProfileError] = useState<string | null>(null);
+  const { session, loading: sessionLoading } = useUserSession();
   const searchParams = useSearchParams();
+  const supabase = createClient();
 
   // Check for success parameter from checkout redirect
   const showSuccess = searchParams?.get("success") === "true";
 
   // Fetch user profile data with Market Spy usage
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      if (session?.id) {
-        try {
-          const { data: profile } = await supabaseClient
-            .from("profiles")
-            .select(
-              `
-              market_spy_listings_limit,
-              market_spy_listings_used,
-              billing_type,
-              subscription_status
-            `
-            )
-            .eq("id", session.id)
-            .single();
+  const fetchUserProfile = async (retryCount = 0) => {
+    if (!session?.id || sessionLoading) {
+      return;
+    }
 
-          if (profile) {
-            setUserProfile(profile);
-          }
-        } catch (error) {
-          console.error("Error fetching user profile:", error);
-        }
+    setProfileLoading(true);
+    setProfileError(null);
+
+    try {
+      const { data: profile, error } = await supabase
+        .from("profiles")
+        .select(
+          `
+          market_spy_listings_limit,
+          market_spy_listings_used,
+          billing_type,
+          subscription_status
+        `
+        )
+        .eq("id", session.id)
+        .single();
+
+      if (error) {
+        throw error;
       }
-    };
 
-    fetchUserProfile();
-  }, [session?.id]);
+      if (profile) {
+        setUserProfile(profile);
+      }
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+      
+      // Retry up to 2 times with exponential backoff
+      if (retryCount < 2) {
+        const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s
+        setTimeout(() => {
+          fetchUserProfile(retryCount + 1);
+        }, delay);
+      } else {
+        setProfileError("Failed to load profile data. Please refresh the page.");
+      }
+    } finally {
+      setProfileLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // Only fetch when session is ready and not loading
+    if (session?.id && !sessionLoading) {
+      fetchUserProfile();
+    }
+  }, [session?.id, sessionLoading]);
 
   // Calculate remaining Market Spy runs
   const getRemainingRuns = () => {
@@ -206,29 +233,7 @@ const MarketSpyContent = () => {
 
         if (response.data) {
           // Refresh user profile to show updated usage
-          try {
-            const { data: updatedProfile, error: profileError } =
-              await supabaseClient
-                .from("profiles")
-                .select(
-                  `
-                market_spy_listings_limit,
-                market_spy_listings_used,
-                billing_type,
-                subscription_status
-              `
-                )
-                .eq("id", session.id)
-                .single();
-
-            if (profileError) {
-              console.error("Error fetching updated profile:", profileError);
-            } else if (updatedProfile) {
-              setUserProfile(updatedProfile);
-            }
-          } catch (profileErr) {
-            console.error("Profile update error:", profileErr);
-          }
+          await fetchUserProfile();
 
           // Mark search as completed
           setSearchCompleted(true);
@@ -275,8 +280,33 @@ const MarketSpyContent = () => {
           </div>
         )}
 
+        {/* Loading State */}
+        {(sessionLoading || profileLoading) && (
+          <div className="w-1/2">
+            <Message variant="info">
+              Loading your account information...
+            </Message>
+          </div>
+        )}
+
+        {/* Error State */}
+        {profileError && (
+          <div className="w-1/2">
+            <Message variant="error">
+              {profileError}{" "}
+              <button
+                onClick={() => fetchUserProfile()}
+                className="underline hover:no-underline"
+                disabled={profileLoading}
+              >
+                Try again
+              </button>
+            </Message>
+          </div>
+        )}
+
         {/* Market Spy Usage Message */}
-        {getUsageMessage() && (
+        {!sessionLoading && !profileLoading && !profileError && getUsageMessage() && (
           <div className="w-1/2">
             <Message variant={getRemainingRuns() > 0 ? "info" : "warning"}>
               {getUsageMessage()}
@@ -379,14 +409,18 @@ const MarketSpyContent = () => {
             <Button
               type="submit"
               variant="default"
-              disabled={loading || getRemainingRuns() <= 0}
+              disabled={loading || sessionLoading || profileLoading || profileError !== null || getRemainingRuns() <= 0}
               className="w-fit"
             >
               {loading
                 ? "Searching..."
-                : getRemainingRuns() <= 0
-                  ? "No runs remaining"
-                  : "Search Market"}
+                : sessionLoading || profileLoading
+                  ? "Loading..."
+                  : profileError
+                    ? "Unable to load account"
+                    : getRemainingRuns() <= 0
+                      ? "No runs remaining"
+                      : "Search Market"}
             </Button>
           </form>
         </Form>

@@ -34,9 +34,9 @@ const MyCompsContent = () => {
     latitude: number;
     longitude: number;
   } | null>(null);
-  
+
   const { session, loading: sessionLoading } = useUserSession();
-  
+
   const [comps, setComps] = useState<any[]>([]);
 
   const fetchComps = async () => {
@@ -77,13 +77,13 @@ const MyCompsContent = () => {
         <LoadingOverlay />
       ) : (
         <div className="min-h-[700px] py-6">
-          <h1 className="text-3xl font-bold mt-6">My Comps</h1>
+          <h1 className="text-3xl font-bold mt-6">Market Spy Reports</h1>
 
           <div className="space-y-6 w-full mt-6">
-            <p className="w-1/2">
-              Enter your listing info below. STR Market Spy will analyze local
-              bookings, policies, amenities, and more — then show you exactly
-              how you compare.
+            <p className="w-2/3">
+              View your Market Spy reports here. If one is in progress, use the
+              refresh icon below to reload the list. You can also use the search
+              input to find a specific listing.
             </p>
 
             <div className="flex flex-wrap" title="Refresh list">

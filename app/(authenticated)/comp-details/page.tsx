@@ -249,323 +249,319 @@ export default function CompDetailsPage() {
 
   return (
     <div className="min-h-[700px] py-6">
-        <div className="flex items-center gap-4 mb-6">
-          <Button
-            variant="ghost"
-            onClick={() => router.back()}
-            className="flex items-center gap-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to My Comps
-          </Button>
-        </div>
+      <div className="flex items-center gap-4 mb-6">
+        <Button
+          variant="ghost"
+          onClick={() => router.back()}
+          className="flex items-center gap-2"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to My Comps
+        </Button>
+      </div>
 
-        <div className="space-y-6">
-          <Card>
-            {analysisResponse?.comp_basis && (
-              <CardHeader>
-                <div className="flex justify-between items-start gap-6">
-                  <div className="flex-1">
-                    <CardTitle className="flex items-center gap-2 pb-4">
-                      <MapPinIcon
-                        className="h-5 w-5 text-primary"
-                        color="red"
-                      />
-                      <span className="text-foreground/50">
-                        {analysisResponse.comp_basis.address}
-                      </span>
-                    </CardTitle>
-                    <div className="text-muted-foreground mt-2">
-                      {analysisResponse.comp_basis.created_at && (
-                        <p className="">
-                          Run date:
-                          <span className="mx-2">
-                            {formatDate(
-                              new Date(analysisResponse.comp_basis.created_at)
-                            )}
-                          </span>
-                        </p>
-                      )}
-                      <p className="">{analysisResponse.comp_basis.address}</p>
-                    </div>
-                  </div>
-
-                  {/* Analysis Card - positioned in upper right */}
-                  <Card className="w-96 bg-background border shadow-lg flex-shrink-0">
-                    <CardHeader className="pb-3">
-                      <CardTitle className="flex items-center gap-2 text-base">
-                        <TrendingUp className="h-4 w-4" />
-                        Why are these comps so successful?
-                      </CardTitle>
-                      <p className="text-sm text-muted-foreground">
-                        Find out how the{" "}
-                        <span className="font-bold">top 3</span> listings are
-                        doing it and how your listing compares to them.
+      <div className="space-y-6">
+        <Card>
+          {analysisResponse?.comp_basis && (
+            <CardHeader>
+              <div className="flex justify-between items-start gap-6">
+                <div className="flex-1">
+                  <CardTitle className="flex items-center gap-2 pb-4">
+                    <MapPinIcon className="h-5 w-5 text-primary" color="red" />
+                    <span className="text-foreground/50">
+                      {analysisResponse.comp_basis.address}
+                    </span>
+                  </CardTitle>
+                  <div className="text-muted-foreground mt-2">
+                    {analysisResponse.comp_basis.created_at && (
+                      <p className="">
+                        Run date:
+                        <span className="mx-2">
+                          {formatDate(
+                            new Date(analysisResponse.comp_basis.created_at)
+                          )}
+                        </span>
                       </p>
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                      {isGeneratingAnalysis ? (
-                        <div className="flex flex-col items-start gap-2">
-                          <Button disabled className="flex items-center gap-2">
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                            Generating Analysis...
-                          </Button>
-                          <p className="text-xs text-muted-foreground">
-                            This usually takes about 30 seconds
-                          </p>
-                        </div>
-                      ) : existingAnalysis ? (
-                        <Button
-                          onClick={() =>
-                            router.push(
-                              `/comp-analysis?id=${existingAnalysis.id}`
-                            )
-                          }
-                          variant="outline"
-                          className="flex items-center gap-2"
-                        >
-                          <Eye className="h-4 w-4" />
-                          View Analysis
-                        </Button>
-                      ) : (
-                        <CompareListingsDialog
-                          label="Compare"
-                          listings={analysisResponse?.comps?.map((comp) => ({
-                            id:
-                              comp.listing_id ||
-                              comp.property_id ||
-                              comp.comp_id,
-                            title: comp.title,
-                            thumbnail:
-                              comp.hero_image_link || "/placeholder.svg",
-                            property_id: comp.property_id,
-                          }))}
-                          compBasisId={analysisResponse?.comp_basis?.id}
-                          topListingIds={
-                            analysisResponse?.comps
-                              ?.map((comp) => comp.property_id)
-                              .filter(Boolean) || []
-                          }
-                          profileId={analysisResponse?.comp_basis?.profile_id}
-                          onAnalysisStart={() => setIsGeneratingAnalysis(true)}
-                          onAnalysisComplete={(analysisId) => {
-                            setIsGeneratingAnalysis(false);
-                            // Fetch the newly created analysis
-                            const newAnalysis = { id: analysisId };
-                            setExistingAnalysis(newAnalysis);
-                          }}
-                        />
-                      )}
-                    </CardContent>
-                  </Card>
+                    )}
+                    <p className="">{analysisResponse.comp_basis.address}</p>
+                  </div>
                 </div>
-              </CardHeader>
-            )}
 
-            <CardContent>
-              {analysisResponse?.comps && analysisResponse.comps.length > 0 ? (
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-[120px]">
-                          <div className="flex items-center gap-1">
-                            <FileText className="h-4 w-4" />
-                            Listing ID
-                          </div>
-                        </TableHead>
-                        <TableHead className="w-[140px]">
-                          <div className="flex items-center gap-1">
-                            <TrendingUp className="h-4 w-4" />
-                            Overall Occupancy
-                          </div>
-                        </TableHead>
-                        <TableHead className="w-[150px]">
-                          <div className="flex items-center gap-1">
-                            <Star className="h-4 w-4" />
-                            Overall Genius Score
-                          </div>
-                          <p className="text-xs font-normal text-muted-foreground"></p>
-                        </TableHead>
-                        <TableHead className="w-[120px]">
-                          <div className="flex items-center gap-1">
-                            <Home className="h-4 w-4" />
-                            Bedrooms
-                          </div>
-                        </TableHead>
-                        <TableHead className="w-[140px]">
-                          <div className="flex items-center gap-1">
-                            <Star className="h-4 w-4" />
-                            Average Review
-                          </div>
-                          <p className="text-xs font-normal text-muted-foreground">
-                            (how many stars)
-                          </p>
-                        </TableHead>
-                        <TableHead className="w-[140px]">
-                          <div className="flex items-center gap-1">
-                            <Users className="h-4 w-4" />
-                            Number of Reviews
-                          </div>
-                        </TableHead>
-                        <TableHead className="w-[180px]">
-                          <div className="flex items-center gap-1">
-                            <Shield className="h-4 w-4" />
-                            Policies
-                          </div>
-                        </TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {analysisResponse.comps.map((comp, index) => (
-                        <TableRow
-                          key={comp.comp_id}
-                          className="hover:bg-muted/50"
-                        >
-                          <TableCell>
-                            {/* <pre>
+                {/* Analysis Card - positioned in upper right */}
+                <Card className="w-96 bg-background border shadow-lg flex-shrink-0">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <TrendingUp className="h-4 w-4" />
+                      Why are these comps so successful?
+                    </CardTitle>
+                    <p className="text-sm text-muted-foreground">
+                      Find out how the <span className="font-bold">top 3</span>{" "}
+                      listings are doing it and how your listing compares to
+                      them.
+                    </p>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    {isGeneratingAnalysis ? (
+                      <div className="flex flex-col items-start gap-2">
+                        <Button disabled className="flex items-center gap-2">
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          Generating Analysis...
+                        </Button>
+                        <p className="text-xs text-muted-foreground">
+                          This usually takes about 30 seconds
+                        </p>
+                      </div>
+                    ) : existingAnalysis ? (
+                      <Button
+                        onClick={() =>
+                          router.push(
+                            `/comp-analysis?id=${existingAnalysis.id}`
+                          )
+                        }
+                        variant="outline"
+                        className="flex items-center gap-2"
+                      >
+                        <Eye className="h-4 w-4" />
+                        View Analysis
+                      </Button>
+                    ) : (
+                      <CompareListingsDialog
+                        label="Compare"
+                        listings={analysisResponse?.comps?.map((comp) => ({
+                          id:
+                            comp.listing_id || comp.property_id || comp.comp_id,
+                          title: comp.title,
+                          thumbnail: comp.hero_image_link || "/placeholder.svg",
+                          property_id: comp.property_id,
+                        }))}
+                        compBasisId={analysisResponse?.comp_basis?.id}
+                        topListingIds={
+                          analysisResponse?.comps
+                            ?.map((comp) => comp.property_id)
+                            .filter(Boolean) || []
+                        }
+                        profileId={analysisResponse?.comp_basis?.profile_id}
+                        onAnalysisStart={() => setIsGeneratingAnalysis(true)}
+                        onAnalysisComplete={(analysisId) => {
+                          setIsGeneratingAnalysis(false);
+                          // Fetch the newly created analysis
+                          const newAnalysis = { id: analysisId };
+                          setExistingAnalysis(newAnalysis);
+                        }}
+                      />
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            </CardHeader>
+          )}
+
+          <CardContent>
+            {analysisResponse?.comps && analysisResponse.comps.length > 0 ? (
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[120px]">
+                        <div className="flex items-center gap-1">
+                          <FileText className="h-4 w-4" />
+                          Listing ID
+                        </div>
+                      </TableHead>
+                      <TableHead className="w-[140px]">
+                        <div className="flex items-center gap-1">
+                          <TrendingUp className="h-4 w-4" />
+                          Occupancy
+                        </div>
+                      </TableHead>
+                      <TableHead className="w-[150px]">
+                        <div className="flex items-center gap-1">
+                          <Star className="h-4 w-4" />
+                          Feedback Genius Score
+                        </div>
+                        <p className="text-xs font-normal text-muted-foreground"></p>
+                      </TableHead>
+                      <TableHead className="w-[120px]">
+                        <div className="flex items-center gap-1">
+                          <Home className="h-4 w-4" />
+                          Bedrooms
+                        </div>
+                      </TableHead>
+                      <TableHead className="w-[140px]">
+                        <div className="flex items-center gap-1">
+                          <Star className="h-4 w-4" />
+                          Average Review
+                        </div>
+                        <p className="text-xs font-normal text-muted-foreground">
+                          (how many stars)
+                        </p>
+                      </TableHead>
+                      <TableHead className="w-[140px]">
+                        <div className="flex items-center gap-1">
+                          <Users className="h-4 w-4" />
+                          Number of Reviews
+                        </div>
+                      </TableHead>
+                      <TableHead className="w-[180px]">
+                        <div className="flex items-center gap-1">
+                          <Shield className="h-4 w-4" />
+                          Policies
+                        </div>
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {analysisResponse.comps.map((comp, index) => (
+                      <TableRow
+                        key={comp.comp_id}
+                        className="hover:bg-muted/50"
+                      >
+                        <TableCell>
+                          {/* <pre>
                               {JSON.stringify(analysisResponse, null, 2)}
                             </pre> */}
-                            <Button
-                              variant="link"
-                              className="h-auto p-0 font-mono text-sm text-blue-600 hover:text-blue-800"
+                          <Button
+                            variant="link"
+                            className="h-auto p-0 font-mono text-sm text-blue-600 hover:text-blue-800"
+                            onClick={() => {
+                              window.open(
+                                `https://www.airbnb.com/rooms/${comp.listing_id}`,
+                                "_blank"
+                              );
+                            }}
+                          >
+                            {comp.listing_id}
+                          </Button>
+                        </TableCell>
+                        <TableCell>
+                          <TooltipProvider>
+                            <Tooltip>
+                              <Popover>
+                                <TooltipTrigger asChild>
+                                  <PopoverTrigger asChild>
+                                    <Button
+                                      variant="ghost"
+                                      className={`h-auto p-1 font-semibold hover:bg-muted ${getOccupancyColor(comp.overall_occupancy)}`}
+                                    >
+                                      {comp.overall_occupancy?.toFixed(1)}%
+                                    </Button>
+                                  </PopoverTrigger>
+                                </TooltipTrigger>
+                                <PopoverContent className="w-48">
+                                  <div className="space-y-2">
+                                    <h4 className="font-medium text-sm">
+                                      Occupancy Breakdown
+                                    </h4>
+                                    <div className="space-y-1 text-sm">
+                                      <div className="flex justify-between">
+                                        <span className="text-muted-foreground">
+                                          30 days:
+                                        </span>
+                                        <span
+                                          className={`font-medium ${getOccupancyColor(comp.thirty_day)}`}
+                                        >
+                                          {comp.thirty_day?.toFixed(1)}%
+                                        </span>
+                                      </div>
+                                      <div className="flex justify-between">
+                                        <span className="text-muted-foreground">
+                                          60 days:
+                                        </span>
+                                        <span
+                                          className={`font-medium ${getOccupancyColor(comp.sixty_day)}`}
+                                        >
+                                          {comp.sixty_day?.toFixed(1)}%
+                                        </span>
+                                      </div>
+                                      <div className="flex justify-between">
+                                        <span className="text-muted-foreground">
+                                          90 days:
+                                        </span>
+                                        <span
+                                          className={`font-medium ${getOccupancyColor(comp.ninety_day)}`}
+                                        >
+                                          {comp.ninety_day?.toFixed(1)}%
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </PopoverContent>
+                              </Popover>
+                              <TooltipContent>
+                                <p>Click to see 30/60/90 day breakdown</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </TableCell>
+                        <TableCell>
+                          {/* <pre>{JSON.stringify(comp, null, 2)}</pre> */}
+                          {comp.overall_genius_score?.title?.rating_number ? (
+                            <Badge
+                              variant="secondary"
+                              className="cursor-pointer"
                               onClick={() => {
-                                window.open(
-                                  `https://www.airbnb.com/rooms/${comp.listing_id}`,
-                                  "_blank"
+                                router.push(
+                                  `/properties/comps/${comp.property_id}`
                                 );
                               }}
                             >
-                              {comp.listing_id}
-                            </Button>
-                          </TableCell>
-                          <TableCell>
-                            <TooltipProvider>
-                              <Tooltip>
-                                <Popover>
-                                  <TooltipTrigger asChild>
-                                    <PopoverTrigger asChild>
-                                      <Button
-                                        variant="ghost"
-                                        className={`h-auto p-1 font-semibold hover:bg-muted ${getOccupancyColor(comp.overall_occupancy)}`}
-                                      >
-                                        {comp.overall_occupancy?.toFixed(1)}%
-                                      </Button>
-                                    </PopoverTrigger>
-                                  </TooltipTrigger>
-                                  <PopoverContent className="w-48">
-                                    <div className="space-y-2">
-                                      <h4 className="font-medium text-sm">
-                                        Occupancy Breakdown
-                                      </h4>
-                                      <div className="space-y-1 text-sm">
-                                        <div className="flex justify-between">
-                                          <span className="text-muted-foreground">
-                                            30 days:
-                                          </span>
-                                          <span
-                                            className={`font-medium ${getOccupancyColor(comp.thirty_day)}`}
-                                          >
-                                            {comp.thirty_day?.toFixed(1)}%
-                                          </span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                          <span className="text-muted-foreground">
-                                            60 days:
-                                          </span>
-                                          <span
-                                            className={`font-medium ${getOccupancyColor(comp.sixty_day)}`}
-                                          >
-                                            {comp.sixty_day?.toFixed(1)}%
-                                          </span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                          <span className="text-muted-foreground">
-                                            90 days:
-                                          </span>
-                                          <span
-                                            className={`font-medium ${getOccupancyColor(comp.ninety_day)}`}
-                                          >
-                                            {comp.ninety_day?.toFixed(1)}%
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </PopoverContent>
-                                </Popover>
-                                <TooltipContent>
-                                  <p>Click to see 30/60/90 day breakdown</p>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                          </TableCell>
-                          <TableCell>
-                            {comp.overall_genius_score ? (
-                              <Badge
-                                variant="secondary"
-                                className="cursor-pointer"
-                                onClick={() => {
-                                  router.push(
-                                    `/properties/comps/${comp.property_id}`
-                                  );
-                                }}
-                              >
-                                Rating
-                              </Badge>
+                              {comp.overall_genius_score?.title?.rating_number}
+                            </Badge>
+                          ) : (
+                            <div className="text-muted-foreground">
+                              N/A
+                              {/* <pre>{JSON.stringify(comp, null, 2)}</pre> */}
+                            </div>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">
+                              {comp.bedrooms || "N/A"}
+                            </span>
+                            {comp.bedrooms && (
+                              <Home className="h-3 w-3 text-muted-foreground" />
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex flex-col gap-1">
+                            {comp.average_review ? (
+                              <div className="flex">
+                                {renderStarRating(comp.average_review)}
+                                <span className="text-xs text-muted-foreground ml-2">
+                                  ({formatRating(comp.average_review)})
+                                </span>
+                              </div>
                             ) : (
                               <span className="text-muted-foreground">N/A</span>
                             )}
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-2">
-                              <span className="font-medium">
-                                {comp.bedrooms || "N/A"}
-                              </span>
-                              {comp.bedrooms && (
-                                <Home className="h-3 w-3 text-muted-foreground" />
-                              )}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex flex-col gap-1">
-                              {comp.average_review ? (
-                                <div className="flex">
-                                  {renderStarRating(comp.average_review)}
-                                  <span className="text-xs text-muted-foreground ml-2">
-                                    ({formatRating(comp.average_review)})
-                                  </span>
-                                </div>
-                              ) : (
-                                <span className="text-muted-foreground">
-                                  N/A
-                                </span>
-                              )}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-1">
-                              <Users className="h-3 w-3 text-muted-foreground" />
-                              <span className="font-medium">
-                                {comp.number_of_reviews || 0}
-                              </span>
-                            </div>
-                          </TableCell>
-                          <TableCell>{renderPolicies(comp.policies)}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              ) : (
-                <div className="flex items-center justify-center h-32">
-                  <p className="text-muted-foreground">
-                    No comp analysis data available
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-1">
+                            <Users className="h-3 w-3 text-muted-foreground" />
+                            <span className="font-medium">
+                              {comp.number_of_reviews || 0}
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell>{renderPolicies(comp.policies)}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-32">
+                <p className="text-muted-foreground">
+                  No comp analysis data available
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
+    </div>
   );
 }
