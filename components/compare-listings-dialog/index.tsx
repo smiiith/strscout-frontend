@@ -101,18 +101,20 @@ const CompareListingsDialog = ({
 
   const handleConfirm = async () => {
     if (selectedListings.length === 0) return;
-    
+
     const selectedListingId = selectedListings[0];
-    
+
     // Find the selected listing to get its property_id
-    const selectedListing = listings.find(listing => listing.id === selectedListingId);
+    const selectedListing = listings.find(
+      (listing) => listing.id === selectedListingId
+    );
     const userPropertyId = selectedListing?.property_id;
-    
+
     if (!userPropertyId) {
-      alert('Error: Could not find property ID for selected listing');
+      alert("Error: Could not find property ID for selected listing");
       return;
     }
-    
+
     if (compBasisId) {
       // Call the market spy analysis endpoint
       try {
@@ -120,28 +122,28 @@ const CompareListingsDialog = ({
         if (onAnalysisStart) {
           onAnalysisStart();
         }
-        
+
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/comps/market_spy_from_comp_basis/${compBasisId}`,
           {
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
               user_listing_id: userPropertyId,
               top_listing_ids: topListingIds || [],
-              profile_id: profileId
+              profile_id: profileId,
             }),
           }
         );
-        
+
         if (!response.ok) {
-          throw new Error('Failed to fetch market spy analysis');
+          throw new Error("Failed to fetch market spy analysis");
         }
-        
+
         const data = await response.json();
-        
+
         // Navigate to the analysis results page if we have a comp_analysis_id
         if (data.comp_analysis_id) {
           // Notify parent component that analysis is complete
@@ -151,19 +153,18 @@ const CompareListingsDialog = ({
           router.push(`/comp-analysis?id=${data.comp_analysis_id}`);
         } else {
           // Fallback if no ID is returned
-          alert('Market spy analysis complete! Check the console for results.');
+          alert("Market spy analysis complete! Check the console for results.");
         }
-        
       } catch (error) {
-        console.error('Error running market spy analysis:', error);
-        alert('Failed to run market spy analysis. Please try again.');
+        console.error("Error running market spy analysis:", error);
+        alert("Failed to run market spy analysis. Please try again.");
         // Reset loading state on error
         if (onAnalysisComplete) {
           onAnalysisComplete("");
         }
       }
     }
-    
+
     if (onSelectionConfirm) {
       onSelectionConfirm(selectedListings);
     }
