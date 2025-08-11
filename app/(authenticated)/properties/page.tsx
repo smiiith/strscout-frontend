@@ -95,11 +95,15 @@ export default function Properties() {
             process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.substring(0, 20) + "...",
           auth: !!browserClient.auth,
         });
-        const {
-          data: { session },
-          error,
-        } = await browserClient.auth.getSession();
-        console.log("Session result:", { session, error });
+        const sessionPromise = browserClient.auth.getSession();
+        const timeoutPromise = new Promise<never>((_, reject) => 
+          setTimeout(() => reject(new Error('Session timeout after 5s')), 5000)
+        );
+
+        const result = await Promise.race([sessionPromise, timeoutPromise]);
+        console.log("Session result:", result);
+        
+        const { data: { session }, error } = result;
 
         const user = session?.user || null;
         console.log("User from session:", user);
