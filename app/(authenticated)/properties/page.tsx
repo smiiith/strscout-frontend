@@ -30,10 +30,16 @@ export default function Properties() {
 
   const getProperties = async (user: any) => {
     try {
+      console.log("getProperties called with user:", user);
+      console.log("API_ENDPOINT:", process.env.NEXT_PUBLIC_API_ENDPOINT);
+      
       if (!user?.id) {
         console.log("No user ID available");
         return;
       }
+      
+      console.log("Making API request to:", `${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/strproperties`);
+      
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/strproperties`, {
         // body: { profileId: user.id },
         userId: user.id,
@@ -43,8 +49,11 @@ export default function Properties() {
         }
       });
 
+      console.log("API response:", response.data);
+
       if (response.data) {
         if (response.data.properties.length === 0) {
+          console.log("No properties found, redirecting...");
           router.push("/properties/assess-property/single");
         }
         setProperties(response.data.properties);
