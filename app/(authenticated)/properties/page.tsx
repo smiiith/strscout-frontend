@@ -70,19 +70,12 @@ export default function Properties() {
       console.log("getUser function called");
       console.log("browserClient:", browserClient);
       try {
-        console.log("About to call browserClient.auth.getUser()");
+        console.log("Using getSession() instead of getUser()");
+        const { data: { session }, error } = await browserClient.auth.getSession();
+        console.log("Session result:", { session, error });
         
-        // Add a timeout to see if auth call is hanging
-        const authPromise = browserClient.auth.getUser();
-        const timeoutPromise = new Promise<never>((_, reject) => 
-          setTimeout(() => reject(new Error('Auth timeout after 10s')), 10000)
-        );
-        
-        const authResult = await Promise.race([authPromise, timeoutPromise]);
-        console.log("Raw auth result:", authResult);
-        
-        const { data: { user }, error } = authResult;
-        console.log("Supabase auth result:", { user, error });
+        const user = session?.user || null;
+        console.log("User from session:", user);
         
         setUser(user);
         console.log("About to call getProperties with user:", user);
@@ -90,7 +83,6 @@ export default function Properties() {
         return user;
       } catch (error) {
         console.error("Error in getUser:", error);
-        // Let's try to call getProperties with null user to see what happens
         console.log("Calling getProperties with null user due to auth error");
         getProperties(null);
       }
