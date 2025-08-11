@@ -68,10 +68,17 @@ export default function Properties() {
 
     const getUser = async () => {
       console.log("getUser function called");
+      console.log("browserClient:", browserClient);
       try {
-        const { data: { user }, error } = await browserClient.auth.getUser();
+        console.log("About to call browserClient.auth.getUser()");
+        const authResult = await browserClient.auth.getUser();
+        console.log("Raw auth result:", authResult);
+        
+        const { data: { user }, error } = authResult;
         console.log("Supabase auth result:", { user, error });
+        
         setUser(user);
+        console.log("About to call getProperties with user:", user);
         getProperties(user);
         return user;
       } catch (error) {
