@@ -74,7 +74,7 @@ export default function Properties() {
         
         // Add a timeout to see if auth call is hanging
         const authPromise = browserClient.auth.getUser();
-        const timeoutPromise = new Promise((_, reject) => 
+        const timeoutPromise = new Promise<never>((_, reject) => 
           setTimeout(() => reject(new Error('Auth timeout after 10s')), 10000)
         );
         
