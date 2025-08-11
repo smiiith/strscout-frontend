@@ -64,12 +64,19 @@ export default function Properties() {
   }
 
   useEffect(() => {
+    console.log("useEffect running");
 
     const getUser = async () => {
-      const { data: { user }, } = await browserClient.auth.getUser();
-      setUser(user);
-      getProperties(user);
-      return user;
+      console.log("getUser function called");
+      try {
+        const { data: { user }, error } = await browserClient.auth.getUser();
+        console.log("Supabase auth result:", { user, error });
+        setUser(user);
+        getProperties(user);
+        return user;
+      } catch (error) {
+        console.error("Error in getUser:", error);
+      }
     }
 
     getUser();
