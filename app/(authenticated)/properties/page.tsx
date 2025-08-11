@@ -71,7 +71,14 @@ export default function Properties() {
       console.log("browserClient:", browserClient);
       try {
         console.log("About to call browserClient.auth.getUser()");
-        const authResult = await browserClient.auth.getUser();
+        
+        // Add a timeout to see if auth call is hanging
+        const authPromise = browserClient.auth.getUser();
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Auth timeout after 10s')), 10000)
+        );
+        
+        const authResult = await Promise.race([authPromise, timeoutPromise]);
         console.log("Raw auth result:", authResult);
         
         const { data: { user }, error } = authResult;
@@ -83,6 +90,9 @@ export default function Properties() {
         return user;
       } catch (error) {
         console.error("Error in getUser:", error);
+        // Let's try to call getProperties with null user to see what happens
+        console.log("Calling getProperties with null user due to auth error");
+        getProperties(null);
       }
     }
 
