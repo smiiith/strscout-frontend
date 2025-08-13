@@ -3,20 +3,21 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { createClient } from '@/utils/supabase/client';
 import { usePathname } from 'next/navigation';
+import { getUserProfile } from '../utils/getUserProfile';
 
-interface UserPlan {
-    id: string
-    name: string
-    description: string
-    active: boolean
-    key: string
+interface UserProfile {
+    id: string;
+    market_spy_listings_limit: number;
+    market_spy_listings_used: number;
+    billing_type: string;
+    subscription_status: string;
+    plan: any; // You might want to define a proper type for plan
 }
 
 interface UserSession {
     id: string
     email: string
-    plan: UserPlan
-    // role: string
+    profile: UserProfile | null;
 }
 
 const UserSessionContext = createContext<{
@@ -31,27 +32,21 @@ const UserSessionContext = createContext<{
 
 export function UserSessionProvider({ children, initialSession }: { children: ReactNode; initialSession: UserSession | null }) {
     const [session, setSession] = useState<UserSession | null>(initialSession)
-    const [loading, setLoading] = useState(false) // Initially not loading as we have initial data
+    const [loading, setLoading] = useState(!initialSession) // Load if no initial session
     const pathname = usePathname();
-    const supabase = createClient(); // Create SSR-compatible client
+    const supabase = createClient();
 
     const refreshSession = async () => {
         setLoading(true);
         try {
-            const { data: { user }, error: userError } = await supabase.auth.getUser();
+            const { data: { user } } = await supabase.auth.getUser();
             
             if (user) {
-                // Simple session without plan data since middleware handles authorization
+                const profile = await getUserProfile(user.id);
                 const newSession = {
                     id: user.id,
                     email: user.email || '',
-                    plan: {
-                        id: '',
-                        name: '',
-                        description: '',
-                        active: true,
-                        key: 'authenticated', // Generic authenticated user
-                    },
+                    profile: profile,
                 };
                 setSession(newSession);
             } else {
@@ -66,13 +61,12 @@ export function UserSessionProvider({ children, initialSession }: { children: Re
     };
 
     useEffect(() => {
-        // Only refresh if we don't have session data yet
         if (!session && !initialSession) {
             refreshSession();
-        } else if (!session && initialSession) {
+        } else if (initialSession && JSON.stringify(session) !== JSON.stringify(initialSession)) {
             setSession(initialSession);
         }
-    }, [pathname, initialSession]); // Trigger refresh on route changes
+    }, [pathname, initialSession]);
 
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -88,7 +82,7 @@ export function UserSessionProvider({ children, initialSession }: { children: Re
         return () => {
             subscription.unsubscribe();
         };
-    }, []); // Auth listener only needs to run once
+    }, []);
 
     return (
         <UserSessionContext.Provider value={{ session, loading, refreshSession }}>
@@ -106,5 +100,3 @@ export function useUserSession() {
 }
 
 export { UserSessionContext };
-
-const exports = { UserSessionProvider, useUserSession };
