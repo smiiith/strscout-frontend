@@ -6,6 +6,7 @@ import {
   syncUserPlan,
   syncUserPlanBySubscriptionId,
   getListingCountFromPriceId,
+  calculateTier,
 } from "@/utils/stripe/plan-sync";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -119,6 +120,7 @@ export async function POST(request: Request) {
                 stripe_subscription_id: subscriptionId,
                 subscription_status: "active",
                 billing_type: "subscription",
+                current_tier: calculateTier(quantity),
                 current_period_start: periodStart,
                 current_period_end: periodEnd,
                 updated_at: new Date().toISOString(),
@@ -176,6 +178,7 @@ export async function POST(request: Request) {
                 stripe_subscription_id: null, // Clear any existing subscription
                 subscription_status: null, // No subscription status for one-time
                 billing_type: "one_time",
+                current_tier: calculateTier(actualListingCount),
                 listings_purchased: actualListingCount, // Use actual listing count
                 purchase_date: new Date().toISOString(),
                 updated_at: new Date().toISOString(),
