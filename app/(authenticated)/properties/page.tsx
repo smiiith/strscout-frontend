@@ -8,9 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { createClient } from "@/utils/supabase/client";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useUserSession } from "@/lib/context/UserSessionProvider";
 import {
   Dialog,
   DialogContent,
@@ -36,16 +36,15 @@ import { useRouter } from "next/navigation";
 
 export default function Properties() {
   const router = useRouter();
-  const browserClient = createClient();
+  const { session, loading: sessionLoading } = useUserSession();
   const [properties, setProperties] = useState<any[]>([]);
-  const [user, setUser] = useState<any>(null);
 
-  const getProperties = async (user: any) => {
+  const getProperties = async () => {
     try {
-      console.log("getProperties called with user:", user);
+      console.log("getProperties called with session:", session);
       console.log("API_ENDPOINT:", process.env.NEXT_PUBLIC_API_ENDPOINT);
 
-      if (!user?.id) {
+      if (!session?.id) {
         console.log("No user ID available");
         return;
       }
@@ -58,11 +57,9 @@ export default function Properties() {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/strproperties`,
         {
-          // body: { profileId: user.id },
-          userId: user.id,
+          userId: session.id,
           headers: {
             "Content-Type": "application/json",
-            // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
           },
         }
       );
@@ -82,45 +79,10 @@ export default function Properties() {
   };
 
   useEffect(() => {
-    console.log("useEffect running");
-
-    const getUser = async () => {
-      console.log("getUser function called");
-      console.log("browserClient:", browserClient);
-      try {
-        console.log("Using getSession() instead of getUser()");
-        console.log("Supabase client config:", {
-          url: process.env.NEXT_PUBLIC_SUPABASE_URL,
-          key:
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.substring(0, 20) + "...",
-          auth: !!browserClient.auth,
-        });
-        const sessionPromise = browserClient.auth.getSession();
-        const timeoutPromise = new Promise<never>((_, reject) => 
-          setTimeout(() => reject(new Error('Session timeout after 5s')), 5000)
-        );
-
-        const result = await Promise.race([sessionPromise, timeoutPromise]);
-        console.log("Session result:", result);
-        
-        const { data: { session }, error } = result;
-
-        const user = session?.user || null;
-        console.log("User from session:", user);
-
-        setUser(user);
-        console.log("About to call getProperties with user:", user);
-        getProperties(user);
-        return user;
-      } catch (error) {
-        console.error("Error in getUser:", error);
-        console.log("Calling getProperties with null user due to auth error");
-        getProperties(null);
-      }
-    };
-
-    getUser();
-  }, []);
+    if (session && session.id) {
+      getProperties();
+    }
+  }, [session]);
 
   return (
     <>
