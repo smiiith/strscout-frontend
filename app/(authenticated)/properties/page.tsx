@@ -1,36 +1,8 @@
 "use client";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useUserSession } from "@/lib/context/UserSessionProvider";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { PencilEdit02Icon } from "@/components/Icons";
-import Listing from "@/components/Listing";
-import { BarChart, House } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import PropertyCard from "@/components/PropertyCard";
 import AddressCard from "./AddressCard";
 import { useRouter } from "next/navigation";
 
