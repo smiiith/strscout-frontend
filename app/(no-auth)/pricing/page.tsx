@@ -13,7 +13,7 @@ import { PLANS } from "@/app/types/plans";
 export default function PricingPage() {
   const router = useRouter();
   const { session } = useUserSession();
-  const planData = session?.plan;
+  const planData = session?.profile?.plan;
 
   const isCurrentPlan = (planKey: string) => {
     return planData?.key === planKey;
