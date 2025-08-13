@@ -81,11 +81,15 @@ export async function syncUserPlan(
     // Determine billing type based on price ID
     const billingType = isOneTimePriceId(priceId) ? 'one_time' : 'subscription';
 
+    // Calculate tier based on quantity/listing count
+    const currentTier = calculateTier(quantity);
+
     // Update user's plan and subscription details
     const updateData: any = { 
       plan_id: finalPlanId,
       subscription_quantity: quantity,
       market_spy_listings_limit: marketSpyLimit,
+      current_tier: currentTier,
       updated_at: new Date().toISOString()
     };
 
@@ -248,6 +252,17 @@ export function getListingCountFromPriceId(priceId: string): number {
  */
 function isOneTimePriceId(priceId: string): boolean {
   return priceId in ONE_TIME_PRICE_TO_LISTINGS;
+}
+
+/**
+ * Calculate tier based on listing count
+ * Based on volume pricing structure: starter (1), growth (2-3), pro (4-5), portfolio (6+)
+ */
+export function calculateTier(listingCount: number): string {
+  if (listingCount <= 1) return 'starter';
+  if (listingCount <= 3) return 'growth';
+  if (listingCount <= 5) return 'pro';
+  return 'portfolio';
 }
 
 /**
