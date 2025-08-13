@@ -31,9 +31,8 @@ const UserSessionContext = createContext<{
 })
 
 export function UserSessionProvider({ children, initialSession }: { children: ReactNode; initialSession: UserSession | null }) {
-    const [session, setSession] = useState<UserSession | null>(initialSession)
-    const [loading, setLoading] = useState(!initialSession) // Load if no initial session
-    const pathname = usePathname();
+    const [session, setSession] = useState<UserSession | null>(initialSession);
+    const [loading, setLoading] = useState(!initialSession);
     const supabase = createClient();
 
     const refreshSession = async () => {
@@ -59,14 +58,6 @@ export function UserSessionProvider({ children, initialSession }: { children: Re
             setLoading(false);
         }
     };
-
-    useEffect(() => {
-        if (!session && !initialSession) {
-            refreshSession();
-        } else if (initialSession && JSON.stringify(session) !== JSON.stringify(initialSession)) {
-            setSession(initialSession);
-        }
-    }, [pathname, initialSession]);
 
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
