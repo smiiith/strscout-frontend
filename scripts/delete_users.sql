@@ -22,8 +22,8 @@ BEGIN
     FOR target_user_id IN 
         WITH users_to_delete AS (
             VALUES 
-                -- ('REPLACE-WITH-USER-ID-1'::uuid),
-                ('83ee1aeb-0bd8-4d65-9e87-8ecc2f8e13c6'::uuid)
+                ('REPLACE-WITH-USER-ID-1'::uuid),
+                ('REPLACE-WITH-USER-ID-2'::uuid)
                 -- Add more user IDs as needed
                 -- ('REPLACE-WITH-USER-ID-3'::uuid)
         )
@@ -42,8 +42,11 @@ BEGIN
         -- Delete market spy runs
         DELETE FROM market_spy_runs WHERE profile_id = target_user_id;
         
-        -- Delete listing feedback usage
+        -- Delete listing feedback usage (by profile_id and property_id)
         DELETE FROM listing_feedback_usage WHERE profile_id = target_user_id;
+        DELETE FROM listing_feedback_usage WHERE property_id IN (
+            SELECT id FROM str_properties WHERE user_id = target_user_id
+        );
         
         -- Clear comp_id references in str_properties first (to avoid FK constraint violations)
         UPDATE str_properties SET comp_id = NULL WHERE comp_id IN (
