@@ -77,6 +77,13 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
 - **Security**: Plan authorization happens server-side in middleware, not client-side (prevents bypassing)
 - **Important**: Uses `utils/supabase/client.ts` (SSR-compatible) not `utils/supabase/js-client.ts` for authentication
 
+#### Authentication Best Practices
+- **Always use `useUserSession()` hook** in authenticated pages instead of manual `getSession()`/`getUser()` calls
+- The `UserSessionProvider` in `(authenticated)/layout.tsx` handles SSR auth and provides session to child components
+- Pattern: `const { session, loading } = useUserSession()` then check `session?.id` before API calls
+- Avoid manual auth logic in components - let the provider handle it centrally
+- Example working pattern seen in `/my-comps` and `/properties` pages
+
 ### Key Components Structure
 - `components/ui/` - Radix UI-based design system components
   - `components/ui/message.tsx` - Reusable message component with variants (info, success, warning, error) using theme colors
