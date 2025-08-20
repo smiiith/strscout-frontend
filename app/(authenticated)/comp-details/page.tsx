@@ -48,6 +48,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import CompareListingsDialog from "@/components/compare-listings-dialog";
 import { formatDate } from "@/lib/utils";
+import Image from "next/image";
 
 interface CompAnalysisData {
   comp_id: string;
@@ -267,7 +268,12 @@ export default function CompDetailsPage() {
               <div className="flex justify-between items-start gap-6">
                 <div className="flex-1">
                   <CardTitle className="flex items-center gap-2 pb-4">
-                    <MapPinIcon className="h-5 w-5 text-primary" color="red" />
+                    <Image
+                      src="/market-spy-logo.png"
+                      alt="STR Market Spy"
+                      width={200}
+                      height={80}
+                    />
                     <span className="text-foreground/50">
                       {analysisResponse.comp_basis.address}
                     </span>
@@ -377,7 +383,7 @@ export default function CompDetailsPage() {
                       <TableHead className="w-[150px]">
                         <div className="flex items-center gap-1">
                           <Star className="h-4 w-4" />
-                          Feedback Genius Score
+                          Rating
                         </div>
                         <p className="text-xs font-normal text-muted-foreground"></p>
                       </TableHead>
@@ -392,14 +398,11 @@ export default function CompDetailsPage() {
                           <Star className="h-4 w-4" />
                           Average Review
                         </div>
-                        <p className="text-xs font-normal text-muted-foreground">
-                          (how many stars)
-                        </p>
                       </TableHead>
                       <TableHead className="w-[140px]">
                         <div className="flex items-center gap-1">
                           <Users className="h-4 w-4" />
-                          Number of Reviews
+                          Total Reviews
                         </div>
                       </TableHead>
                       <TableHead className="w-[180px]">
@@ -540,7 +543,6 @@ export default function CompDetailsPage() {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1">
-                            <Users className="h-3 w-3 text-muted-foreground" />
                             <span className="font-medium">
                               {comp.number_of_reviews || 0}
                             </span>
