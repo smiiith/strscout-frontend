@@ -127,6 +127,13 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
   - Development: `npm run dev` or `npm run dev-watch` (with nodemon)
   - Build: `npm run build` (TypeScript compilation)
   - Production: `npm start`
+- **Frontend API Routes** (Next.js):
+  - `/api/account` - Fetch user account data and usage limits (GET)
+  - `/api/market-spy/increment-usage` - Track Market Spy usage (POST)
+  - `/api/stripe/checkout` - Create Stripe checkout session (POST)
+  - `/api/stripe/webhook` - Handle Stripe webhook events (POST)
+  - `/api/stripe/customer-portal` - Create customer portal session (POST)
+  - `/api/send` - Send emails via Resend (POST)
 - **Backend API Routes**:
   - `/api/feedback-genius/*` - Property assessment and ratings
   - `/api/marketspy/*` - Market research and scraping

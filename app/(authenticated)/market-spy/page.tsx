@@ -34,6 +34,17 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+interface AccountData {
+  id: string;
+  billing_type: string | null;
+  subscription_status: string | null;
+  market_spy_listings_used: number;
+  market_spy_listings_limit: number;
+  current_tier: string | null;
+  listings_purchased: number | null;
+  remaining_runs: number;
+}
+
 const MarketSpyPage = () => {
   return <MarketSpyContent />;
 };
@@ -46,27 +57,59 @@ const MarketSpyContent = () => {
     latitude: number;
     longitude: number;
   } | null>(null);
-  const { session, loading: sessionLoading, refreshSession } = useUserSession();
+  
+  // Account data state
+  const [accountData, setAccountData] = useState<AccountData | null>(null);
+  const [accountLoading, setAccountLoading] = useState(true);
+  const [accountError, setAccountError] = useState<string | null>(null);
+  
+  const { session } = useUserSession();
   const searchParams = useSearchParams();
 
   // Check for success parameter from checkout redirect
   const showSuccess = searchParams?.get("success") === "true";
 
-  // Calculate remaining Market Spy runs
-  const getRemainingRuns = () => {
-    if (!session?.profile) return 0;
-    const used = session.profile.market_spy_listings_used || 0;
-    const limit = session.profile.market_spy_listings_limit || 0;
-    return Math.max(0, limit - used);
+  // Fetch account data
+  const fetchAccountData = async () => {
+    try {
+      setAccountLoading(true);
+      setAccountError(null);
+      
+      const response = await fetch('/api/account');
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch account data: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      setAccountData(data.profile);
+    } catch (error) {
+      console.error('Error fetching account data:', error);
+      setAccountError('Failed to load account information');
+    } finally {
+      setAccountLoading(false);
+    }
   };
+
+  // Load account data on mount and after successful checkout
+  useEffect(() => {
+    fetchAccountData();
+  }, []);
+
+  // Reload account data if coming from successful checkout
+  useEffect(() => {
+    if (showSuccess) {
+      fetchAccountData();
+    }
+  }, [showSuccess]);
 
   // Get usage message text
   const getUsageMessage = () => {
-    if (!session?.profile) return null;
+    if (!accountData) return null;
 
-    const remainingRuns = getRemainingRuns();
-    const hasActiveSubscription = session.profile.subscription_status === "active";
-    const isOneTime = session.profile.billing_type === "one_time";
+    const remainingRuns = accountData.remaining_runs;
+    const hasActiveSubscription = accountData.subscription_status === "active";
+    const isOneTime = accountData.billing_type === "one_time";
 
     if (remainingRuns > 0) {
       if (hasActiveSubscription) {
@@ -111,76 +154,74 @@ const MarketSpyContent = () => {
   };
 
   const onSubmit = async (data: FormData) => {
+    if (!accountData || !session?.id) {
+      alert("Unable to process request. Please refresh the page and try again.");
+      return;
+    }
+
+    // Check if user has remaining runs
+    if (accountData.remaining_runs <= 0) {
+      alert(
+        "You've used all your Market Spy runs. Please upgrade your plan or purchase more listings."
+      );
+      return;
+    }
+
     setLoading(true);
 
-    if (session && session.id) {
-      try {
-        // Check if user has remaining runs
-        const remainingRuns = getRemainingRuns();
-        if (remainingRuns <= 0) {
+    try {
+      // Increment usage before running Market Spy
+      const usageResponse = await fetch("/api/market-spy/increment-usage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: session.id }),
+      });
+
+      if (!usageResponse.ok) {
+        const usageError = await usageResponse.json();
+        if (usageResponse.status === 403) {
           alert(
-            "You've used all your Market Spy runs. Please upgrade your plan or purchase more listings."
+            "You've reached your Market Spy usage limit. Please upgrade your plan or purchase more listings."
           );
-          setLoading(false);
-          return;
+        } else {
+          alert("Failed to process usage. Please try again.");
+          console.error("Usage increment error:", usageError);
         }
-
-        // Increment usage before running Market Spy
-        const usageResponse = await fetch("/api/market-spy/increment-usage", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId: session.id }),
-        });
-
-        if (!usageResponse.ok) {
-          const usageError = await usageResponse.json();
-          if (usageResponse.status === 403) {
-            alert(
-              "You've reached your Market Spy usage limit. Please upgrade your plan or purchase more listings."
-            );
-          } else {
-            alert("Failed to process usage. Please try again.");
-            console.error("Usage increment error:", usageError);
-          }
-          setLoading(false);
-          return;
-        }
-
-        const requestData = {
-          geocode: `${data.address.latitude}, ${data.address.longitude}`,
-          address: data.address.formattedAddress,
-          zoom_level: 50,
-          room_type: data.roomType,
-          bedrooms: data.bedrooms,
-          length_of_stay: "1 night stay - tomorrow with 14 day window",
-          profile_id: session.id,
-        };
-
-        const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/marketspy/scrape`;
-
-        const response = await axios.post(endpoint, requestData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (response.data) {
-          // Refresh user profile to show updated usage
-          await refreshSession();
-
-          // Mark search as completed
-          setSearchCompleted(true);
-        }
-      } catch (error) {
-        console.error("Error submitting form:", error);
-        alert("An error occurred while running Market Spy. Please try again.");
-      } finally {
         setLoading(false);
+        return;
       }
-    } else {
-      console.error("User session not found or invalid.");
+
+      const requestData = {
+        geocode: `${data.address.latitude}, ${data.address.longitude}`,
+        address: data.address.formattedAddress,
+        zoom_level: 50,
+        room_type: data.roomType,
+        bedrooms: data.bedrooms,
+        length_of_stay: "1 night stay - tomorrow with 14 day window",
+        profile_id: session.id,
+      };
+
+      const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/marketspy/scrape`;
+
+      const response = await axios.post(endpoint, requestData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data) {
+        // Refresh account data to show updated usage
+        await fetchAccountData();
+
+        // Mark search as completed
+        setSearchCompleted(true);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred while running Market Spy. Please try again.");
+    } finally {
       setLoading(false);
     }
   };
@@ -216,7 +257,7 @@ const MarketSpyContent = () => {
         )}
 
         {/* Loading State */}
-        {sessionLoading && (
+        {accountLoading && (
           <div className="w-1/2">
             <Message variant="info">
               Loading your account information...
@@ -224,10 +265,26 @@ const MarketSpyContent = () => {
           </div>
         )}
 
-        {/* Market Spy Usage Message */}
-        {!sessionLoading && session?.profile && getUsageMessage() && (
+        {/* Error State */}
+        {accountError && !accountLoading && (
           <div className="w-1/2">
-            <Message variant={getRemainingRuns() > 0 ? "info" : "warning"}>
+            <Message variant="error">
+              {accountError}. Please{" "}
+              <button
+                onClick={fetchAccountData}
+                className="underline hover:no-underline"
+              >
+                try again
+              </button>
+              .
+            </Message>
+          </div>
+        )}
+
+        {/* Market Spy Usage Message */}
+        {!accountLoading && !accountError && accountData && getUsageMessage() && (
+          <div className="w-1/2">
+            <Message variant={accountData.remaining_runs > 0 ? "info" : "warning"}>
               {getUsageMessage()}
             </Message>
           </div>
@@ -328,37 +385,47 @@ const MarketSpyContent = () => {
             <Button
               type="submit"
               variant="default"
-              disabled={loading || sessionLoading || !session?.profile || getRemainingRuns() <= 0}
+              disabled={
+                loading ||
+                accountLoading ||
+                accountError ||
+                !accountData ||
+                accountData.remaining_runs <= 0
+              }
               className="w-fit"
             >
               {loading
                 ? "Searching..."
-                : sessionLoading
+                : accountLoading
                   ? "Loading..."
-                  : !session?.profile
+                  : accountError
                     ? "Unable to load account"
-                    : getRemainingRuns() <= 0
-                      ? "No runs remaining"
-                      : "Search Market"}
+                    : !accountData
+                      ? "No account data"
+                      : accountData.remaining_runs <= 0
+                        ? "No runs remaining"
+                        : "Search Market"}
             </Button>
           </form>
         </Form>
 
         {/* Post-search status message */}
-        {searchCompleted && (
+        {searchCompleted && accountData && (
           <Card className="mt-8 max-w-lg">
             <CardContent className="p-6">
               <div className="space-y-4">
                 <p className="font-medium">
-                  You have {getRemainingRuns()} Market Spy{" "}
-                  {getRemainingRuns() === 1 ? "run" : "runs"} left for this
-                  month after this search.
+                  You have {accountData.remaining_runs} Market Spy{" "}
+                  {accountData.remaining_runs === 1 ? "run" : "runs"} left{" "}
+                  {accountData.subscription_status === "active" 
+                    ? "for this month" 
+                    : ""} after this search.
                 </p>
 
                 <p className="text-sm text-muted-foreground">
                   You can now check on the status of your current search on the
                   Market Spy Reports page.{" "}
-                  {getRemainingRuns() > 0 &&
+                  {accountData.remaining_runs > 0 &&
                     "You can also run another Market Spy search if needed."}
                 </p>
 
@@ -370,7 +437,7 @@ const MarketSpyContent = () => {
                     Market Spy Reports
                   </Link>
 
-                  {getRemainingRuns() > 0 && (
+                  {accountData.remaining_runs > 0 && (
                     <Button
                       onClick={() => setSearchCompleted(false)}
                       variant="outline"
