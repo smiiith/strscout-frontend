@@ -106,20 +106,29 @@ export default function AddressCard({
   };
 
   const handleCardClick = () => {
-    if (useNavigation && compBasisId) {
+    // Only allow navigation if status is completed
+    if (useNavigation && compBasisId && status === "completed") {
       const searchParams = new URLSearchParams({
         compBasisId: compBasisId,
       });
       router.push(`/comp-details?${searchParams.toString()}`);
-    } else {
+    } else if (!useNavigation) {
       setIsDialogOpen(true);
     }
+    // Do nothing if status is not completed (prevents navigation)
   };
+
+  const isClickable = useNavigation ? status === "completed" : true;
+  const cardClassName = `w-full h-fit transition-all duration-200 bg-card border border-black/30 relative ${
+    isClickable 
+      ? "cursor-pointer hover:shadow-lg" 
+      : "cursor-not-allowed opacity-60 hover:opacity-70"
+  }`;
 
   return (
     <>
       <Card
-        className="w-full h-fit cursor-pointer hover:shadow-lg transition-shadow duration-200 bg-card border border-black/30 relative"
+        className={cardClassName}
         onClick={handleCardClick}
       >
         <CardHeader className="pb-3 pr-28">
@@ -155,6 +164,14 @@ export default function AddressCard({
             <div className="pt-2 border-t">
               <p className="text-xs text-muted-foreground">
                 Click to view {occupancyData.length} occupancy records
+              </p>
+            </div>
+          )}
+
+          {useNavigation && status !== "completed" && (
+            <div className="pt-2 border-t">
+              <p className="text-xs text-amber-600 font-medium">
+                Report is processing... Please wait for completion.
               </p>
             </div>
           )}
