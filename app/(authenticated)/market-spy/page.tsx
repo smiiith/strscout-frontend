@@ -388,7 +388,7 @@ const MarketSpyContent = () => {
               disabled={
                 loading ||
                 accountLoading ||
-                accountError ||
+                !!accountError ||
                 !accountData ||
                 accountData.remaining_runs <= 0
               }
