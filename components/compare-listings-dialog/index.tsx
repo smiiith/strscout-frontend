@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Image02Icon } from "@/components/Icons";
 
 interface Listing {
   id: string;
@@ -22,6 +23,38 @@ interface Listing {
   thumbnail: string;
   property_id?: string;
 }
+
+// Component to handle image fallback
+const ThumbnailImage = ({
+  src,
+  alt,
+  title,
+}: {
+  src: string;
+  alt: string;
+  title: string;
+}) => {
+  const [imageError, setImageError] = useState(false);
+
+  if (imageError || !src || src === "/placeholder.svg") {
+    return (
+      <div className="w-[60px] h-[60px] rounded-md bg-muted flex items-center justify-center flex-shrink-0">
+        <Image02Icon className="w-8 h-8 text-muted-foreground" />
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={60}
+      height={60}
+      className="rounded-md object-cover flex-shrink-0"
+      onError={() => setImageError(true)}
+    />
+  );
+};
 
 const mockListings: Listing[] = [
   {
@@ -204,12 +237,10 @@ const CompareListingsDialog = ({
                   }
                 />
 
-                <Image
+                <ThumbnailImage
                   src={listing.thumbnail || "/placeholder.svg"}
                   alt={listing.title}
-                  width={60}
-                  height={60}
-                  className="rounded-md object-cover flex-shrink-0"
+                  title={listing.title}
                 />
 
                 <div className="flex-1 min-w-0">
