@@ -257,7 +257,7 @@ export default function CompDetailsPage() {
           className="flex items-center gap-2"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to My Comps
+          Back to Market Spy reports
         </Button>
       </div>
 
@@ -298,7 +298,7 @@ export default function CompDetailsPage() {
                   <CardHeader className="pb-3">
                     <CardTitle className="flex items-center gap-2 text-base">
                       <TrendingUp className="h-4 w-4" />
-                      Why are these comps so successful?
+                      Why are these listings so successful?
                     </CardTitle>
                     <p className="text-sm text-muted-foreground">
                       Find out how the <span className="font-bold">top 3</span>{" "}
