@@ -57,12 +57,12 @@ const MarketSpyContent = () => {
     latitude: number;
     longitude: number;
   } | null>(null);
-  
+
   // Account data state
   const [accountData, setAccountData] = useState<AccountData | null>(null);
   const [accountLoading, setAccountLoading] = useState(true);
   const [accountError, setAccountError] = useState<string | null>(null);
-  
+
   const { session } = useUserSession();
   const searchParams = useSearchParams();
 
@@ -74,18 +74,18 @@ const MarketSpyContent = () => {
     try {
       setAccountLoading(true);
       setAccountError(null);
-      
-      const response = await fetch('/api/account');
-      
+
+      const response = await fetch("/api/account");
+
       if (!response.ok) {
         throw new Error(`Failed to fetch account data: ${response.status}`);
       }
-      
+
       const data = await response.json();
       setAccountData(data.profile);
     } catch (error) {
-      console.error('Error fetching account data:', error);
-      setAccountError('Failed to load account information');
+      console.error("Error fetching account data:", error);
+      setAccountError("Failed to load account information");
     } finally {
       setAccountLoading(false);
     }
@@ -155,7 +155,9 @@ const MarketSpyContent = () => {
 
   const onSubmit = async (data: FormData) => {
     if (!accountData || !session?.id) {
-      alert("Unable to process request. Please refresh the page and try again.");
+      alert(
+        "Unable to process request. Please refresh the page and try again."
+      );
       return;
     }
 
@@ -282,13 +284,18 @@ const MarketSpyContent = () => {
         )}
 
         {/* Market Spy Usage Message */}
-        {!accountLoading && !accountError && accountData && getUsageMessage() && (
-          <div className="w-1/2">
-            <Message variant={accountData.remaining_runs > 0 ? "info" : "warning"}>
-              {getUsageMessage()}
-            </Message>
-          </div>
-        )}
+        {!accountLoading &&
+          !accountError &&
+          accountData &&
+          getUsageMessage() && (
+            <div className="w-1/2">
+              <Message
+                variant={accountData.remaining_runs > 0 ? "info" : "warning"}
+              >
+                {getUsageMessage()}
+              </Message>
+            </div>
+          )}
 
         <Form {...form}>
           <form
@@ -334,7 +341,7 @@ const MarketSpyContent = () => {
                       {...field}
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-[300px]"
                     >
-                      <option value="">Select room type</option>
+                      <option value="">Select</option>
                       <option value="any type">Any Type</option>
                       <option value="room">Room</option>
                       <option value="entire home">Entire Home</option>
@@ -357,7 +364,7 @@ const MarketSpyContent = () => {
                       {...field}
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-[300px]"
                     >
-                      <option value="">Select number of bedrooms</option>
+                      <option value="">Select</option>
                       <option value="any">Any</option>
                       <option value="1+">1+</option>
                       <option value="2+">2+</option>
@@ -417,9 +424,10 @@ const MarketSpyContent = () => {
                 <p className="font-medium">
                   You have {accountData.remaining_runs} Market Spy{" "}
                   {accountData.remaining_runs === 1 ? "run" : "runs"} left{" "}
-                  {accountData.subscription_status === "active" 
-                    ? "for this month" 
-                    : ""} after this search.
+                  {accountData.subscription_status === "active"
+                    ? "for this month"
+                    : ""}{" "}
+                  after this search.
                 </p>
 
                 <p className="text-sm text-muted-foreground">
