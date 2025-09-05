@@ -160,7 +160,7 @@ export default function CompDetailsPage() {
   };
 
   const formatRating = (rating: number) => {
-    return rating?.toFixed(1) || "N/A";
+    return rating?.toFixed(2) || "N/A";
   };
 
   const renderStarRating = (rating: number) => {
