@@ -25,25 +25,16 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
   ArrowLeft,
   TrendingUp,
   Star,
   Users,
   Home,
   Shield,
-  Calendar,
   FileText,
   Loader2,
   Eye,
 } from "lucide-react";
-import { MapPinIcon } from "@/components/Icons";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import CompareListingsDialog from "@/components/compare-listings-dialog";
@@ -424,7 +415,7 @@ export default function CompDetailsPage() {
                       <TableHead className="w-[150px]">
                         <div className="flex items-center gap-1">
                           <Star className="h-4 w-4" />
-                          Rating
+                          Feedback Score
                         </div>
                         <p className="text-xs font-normal text-muted-foreground"></p>
                       </TableHead>
