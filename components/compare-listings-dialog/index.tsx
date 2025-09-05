@@ -213,8 +213,7 @@ const CompareListingsDialog = ({
         <DialogHeader>
           <DialogTitle>Select Listings</DialogTitle>
           <DialogDescription>
-            Choose the listings you want to include. You can select multiple
-            items.
+            Choose your listing from the list. You can only select one.
           </DialogDescription>
         </DialogHeader>
 
