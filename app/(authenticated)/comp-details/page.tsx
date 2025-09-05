@@ -80,9 +80,24 @@ interface CompBasisData {
   created_at: string;
 }
 
+interface MarketSpyRunData {
+  id: string;
+  scan_id: string;
+  address: string;
+  form_data: {
+    room_type?: string;
+    bedrooms?: string;
+    length_of_stay?: string;
+    zoom_level?: number;
+  };
+  started_at: string;
+  completed_at?: string;
+}
+
 interface CompAnalysisResponse {
   comp_basis: CompBasisData;
   comps: CompAnalysisData[];
+  market_spy_run: MarketSpyRunData | null;
 }
 
 export default function CompDetailsPage() {
@@ -280,16 +295,42 @@ export default function CompDetailsPage() {
                   </CardTitle>
                   <div className="text-muted-foreground mt-2">
                     {analysisResponse.comp_basis.created_at && (
-                      <p className="">
-                        Run date:
+                      <div className="">
+                        <span className="font-bold">Run date:</span>
                         <span className="mx-2">
                           {formatDate(
                             new Date(analysisResponse.comp_basis.created_at)
                           )}
                         </span>
-                      </p>
+                      </div>
                     )}
-                    <p className="">{analysisResponse.comp_basis.address}</p>
+                    {analysisResponse.market_spy_run?.form_data && (
+                      <div className="mt-2 space-y-1">
+                        {analysisResponse.market_spy_run.form_data
+                          .room_type && (
+                          <div className="">
+                            <span className="font-bold">Room type:</span>
+                            <span className="mx-2 capitalize">
+                              {
+                                analysisResponse.market_spy_run.form_data
+                                  .room_type
+                              }
+                            </span>
+                          </div>
+                        )}
+                        {analysisResponse.market_spy_run.form_data.bedrooms && (
+                          <div className="">
+                            <span className="font-bold">Bedrooms:</span>
+                            <span className="mx-2">
+                              {
+                                analysisResponse.market_spy_run.form_data
+                                  .bedrooms
+                              }
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
 
