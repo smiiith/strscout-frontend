@@ -21,11 +21,7 @@ jobs:
   backup:
     runs-on: ubuntu-latest
     # Use environment from manual trigger, or determine based on branch
-    environment: ${{ 
-      github.event.inputs.environment || 
-      (github.ref == 'refs/heads/development' && 'development') || 
-      'production' 
-    }}
+    environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/development' && 'development') || 'production' }}
     
     steps:
       - name: Checkout code
@@ -155,8 +151,4 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-      ENVIRONMENT: ${{ 
-        github.event.inputs.environment || 
-        (github.ref == 'refs/heads/development' && 'development') || 
-        'production' 
-      }}
+      ENVIRONMENT: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/development' && 'development') || 'production' }}
