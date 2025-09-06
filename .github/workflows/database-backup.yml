@@ -61,7 +61,8 @@ jobs:
           echo "$FILES_JSON"
           
           # Calculate date 7 days ago
-          SEVEN_DAYS_AGO=$(date -d '7 days ago' -u +%Y-%m-%dT%H:%M:%S.000Z)
+          # SEVEN_DAYS_AGO=$(date -d '7 days ago' -u +%Y-%m-%dT%H:%M:%S.000Z)
+          SEVEN_DAYS_AGO=$(date -d '1 minute ago' -u +%Y-%m-%dT%H:%M:%S.000Z)
           echo "Deleting files older than: $SEVEN_DAYS_AGO"
           
           # Parse JSON and delete old files (this is a simplified approach)
