@@ -52,22 +52,58 @@ jobs:
           
       - name: Clean up old backups (7+ days)
         run: |
+          echo "🧹 Cleaning up old backups for environment: $ENVIRONMENT"
+          
+          # Install jq for JSON parsing
+          sudo apt-get update && sudo apt-get install -y jq
+          
           # Get list of files in the environment folder
           FILES_JSON=$(curl -s -X GET \
             "$SUPABASE_URL/storage/v1/object/list/database-backups?prefix=$ENVIRONMENT/" \
             -H "Authorization: Bearer $SUPABASE_SERVICE_KEY")
           
-          echo "Files in $ENVIRONMENT folder:"
-          echo "$FILES_JSON"
+          echo "📁 Files found in $ENVIRONMENT folder:"
+          echo "$FILES_JSON" | jq '.'
           
-          # Calculate date 7 days ago
-          # SEVEN_DAYS_AGO=$(date -d '7 days ago' -u +%Y-%m-%dT%H:%M:%S.000Z)
-          SEVEN_DAYS_AGO=$(date -d '1 minute ago' -u +%Y-%m-%dT%H:%M:%S.000Z)
-          echo "Deleting files older than: $SEVEN_DAYS_AGO"
+          # Calculate date 1 minute ago (for testing) - change back to '7 days ago' for production
+          SEVEN_DAYS_AGO_EPOCH=$(date -d '1 minute ago' +%s)
+          echo "🗓️  Cutoff date (1 minute ago for testing): $(date -d '1 minute ago' -u)"
           
-          # Parse JSON and delete old files (this is a simplified approach)
-          # Note: This would need jq for proper JSON parsing in production
-          echo "Old backup cleanup completed (simplified version)"
+          # Parse JSON and find files older than 7 days
+          OLD_FILES=$(echo "$FILES_JSON" | jq -r --arg cutoff "$SEVEN_DAYS_AGO_EPOCH" '
+            .[] | select(.created_at != null) | 
+            select(((.created_at | fromdateiso8601) < ($cutoff | tonumber))) |
+            .name
+          ')
+          
+          if [ -z "$OLD_FILES" ]; then
+            echo "✅ No old backup files to delete"
+          else
+            echo "🗑️  Found old files to delete:"
+            echo "$OLD_FILES"
+            
+            # Delete each old file
+            echo "$OLD_FILES" | while read -r filename; do
+              if [ -n "$filename" ]; then
+                echo "🗑️  Deleting: $ENVIRONMENT/$filename"
+                
+                DELETE_RESPONSE=$(curl -s -w "HTTP_STATUS:%{http_code}" -X DELETE \
+                  "$SUPABASE_URL/storage/v1/object/database-backups/$ENVIRONMENT/$filename" \
+                  -H "Authorization: Bearer $SUPABASE_SERVICE_KEY")
+                
+                HTTP_STATUS=$(echo $DELETE_RESPONSE | grep -o "HTTP_STATUS:[0-9]*" | cut -d: -f2)
+                RESPONSE_BODY=$(echo $DELETE_RESPONSE | sed -E 's/HTTP_STATUS:[0-9]*$//')
+                
+                if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 204 ]; then
+                  echo "✅ Successfully deleted: $filename"
+                else
+                  echo "❌ Failed to delete $filename (HTTP $HTTP_STATUS): $RESPONSE_BODY"
+                fi
+              fi
+            done
+          fi
+          
+          echo "🎉 Cleanup completed!"
           
       - name: Clean up local backup file
         run: rm -f "$BACKUP_FILE"
