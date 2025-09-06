@@ -35,11 +35,9 @@ jobs:
         with:
           node-version: '18'
           
-      - name: Install Supabase CLI and dependencies
+      - name: Install dependencies for backup script
         run: |
-          npm install -g @supabase/supabase-js
-          npm init -y
-          npm install @supabase/supabase-js
+          npm install --no-package-lock @supabase/supabase-js
           
       - name: Create database backup
         run: |
