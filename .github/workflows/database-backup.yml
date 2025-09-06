@@ -34,7 +34,12 @@ jobs:
         run: |
           BACKUP_FILE="backup-$(date +%Y-%m-%d-%H%M%S).sql"
           echo "Creating backup: $BACKUP_FILE"
-          pg_dump "$DATABASE_URL" > "$BACKUP_FILE"
+          
+          # Clean up the DATABASE_URL to ensure it's in the correct format for pg_dump
+          CLEAN_DB_URL=$(echo "$DATABASE_URL" | sed 's/?.*supa.*/?sslmode=require/')
+          echo "Using cleaned database URL for backup"
+          
+          pg_dump "$CLEAN_DB_URL" > "$BACKUP_FILE"
           echo "BACKUP_FILE=$BACKUP_FILE" >> $GITHUB_ENV
           
       - name: Upload backup to Supabase Storage
