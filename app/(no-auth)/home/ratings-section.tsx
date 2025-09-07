@@ -2,7 +2,8 @@
 
 import ImageSlider from "@/components/image-slider";
 import RatingsDialog from "@/components/ratings-dialog";
-import { MockRatingsSample } from "@/components/ratings-example/mock";
+import CompsDialog from "@/components/comps-dialog";
+import { MockMarketSpyComps } from "@/components/ratings-example/market-spy-mock";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
@@ -14,9 +15,10 @@ const RatingsSection = () => {
 
   useEffect(() => {
     setSlideImages([
-      "/images/slide-ratings-1.png",
-      "/images/slide-ratings-2.png",
-      "/images/slide-ratings-3.png",
+      "/images/slide-market-spy-1.png",
+      "/images/slide-market-spy-2.png",
+      "/images/slide-market-spy-3.png",
+      // "/images/slide-market-spy-4.png",
     ]);
   }, []);
 
@@ -60,7 +62,13 @@ const RatingsSection = () => {
                 <ImageSlider images={slideImages} interval={4000} />
 
                 <div className="absolute bottom-4 right-4">
-                  <RatingsDialog ratings={MockRatingsSample} />
+                  <CompsDialog
+                    comps={MockMarketSpyComps}
+                    buttonText="View Sample Report"
+                    dialogTitle="Sample Market Analysis Report"
+                    filterOut100Percent={true}
+                    mock={true}
+                  />
                 </div>
               </div>
             </div>
