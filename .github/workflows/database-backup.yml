@@ -72,10 +72,10 @@ jobs:
           SEVEN_DAYS_AGO_EPOCH=$(date -d '1 minute ago' +%s)
           echo "🗓️  Cutoff date (1 minute ago for testing): $(date -d '1 minute ago' -u)"
           
-          # Parse JSON and find files older than 7 days
+          # Parse JSON and find files older than 1 minute (for testing)
           OLD_FILES=$(echo "$FILES_JSON" | jq -r --arg cutoff "$SEVEN_DAYS_AGO_EPOCH" '
             .[] | select(.created_at != null) | 
-            select(((.created_at | fromdateiso8601) < ($cutoff | tonumber))) |
+            select(((.created_at | sub("\\.[0-9]+Z$"; "Z") | fromdateiso8601) < ($cutoff | tonumber))) |
             .name
           ')
           
