@@ -21,11 +21,7 @@ jobs:
   backup:
     runs-on: ubuntu-latest
     # Use environment from manual trigger, or determine based on branch
-    environment: ${{ 
-      github.event.inputs.environment || 
-      (github.ref == 'refs/heads/development' && 'development') || 
-      'production' 
-    }}
+    environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/development' && 'development') || 'production' }}
     
     steps:
       - name: Checkout code
@@ -34,119 +30,83 @@ jobs:
       - name: Install PostgreSQL client
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
         
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          
-      - name: Install Supabase CLI and dependencies
-        run: |
-          npm install -g @supabase/supabase-js
-          npm init -y
-          npm install @supabase/supabase-js
-          
       - name: Create database backup
         run: |
           BACKUP_FILE="backup-$(date +%Y-%m-%d-%H%M%S).sql"
           echo "Creating backup: $BACKUP_FILE"
-          pg_dump "$DATABASE_URL" > "$BACKUP_FILE"
+          
+          # Clean up the DATABASE_URL to ensure it's in the correct format for pg_dump
+          CLEAN_DB_URL=$(echo "$DATABASE_URL" | sed 's/?.*supa.*/?sslmode=require/')
+          echo "Using cleaned database URL for backup"
+          
+          pg_dump "$CLEAN_DB_URL" > "$BACKUP_FILE"
           echo "BACKUP_FILE=$BACKUP_FILE" >> $GITHUB_ENV
           
       - name: Upload backup to Supabase Storage
         run: |
-          node -e "
-          const { createClient } = require('@supabase/supabase-js');
-          const fs = require('fs');
-          
-          const supabase = createClient(
-            process.env.SUPABASE_URL,
-            process.env.SUPABASE_SERVICE_KEY
-          );
-          
-          async function uploadBackup() {
-            try {
-              const backupFile = process.env.BACKUP_FILE;
-              const fileContent = fs.readFileSync(backupFile);
-              const environment = process.env.ENVIRONMENT;
-              
-              console.log(\`Uploading \${environment} backup to Supabase Storage...\`);
-              const { data, error } = await supabase.storage
-                .from('database-backups')
-                .upload(\`\${environment}/\${backupFile}\`, fileContent, {
-                  contentType: 'application/sql',
-                  upsert: false
-                });
-              
-              if (error) {
-                console.error('Upload error:', error);
-                process.exit(1);
-              }
-              
-              console.log('Backup uploaded successfully:', data.path);
-            } catch (err) {
-              console.error('Error:', err);
-              process.exit(1);
-            }
-          }
-          
-          uploadBackup();
-          "
+          curl -X POST \
+            "$SUPABASE_URL/storage/v1/object/database-backups/$ENVIRONMENT/$BACKUP_FILE" \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
+            -H "Content-Type: application/sql" \
+            --data-binary @"$BACKUP_FILE"
           
       - name: Clean up old backups (7+ days)
         run: |
-          node -e "
-          const { createClient } = require('@supabase/supabase-js');
+          echo "🧹 Cleaning up old backups for environment: $ENVIRONMENT"
           
-          const supabase = createClient(
-            process.env.SUPABASE_URL,
-            process.env.SUPABASE_SERVICE_KEY
-          );
+          # Install jq for JSON parsing
+          sudo apt-get update && sudo apt-get install -y jq
           
-          async function cleanupOldBackups() {
-            try {
-              const environment = process.env.ENVIRONMENT;
-              console.log(\`Cleaning up \${environment} backups older than 7 days...\`);
-              
-              // Get list of backup files for this environment
-              const { data: files, error: listError } = await supabase.storage
-                .from('database-backups')
-                .list(environment);
-              
-              if (listError) {
-                console.error('Error listing files:', listError);
-                return;
-              }
-              
-              const sevenDaysAgo = new Date();
-              sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-              
-              const filesToDelete = files.filter(file => {
-                const fileDate = new Date(file.created_at);
-                return fileDate < sevenDaysAgo;
-              }).map(file => \`\${environment}/\${file.name}\`);
-              
-              if (filesToDelete.length > 0) {
-                console.log(\`Deleting \${filesToDelete.length} old backup(s):\`, filesToDelete);
+          # Get list of files in the environment folder
+          echo "🔍 Listing files with API call: $SUPABASE_URL/storage/v1/object/list/database-backups?prefix=$ENVIRONMENT/"
+          FILES_JSON=$(curl -s -X POST \
+            "$SUPABASE_URL/storage/v1/object/list/database-backups" \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"prefix\": \"$ENVIRONMENT/\"}")
+          
+          echo "📁 Files found in $ENVIRONMENT folder:"
+          echo "$FILES_JSON" | jq '.'
+          
+          # Calculate date 7 days ago for production cleanup
+          SEVEN_DAYS_AGO_EPOCH=$(date -d '7 days ago' +%s)
+          echo "🗓️  Cutoff date (7 days ago): $(date -d '7 days ago' -u)"
+          
+          # Parse JSON and find files older than 7 days
+          OLD_FILES=$(echo "$FILES_JSON" | jq -r --arg cutoff "$SEVEN_DAYS_AGO_EPOCH" '
+            .[] | select(.created_at != null) | 
+            select(((.created_at | sub("\\.[0-9]+Z$"; "Z") | fromdateiso8601) < ($cutoff | tonumber))) |
+            .name
+          ')
+          
+          if [ -z "$OLD_FILES" ]; then
+            echo "✅ No old backup files to delete"
+          else
+            echo "🗑️  Found old files to delete:"
+            echo "$OLD_FILES"
+            
+            # Delete each old file
+            echo "$OLD_FILES" | while read -r filename; do
+              if [ -n "$filename" ]; then
+                echo "🗑️  Deleting: $ENVIRONMENT/$filename"
                 
-                const { data, error } = await supabase.storage
-                  .from('database-backups')
-                  .remove(filesToDelete);
+                DELETE_RESPONSE=$(curl -s -w "HTTP_STATUS:%{http_code}" -X DELETE \
+                  "$SUPABASE_URL/storage/v1/object/database-backups/$ENVIRONMENT/$filename" \
+                  -H "Authorization: Bearer $SUPABASE_SERVICE_KEY")
                 
-                if (error) {
-                  console.error('Error deleting files:', error);
-                } else {
-                  console.log('Old backups cleaned up successfully');
-                }
-              } else {
-                console.log('No old backups to clean up');
-              }
-            } catch (err) {
-              console.error('Cleanup error:', err);
-            }
-          }
+                HTTP_STATUS=$(echo $DELETE_RESPONSE | grep -o "HTTP_STATUS:[0-9]*" | cut -d: -f2)
+                RESPONSE_BODY=$(echo $DELETE_RESPONSE | sed -E 's/HTTP_STATUS:[0-9]*$//')
+                
+                if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 204 ]; then
+                  echo "✅ Successfully deleted: $filename"
+                else
+                  echo "❌ Failed to delete $filename (HTTP $HTTP_STATUS): $RESPONSE_BODY"
+                fi
+              fi
+            done
+          fi
           
-          cleanupOldBackups();
-          "
+          echo "🎉 Cleanup completed!"
           
       - name: Clean up local backup file
         run: rm -f "$BACKUP_FILE"
@@ -155,8 +115,4 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-      ENVIRONMENT: ${{ 
-        github.event.inputs.environment || 
-        (github.ref == 'refs/heads/development' && 'development') || 
-        'production' 
-      }}
+      ENVIRONMENT: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/development' && 'development') || 'production' }}
