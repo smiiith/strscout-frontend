@@ -151,22 +151,26 @@ This project uses Supabase CLI for managing database schema migrations between d
 ### Initial Setup
 
 1. **Install Supabase CLI** (if not already installed):
+
 ```bash
 npm install -g supabase
 ```
 
 2. **Authenticate with Supabase**:
+
 ```bash
 # Get your access token from https://supabase.com/dashboard/account/tokens
 supabase login --token YOUR_ACCESS_TOKEN
 ```
 
 3. **Link to your development project**:
+
 ```bash
 supabase link --project-ref YOUR_DEV_PROJECT_REF
 ```
 
 4. **Initialize migrations from current schema**:
+
 ```bash
 supabase db pull
 ```
@@ -180,20 +184,25 @@ When you need to make schema changes:
    - Or make changes through your application
 
 2. **Capture changes as migrations**:
+
 ```bash
 supabase db diff --schema public > supabase/migrations/$(date +%Y%m%d%H%M%S)_describe_your_changes.sql
 ```
+
 Or for interactive review:
+
 ```bash
 supabase db diff
 ```
-This generates migration files capturing your local changes in `supabase/migrations/` folder
+
+This generates migration files capturing your local changes in `supabase/migrations/` folder.
 
 3. **Review the generated migration files**:
    - Check the SQL in the migration files
    - Ensure they capture all your intended changes
 
 4. **Apply to production**:
+
 ```bash
 supabase db push --project-ref YOUR_PROD_PROJECT_REF
 ```
@@ -201,6 +210,7 @@ supabase db push --project-ref YOUR_PROD_PROJECT_REF
 ### Environment Variables
 
 Make sure your `.env.local` includes the database password:
+
 ```
 SUPABASE_DB_PASSWORD=your_db_password
 ```
