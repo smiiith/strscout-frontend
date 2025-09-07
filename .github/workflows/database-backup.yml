@@ -58,9 +58,12 @@ jobs:
           sudo apt-get update && sudo apt-get install -y jq
           
           # Get list of files in the environment folder
-          FILES_JSON=$(curl -s -X GET \
-            "$SUPABASE_URL/storage/v1/object/list/database-backups?prefix=$ENVIRONMENT/" \
-            -H "Authorization: Bearer $SUPABASE_SERVICE_KEY")
+          echo "🔍 Listing files with API call: $SUPABASE_URL/storage/v1/object/list/database-backups?prefix=$ENVIRONMENT/"
+          FILES_JSON=$(curl -s -X POST \
+            "$SUPABASE_URL/storage/v1/object/list/database-backups" \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"prefix\": \"$ENVIRONMENT/\"}")
           
           echo "📁 Files found in $ENVIRONMENT folder:"
           echo "$FILES_JSON" | jq '.'
