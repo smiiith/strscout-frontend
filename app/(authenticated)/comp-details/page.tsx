@@ -446,7 +446,9 @@ export default function CompDetailsPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {analysisResponse.comps.map((comp, index) => (
+                    {analysisResponse.comps
+                      .filter((comp) => comp.overall_occupancy !== 100)
+                      .map((comp, index) => (
                       <TableRow
                         key={comp.comp_id}
                         className="hover:bg-muted/50"
