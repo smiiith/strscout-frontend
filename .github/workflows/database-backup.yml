@@ -68,11 +68,11 @@ jobs:
           echo "📁 Files found in $ENVIRONMENT folder:"
           echo "$FILES_JSON" | jq '.'
           
-          # Calculate date 1 minute ago (for testing) - change back to '7 days ago' for production
-          SEVEN_DAYS_AGO_EPOCH=$(date -d '1 minute ago' +%s)
-          echo "🗓️  Cutoff date (1 minute ago for testing): $(date -d '1 minute ago' -u)"
+          # Calculate date 7 days ago for production cleanup
+          SEVEN_DAYS_AGO_EPOCH=$(date -d '7 days ago' +%s)
+          echo "🗓️  Cutoff date (7 days ago): $(date -d '7 days ago' -u)"
           
-          # Parse JSON and find files older than 1 minute (for testing)
+          # Parse JSON and find files older than 7 days
           OLD_FILES=$(echo "$FILES_JSON" | jq -r --arg cutoff "$SEVEN_DAYS_AGO_EPOCH" '
             .[] | select(.created_at != null) | 
             select(((.created_at | sub("\\.[0-9]+Z$"; "Z") | fromdateiso8601) < ($cutoff | tonumber))) |
