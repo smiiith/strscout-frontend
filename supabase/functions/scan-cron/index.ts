@@ -38,7 +38,7 @@
 //     select
 //       net.http_post(
 //     url:='https://ynxbtvsbjzkcnkilnuts.supabase.co/functions/v1/some-function',
-//     headers:='{"Content-Type": "application/json", "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlueGJ0dnNianprY25raWxudXRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjEzMTU1OTgsImV4cCI6MjAzNjg5MTU5OH0.um5dqnzyJzgrk3oVH7SyacMKaK-YoLNjod4D9A5gkYY"}':: jsonb,
+//     headers:='{"Content-Type": "application/json", "Authorization": "Bearer YOUR_SUPABASE_ANON_KEY"}':: jsonb,
 //     body:=concat('{"time": "', now(), '"}'):: jsonb
 //   ) as request_id;
 // $$
@@ -53,7 +53,7 @@
 //     select
 //       net.http_post(
 //     url:='https://ynxbtvsbjzkcnkilnuts.supabase.co/functions/v1/function-name',
-//     headers:='{"Content-Type": "application/json", "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlueGJ0dnNianprY25raWxudXRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjEzMTU1OTgsImV4cCI6MjAzNjg5MTU5OH0.um5dqnzyJzgrk3oVH7SyacMKaK-YoLNjod4D9A5gkYY"}':: jsonb,
+//     headers:='{"Content-Type": "application/json", "Authorization": "Bearer YOUR_SUPABASE_ANON_KEY"}':: jsonb,
 //     body:=concat('{"time": "', now(), '"}'):: jsonb
 //   ) as request_id;
 // $$
@@ -70,7 +70,7 @@
 //       select
 //         net.http_post(
 //     url:='https://syncnanny-backend.onrender.com/api/scan',
-//     headers:='{"Content-Type": "application/json", "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlueGJ0dnNianprY25raWxudXRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjEzMTU1OTgsImV4cCI6MjAzNjg5MTU5OH0.um5dqnzyJzgrk3oVH7SyacMKaK-YoLNjod4D9A5gkYY"}':: jsonb,
+//     headers:='{"Content-Type": "application/json", "Authorization": "Bearer YOUR_SUPABASE_ANON_KEY"}':: jsonb,
 //     body:=concat('{"propertyId": "2dcf7eac-6035-4231-b496-c4d7744e818e", "time": "', now(), '"}'):: jsonb
 //   ) as request_id; $$
 //     );
