@@ -64,12 +64,7 @@ const getStatusIcon = (status: string) => {
     case "completed":
       return <TaskDone01Icon className="h-6 w-6 text-green-500" />;
     default:
-      return (
-        <HourglassIcon
-          className="h-6 w-6 text-gray-500 animate-spin"
-          style={{ animationDuration: "3s" }}
-        />
-      );
+      return <TaskDone01Icon className="h-6 w-6 text-green-500" />;
   }
 };
 
@@ -107,7 +102,10 @@ export default function AddressCard({
 
   const handleCardClick = () => {
     // Only allow navigation if status is completed
-    if (useNavigation && compBasisId && status === "completed") {
+    if (
+      (useNavigation && compBasisId && status === "completed") ||
+      status === "failed"
+    ) {
       const searchParams = new URLSearchParams({
         compBasisId: compBasisId,
       });
@@ -118,19 +116,18 @@ export default function AddressCard({
     // Do nothing if status is not completed (prevents navigation)
   };
 
-  const isClickable = useNavigation ? status === "completed" : true;
+  const isClickable = useNavigation
+    ? status === "completed" || status === "failed"
+    : true;
   const cardClassName = `w-full h-fit transition-all duration-200 bg-card border border-black/30 relative ${
-    isClickable 
-      ? "cursor-pointer hover:shadow-lg" 
+    isClickable
+      ? "cursor-pointer hover:shadow-lg"
       : "cursor-not-allowed opacity-60 hover:opacity-70"
   }`;
 
   return (
     <>
-      <Card
-        className={cardClassName}
-        onClick={handleCardClick}
-      >
+      <Card className={cardClassName} onClick={handleCardClick}>
         <CardHeader className="pb-3 pr-28">
           <CardTitle className="flex items-center gap-2 text-lg truncate">
             <MapPinIcon
@@ -168,7 +165,7 @@ export default function AddressCard({
             </div>
           )}
 
-          {useNavigation && status !== "completed" && (
+          {useNavigation && status === "in_progress" && (
             <div className="pt-2 border-t">
               <p className="text-xs text-amber-600 font-medium">
                 Report is processing... Please wait for completion.
