@@ -342,7 +342,6 @@ const MarketSpyContent = () => {
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-[300px]"
                     >
                       <option value="">Select</option>
-                      <option value="any type">Any Type</option>
                       <option value="room">Room</option>
                       <option value="entire home">Entire Home</option>
                     </select>
@@ -365,7 +364,6 @@ const MarketSpyContent = () => {
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-[300px]"
                     >
                       <option value="">Select</option>
-                      <option value="any">Any</option>
                       <option value="1+">1+</option>
                       <option value="2+">2+</option>
                       <option value="3+">3+</option>
