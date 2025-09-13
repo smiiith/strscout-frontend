@@ -4,12 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  ArrowLeft,
-  TrendingUp,
-  Loader2,
-  Eye,
-} from "lucide-react";
+import { ArrowLeft, TrendingUp, Loader2, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import CompareListingsDialog from "@/components/compare-listings-dialog";
@@ -128,7 +123,6 @@ export default function CompDetailsPage() {
     fetchCompAnalysis();
   }, [searchParams]);
 
-
   if (loading) {
     return (
       <div className="min-h-[700px] py-6">
@@ -225,12 +219,11 @@ export default function CompDetailsPage() {
                   <CardHeader className="pb-3">
                     <CardTitle className="flex items-center gap-2 text-base">
                       <TrendingUp className="h-4 w-4" />
-                      Why are these listings so successful?
+                      Next Step: Find Your Edge
                     </CardTitle>
                     <p className="text-sm text-muted-foreground">
-                      Find out how the <span className="font-bold">top 3</span>{" "}
-                      listings are doing it and how your listing compares to
-                      them.
+                      Your report on the top nearby listings is ready, with
+                      clear actions to strengthen your own.
                     </p>
                   </CardHeader>
                   <CardContent className="pt-0">
@@ -290,8 +283,8 @@ export default function CompDetailsPage() {
           )}
 
           <CardContent>
-            <CompsTable 
-              comps={analysisResponse?.comps || []} 
+            <CompsTable
+              comps={analysisResponse?.comps || []}
               filterOut100Percent={true}
             />
           </CardContent>
