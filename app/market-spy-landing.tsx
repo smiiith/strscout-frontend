@@ -8,7 +8,7 @@ import HowItWorksSection from "./(no-auth)/home/how-it-works-section";
 import RatingsSection from "./(no-auth)/home/ratings-section";
 import AnswersSection from "./(no-auth)/home/answers-section";
 
-const ParallaxContent = () => {
+const MarketSpyLanding = () => {
   return (
     <Parallax>
       <Layer className="" settings={{ speed: 0.3 }}>
@@ -54,4 +54,4 @@ const ParallaxContent = () => {
   );
 };
 
-export default ParallaxContent;
+export default MarketSpyLanding;
