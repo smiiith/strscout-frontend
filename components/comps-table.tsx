@@ -21,14 +21,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  TrendingUp,
-  Star,
-  Users,
-  Home,
-  Shield,
-  FileText,
-} from "lucide-react";
+import { TrendingUp, Star, Users, Home, Shield, FileText } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export interface CompAnalysisData {
@@ -56,7 +49,11 @@ interface CompsTableProps {
   mock?: boolean;
 }
 
-export default function CompsTable({ comps, filterOut100Percent = true, mock = false }: CompsTableProps) {
+export default function CompsTable({
+  comps,
+  filterOut100Percent = true,
+  mock = false,
+}: CompsTableProps) {
   const router = useRouter();
 
   const getOccupancyColor = (percentage: number) => {
@@ -142,16 +139,14 @@ export default function CompsTable({ comps, filterOut100Percent = true, mock = f
   };
 
   // Filter out 100% occupancy if requested
-  const filteredComps = filterOut100Percent 
+  const filteredComps = filterOut100Percent
     ? comps.filter((comp) => comp.overall_occupancy !== 100)
     : comps;
 
   if (!filteredComps || filteredComps.length === 0) {
     return (
       <div className="flex items-center justify-center h-32">
-        <p className="text-muted-foreground">
-          No comp analysis data available
-        </p>
+        <p className="text-muted-foreground">No comp analysis data available</p>
       </div>
     );
   }
@@ -186,18 +181,18 @@ export default function CompsTable({ comps, filterOut100Percent = true, mock = f
                 Bedrooms
               </div>
             </TableHead>
-            <TableHead className="w-[140px]">
+            {/* <TableHead className="w-[140px]">
               <div className="flex items-center gap-1">
                 <Star className="h-4 w-4" />
                 Average Review
               </div>
-            </TableHead>
-            <TableHead className="w-[140px]">
+            </TableHead> */}
+            {/* <TableHead className="w-[140px]">
               <div className="flex items-center gap-1">
                 <Users className="h-4 w-4" />
                 Total Reviews
               </div>
-            </TableHead>
+            </TableHead> */}
             <TableHead className="w-[180px]">
               <div className="flex items-center gap-1">
                 <Shield className="h-4 w-4" />
@@ -208,10 +203,7 @@ export default function CompsTable({ comps, filterOut100Percent = true, mock = f
         </TableHeader>
         <TableBody>
           {filteredComps.map((comp, index) => (
-            <TableRow
-              key={comp.comp_id}
-              className="hover:bg-muted/50"
-            >
+            <TableRow key={comp.comp_id} className="hover:bg-muted/50">
               <TableCell>
                 <Button
                   variant="link"
@@ -291,31 +283,31 @@ export default function CompsTable({ comps, filterOut100Percent = true, mock = f
                   <Badge
                     variant="secondary"
                     className={mock ? "cursor-default" : "cursor-pointer"}
-                    onClick={mock ? undefined : () => {
-                      router.push(
-                        `/properties/comps/${comp.property_id}`
-                      );
-                    }}
+                    onClick={
+                      mock
+                        ? undefined
+                        : () => {
+                            router.push(
+                              `/properties/comps/${comp.property_id}`
+                            );
+                          }
+                    }
                   >
                     {comp.overall_genius_score?.title?.rating_number}
                   </Badge>
                 ) : (
-                  <div className="text-muted-foreground">
-                    N/A
-                  </div>
+                  <div className="text-muted-foreground">N/A</div>
                 )}
               </TableCell>
               <TableCell>
                 <div className="flex items-center gap-2">
-                  <span className="font-medium">
-                    {comp.bedrooms || "N/A"}
-                  </span>
+                  <span className="font-medium">{comp.bedrooms || "N/A"}</span>
                   {comp.bedrooms && (
                     <Home className="h-3 w-3 text-muted-foreground" />
                   )}
                 </div>
               </TableCell>
-              <TableCell>
+              {/* <TableCell>
                 <div className="flex flex-col gap-1">
                   {comp.average_review ? (
                     <div className="flex">
@@ -328,14 +320,14 @@ export default function CompsTable({ comps, filterOut100Percent = true, mock = f
                     <span className="text-muted-foreground">N/A</span>
                   )}
                 </div>
-              </TableCell>
-              <TableCell>
+              </TableCell> */}
+              {/* <TableCell>
                 <div className="flex items-center gap-1">
                   <span className="font-medium">
                     {comp.number_of_reviews || 0}
                   </span>
                 </div>
-              </TableCell>
+              </TableCell> */}
               <TableCell>{renderPolicies(comp.policies)}</TableCell>
             </TableRow>
           ))}
