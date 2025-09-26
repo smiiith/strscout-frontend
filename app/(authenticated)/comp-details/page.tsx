@@ -192,23 +192,27 @@ export default function CompDetailsPage() {
                             <span className="font-bold">Room type:</span>
                             <span className="mx-2 capitalize">
                               {
-                                analysisResponse.market_spy_run.form_data
-                                  .room_type
+                                // prettier-ignore
+                                analysisResponse.market_spy_run.form_data.room_type
                               }
                             </span>
                           </div>
                         )}
-                        {analysisResponse.market_spy_run.form_data.bedrooms && (
-                          <div className="">
-                            <span className="font-bold">Bedrooms:</span>
-                            <span className="mx-2">
-                              {
-                                analysisResponse.market_spy_run.form_data
-                                  .bedrooms
-                              }
-                            </span>
-                          </div>
-                        )}
+                        {
+                          // prettier-ignore
+                          analysisResponse.market_spy_run.form_data.bedrooms &&
+                          (
+                            <div className="">
+                              <span className="font-bold">Bedrooms:</span>
+                              <span className="mx-2">
+                                {
+                                  // prettier-ignore
+                                  analysisResponse.market_spy_run.form_data.bedrooms
+                                }
+                              </span>
+                            </div>
+                          )
+                        }
                       </div>
                     )}
                   </div>
@@ -286,6 +290,7 @@ export default function CompDetailsPage() {
             <CompsTable
               comps={analysisResponse?.comps || []}
               filterOut100Percent={true}
+              roomType={analysisResponse?.market_spy_run?.form_data?.room_type}
             />
           </CardContent>
         </Card>

@@ -47,12 +47,14 @@ interface CompsTableProps {
   comps: CompAnalysisData[];
   filterOut100Percent?: boolean;
   mock?: boolean;
+  roomType?: string;
 }
 
 export default function CompsTable({
   comps,
   filterOut100Percent = true,
   mock = false,
+  roomType = "",
 }: CompsTableProps) {
   const router = useRouter();
 
@@ -175,24 +177,14 @@ export default function CompsTable({
               </div>
               <p className="text-xs font-normal text-muted-foreground"></p>
             </TableHead>
-            <TableHead className="w-[120px]">
-              <div className="flex items-center gap-1">
-                <Home className="h-4 w-4" />
-                Bedrooms
-              </div>
-            </TableHead>
-            {/* <TableHead className="w-[140px]">
-              <div className="flex items-center gap-1">
-                <Star className="h-4 w-4" />
-                Average Review
-              </div>
-            </TableHead> */}
-            {/* <TableHead className="w-[140px]">
-              <div className="flex items-center gap-1">
-                <Users className="h-4 w-4" />
-                Total Reviews
-              </div>
-            </TableHead> */}
+            {roomType === "entire home" && (
+              <TableHead className="w-[120px]">
+                <div className="flex items-center gap-1">
+                  <Home className="h-4 w-4" />
+                  Bedrooms
+                </div>
+              </TableHead>
+            )}
             <TableHead className="w-[180px]">
               <div className="flex items-center gap-1">
                 <Shield className="h-4 w-4" />
@@ -299,35 +291,15 @@ export default function CompsTable({
                   <div className="text-muted-foreground">N/A</div>
                 )}
               </TableCell>
-              <TableCell>
-                <div className="flex items-center gap-2">
-                  <span className="font-medium">{comp.bedrooms || "N/A"}</span>
-                  {comp.bedrooms && (
-                    <Home className="h-3 w-3 text-muted-foreground" />
-                  )}
-                </div>
-              </TableCell>
-              {/* <TableCell>
-                <div className="flex flex-col gap-1">
-                  {comp.average_review ? (
-                    <div className="flex">
-                      {renderStarRating(comp.average_review)}
-                      <span className="text-xs text-muted-foreground ml-2">
-                        ({formatRating(comp.average_review)})
-                      </span>
-                    </div>
-                  ) : (
-                    <span className="text-muted-foreground">N/A</span>
-                  )}
-                </div>
-              </TableCell> */}
-              {/* <TableCell>
-                <div className="flex items-center gap-1">
-                  <span className="font-medium">
-                    {comp.number_of_reviews || 0}
-                  </span>
-                </div>
-              </TableCell> */}
+              {roomType === "entire home" && (
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium">
+                      {comp.bedrooms || "N/A"}
+                    </span>
+                  </div>
+                </TableCell>
+              )}
               <TableCell>{renderPolicies(comp.policies)}</TableCell>
             </TableRow>
           ))}
