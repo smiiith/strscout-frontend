@@ -25,9 +25,8 @@ const AnswersSection = () => {
                   What do you mean by nearby competitors??
                 </h3>
                 <p className="text-gray-700">
-                  We find approximately 20 listings that are both close in
-                  proximity and similar to yours (type of stay and number of
-                  bedrooms).
+                  We find 10-20 listings that are both close in proximity and
+                  similar to yours (type of stay and number of bedrooms).
                 </p>
               </div>
 
