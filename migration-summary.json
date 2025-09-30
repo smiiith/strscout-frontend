@@ -1,0 +1,29 @@
+{
+  "migration_date": "2025-09-28T21:52:56.849Z",
+  "source": "Host Innovations Sandbox",
+  "destination": "Live Mode",
+  "products_migrated": [
+    {
+      "original_product": {
+        "id": "prod_Slo2jQsaopZuAw",
+        "name": "Pay as you go"
+      },
+      "new_product": {
+        "id": "prod_T8k0YyNQax8ZtS",
+        "name": "Pay as you go"
+      },
+      "prices_migrated": 10
+    },
+    {
+      "original_product": {
+        "id": "prod_Si8opr9YEXPH3n",
+        "name": "Pro Plan"
+      },
+      "new_product": {
+        "id": "prod_T8k020FnZMxrOY",
+        "name": "Pro Plan"
+      },
+      "prices_migrated": 1
+    }
+  ]
+}

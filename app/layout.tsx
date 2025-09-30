@@ -3,6 +3,8 @@ import { ThemeProvider } from "./providers";
 import { createClient } from "@/utils/supabase/server";
 import { PostHogTracker } from "./PostHogTracker";
 import Footer from "@/components/footer";
+import { headers } from "next/headers";
+import Script from "next/script";
 
 export const metadata = {
   title: "STR Feeeback Genius",
@@ -17,6 +19,7 @@ export default async function RootLayout({
 }) {
   const supabase = createClient();
   const { data } = await supabase.auth.getUser();
+  const nonce = headers().get("x-nonce") || undefined;
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -27,6 +30,7 @@ export default async function RootLayout({
             defaultTheme="light"
             enableSystem
             disableTransitionOnChange
+            nonce={nonce}
           >
             <div className="min-h-screen">
               {children}
