@@ -24,6 +24,9 @@ export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone()
   const origin = request.headers.get('origin');
 
+  // Generate nonce for CSP
+  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
+
   // Handle PostHog requests first, before any auth logic
   if (url.pathname.startsWith('/ingest/')) {
     // Handle OPTIONS preflight requests
@@ -80,10 +83,10 @@ export async function middleware(request: NextRequest) {
   if (isAuthenticated && planProtectedRoutes[currentPath as keyof typeof planProtectedRoutes]) {
     const requiredPlan = planProtectedRoutes[currentPath as keyof typeof planProtectedRoutes];
     const planCheck = await checkUserPlan(request, requiredPlan);
-    
+
     if (!planCheck.hasAccess) {
       console.log(`Access denied to ${currentPath}: ${planCheck.reason}, user plan: ${planCheck.userPlan}`);
-      
+
       // Redirect to upgrade page with context
       const upgradeURL = new URL("/pricing", request.nextUrl.origin);
       upgradeURL.searchParams.set("upgrade", "market-spy");
@@ -92,7 +95,40 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next(); // Ensure you have this for non-/ingest/ requests
+  // Build CSP policy with nonce
+  const isDev = process.env.NODE_ENV === "development";
+  const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:3002/api";
+  const backendUrl = apiEndpoint.replace("/api", "");
+  const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || "http://localhost:3005";
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://ynxbtvsbjzkcnkilnuts.supabase.co";
+  const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com";
+
+  const cspHeader = `
+    default-src 'self';
+    script-src 'self' 'nonce-${nonce}' ${isDev ? "'unsafe-eval'" : ""} https://js.stripe.com https://vercel.live;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' blob: data: https://a0.muscache.com https://*.stripe.com;
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+    frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://vercel.live;
+    connect-src 'self' ${supabaseUrl} https://*.supabase.co wss://*.supabase.co ${backendUrl} ${isDev ? "http://localhost:8000" : ""} https://syncnanny-ai-dev-production.up.railway.app https://api.stripe.com https://api.geoapify.com ${posthogHost} ${appDomain}/ingest/;
+    upgrade-insecure-requests;
+  `.replace(/\s{2,}/g, " ").trim();
+
+  // Create response with security headers
+  const response = NextResponse.next();
+
+  response.headers.set("x-nonce", nonce);
+  response.headers.set("Content-Security-Policy", cspHeader);
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+
+  return response;
 }
 
 export const config = {

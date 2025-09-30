@@ -7,13 +7,15 @@ interface StripePricingTableProps {
   publishableKey: string;
   customerEmail?: string;
   className?: string;
+  nonce?: string;
 }
 
-export default function StripePricingTable({ 
-  pricingTableId, 
-  publishableKey, 
+export default function StripePricingTable({
+  pricingTableId,
+  publishableKey,
   customerEmail,
-  className = ""
+  className = "",
+  nonce
 }: StripePricingTableProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const scriptLoadedRef = useRef(false);
@@ -24,6 +26,9 @@ export default function StripePricingTable({
       const script = document.createElement('script');
       script.src = 'https://js.stripe.com/v3/pricing-table.js';
       script.async = true;
+      if (nonce) {
+        script.setAttribute('nonce', nonce);
+      }
       script.onload = () => {
         scriptLoadedRef.current = true;
       };
@@ -33,7 +38,7 @@ export default function StripePricingTable({
         // Don't remove script on cleanup as it may be used by other components
       };
     }
-  }, []);
+  }, [nonce]);
 
   return (
     <div ref={containerRef} className={className}>
