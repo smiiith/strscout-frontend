@@ -13,7 +13,7 @@ import {
 import { useUserSession } from "@/lib/context/UserSessionProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Image from "next/image";
@@ -36,16 +36,34 @@ const MyCompsContent = () => {
     longitude: number;
   } | null>(null);
 
-  const { session, loading: sessionLoading } = useUserSession();
+  const { session, loading: sessionLoading, getAccessToken } = useUserSession();
 
   const [comps, setComps] = useState<any[]>([]);
+  const fetchingRef = useRef(false);
 
   const fetchComps = async () => {
-    // setLoading(true);
+    // Prevent duplicate calls
+    if (fetchingRef.current) {
+      return;
+    }
 
     if (session && session.id) {
+      fetchingRef.current = true;
       try {
-        const authHeaders = await getAuthHeaders();
+        const token = await getAccessToken();
+
+        if (!token) {
+          console.error("Failed to get access token");
+          setLoading(false);
+          fetchingRef.current = false;
+          return;
+        }
+
+        const authHeaders = {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        };
+
         const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/marketspy/comp-basis/${session.id}`;
 
         const response = await axios.get(endpoint, {
@@ -56,20 +74,24 @@ const MyCompsContent = () => {
         setLoadingComps(false);
         setComps(response.data || []);
       } catch (error) {
-        console.error("Error submitting form:", error);
-      } finally {
+        console.error("Error fetching comps:", error);
         setLoading(false);
+      } finally {
+        fetchingRef.current = false;
       }
-    } else {
-      console.error("User session not found or invalid.");
-      setLoading(false);
     }
   };
 
   // state management
   useEffect(() => {
-    fetchComps();
-  }, [session]);
+    // Wait for session to load before fetching comps
+    if (!sessionLoading && session) {
+      fetchComps();
+    } else if (!sessionLoading && !session) {
+      // Session loaded but user not authenticated
+      setLoading(false);
+    }
+  }, [session, sessionLoading]);
 
   return (
     <div>

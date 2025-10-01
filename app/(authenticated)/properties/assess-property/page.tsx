@@ -15,7 +15,7 @@ import axios from 'axios';
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { getAuthHeaders } from "@/lib/utils/getAuthToken";
+import { useUserSession } from "@/lib/context/UserSessionProvider";
 
 
 // const formSchema = z.object({
@@ -33,6 +33,7 @@ type Inputs = {
 }
 
 const GetComparables = () => {
+  const { getAccessToken } = useUserSession();
   const browserClient = createClient()
   const [profile, setProfile] = useState<any>(null);
   const searchParams = useSearchParams()
@@ -125,7 +126,18 @@ const GetComparables = () => {
     const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/properties/`;
 
     try {
-      const authHeaders = await getAuthHeaders();
+      const token = await getAccessToken();
+
+      if (!token) {
+        console.error("Failed to get access token");
+        return;
+      }
+
+      const authHeaders = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      };
+
       const ratings: any = await axios.post(
         endpoint,
         { properties },

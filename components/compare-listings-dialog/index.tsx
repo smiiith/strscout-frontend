@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Image02Icon } from "@/components/Icons";
-import { getAuthHeaders } from "@/lib/utils/getAuthToken";
+import { useUserSession } from "@/lib/context/UserSessionProvider";
 
 interface Listing {
   id: string;
@@ -124,6 +124,7 @@ const CompareListingsDialog = ({
   const [selectedListings, setSelectedListings] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  const { getAccessToken } = useUserSession();
 
   const handleCheckboxChange = (listingId: string, checked: boolean) => {
     if (checked) {
@@ -157,7 +158,21 @@ const CompareListingsDialog = ({
           onAnalysisStart();
         }
 
-        const authHeaders = await getAuthHeaders();
+        const token = await getAccessToken();
+
+        if (!token) {
+          alert("Authentication failed. Please refresh the page and try again.");
+          if (onAnalysisComplete) {
+            onAnalysisComplete("");
+          }
+          return;
+        }
+
+        const authHeaders = {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        };
+
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/comps/market_spy_from_comp_basis/${compBasisId}`,
           {

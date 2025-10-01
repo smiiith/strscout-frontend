@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
 import { Album02Icon, File02Icon, Image02Icon, PoolIcon, Sofa01Icon, SubtitleIcon } from '@/components/Icons'
-import { getAuthHeaders } from "@/lib/utils/getAuthToken";
+import { useUserSession } from "@/lib/context/UserSessionProvider";
 
 
 interface AddressCardProps {
@@ -27,6 +27,7 @@ interface AddressCardProps {
 
 export default function AddressCard({ title, externalId, propertyId, property }: AddressCardProps) {
     const router = useRouter();
+    const { getAccessToken } = useUserSession();
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenComps, setIsOpenComps] = useState(false);
     const [ratedProperties, setRatedProperties] = useState<any[]>([]);
@@ -75,7 +76,18 @@ export default function AddressCard({ title, externalId, propertyId, property }:
                 console.log("No property ID available");
                 return;
             }
-            const authHeaders = await getAuthHeaders();
+            const token = await getAccessToken();
+
+            if (!token) {
+                console.error("Failed to get access token");
+                return;
+            }
+
+            const authHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            };
+
             const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/ratings/${propertyId}`, {
                 headers: authHeaders
             });

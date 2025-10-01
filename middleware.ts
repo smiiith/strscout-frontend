@@ -105,7 +105,7 @@ export async function middleware(request: NextRequest) {
 
   const cspHeader = `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' ${isDev ? "'unsafe-eval'" : ""} https://js.stripe.com https://vercel.live;
+    script-src 'self' 'nonce-${nonce}' ${isDev ? "'unsafe-eval' 'unsafe-inline'" : "'sha256-X9GtzORyUShRgrb5vBVwF3p8WtKom3jBuMyocEhfL3Q='"} https://js.stripe.com https://vercel.live;
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data: https://a0.muscache.com https://*.stripe.com;
     font-src 'self';

@@ -15,15 +15,21 @@ export default async function AuthenticatedLayout({ children }: { children: Reac
 
   const userProfile = await getUserWithPlan(user.id);
 
+  // Get the access token from the server-side session
+  const { data: { session } } = await supabase.auth.getSession();
+  const accessToken = session?.access_token || null;
+
   const initialUserSession = user && userProfile ? {
     id: user.id,
     email: user.email || '',
     profile: userProfile,
+    accessToken: accessToken || undefined,
   } : null;
-  
+
   // Debug logging
   console.log('Layout - User:', user?.id);
   console.log('Layout - User Profile:', userProfile);
+  console.log('Layout - Access Token:', accessToken ? 'present' : 'missing');
   console.log('Layout - Initial Session:', initialUserSession);
 
   return (

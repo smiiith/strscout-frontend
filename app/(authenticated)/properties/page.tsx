@@ -9,7 +9,7 @@ import { getAuthHeaders } from "@/lib/utils/getAuthToken";
 
 export default function Properties() {
   const router = useRouter();
-  const { session, loading: sessionLoading } = useUserSession();
+  const { session, loading: sessionLoading, getAccessToken } = useUserSession();
   const [properties, setProperties] = useState<any[]>([]);
 
   const getProperties = async () => {
@@ -27,7 +27,18 @@ export default function Properties() {
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/strproperties`
       );
 
-      const authHeaders = await getAuthHeaders();
+      const token = await getAccessToken();
+
+      if (!token) {
+        console.error("Failed to get access token");
+        return;
+      }
+
+      const authHeaders = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      };
+
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/strproperties`,
         {
