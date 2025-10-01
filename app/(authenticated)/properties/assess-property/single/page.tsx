@@ -42,7 +42,7 @@ import Image from "next/image";
 import { CustomAlertDialog } from "@/components/AlertDialog";
 import posthog from "posthog-js";
 import AirbnbDirections from "./instructions";
-import { getAuthHeaders } from "@/lib/utils/getAuthToken";
+import { useUserSession } from "@/lib/context/UserSessionProvider";
 
 // const formSchema = z.object({
 //   username: z.string().min(2, {
@@ -62,6 +62,7 @@ type Inputs = {
 };
 
 const AssessProperty = () => {
+  const { getAccessToken } = useUserSession();
   const browserClient = createClient();
   const [profile, setProfile] = useState<any>(null);
   const router = useRouter();
@@ -137,7 +138,19 @@ const AssessProperty = () => {
       setIsLoading(true);
 
       // scrape the property
-      const authHeaders = await getAuthHeaders();
+      const token = await getAccessToken();
+
+      if (!token) {
+        alert("Authentication failed. Please refresh the page and try again.");
+        setIsLoading(false);
+        return;
+      }
+
+      const authHeaders = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      };
+
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/assess/single`,
         config,
@@ -176,7 +189,18 @@ const AssessProperty = () => {
     const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/user_properties/`;
 
     try {
-      const authHeaders = await getAuthHeaders();
+      const token = await getAccessToken();
+
+      if (!token) {
+        console.error("Failed to get access token");
+        return;
+      }
+
+      const authHeaders = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      };
+
       const userProperties: any = await axios.post(
         endpoint,
         { user_id: user.id },
@@ -211,7 +235,18 @@ const AssessProperty = () => {
     const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/properties/`;
 
     try {
-      const authHeaders = await getAuthHeaders();
+      const token = await getAccessToken();
+
+      if (!token) {
+        console.error("Failed to get access token");
+        return;
+      }
+
+      const authHeaders = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      };
+
       const ratings: any = await axios.post(
         endpoint,
         { properties: property },
@@ -220,7 +255,7 @@ const AssessProperty = () => {
       setRatings(ratings.results);
       return ratings;
     } catch (error) {
-      console.error("Error fetching descriptions:", error);
+      console.error("Error calling FastAPI rateProperty:", error);
     }
   };
 

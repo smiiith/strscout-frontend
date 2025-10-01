@@ -64,7 +64,7 @@ const MarketSpyContent = () => {
   const [accountLoading, setAccountLoading] = useState(true);
   const [accountError, setAccountError] = useState<string | null>(null);
 
-  const { session } = useUserSession();
+  const { session, getAccessToken } = useUserSession();
   const searchParams = useSearchParams();
 
   // Check for success parameter from checkout redirect
@@ -173,8 +173,19 @@ const MarketSpyContent = () => {
     setLoading(true);
 
     try {
-      // Get auth headers with JWT token
-      const authHeaders = await getAuthHeaders();
+      // Get auth token
+      const token = await getAccessToken();
+
+      if (!token) {
+        alert("Authentication failed. Please refresh the page and try again.");
+        setLoading(false);
+        return;
+      }
+
+      const authHeaders = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      };
 
       // Increment usage before running Market Spy
       const usageResponse = await fetch("/api/market-spy/increment-usage", {

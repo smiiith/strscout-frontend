@@ -19,7 +19,7 @@ export default async function RootLayout({
 }) {
   const supabase = createClient();
   const { data } = await supabase.auth.getUser();
-  const nonce = headers().get("x-nonce") || undefined;
+  const nonce = headers().get("x-nonce") || "";
 
   return (
     <html lang="en" suppressHydrationWarning>

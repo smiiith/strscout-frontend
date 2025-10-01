@@ -11,7 +11,7 @@ import CompareListingsDialog from "@/components/compare-listings-dialog";
 import CompsTable from "@/components/comps-table";
 import { formatDate } from "@/lib/utils";
 import Image from "next/image";
-import { getAuthHeaders } from "@/lib/utils/getAuthToken";
+import { useUserSession } from "@/lib/context/UserSessionProvider";
 
 interface CompAnalysisData {
   comp_id: string;
@@ -66,6 +66,7 @@ interface CompAnalysisResponse {
 export default function CompDetailsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { getAccessToken } = useUserSession();
   const [analysisResponse, setAnalysisResponse] =
     useState<CompAnalysisResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -103,7 +104,19 @@ export default function CompDetailsPage() {
 
       try {
         setLoading(true);
-        const authHeaders = await getAuthHeaders();
+        const token = await getAccessToken();
+
+        if (!token) {
+          setError("Authentication failed. Please refresh the page.");
+          setLoading(false);
+          return;
+        }
+
+        const authHeaders = {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        };
+
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_ENDPOINT}/marketspy/comp-analysis/${compBasisId}`,
           { headers: authHeaders }

@@ -22,17 +22,30 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import posthog from "posthog-js";
-import { getAuthHeaders } from "@/lib/utils/getAuthToken";
+import { useUserSession } from "@/lib/context/UserSessionProvider";
 
-const fetchPropertyRatings = async (propertyId: any) => {
+// Helper function moved outside component to accept getAccessToken
+const fetchPropertyRatings = async (propertyId: any, getAccessToken: () => Promise<string | null>) => {
   try {
-    const authHeaders = await getAuthHeaders();
+    const token = await getAccessToken();
+
+    if (!token) {
+      console.error("Failed to get access token");
+      return null;
+    }
+
+    const authHeaders = {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    };
+
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/ratings/${propertyId}`,
       {
         headers: authHeaders,
       }
     );
+
     return response.data?.ratings
       ? { ...response.data.ratings, visible: true }
       : null;
@@ -63,6 +76,7 @@ const PropertyCompsPage = () => {
   const router = useRouter();
   const params = useParams();
   const propertyId = params.propertyId;
+  const { getAccessToken } = useUserSession();
   const [loading, setLoading] = useState(false);
   const [ratings, setRatings] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -81,7 +95,14 @@ const PropertyCompsPage = () => {
     if (propertyId && !ratings) {
       const loadRatings = async () => {
         setLoading(true);
-        const propertyRatings = await fetchPropertyRatings(propertyId);
+        const propertyRatings = await fetchPropertyRatings(propertyId, getAccessToken);
+
+        if (!propertyRatings) {
+          console.error("Failed to load property ratings");
+          setLoading(false);
+          return;
+        }
+
         const rank = getRank(
           propertyRatings.ratings.overall_ratings.rating_number
         );
