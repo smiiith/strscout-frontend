@@ -42,6 +42,7 @@ import Image from "next/image";
 import { CustomAlertDialog } from "@/components/AlertDialog";
 import posthog from "posthog-js";
 import AirbnbDirections from "./instructions";
+import { getAuthHeaders } from "@/lib/utils/getAuthToken";
 
 // const formSchema = z.object({
 //   username: z.string().min(2, {
@@ -130,18 +131,19 @@ const AssessProperty = () => {
       address: data.address,
       propertyId: data.propertyId,
       userId: profile.id,
-      headers: {
-        "Content-Type": "application/json",
-      },
     };
 
     try {
       setIsLoading(true);
 
       // scrape the property
+      const authHeaders = await getAuthHeaders();
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/assess/single`,
-        config
+        config,
+        {
+          headers: authHeaders,
+        }
       );
       const responseData = response.data;
 
@@ -173,15 +175,13 @@ const AssessProperty = () => {
   const fetchUserProperties = async (user: any) => {
     const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/user_properties/`;
 
-    let config = {
-      user_id: user.id,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
     try {
-      const userProperties: any = await axios.post(endpoint, config);
+      const authHeaders = await getAuthHeaders();
+      const userProperties: any = await axios.post(
+        endpoint,
+        { user_id: user.id },
+        { headers: authHeaders }
+      );
       // setReachedPropertyLimit()
     } catch (error) {
       console.error("Error fetching user properties:", error);
@@ -210,15 +210,13 @@ const AssessProperty = () => {
   const rateProperty = async (property: any) => {
     const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/properties/`;
 
-    let config = {
-      properties: property,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
     try {
-      const ratings: any = await axios.post(endpoint, config);
+      const authHeaders = await getAuthHeaders();
+      const ratings: any = await axios.post(
+        endpoint,
+        { properties: property },
+        { headers: authHeaders }
+      );
       setRatings(ratings.results);
       return ratings;
     } catch (error) {

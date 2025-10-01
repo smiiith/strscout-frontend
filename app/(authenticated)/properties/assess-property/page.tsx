@@ -15,6 +15,7 @@ import axios from 'axios';
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { getAuthHeaders } from "@/lib/utils/getAuthToken";
 
 
 // const formSchema = z.object({
@@ -123,15 +124,13 @@ const GetComparables = () => {
   const fetchRatings = async (properties: any) => {
     const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/properties/`;
 
-    let config = {
-      properties,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-
     try {
-      const ratings: any = await axios.post(endpoint, config);
+      const authHeaders = await getAuthHeaders();
+      const ratings: any = await axios.post(
+        endpoint,
+        { properties },
+        { headers: authHeaders }
+      );
       setRatings(ratings.results);
 
       // mock

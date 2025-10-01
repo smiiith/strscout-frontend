@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
 import { Album02Icon, File02Icon, Image02Icon, PoolIcon, Sofa01Icon, SubtitleIcon } from '@/components/Icons'
+import { getAuthHeaders } from "@/lib/utils/getAuthToken";
 
 
 interface AddressCardProps {
@@ -74,11 +75,9 @@ export default function AddressCard({ title, externalId, propertyId, property }:
                 console.log("No property ID available");
                 return;
             }
+            const authHeaders = await getAuthHeaders();
             const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/ratings/${propertyId}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    // 'Authorization': `Bearer ${user.token}` // Include this if you need to send an auth token
-                }
+                headers: authHeaders
             });
 
 

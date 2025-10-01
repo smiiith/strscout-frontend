@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Image02Icon } from "@/components/Icons";
+import { getAuthHeaders } from "@/lib/utils/getAuthToken";
 
 interface Listing {
   id: string;
@@ -156,13 +157,12 @@ const CompareListingsDialog = ({
           onAnalysisStart();
         }
 
+        const authHeaders = await getAuthHeaders();
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/comps/market_spy_from_comp_basis/${compBasisId}`,
           {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: authHeaders,
             body: JSON.stringify({
               user_listing_id: userPropertyId,
               top_listing_ids: topListingIds || [],

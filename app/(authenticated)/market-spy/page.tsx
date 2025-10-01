@@ -21,6 +21,7 @@ import * as z from "zod";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { getAuthHeaders } from "@/lib/utils/getAuthToken";
 
 const formSchema = z.object({
   address: z.object({
@@ -172,6 +173,9 @@ const MarketSpyContent = () => {
     setLoading(true);
 
     try {
+      // Get auth headers with JWT token
+      const authHeaders = await getAuthHeaders();
+
       // Increment usage before running Market Spy
       const usageResponse = await fetch("/api/market-spy/increment-usage", {
         method: "POST",
@@ -208,9 +212,7 @@ const MarketSpyContent = () => {
       const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/marketspy/scrape`;
 
       const response = await axios.post(endpoint, requestData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: authHeaders,
       });
 
       if (response.data) {
