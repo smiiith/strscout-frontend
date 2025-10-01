@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useUserSession } from "@/lib/context/UserSessionProvider";
 import AddressCard from "./AddressCard";
 import { useRouter } from "next/navigation";
+import { getAuthHeaders } from "@/lib/utils/getAuthToken";
 
 export default function Properties() {
   const router = useRouter();
@@ -26,13 +27,14 @@ export default function Properties() {
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/strproperties`
       );
 
+      const authHeaders = await getAuthHeaders();
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/strproperties`,
         {
           userId: session.id,
-          headers: {
-            "Content-Type": "application/json",
-          },
+        },
+        {
+          headers: authHeaders,
         }
       );
 

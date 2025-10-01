@@ -11,6 +11,7 @@ import CompareListingsDialog from "@/components/compare-listings-dialog";
 import CompsTable from "@/components/comps-table";
 import { formatDate } from "@/lib/utils";
 import Image from "next/image";
+import { getAuthHeaders } from "@/lib/utils/getAuthToken";
 
 interface CompAnalysisData {
   comp_id: string;
@@ -102,8 +103,10 @@ export default function CompDetailsPage() {
 
       try {
         setLoading(true);
+        const authHeaders = await getAuthHeaders();
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_ENDPOINT}/marketspy/comp-analysis/${compBasisId}`
+          `${process.env.NEXT_PUBLIC_API_ENDPOINT}/marketspy/comp-analysis/${compBasisId}`,
+          { headers: authHeaders }
         );
         setAnalysisResponse(response.data.data);
         setError(null);

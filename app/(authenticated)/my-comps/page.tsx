@@ -21,6 +21,7 @@ import { add } from "date-fns";
 import AddressList from "@/components/address-list";
 import { RefreshIcon } from "@/components/Icons";
 import LoadingOverlay from "@/components/LoadingOverlay";
+import { getAuthHeaders } from "@/lib/utils/getAuthToken";
 
 const MyCompsPage = () => {
   return <MyCompsContent />;
@@ -44,12 +45,11 @@ const MyCompsContent = () => {
 
     if (session && session.id) {
       try {
+        const authHeaders = await getAuthHeaders();
         const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/marketspy/comp-basis/${session.id}`;
 
         const response = await axios.get(endpoint, {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: authHeaders,
         });
 
         setLoading(false);

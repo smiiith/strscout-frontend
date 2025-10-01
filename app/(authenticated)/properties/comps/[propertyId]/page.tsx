@@ -22,15 +22,15 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import posthog from "posthog-js";
+import { getAuthHeaders } from "@/lib/utils/getAuthToken";
 
 const fetchPropertyRatings = async (propertyId: any) => {
   try {
+    const authHeaders = await getAuthHeaders();
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/ratings/${propertyId}`,
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: authHeaders,
       }
     );
     return response.data?.ratings
