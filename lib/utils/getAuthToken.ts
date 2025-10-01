@@ -20,7 +20,7 @@ export async function getAuthToken(): Promise<string | null> {
  * Get headers with authorization token for API requests
  * @returns Headers object with Authorization header
  */
-export async function getAuthHeaders(): Promise<HeadersInit> {
+export async function getAuthHeaders(): Promise<Record<string, string>> {
   const token = await getAuthToken();
 
   if (!token) {
