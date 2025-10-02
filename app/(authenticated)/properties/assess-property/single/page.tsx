@@ -62,9 +62,7 @@ type Inputs = {
 };
 
 const AssessProperty = () => {
-  const { getAccessToken } = useUserSession();
-  const browserClient = createClient();
-  const [profile, setProfile] = useState<any>(null);
+  const { session, loading: sessionLoading, getAccessToken } = useUserSession();
   const router = useRouter();
   const [ratings, setRatings] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -84,30 +82,28 @@ const AssessProperty = () => {
   } = useForm<Inputs>();
 
   useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { user },
-      } = await browserClient.auth.getUser();
-      setProfile(user);
-
-      posthog.identify(user.id, {
-        email: user.email,
+    if (session?.id && session?.email) {
+      posthog.identify(session.id, {
+        email: session.email,
       });
-    };
-
-    getUser();
-  }, []);
+    }
+  }, [session]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   const onSubmit = async (data: any) => {
+    if (!session?.id) {
+      alert("Authentication failed. Please refresh the page and try again.");
+      return;
+    }
+
     posthog.capture("clicked_run_with_id", {
       page: window.location.pathname,
     });
 
-    // const verification = await verifyRequest(data.propertyId, profile.id);
+    // const verification = await verifyRequest(data.propertyId, session.id);
     // const isVerified = verification.data.verified || false;
     const isVerified = true; // TODO: remove this line when verification is implemented
 
@@ -131,7 +127,7 @@ const AssessProperty = () => {
     let config = {
       address: data.address,
       propertyId: data.propertyId,
-      userId: profile.id,
+      userId: session.id,
     };
 
     try {
@@ -185,7 +181,7 @@ const AssessProperty = () => {
     }
   };
 
-  const fetchUserProperties = async (user: any) => {
+  const fetchUserProperties = async (userId: string) => {
     const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/user_properties/`;
 
     try {
@@ -203,7 +199,7 @@ const AssessProperty = () => {
 
       const userProperties: any = await axios.post(
         endpoint,
-        { user_id: user.id },
+        { user_id: userId },
         { headers: authHeaders }
       );
       // setReachedPropertyLimit()
