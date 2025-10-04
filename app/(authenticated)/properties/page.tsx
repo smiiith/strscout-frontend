@@ -6,6 +6,7 @@ import { useUserSession } from "@/lib/context/UserSessionProvider";
 import AddressCard from "./AddressCard";
 import { useRouter } from "next/navigation";
 import { getAuthHeaders } from "@/lib/utils/getAuthToken";
+import { Button } from "@/components/ui/button";
 
 export default function Properties() {
   const router = useRouter();
@@ -73,6 +74,29 @@ export default function Properties() {
     <>
       <div className="min-h-[700px] py-6">
         <h1 className="text-3xl font-bold">My Properties</h1>
+
+        {properties.length === 0 || !properties ? (
+          <div className="flex items-center gap-4">
+            <p className="mt-4 text-gray-600">
+              You have no properties yet. Click to evaluate your first property.
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => router.push("/properties/assess-property/single")}
+              className="mt-4"
+            >
+              Feedback Genius
+            </Button>
+          </div>
+        ) : (
+          <div>
+            <p className="mt-4">
+              Below are the properties you have evaluated with Feedback Genius.
+            </p>
+            <p className="text-foreground/60">{properties.length} properties</p>
+          </div>
+        )}
 
         <div className="space-y-6 w-full mt-6">
           {properties.map((property: any, index: number) => (
