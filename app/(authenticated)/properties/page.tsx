@@ -36,7 +36,7 @@ export default function Properties() {
 
       const authHeaders = {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       };
 
       const response = await axios.post(
@@ -82,6 +82,7 @@ export default function Properties() {
                 externalId={property.external_id}
                 propertyId={property.id}
                 property={property}
+                created={property.created_at}
               />
             </div>
           ))}

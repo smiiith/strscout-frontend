@@ -34,12 +34,14 @@ import {
   SubtitleIcon,
 } from "@/components/Icons";
 import { useUserSession } from "@/lib/context/UserSessionProvider";
+import { formatDate, formatDateNoTime } from "@/lib/utils";
 
 interface AddressCardProps {
   title: string;
   externalId: string;
   propertyId: string;
   property: any;
+  created?: string;
 }
 
 export default function AddressCard({
@@ -47,6 +49,7 @@ export default function AddressCard({
   externalId,
   propertyId,
   property,
+  created,
 }: AddressCardProps) {
   const router = useRouter();
   const { getAccessToken } = useUserSession();
@@ -158,11 +161,13 @@ export default function AddressCard({
           <CardTitle>{property.property_id.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>AirBnB ID: {property.property_id.external_id}</p>
+          <div>AirBnB ID: {property.property_id.external_id}</div>
+          <div className="text-sm text-foreground/60">
+            Evaluated: {formatDate(created)}
+          </div>
 
-          <div className="mt-3">
+          <div className="mt-3 flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between">
             <Button
-              className="mx-3"
               onClick={() => {
                 router.push(`/properties/comps/${property.property_id.id}`);
                 // fetchPropertyRatings(property.property_id.id);
@@ -170,11 +175,8 @@ export default function AddressCard({
             >
               View Assessment
             </Button>
-          </div>
-        </CardContent>
-        <CardFooter className="flex justify-center sm:justify-end">
-          <div className="flex items-start gap-2 sm:gap-4 flex-wrap justify-center sm:justify-start">
-            <TooltipProvider delayDuration={200}>
+            <div className="flex items-start gap-2 sm:gap-4 flex-wrap">
+              <TooltipProvider delayDuration={200}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <span
@@ -254,8 +256,9 @@ export default function AddressCard({
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
+            </div>
           </div>
-        </CardFooter>
+        </CardContent>
       </Card>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
