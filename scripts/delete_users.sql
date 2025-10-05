@@ -12,24 +12,33 @@
 -- WARNING: This will permanently delete users and ALL their associated data
 -- Make sure to backup your database before running this script
 
+
 DO $$
 DECLARE
     deleted_count INTEGER := 0;
     target_user_id UUID;
     rec RECORD;
+    comp_property_ids UUID[];
 BEGIN
     -- Define users to delete here
-    FOR target_user_id IN 
+    FOR target_user_id IN
         WITH users_to_delete AS (
-            VALUES 
-                ('REPLACE-WITH-USER-ID-1'::uuid),
-                ('REPLACE-WITH-USER-ID-2'::uuid)
-                -- Add more user IDs as needed
+            VALUES
+                ('REPLACE-WITH-USER-ID-1'::uuid)
+                -- ('REPLACE-WITH-USER-ID-2'::uuid),
                 -- ('REPLACE-WITH-USER-ID-3'::uuid)
+                -- Add more user IDs as needed (comma-separated)
         )
         SELECT column1 FROM users_to_delete
     LOOP
         RAISE NOTICE 'Deleting user and associated data for user_id: %', target_user_id;
+
+        -- Collect IDs of comp properties associated with this user BEFORE clearing references
+        SELECT ARRAY_AGG(DISTINCT comp_id) INTO comp_property_ids
+        FROM str_properties
+        WHERE comp_id IN (
+            SELECT id FROM comps WHERE profile_id = target_user_id
+        );
         
         -- Delete from tables with foreign key references to profiles
         -- Order matters due to foreign key constraints
@@ -38,7 +47,14 @@ BEGIN
         DELETE FROM llm_usage WHERE run_id IN (
             SELECT scan_id FROM comp_basis WHERE profile_id = target_user_id
         );
-        
+
+        -- Delete LLM usage for user's market spy runs
+        DELETE FROM llm_usage WHERE run_id IN (
+            SELECT id FROM market_spy_runs WHERE profile_id = target_user_id
+        );
+
+        -- Note: stripe_events doesn't have profile_id column, stores data in JSON
+
         -- Delete market spy runs
         DELETE FROM market_spy_runs WHERE profile_id = target_user_id;
         
@@ -73,18 +89,38 @@ BEGIN
         -- Delete comparison basis records
         DELETE FROM comp_basis WHERE profile_id = target_user_id;
         
-        -- Delete property ratings for user's properties
+        -- Delete property ratings for user's properties AND their comp properties
         DELETE FROM property_ratings WHERE property_id IN (
             SELECT id FROM str_properties WHERE user_id = target_user_id
         );
-        
+
+        -- Delete property ratings for comp properties (those with NULL or different user_id)
+        IF comp_property_ids IS NOT NULL THEN
+            DELETE FROM property_ratings WHERE property_id = ANY(comp_property_ids);
+        END IF;
+
         -- Delete STR property ratings for user's properties
         DELETE FROM str_property_ratings WHERE property_id IN (
             SELECT id FROM str_properties WHERE user_id = target_user_id
         );
-        
+
+        -- Delete STR property ratings for comp properties
+        IF comp_property_ids IS NOT NULL THEN
+            DELETE FROM str_property_ratings WHERE property_id = ANY(comp_property_ids);
+        END IF;
+
+        -- Delete listing feedback usage for comp properties
+        IF comp_property_ids IS NOT NULL THEN
+            DELETE FROM listing_feedback_usage WHERE property_id = ANY(comp_property_ids);
+        END IF;
+
         -- Delete STR properties owned by user
         DELETE FROM str_properties WHERE user_id = target_user_id;
+
+        -- Delete comp properties (those scraped for this user's market spy analysis)
+        IF comp_property_ids IS NOT NULL THEN
+            DELETE FROM str_properties WHERE id = ANY(comp_property_ids);
+        END IF;
         
         -- Delete scan mismatches for user's properties
         DELETE FROM scan_mismatches WHERE profile_id = target_user_id;
@@ -115,6 +151,7 @@ BEGIN
     
     RAISE NOTICE 'Deletion complete. Total users deleted: %', deleted_count;
 END $$;
+
 
 -- Verify deletion (optional - uncomment to run)
 -- SELECT 'Remaining profiles count:' as info, count(*) as count FROM profiles;
