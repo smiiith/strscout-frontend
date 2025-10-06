@@ -26,12 +26,6 @@ export default async function AuthenticatedLayout({ children }: { children: Reac
     accessToken: accessToken || undefined,
   } : null;
 
-  // Debug logging
-  console.log('Layout - User:', user?.id);
-  console.log('Layout - User Profile:', userProfile);
-  console.log('Layout - Access Token:', accessToken ? 'present' : 'missing');
-  console.log('Layout - Initial Session:', initialUserSession);
-
   return (
     <>
       <UserSessionProvider initialSession={initialUserSession}>
