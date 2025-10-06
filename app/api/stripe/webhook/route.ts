@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { createClient } from "@/utils/supabase/server";
+import { createClient as createServerClient } from "@/utils/supabase/server";
+import { createClient } from "@supabase/supabase-js";
 import { headers } from "next/headers";
 import {
   syncUserPlan,
@@ -44,7 +45,33 @@ export async function POST(request: Request) {
     }
   }
 
-  const supabase = await createClient();
+  // Use service role client to bypass RLS for webhook operations
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  // Try new secret key first, fallback to legacy service_role key
+  const supabaseServiceKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_KEY;
+
+  console.log('🔍 DEBUG - Supabase URL exists:', !!supabaseUrl);
+  console.log('🔍 DEBUG - Service key exists:', !!supabaseServiceKey);
+  console.log('🔍 DEBUG - Service key length:', supabaseServiceKey?.length || 0);
+
+  if (!supabaseUrl || !supabaseServiceKey) {
+    console.error('❌ Missing Supabase credentials for webhook');
+    return NextResponse.json(
+      { error: "Server configuration error" },
+      { status: 500 }
+    );
+  }
+
+  const supabase = createClient(
+    supabaseUrl,
+    supabaseServiceKey,
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    }
+  );
 
   // Check if event already processed
   const { data: existingEvent } = await supabase
@@ -139,7 +166,8 @@ export async function POST(request: Request) {
                 userId,
                 priceId,
                 "active",
-                quantity
+                quantity,
+                supabase // Pass service role client to bypass RLS
               );
               if (planSyncResult) {
                 console.log(
@@ -199,7 +227,8 @@ export async function POST(request: Request) {
               userId,
               priceId,
               null, // No subscription status for one-time payments
-              actualListingCount // Use actual listing count
+              actualListingCount, // Use actual listing count
+              supabase // Pass service role client to bypass RLS
             );
             if (planSyncResult) {
               console.log(
@@ -251,7 +280,8 @@ export async function POST(request: Request) {
             subscription.id,
             priceId,
             subscription.status,
-            quantity
+            quantity,
+            supabase // Pass service role client to bypass RLS
           );
           if (planSyncResult) {
             console.log(
@@ -297,7 +327,8 @@ export async function POST(request: Request) {
             subscription.id,
             priceId,
             "canceled",
-            0 // Set to 0 since subscription is canceled
+            0, // Set to 0 since subscription is canceled
+            supabase // Pass service role client to bypass RLS
           );
           if (planSyncResult) {
             console.log("✅ Successfully downgraded user plan to freemium");
