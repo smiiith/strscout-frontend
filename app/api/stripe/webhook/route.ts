@@ -46,13 +46,9 @@ export async function POST(request: Request) {
   }
 
   // Use service role client to bypass RLS for webhook operations
+  // Note: Webhooks run without user context, so we need the secret key to bypass RLS policies
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  // Try new secret key first, fallback to legacy service_role key
   const supabaseServiceKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_KEY;
-
-  console.log('🔍 DEBUG - Supabase URL exists:', !!supabaseUrl);
-  console.log('🔍 DEBUG - Service key exists:', !!supabaseServiceKey);
-  console.log('🔍 DEBUG - Service key length:', supabaseServiceKey?.length || 0);
 
   if (!supabaseUrl || !supabaseServiceKey) {
     console.error('❌ Missing Supabase credentials for webhook');
