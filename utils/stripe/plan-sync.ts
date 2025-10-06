@@ -50,9 +50,10 @@ export async function syncUserPlan(
   userId: string,
   priceId: string,
   subscriptionStatus: string | null,
-  quantity: number = 1
+  quantity: number = 1,
+  supabaseClient?: any // Optional client to bypass RLS
 ) {
-  const supabase = await createClient();
+  const supabase = supabaseClient || await createClient();
 
   try {
     console.log('🔍 DEBUG - Price ID received:', priceId);
@@ -169,23 +170,24 @@ export async function syncUserPlanBySubscriptionId(
   subscriptionId: string,
   priceId: string,
   subscriptionStatus: string,
-  quantity: number = 1
+  quantity: number = 1,
+  supabaseClient?: any // Optional client to bypass RLS
 ) {
-  const supabase = await createClient();
-  
+  const supabase = supabaseClient || await createClient();
+
   // Find user by subscription ID
   const { data: profile, error } = await supabase
     .from('profiles')
     .select('id')
     .eq('stripe_subscription_id', subscriptionId)
     .single();
-  
+
   if (error || !profile) {
     console.error('User not found for subscription ID:', subscriptionId, error);
     return false;
   }
 
-  return await syncUserPlan(profile.id, priceId, subscriptionStatus, quantity);
+  return await syncUserPlan(profile.id, priceId, subscriptionStatus, quantity, supabase);
 }
 
 /**
