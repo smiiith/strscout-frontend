@@ -185,7 +185,7 @@ cat > "$JSON_FILE" << EOF
     "subscription_tiers": [
       {"listings": 1, "price_per_month": "$30.00"},
       {"listings": 2, "price_per_month": "$20.00"},
-      {"listings": 3, "price_per_month": "$16.67"},
+      {"listings": 3, "price_per_month": "$16.66"},
       {"listings": 4, "price_per_month": "$15.00"},
       {"listings": 5, "price_per_month": "$14.00"},
       {"listings": "6+", "price_per_month": "$12.00"}

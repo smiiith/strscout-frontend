@@ -1,4 +1,4 @@
-export type BillingType = 'subscription' | 'one_time';
+export type BillingType = "subscription" | "one_time";
 
 export interface PricingTier {
   name: string;
@@ -14,27 +14,42 @@ export interface PricingTier {
  * @param billingType - 'subscription' or 'one_time'
  * @returns Total price for the given quantity
  */
-export function calculatePrice(listings: number, billingType: BillingType): number {
+export function calculatePrice(
+  listings: number,
+  billingType: BillingType
+): number {
   // Volume pricing - different rate per listing based on quantity tier
-  if (billingType === 'subscription') {
+  if (billingType === "subscription") {
     // Subscription volume pricing
     switch (listings) {
-      case 1: return listings * 30.00;
-      case 2: return listings * 20.00;
-      case 3: return listings * 16.67;
-      case 4: return listings * 15.00;
-      case 5: return listings * 14.00;
-      default: return listings * 12.00; // 6+ listings
+      case 1:
+        return listings * 30.0;
+      case 2:
+        return listings * 20.0;
+      case 3:
+        return listings * 16.66;
+      case 4:
+        return listings * 15.0;
+      case 5:
+        return listings * 14.0;
+      default:
+        return listings * 12.0; // 6+ listings
     }
   } else {
     // One-time volume pricing
     switch (listings) {
-      case 1: return listings * 35.00;
-      case 2: return listings * 22.50;
-      case 3: return listings * 18.33;
-      case 4: return listings * 16.25;
-      case 5: return listings * 15.00;
-      default: return listings * 13.00; // 6+ listings
+      case 1:
+        return listings * 35.0;
+      case 2:
+        return listings * 22.5;
+      case 3:
+        return listings * 18.33;
+      case 4:
+        return listings * 16.25;
+      case 5:
+        return listings * 15.0;
+      default:
+        return listings * 13.0; // 6+ listings
     }
   }
 }
@@ -53,7 +68,7 @@ export function getOneTimePriceId(listings: number): string | null {
     9: process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_9_PRICE_ID!,
     10: process.env.NEXT_PUBLIC_STRIPE_ONE_TIME_10_PRICE_ID!,
   };
-  
+
   return priceMap[listings] || null;
 }
 
@@ -64,11 +79,11 @@ export function getSubscriptionPriceId(): string {
 
 // Predefined tiers for UI display
 export const PRICING_TIERS: PricingTier[] = [
-  { name: 'Starter', listingCount: 1, subscriptionPrice: 30, oneTimePrice: 35 },
-  { name: 'Growth', listingCount: 2, subscriptionPrice: 40, oneTimePrice: 45 },
-  { name: 'Growth', listingCount: 3, subscriptionPrice: 50, oneTimePrice: 55 },
-  { name: 'Pro', listingCount: 4, subscriptionPrice: 60, oneTimePrice: 65 },
-  { name: 'Pro', listingCount: 5, subscriptionPrice: 70, oneTimePrice: 75 },
+  { name: "Starter", listingCount: 1, subscriptionPrice: 30, oneTimePrice: 35 },
+  { name: "Growth", listingCount: 2, subscriptionPrice: 40, oneTimePrice: 45 },
+  { name: "Growth", listingCount: 3, subscriptionPrice: 50, oneTimePrice: 55 },
+  { name: "Pro", listingCount: 4, subscriptionPrice: 60, oneTimePrice: 65 },
+  { name: "Pro", listingCount: 5, subscriptionPrice: 70, oneTimePrice: 75 },
 ];
 
 /**
@@ -77,25 +92,40 @@ export const PRICING_TIERS: PricingTier[] = [
  * @param billingType - 'subscription' or 'one_time'
  * @returns Price per listing for this tier
  */
-export function getPerListingRate(listings: number, billingType: BillingType): number {
+export function getPerListingRate(
+  listings: number,
+  billingType: BillingType
+): number {
   // Return the exact rate used in volume pricing
-  if (billingType === 'subscription') {
+  if (billingType === "subscription") {
     switch (listings) {
-      case 1: return 30.00;
-      case 2: return 20.00;
-      case 3: return 16.67;
-      case 4: return 15.00;
-      case 5: return 14.00;
-      default: return 12.00; // 6+ listings
+      case 1:
+        return 30.0;
+      case 2:
+        return 20.0;
+      case 3:
+        return 16.66;
+      case 4:
+        return 15.0;
+      case 5:
+        return 14.0;
+      default:
+        return 12.0; // 6+ listings
     }
   } else {
     switch (listings) {
-      case 1: return 35.00;
-      case 2: return 22.50;
-      case 3: return 18.33;
-      case 4: return 16.25;
-      case 5: return 15.00;
-      default: return 13.00; // 6+ listings
+      case 1:
+        return 35.0;
+      case 2:
+        return 22.5;
+      case 3:
+        return 18.33;
+      case 4:
+        return 16.25;
+      case 5:
+        return 15.0;
+      default:
+        return 13.0; // 6+ listings
     }
   }
 }
