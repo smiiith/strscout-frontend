@@ -32,3 +32,54 @@ export async function updateSession(request: NextRequest) {
 
   return data?.user;
 }
+
+export async function checkUserPlan(request: NextRequest, requiredPlan: string) {
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll() {
+          // Read-only for plan check
+        },
+      },
+    }
+  )
+
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  if (!user) {
+    return { hasAccess: false, reason: 'not_authenticated' };
+  }
+
+  try {
+    // Get user's plan with a timeout to prevent hanging
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .select('plan:plans(key)')
+      .eq('id', user.id)
+      .single();
+
+    if (error) {
+      console.error('Plan check error:', error);
+      return { hasAccess: false, reason: 'plan_check_failed' };
+    }
+
+    // Handle both single object and array responses from Supabase join
+    const planData = Array.isArray(profile?.plan) ? profile.plan[0] : profile?.plan;
+    const userPlanKey = planData?.key;
+    const hasAccess = userPlanKey === requiredPlan;
+
+    return { 
+      hasAccess, 
+      reason: hasAccess ? 'authorized' : 'insufficient_plan',
+      userPlan: userPlanKey 
+    };
+  } catch (error) {
+    console.error('Plan check exception:', error);
+    return { hasAccess: false, reason: 'plan_check_error' };
+  }
+}

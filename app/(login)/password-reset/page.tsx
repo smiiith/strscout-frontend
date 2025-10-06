@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import { PasswordInput } from '@/components/ui/password-input'
 
 // export default function PasswordReset() {
 
@@ -29,7 +30,7 @@ export default function PasswordReset({
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" name="password" type="password" required />
+                <PasswordInput id="password" name="password" required />
                 <Input id="code" name="code" type="hidden" value={searchParams?.code} />
               </div>
               <Button disabled={false} type="submit" className="w-fit" formAction={updatePassword}>

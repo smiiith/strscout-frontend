@@ -1,7 +1,7 @@
 'use client'
 
 import { FiSun, FiMoon } from "react-icons/fi"
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createElement } from 'react'
 import { useTheme } from 'next-themes'
 import Image from "next/image"
 
@@ -24,11 +24,19 @@ const ThemeSwitch = () => {
     )
 
     if (resolvedTheme === 'dark') {
-        return <FiSun onClick={() => setTheme('light')} />
+        return (
+            <div onClick={() => setTheme('light')} className="cursor-pointer">
+                {(FiSun as any)({})}
+            </div>
+        )
     }
 
     if (resolvedTheme === 'light') {
-        return <FiMoon onClick={() => setTheme('dark')} />
+        return (
+            <div onClick={() => setTheme('dark')} className="cursor-pointer">
+                {(FiMoon as any)({})}
+            </div>
+        )
     }
 
     return <></>

@@ -1,71 +1,82 @@
+"use client";
+
+import ImageSlider from "@/components/image-slider";
+import RatingsDialog from "@/components/ratings-dialog";
+import CompsDialog from "@/components/comps-dialog";
+import { MockMarketSpyComps } from "@/components/ratings-example/market-spy-mock";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
-
+import { useEffect, useState } from "react";
 
 const RatingsSection = () => {
-    const router = useRouter();
+  const router = useRouter();
+  const [slideImages, setSlideImages] = useState<string[]>([]);
 
-    return (
-        <div className="w-full bg-primary">
-            <div className="container mx-auto px-4 gap-8">
-                <Card className="border-none bg-transparent">
-                    <CardContent className="px-2 py-4 space-y-4 text-white text-lg">
-                        <div className="flex justify-between">
+  useEffect(() => {
+    setSlideImages([
+      "/images/slide-market-spy-1.png",
+      "/images/slide-market-spy-2.png",
+      "/images/slide-market-spy-3.png",
+      // "/images/slide-market-spy-4.png",
+    ]);
+  }, []);
 
-                            <div className="space-y-8">
-                                <div className="text-3xl md:text-4xl font-bold">
-                                    <p>
-                                        Personalized Ratings.
-                                    </p>
-                                    <p>
-                                        Clear scores for every part
-                                        of your listing.
-                                    </p>
-                                </div>
+  return (
+    <div className="w-full bg-primary">
+      <div className="container mx-auto px-4 gap-8">
+        <Card className="border-none bg-transparent">
+          <CardContent className="px-2 py-4 space-y-4 text-white text-lg">
+            <div className="flex justify-between">
+              <div className="space-y-8">
+                <div className="text-white p-6">
+                  <h2 className="text-4xl font-bold mb-6">
+                    See What's Really Going On in Your Market
+                  </h2>
 
-                                <p>
-                                    It's easy - simply show us your listing, We'll analyzie, rate, and provide actionable feedback on:
-                                </p>
+                  <h3 className="text-2xl font-semibold mb-4">
+                    Your report includes:
+                  </h3>
+                  <ul className="list-disc ml-8 space-y-3 text-xl">
+                    <li>Breakdown of bookings in your area</li>
+                    <li>Policy and amenity analysis</li>
+                    <li>Listing quality assessment</li>
+                    <li>
+                      Clear summary of what's helping (or hurting) your
+                      positioning
+                    </li>
+                  </ul>
 
-                                <ul className="list-disc px-4">
-                                    <li>Your hero photo</li>
-                                    <li>Your headline</li>
-                                    <li>Your listing description</li>
-                                    <li>Your listing photos</li>
-                                    <li>Your amenities</li>
-                                    <li>Your interior design</li>
-                                </ul>
+                  <div className="mt-8">
+                    <Button
+                      onClick={() => router.push("/market-spy")}
+                      className="hover:opacity-80 h-auto"
+                    >
+                      Generate My Report Now
+                    </Button>
+                  </div>
+                </div>
+              </div>
 
-                                <p className="text-xl font-bold mb-0">
-                                    Best of all, it's free.
-                                </p>
-                                <p className="text-lg font-bold !mt-0">
-                                    Seriously, no credit card, no BS, it's free.
-                                </p>
+              <div className="relative md:col-span-4 hidden md:block w-[600px] rounded-lg border border-border overflow-hidden p-4 bg-background">
+                <ImageSlider images={slideImages} interval={4000} />
 
-                                <Button
-                                    onClick={() => router.push('/properties/assess-property/single')}
-                                    className="hover:opacity-80 h-auto bg-white"
-                                    variant="secondary">
-                                    Get Your Free Feedback
-                                </Button>
-                            </div>
-
-                            <div className="relative md:col-span-4 hidden md:block">
-                                <img
-                                    src="/home/feedback-genius-graphic-003.png"
-                                    className=""
-                                />
-                            </div>
-                        </div>
-
-                    </CardContent>
-                </Card>
-
+                <div className="absolute bottom-4 right-4">
+                  <CompsDialog
+                    comps={MockMarketSpyComps}
+                    buttonText="View Sample Report"
+                    dialogTitle="Sample Market Analysis Report"
+                    filterOut100Percent={true}
+                    mock={true}
+                  />
+                </div>
+              </div>
             </div>
-        </div>
-    );
-}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
 
 export default RatingsSection;

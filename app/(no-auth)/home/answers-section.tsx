@@ -1,76 +1,121 @@
+"use client";
+
+import RatingsDialog from "@/components/ratings-dialog";
+import { MockRatingsSample } from "@/components/ratings-example/mock";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import posthog from "posthog-js";
 
-
 const AnswersSection = () => {
-    const router = useRouter();
+  const router = useRouter();
 
-    return (
-        <div className="w-full">
-            <div className="container mx-auto px-4 gap-8">
-                <Card className="border-none bg-transparent">
-                    <CardContent className="px-2 py-4 space-y-4">
-                        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
-                            Got Questions? We've Got Answers.
-                        </h1>
+  return (
+    <div className="w-full">
+      <div className="container mx-auto px-4 gap-8">
+        <Card className="border-none bg-transparent">
+          <CardContent className="px-2 py-4 space-y-4">
+            <div className="p-6">
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">
+                Got Questions? We've Got Answers.
+              </h2>
 
-                        <p className="text-xl font-bold !mb-0">How does the feedback process work?</p>
-                        <p className="!mt-0">
-                            Simply share your listing link, and we'll analyze it and provide a detailed report.
-                        </p>
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">
+                  What do you mean by nearby competitors??
+                </h3>
+                <p className="text-gray-700">
+                  We find 10-20 listings that are both close in proximity and
+                  similar to yours (type of stay and number of bedrooms).
+                </p>
+              </div>
 
-                        <p className="text-xl font-bold !mb-0">
-                            Is STR Feedback Genius only for AirBnB hosts?
-                        </p>
-                        <p className="!mt-0">
-                            At this time we specialize in AirBnB listings.
-                        </p>
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">
+                  What data do you analyze?
+                </h3>
+                <p className="text-gray-700">
+                  Booking activity, listing details, photos, amenities,
+                  policies, and more.
+                </p>
+              </div>
 
-                        <p className="text-xl font-bold !mb-0">
-                            How much time does it take?
-                        </p>
-                        <p className="!mt-0">
-                            Most feedback reports are ready in minutes and are displayed here on the STR Feedback Genius site.
-                        </p>
-                        <p className="!mt-0">
-                            However, you don't need to wait as our feedback reports are also sent to your email free of charge.
-                        </p>
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">
+                  How accurate is the data?
+                </h3>
+                <p className="text-gray-700">
+                  The data is gathered in real time from real listings -- it's
+                  up to the minute accurate.
+                </p>
+              </div>
 
-                        <p className="text-xl font-bold !mb-0">
-                            Do I need to give my personal information?
-                        </p>
-                        <p className="!mt-0">
-                            No. We only need your email address and the link to your listing.
-                        </p>
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">
+                  Why do you use current bookings rather than historical booking
+                  data?
+                </h3>
+                <p className="text-gray-700">
+                  Historical data should be considered for context, but it's
+                  usefullness is limited. The idea that past results effect
+                  future performance is known as The Gambler's Fallacy. It's
+                  best to make informed decisions based on current data, not
+                  historical data.
+                </p>
+              </div>
 
-                        <p className="text-xl font-bold !mb-0">
-                            Is it really free? What's the catch?
-                        </p>
-                        <p className="!mt-0">
-                            Yes, it's really free. Seriously, no credit card, no BS, it's free. While we offer other paid services, this one is on
-                            us, no catch.
-                        </p>
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">
+                  Can I try it for free?
+                </h3>
+                <p className="text-gray-700">
+                  You can run a free feedback report on your listing -- find out{" "}
+                  <span
+                    onClick={() =>
+                      router.push("/properties/assess-property/single")
+                    }
+                    className="text-blue-600 underline cursor-pointer"
+                  >
+                    more here
+                  </span>
+                  . The free feedback won't include bookings nor competition
+                  analysis, but it will give you an idea of what we do. You can
+                  also{" "}
+                  <RatingsDialog ratings={MockRatingsSample} textLink={true} />.
+                </p>
+              </div>
 
-                        <Button
-                            onClick={() => {
-                                posthog.capture('faq_clicked_start_now', {
-                                    page: window.location.pathname,
-                                });
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold mb-2">
+                  Can I cancel anytime?
+                </h3>
+                <p className="text-gray-700">
+                  Yes. You can choose a one time report and there are no further
+                  charges. We recommend a monthly plan so you can keep constant
+                  tabs on your competition. Our monthly plans are flexible and
+                  cancelable anytime.
+                </p>
+              </div>
+              <div className="mt-12">
+                <Button
+                  onClick={() => {
+                    posthog.capture("faq_clicked_start_now", {
+                      page: window.location.pathname,
+                    });
 
-                                router.push('/properties/assess-property/single');
-                            }}
-                            className="hover:opacity-80 h-auto"
-                        >
-                            Start Now
-                        </Button>
-                    </CardContent>
-                </Card>
-
+                    router.push("/properties/assess-property/single");
+                  }}
+                  className="hover:opacity-80"
+                >
+                  Start Now
+                </Button>
+              </div>
             </div>
-        </div>
-    );
-}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
 
 export default AnswersSection;
