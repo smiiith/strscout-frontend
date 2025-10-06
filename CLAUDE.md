@@ -18,8 +18,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Create `.env.local` with:
 
 ```
+# Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SECRET_KEY=sbp_...  # Required for webhooks to bypass RLS
 SUPABASE_DB_PASSWORD=your_db_password
 
 # Stripe Configuration
@@ -206,6 +208,33 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
 - Stripe customer portal only shown for subscription users
 - One-time users get "Buy More Listings" functionality
 - Stripe checkout success redirects to `/market-spy` (not `/account`)
+
+### Stripe Webhook Configuration
+
+**Required Webhook Events:**
+
+The application listens to the following Stripe webhook events to manage subscriptions and payments:
+
+1. `checkout.session.completed` - Upgrades users after purchase (subscription or one-time)
+2. `customer.subscription.updated` - Updates subscription status and quantity changes
+3. `customer.subscription.deleted` - Downgrades users when subscription is canceled
+4. `invoice.payment_succeeded` - Resets Market Spy usage for new billing cycles
+5. `invoice.payment_failed` - Marks subscription as past_due
+
+**Setup Instructions:**
+
+1. Go to **Stripe Dashboard** → **Developers** → **Webhooks**
+2. Click **Add endpoint**
+3. Enter URL: `https://yourdomain.com/api/stripe/webhook`
+4. Select the 5 events listed above
+5. Copy the **Signing secret** and set as `STRIPE_WEBHOOK_SECRET` in environment variables
+
+**Important Notes:**
+
+- Webhooks use **service role client** (`SUPABASE_SECRET_KEY`) to bypass RLS policies
+- The webhook handler creates a `stripe_events` table record for idempotency
+- Plan upgrades happen via `syncUserPlan()` in `utils/stripe/plan-sync.ts`
+- Logs are available in Vercel Functions → `/api/stripe/webhook` → Real-time logs
 
 ### Testing & Deployment
 
