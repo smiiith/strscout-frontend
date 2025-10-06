@@ -228,9 +228,3 @@ SUPABASE_DB_PASSWORD=your_db_password
 - If you get authentication errors, regenerate your access token
 - If linking fails, verify your project reference ID from your Supabase URL
 - For permission errors, ensure your account has access to both projects
-
-## Authors
-
-- [Supabase](https://supabase.com)
-
-Supabase is open source. We'd love for you to follow along and get involved at https://github.com/supabase/supabase
