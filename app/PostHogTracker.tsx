@@ -14,6 +14,7 @@ export function PostHogTracker({ children }: { children: React.ReactNode }) {
             posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY || "", {
                 api_host: `${process.env.NEXT_PUBLIC_APP_DOMAIN}/ingest/`,
                 ui_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com",
+                disable_external_dependency_loading: true, // Prevent toolbar and other external scripts from loading
                 loaded: (ph) => {
                     if (process.env.NODE_ENV === "development") ph.debug(false);
                 },
