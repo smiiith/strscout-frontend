@@ -47,7 +47,8 @@ export async function POST(request: Request) {
 
   // Use service role client to bypass RLS for webhook operations
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
+  // Try new secret key first, fallback to legacy service_role key
+  const supabaseServiceKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_KEY;
 
   console.log('🔍 DEBUG - Supabase URL exists:', !!supabaseUrl);
   console.log('🔍 DEBUG - Service key exists:', !!supabaseServiceKey);
