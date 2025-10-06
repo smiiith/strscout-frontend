@@ -47,16 +47,21 @@ export const DEFAULT_PLAN_IDS = {
  * Sync user's plan based on their Stripe subscription
  */
 export async function syncUserPlan(
-  userId: string, 
-  priceId: string, 
+  userId: string,
+  priceId: string,
   subscriptionStatus: string | null,
   quantity: number = 1
 ) {
   const supabase = await createClient();
-  
+
   try {
+    console.log('🔍 DEBUG - Price ID received:', priceId);
+    console.log('🔍 DEBUG - STRIPE_PRICE_TO_PLAN mapping:', JSON.stringify(STRIPE_PRICE_TO_PLAN, null, 2));
+    console.log('🔍 DEBUG - Env var NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID:', process.env.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID);
+
     // Get plan key from price ID, default to freemium if not found
     const planKey = STRIPE_PRICE_TO_PLAN[priceId] || PLANS.FREEMIUM;
+    console.log('🔍 DEBUG - Resolved plan key:', planKey);
     
     // Get plan ID from database
     const { data: plan, error: planError } = await supabase
