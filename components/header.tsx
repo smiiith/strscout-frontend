@@ -18,7 +18,7 @@ import {
   MailEdit02Icon,
   MyAccountIcon,
 } from "./Icons";
-import { useState } from "react";
+import React, { useState } from "react";
 import { PLANS } from "@/app/types/plans";
 
 const HeaderNav = (props: any) => {
@@ -327,67 +327,21 @@ const HeaderNav = (props: any) => {
             </NavigationMenu>
           </div>
         )}
-        {pageLinks.map((link: any, index: number) => (
-          <div key={`desktop-${index}`} className="flex items-center">
-            {link.enabled && (
-              <>
-                {/* Insert My Reports dropdown after Market Spy */}
-                {link.href === "/market-spy" && (
-                  <>
-                    <Link
-                      href={link.href}
-                      className="hover:underline whitespace-nowrap flex items-center"
-                      prefetch={false}
-                      key={`desktop-${index}`}
-                      title={link.label}
-                    >
-                      <div className="mr-4">{link.label}</div>
-                    </Link>
-                    {/* My Reports Dropdown */}
-                    {isAuthorized && hasMyReportsAccess && (
-                      <div className="mx-4">
-                        <NavigationMenu>
-                          <NavigationMenuList>
-                            <NavigationMenuItem>
-                              <NavigationMenuTrigger className="bg-transparent hover:bg-transparent text-white hover:text-white p-0 h-auto text-base font-normal hover:underline focus:bg-transparent focus:text-white data-[state=open]:bg-transparent data-[active]:bg-transparent">
-                                My Reports
-                              </NavigationMenuTrigger>
-                              <NavigationMenuContent>
-                                <ul className="grid gap-3 p-4 w-[250px]">
-                                  {myReportsLinks.map(
-                                    (link: any, index: number) => (
-                                      <li key={`dropdown-${index}`}>
-                                        {link.enabled && (
-                                          <NavigationMenuLink asChild>
-                                            <Link
-                                              href={link.href}
-                                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                                            >
-                                              <div className="text-sm font-medium leading-none">
-                                                {link.label}
-                                              </div>
-                                            </Link>
-                                          </NavigationMenuLink>
-                                        )}
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </NavigationMenuContent>
-                            </NavigationMenuItem>
-                          </NavigationMenuList>
-                        </NavigationMenu>
-                      </div>
-                    )}
-                  </>
-                )}
-                {/* Regular navigation links */}
-                {link.href !== "/market-spy" && (
+        {pageLinks.map((link: any, index: number) => {
+          // Check if Market Spy is enabled in pageLinks
+          const marketSpyEnabled = pageLinks.some((l: any) => l.href === "/market-spy" && l.enabled);
+          // Determine if we should show My Reports after this link
+          const showMyReportsAfter = (link.href === "/market-spy" && link.enabled) ||
+                                      (link.href === "/properties/assess-property/single" && !marketSpyEnabled);
+
+          return (
+            <React.Fragment key={`desktop-${index}`}>
+              <div className="flex items-center">
+                {link.enabled && (
                   <Link
                     href={link.href}
                     className="hover:underline whitespace-nowrap flex items-center"
                     prefetch={false}
-                    key={`desktop-${index}`}
                     title={link.label}
                   >
                     {link.href === "/contact-us" ? (
@@ -399,10 +353,47 @@ const HeaderNav = (props: any) => {
                     )}
                   </Link>
                 )}
-              </>
-            )}
-          </div>
-        ))}
+              </div>
+
+              {/* My Reports Dropdown - shown after Market Spy or STR Genius */}
+              {showMyReportsAfter && isAuthorized && hasMyReportsAccess && (
+                <div className="mx-4">
+                  <NavigationMenu>
+                    <NavigationMenuList>
+                      <NavigationMenuItem>
+                        <NavigationMenuTrigger className="bg-transparent hover:bg-transparent text-white hover:text-white p-0 h-auto text-base font-normal hover:underline focus:bg-transparent focus:text-white data-[state=open]:bg-transparent data-[active]:bg-transparent">
+                          My Reports
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                          <ul className="grid gap-3 p-4 w-[250px]">
+                            {myReportsLinks.map(
+                              (link: any, idx: number) => (
+                                <li key={`dropdown-${idx}`}>
+                                  {link.enabled && (
+                                    <NavigationMenuLink asChild>
+                                      <Link
+                                        href={link.href}
+                                        className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                      >
+                                        <div className="text-sm font-medium leading-none">
+                                          {link.label}
+                                        </div>
+                                      </Link>
+                                    </NavigationMenuLink>
+                                  )}
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        </NavigationMenuContent>
+                      </NavigationMenuItem>
+                    </NavigationMenuList>
+                  </NavigationMenu>
+                </div>
+              )}
+            </React.Fragment>
+          );
+        })}
 
         {!isAuthorized && (
           <Link href="/login" className="flex items-center">
