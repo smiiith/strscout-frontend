@@ -18,6 +18,10 @@ const Account = async () => {
     .from("profiles")
     .select(
       `
+      full_name,
+      username,
+      website,
+      avatar_url,
       subscription_status,
       billing_type,
       current_tier,
@@ -41,7 +45,15 @@ const Account = async () => {
         <h1 className="text-3xl font-bold">My Account</h1>
 
         <div className="md:w-[500px]">
-          <AccountForm user={user} />
+          <AccountForm
+            user={user}
+            initialProfile={{
+              full_name: profile?.full_name,
+              username: profile?.username,
+              website: profile?.website,
+              avatar_url: profile?.avatar_url,
+            }}
+          />
 
           {/* Billing Information Section */}
           <div className="mt-8 pt-8 border-t">

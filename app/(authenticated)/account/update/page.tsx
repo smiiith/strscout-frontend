@@ -1,61 +1,30 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { type User } from "@supabase/supabase-js";
-import Avatar from "../../../../components/Avatar";
+// import Avatar from "../../../../components/Avatar";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export default function AccountForm({ user }: any) {
-  const supabase = createClient();
-  const [loading, setLoading] = useState(true);
-  const [fullname, setFullname] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
-  const [website, setWebsite] = useState<string | null>(null);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+interface ProfileData {
+  full_name: string | null;
+  username: string | null;
+  website: string | null;
+  avatar_url: string | null;
+}
 
-  useEffect(() => {
-    // console.log("user account", user);
+interface AccountFormProps {
+  user: User | null;
+  initialProfile: ProfileData;
+}
 
-    const bgColor = getComputedStyle(document.documentElement).getPropertyValue(
-      "--background"
-    );
-    // console.log('Background color:', bgColor);
-  }, []);
-
-  const getProfile = useCallback(async () => {
-    try {
-      //   setLoading(true);
-
-      const { data, error, status } = await supabase
-        .from("profiles")
-        .select(`full_name, username, website, avatar_url`)
-        .eq("id", user?.id)
-        .single();
-
-      setLoading(false);
-      if (error && status !== 406) {
-        console.log(error);
-        throw error;
-      }
-
-      if (data) {
-        setFullname(data.full_name);
-        setUsername(data.username);
-        setWebsite(data.website);
-        setAvatarUrl(data.avatar_url);
-      }
-    } catch (error) {
-      console.log("Error loading user data!");
-    } finally {
-      setLoading(false);
-    }
-  }, [user, supabase]);
-
-  useEffect(() => {
-    getProfile();
-  }, [user, getProfile]);
+export default function AccountForm({ user, initialProfile }: AccountFormProps) {
+  const [loading, setLoading] = useState(false);
+  const [fullname, setFullname] = useState<string | null>(initialProfile.full_name);
+  const [username, setUsername] = useState<string | null>(initialProfile.username);
+  const [website, setWebsite] = useState<string | null>(initialProfile.website);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(initialProfile.avatar_url);
 
   async function updateProfile({
     username,
@@ -67,18 +36,24 @@ export default function AccountForm({ user }: any) {
     website: string | null;
     avatar_url: string | null;
   }) {
-    try {
-      //   setLoading(true);
+    if (!user?.id) {
+      console.log("No user ID available for update");
+      return;
+    }
 
+    try {
+      setLoading(true);
+
+      const supabase = createClient();
       const { error } = await supabase.from("profiles").upsert({
-        id: user?.id as string,
+        id: user.id,
         full_name: fullname,
         username,
         website,
         avatar_url,
         updated_at: new Date().toISOString(),
       });
-      setLoading(false);
+
       if (error) throw error;
       console.log("Profile updated!");
     } catch (error) {
@@ -107,7 +82,7 @@ export default function AccountForm({ user }: any) {
         <Input
           id="email"
           type="text"
-          value={user?.email}
+          value={user?.email || ""}
           disabled
           className="mt-2 mb-5"
         />
