@@ -1,15 +1,20 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { login } from './actions'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { PasswordInput } from '@/components/ui/password-input'
-import Image from 'next/image'
-import HeaderNav from '@/components/header'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { login } from "./actions";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
+import Image from "next/image";
+import HeaderNav from "@/components/header";
 
 export default function LoginPage() {
-
   return (
     // <div className="flex flex-col">
     //   <div className="flex-grow">
@@ -19,41 +24,42 @@ export default function LoginPage() {
 
     //       <div className="px-6">
     <div className="">
-      <Image
-        src="/STR-Feedback-Genius-Logo-single-line.png"
-        alt="STR Feedback Genius"
-        width="754"
-        height="72"
-        className="w-[754] h-auto my-6"
-      />
       <Card className="max-w-sm bg-background border-none">
         <form>
           <CardHeader>
             <CardTitle className="text-2xl">Login</CardTitle>
-            <CardDescription>Enter your email below to login to your account</CardDescription>
+            <CardDescription>
+              Enter your email below to login to your account
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid gap-8">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 {/* <input id="email" name="email" type="email" required /> */}
-                <Input id="email" name="email" type="email" placeholder="m@example.com" required />
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  required
+                />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <Link href="/password-request" className="ml-auto inline-block text-sm underline" prefetch={false}>
+                  <Link
+                    href="/password-request"
+                    className="ml-auto inline-block text-sm underline"
+                    prefetch={false}
+                  >
                     Forgot your password?
                   </Link>
                 </div>
                 {/* <input id="password" name="password" type="password" required /> */}
                 <PasswordInput id="password" name="password" required />
               </div>
-              <Button
-                type="submit"
-                className="w-fit px-8"
-                formAction={login}
-              >
+              <Button type="submit" className="w-fit px-8" formAction={login}>
                 Log in
               </Button>
             </div>
@@ -65,12 +71,12 @@ export default function LoginPage() {
             </div>
           </CardContent>
         </form>
-      </Card >
+      </Card>
     </div>
 
     //       </div>
     //     </div>
     //   </div>
     // </div>
-  )
+  );
 }
