@@ -18,8 +18,11 @@ export async function login(formData: FormData) {
   const { data: user, error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
+    console.error("Login error:", error);
     redirect("/login-issue");
   }
+
+  console.log("Login successful for user:", user.user?.id);
 
   // posthog.identify(
   //   user.user.id,
@@ -29,6 +32,7 @@ export async function login(formData: FormData) {
   // );
 
   revalidatePath("/", "layout");
+  revalidatePath("/properties");
   redirect("/properties/assess-property/single");
 }
 
