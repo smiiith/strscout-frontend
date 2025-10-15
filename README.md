@@ -222,9 +222,3 @@ SUPABASE_DB_PASSWORD=your_db_password
 - Keep migration files in version control
 - Use descriptive names for your migration files
 - Test your application after applying migrations
-
-### Troubleshooting
-
-- If you get authentication errors, regenerate your access token
-- If linking fails, verify your project reference ID from your Supabase URL
-- For permission errors, ensure your account has access to both projects
