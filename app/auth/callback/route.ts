@@ -26,8 +26,8 @@ export async function GET(request: NextRequest) {
             return NextResponse.redirect(errorUrl);
         }
 
-        console.log('Auth callback - Code exchange success! Redirecting to assess property page');
-        return NextResponse.redirect(new URL('/properties/assess-property/single', requestUrl.origin));
+        console.log('Auth callback - Code exchange success! Redirecting to login page');
+        return NextResponse.redirect(new URL('/login', requestUrl.origin));
     }
 
     // If there's no code, check if session already exists (email confirmation flow)
@@ -42,8 +42,8 @@ export async function GET(request: NextRequest) {
     }
 
     if (session) {
-        console.log('Auth callback - Session found! User already authenticated. Redirecting to assess property page');
-        return NextResponse.redirect(new URL('/properties/assess-property/single', requestUrl.origin));
+        console.log('Auth callback - Session found! User already authenticated. Redirecting to login page');
+        return NextResponse.redirect(new URL('/login', requestUrl.origin));
     }
 
     // No code and no session - something went wrong
