@@ -5,23 +5,48 @@ export async function GET(request: NextRequest) {
     const requestUrl = new URL(request.url);
     const code = requestUrl.searchParams.get('code');
 
-    // If there's no code, something went wrong
-    if (!code) {
-        return NextResponse.redirect(new URL('/auth/error', requestUrl.origin));
-    }
+    console.log('Auth callback - Full URL:', requestUrl.href);
+    console.log('Auth callback - Code present:', !!code);
 
     const supabase = createClient();
 
-    // Exchange the code for a session
-    // This will automatically log the user in
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    // If there's a code, exchange it for a session (OAuth/PKCE flow)
+    if (code) {
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
 
-    if (error) {
-        console.error('Error exchanging code for session:', error);
-        return NextResponse.redirect(new URL('/auth/error', requestUrl.origin));
+        if (error) {
+            console.error('Error exchanging code for session:', {
+                message: error.message,
+                status: error.status,
+                name: error.name,
+                code: error.code
+            });
+            const errorUrl = new URL('/auth/error', requestUrl.origin);
+            errorUrl.searchParams.set('reason', error.message || 'exchange_failed');
+            return NextResponse.redirect(errorUrl);
+        }
+
+        console.log('Auth callback - Code exchange success! Redirecting to assess property page');
+        return NextResponse.redirect(new URL('/properties/assess-property/single', requestUrl.origin));
     }
 
-    // Redirect to your desired page after successful authentication
-    // For example, to a dashboard or property assessment page
-    return NextResponse.redirect(new URL('/properties/assess-property/single', requestUrl.origin));
+    // If there's no code, check if session already exists (email confirmation flow)
+    // Supabase may have already set the session via cookies during the redirect
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+    if (sessionError) {
+        console.error('Auth callback - Error getting session:', sessionError);
+        const errorUrl = new URL('/auth/error', requestUrl.origin);
+        errorUrl.searchParams.set('reason', sessionError.message || 'session_error');
+        return NextResponse.redirect(errorUrl);
+    }
+
+    if (session) {
+        console.log('Auth callback - Session found! User already authenticated. Redirecting to assess property page');
+        return NextResponse.redirect(new URL('/properties/assess-property/single', requestUrl.origin));
+    }
+
+    // No code and no session - something went wrong
+    console.error('Auth callback - No code and no session found');
+    return NextResponse.redirect(new URL('/auth/error?reason=no_code_or_session', requestUrl.origin));
 }
