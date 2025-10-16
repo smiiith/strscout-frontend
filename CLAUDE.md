@@ -15,19 +15,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Environment Setup
 
+### Development (.env.local)
+
 Create `.env.local` with:
 
 ```
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+# Supabase Configuration (Development)
+NEXT_PUBLIC_SUPABASE_URL=https://ynxbtvsbjzkcnkilnuts.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 SUPABASE_SECRET_KEY=sbp_...  # Required for webhooks to bypass RLS
+SUPABASE_SERVICE_ROLE_KEY=...
 SUPABASE_DB_PASSWORD=your_db_password
 
+# App URLs
+NEXT_PUBLIC_SITE_URL=http://localhost:3005
+NEXT_PUBLIC_APP_DOMAIN=http://localhost:3005
+
+# Email Provider
+RESEND_API_KEY=re_...
+
 # Stripe Configuration
-STRIPE_SECRET_KEY=sk_...
+STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
 
 # Stripe Price IDs for New Pricing Model
 NEXT_PUBLIC_STRIPE_SUBSCRIPTION_PRICE_ID=price_1Rq5lNRQojxLKgwUdNomfEUC
@@ -42,6 +52,36 @@ NEXT_PUBLIC_STRIPE_ONE_TIME_8_PRICE_ID=price_1RqGQARQojxLKgwUCGtNjgnS
 NEXT_PUBLIC_STRIPE_ONE_TIME_9_PRICE_ID=price_1RqGQARQojxLKgwUR4Uru39D
 NEXT_PUBLIC_STRIPE_ONE_TIME_10_PRICE_ID=price_1RqGQARQojxLKgwU8JFMz2yr
 ```
+
+### Production (Vercel Environment Variables)
+
+**Critical Production Variables:**
+
+```
+# Supabase Configuration (Production Project)
+NEXT_PUBLIC_SUPABASE_URL=https://eklefalzcpfrnsmzrlbn.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+SUPABASE_SECRET_KEY=...  # Required for webhooks
+
+# App URLs (MUST match production domain)
+NEXT_PUBLIC_SITE_URL=https://www.strsage.com
+NEXT_PUBLIC_APP_DOMAIN=https://www.strsage.com
+
+# Email Provider
+RESEND_API_KEY=re_...  # Production API key
+
+# Stripe Configuration (Production)
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...  # From production webhook endpoint
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
+```
+
+**Important Notes:**
+- Development uses Supabase project `ynxbtvsbjzkcnkilnuts`
+- Production uses Supabase project `eklefalzcpfrnsmzrlbn`
+- Ensure `NEXT_PUBLIC_SITE_URL` matches your actual domain in each environment
+- Resend SMTP is also configured in Supabase Dashboard → Authentication → SMTP Settings
 
 ## Architecture Overview
 
@@ -91,6 +131,37 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
 - Pattern: `const { session, loading } = useUserSession()` then check `session?.id` before API calls
 - Avoid manual auth logic in components - let the provider handle it centrally
 - Example working pattern seen in `/my-comps` and `/properties` pages
+
+#### Email Confirmation Flow
+
+- Email confirmations are handled via Resend SMTP integration configured in Supabase Dashboard
+- Confirmation emails redirect to `/auth/callback` which then redirects to `/login`
+- Users must log in after confirming their email address
+- Auth callback route (`app/auth/callback/route.ts`) handles both OAuth/PKCE flows and email confirmations
+
+#### User Registration & Profile Setup
+
+- **Critical**: New users MUST have a `plan_id` set in their profile to log in successfully
+- The `handle_new_user()` database trigger automatically creates a profile with default freemium plan
+- Required trigger configuration in Supabase:
+  ```sql
+  CREATE OR REPLACE FUNCTION public.handle_new_user()
+  RETURNS trigger AS $$
+  BEGIN
+    INSERT INTO public.profiles (id, full_name, avatar_url, primary_email, plan_id)
+    VALUES (
+      new.id,
+      new.raw_user_meta_data->>'full_name',
+      new.raw_user_meta_data->>'avatar_url',
+      new.email,
+      '5cb61d3c-306e-4518-8ec1-fa59585ce27c'  -- Freemium plan ID
+    );
+    RETURN new;
+  END;
+  $$ LANGUAGE plpgsql SECURITY DEFINER;
+  ```
+- Without a valid `plan_id`, `getUserWithPlan()` returns null and login fails
+- The authenticated layout (`app/(authenticated)/layout.tsx`) requires a valid profile with plan to initialize session
 
 ### Key Components Structure
 
