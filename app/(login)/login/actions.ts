@@ -33,7 +33,7 @@ export async function login(formData: FormData) {
 
   revalidatePath("/", "layout");
   revalidatePath("/properties");
-  redirect("/properties/assess-property/single");
+  redirect("/");
 }
 
 export async function signup(formData: FormData) {

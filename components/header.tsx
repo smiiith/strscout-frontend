@@ -38,7 +38,7 @@ const HeaderNav = (props: any) => {
   // Authenticated users see all available links based on their permissions
   const authenticatedLinks = [
     {
-      label: "STR Genius",
+      label: "Feedback Genius",
       href: "/properties/assess-property/single",
       enabled: true,
       icon: () => {
@@ -329,10 +329,14 @@ const HeaderNav = (props: any) => {
         )}
         {pageLinks.map((link: any, index: number) => {
           // Check if Market Spy is enabled in pageLinks
-          const marketSpyEnabled = pageLinks.some((l: any) => l.href === "/market-spy" && l.enabled);
+          const marketSpyEnabled = pageLinks.some(
+            (l: any) => l.href === "/market-spy" && l.enabled
+          );
           // Determine if we should show My Reports after this link
-          const showMyReportsAfter = (link.href === "/market-spy" && link.enabled) ||
-                                      (link.href === "/properties/assess-property/single" && !marketSpyEnabled);
+          const showMyReportsAfter =
+            (link.href === "/market-spy" && link.enabled) ||
+            (link.href === "/properties/assess-property/single" &&
+              !marketSpyEnabled);
 
           return (
             <React.Fragment key={`desktop-${index}`}>
@@ -366,24 +370,22 @@ const HeaderNav = (props: any) => {
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
                           <ul className="grid gap-3 p-4 w-[250px]">
-                            {myReportsLinks.map(
-                              (link: any, idx: number) => (
-                                <li key={`dropdown-${idx}`}>
-                                  {link.enabled && (
-                                    <NavigationMenuLink asChild>
-                                      <Link
-                                        href={link.href}
-                                        className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                                      >
-                                        <div className="text-sm font-medium leading-none">
-                                          {link.label}
-                                        </div>
-                                      </Link>
-                                    </NavigationMenuLink>
-                                  )}
-                                </li>
-                              )
-                            )}
+                            {myReportsLinks.map((link: any, idx: number) => (
+                              <li key={`dropdown-${idx}`}>
+                                {link.enabled && (
+                                  <NavigationMenuLink asChild>
+                                    <Link
+                                      href={link.href}
+                                      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                    >
+                                      <div className="text-sm font-medium leading-none">
+                                        {link.label}
+                                      </div>
+                                    </Link>
+                                  </NavigationMenuLink>
+                                )}
+                              </li>
+                            ))}
                           </ul>
                         </NavigationMenuContent>
                       </NavigationMenuItem>
