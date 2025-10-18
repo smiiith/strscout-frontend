@@ -33,9 +33,10 @@ export async function POST() {
 
     const customer = customers.data[0];
 
+    console.log("*********** Customer Portal Session for Customer ID:");
     const session = await stripe.billingPortal.sessions.create({
       customer: customer.id,
-      return_url: `${process.env.NEXT_PUBLIC_APP_DOMAIN || "http://localhost:3005"}/account`,
+      return_url: `${process.env.NEXT_PUBLIC_APP_DOMAIN || "http://localhost:3005"}/market-spy`,
     });
 
     return NextResponse.json({ url: session.url });
