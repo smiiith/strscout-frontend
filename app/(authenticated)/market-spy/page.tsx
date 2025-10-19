@@ -179,7 +179,7 @@ const MarketSpyContent = () => {
 
     // Clear selected address and force remount of address component
     setSelectedAddress(null);
-    setAddressKey(prev => prev + 1);
+    setAddressKey((prev) => prev + 1);
   };
 
   const onSubmit = async (data: FormData) => {
@@ -212,7 +212,7 @@ const MarketSpyContent = () => {
 
       const authHeaders = {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       };
 
       // Increment usage before running Market Spy
@@ -269,7 +269,7 @@ const MarketSpyContent = () => {
           bedrooms: "",
         });
         setSelectedAddress(null);
-        setAddressKey(prev => prev + 1); // Force remount of address component
+        setAddressKey((prev) => prev + 1); // Force remount of address component
 
         // Mark search as completed and open dialog
         setSearchCompleted(true);
@@ -492,7 +492,8 @@ const MarketSpyContent = () => {
                 <p className="text-sm text-muted-foreground">
                   You can now check on the status of your current search on the
                   Market Spy Reports page.{" "}
-                  {accountData && accountData.remaining_runs > 0 &&
+                  {accountData &&
+                    accountData.remaining_runs > 0 &&
                     "You can also run another Market Spy search if needed."}
                 </p>
 
@@ -510,7 +511,7 @@ const MarketSpyContent = () => {
                       variant="outline"
                       className="w-fit"
                     >
-                      Run Another Search
+                      Search Again
                     </Button>
                   )}
                 </div>
