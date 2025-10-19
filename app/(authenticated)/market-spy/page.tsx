@@ -2,7 +2,6 @@
 
 import GeoapifyAddressAutocomplete from "@/components/address-lookup/indext";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -11,6 +10,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { Message } from "@/components/ui/message";
 import { useUserSession } from "@/lib/context/UserSessionProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,7 +27,6 @@ import * as z from "zod";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { getAuthHeaders } from "@/lib/utils/getAuthToken";
 
 const formSchema = z.object({
   address: z.object({
@@ -53,6 +58,8 @@ const MarketSpyPage = () => {
 const MarketSpyContent = () => {
   const [loading, setLoading] = useState(false);
   const [searchCompleted, setSearchCompleted] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [addressKey, setAddressKey] = useState(0); // Key to force remount of address component
   const [selectedAddress, setSelectedAddress] = useState<{
     formattedAddress: string;
     latitude: number;
@@ -154,6 +161,27 @@ const MarketSpyContent = () => {
     form.clearErrors("address");
   };
 
+  const handleRunAnother = () => {
+    // Close dialog
+    setDialogOpen(false);
+    setSearchCompleted(false);
+
+    // Reset form
+    form.reset({
+      address: {
+        formattedAddress: "",
+        latitude: 0,
+        longitude: 0,
+      },
+      roomType: "",
+      bedrooms: "",
+    });
+
+    // Clear selected address and force remount of address component
+    setSelectedAddress(null);
+    setAddressKey((prev) => prev + 1);
+  };
+
   const onSubmit = async (data: FormData) => {
     if (!accountData || !session?.id) {
       alert(
@@ -184,7 +212,7 @@ const MarketSpyContent = () => {
 
       const authHeaders = {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       };
 
       // Increment usage before running Market Spy
@@ -230,8 +258,22 @@ const MarketSpyContent = () => {
         // Refresh account data to show updated usage
         await fetchAccountData();
 
-        // Mark search as completed
+        // Clear the form immediately
+        form.reset({
+          address: {
+            formattedAddress: "",
+            latitude: 0,
+            longitude: 0,
+          },
+          roomType: "",
+          bedrooms: "",
+        });
+        setSelectedAddress(null);
+        setAddressKey((prev) => prev + 1); // Force remount of address component
+
+        // Mark search as completed and open dialog
         setSearchCompleted(true);
+        setDialogOpen(true);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -314,6 +356,10 @@ const MarketSpyContent = () => {
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6 max-w-[500px]"
+            style={{
+              pointerEvents: dialogOpen ? "none" : "auto",
+              opacity: dialogOpen ? 0.5 : 1,
+            }}
           >
             {/* Address Field */}
             <FormField
@@ -325,6 +371,7 @@ const MarketSpyContent = () => {
                   <FormControl>
                     <div>
                       <GeoapifyAddressAutocomplete
+                        key={addressKey}
                         apiKey={process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY}
                         onAddressSelect={handleAddressSelect}
                       />
@@ -427,15 +474,16 @@ const MarketSpyContent = () => {
           </form>
         </Form>
 
-        {/* Post-search status message */}
-        {searchCompleted && accountData && (
-          <Card className="mt-8 max-w-lg">
-            <CardContent className="p-6">
-              <div className="space-y-4">
-                <p className="font-medium">
-                  You have {accountData.remaining_runs} Market Spy{" "}
-                  {accountData.remaining_runs === 1 ? "run" : "runs"} left{" "}
-                  {accountData.subscription_status === "active"
+        {/* Post-search dialog */}
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Market Spy Search Started!</DialogTitle>
+              <DialogDescription className="space-y-4 pt-4">
+                <p className="font-medium text-foreground">
+                  You have {accountData?.remaining_runs || 0} Market Spy{" "}
+                  {accountData?.remaining_runs === 1 ? "run" : "runs"} left{" "}
+                  {accountData?.subscription_status === "active"
                     ? "for this month"
                     : ""}{" "}
                   after this search.
@@ -444,11 +492,12 @@ const MarketSpyContent = () => {
                 <p className="text-sm text-muted-foreground">
                   You can now check on the status of your current search on the
                   Market Spy Reports page.{" "}
-                  {accountData.remaining_runs > 0 &&
+                  {accountData &&
+                    accountData.remaining_runs > 0 &&
                     "You can also run another Market Spy search if needed."}
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
                   <Link
                     href="/my-comps"
                     className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
@@ -456,9 +505,9 @@ const MarketSpyContent = () => {
                     Market Spy Reports
                   </Link>
 
-                  {accountData.remaining_runs > 0 && (
+                  {accountData && accountData.remaining_runs > 0 && (
                     <Button
-                      onClick={() => setSearchCompleted(false)}
+                      onClick={handleRunAnother}
                       variant="outline"
                       className="w-fit"
                     >
@@ -466,10 +515,10 @@ const MarketSpyContent = () => {
                     </Button>
                   )}
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
