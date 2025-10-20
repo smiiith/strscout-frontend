@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { PostHogTracker } from "./PostHogTracker";
 import Footer from "@/components/footer";
 import { headers } from "next/headers";
-import Script from "next/script";
+import SiteAccess from "@/components/site-access";
 
 export const metadata = {
   title: "STR Feeeback Genius",
@@ -24,20 +24,22 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="px-0 md:px-5 bg-muted">
-        <PostHogTracker>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-            nonce={nonce}
-          >
-            <div className="min-h-screen">
-              {children}
-              <Footer authenticated={data.user} />
-            </div>
-          </ThemeProvider>
-        </PostHogTracker>
+        <SiteAccess>
+          <PostHogTracker>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+              nonce={nonce}
+            >
+              <div className="min-h-screen">
+                {children}
+                <Footer authenticated={data.user} />
+              </div>
+            </ThemeProvider>
+          </PostHogTracker>
+        </SiteAccess>
       </body>
     </html>
   );
