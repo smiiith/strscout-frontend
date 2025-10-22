@@ -21,8 +21,8 @@ export default function SiteAccess(props: any) {
   useEffect(() => {
     const siteCookie = getCookie("access_pwd");
 
-    // console.log('env', process.env.NEXT_PUBLIC_BASIC_AUTH_PASSWORD)
-    if (!process.env.NEXT_PUBLIC_BASIC_SITE_ACCESS_ENABLED) {
+    // If site access is not enabled (false or undefined), grant access
+    if (process.env.NEXT_PUBLIC_BASIC_SITE_ACCESS_ENABLED !== "true") {
       setSiteAccess(true);
     } else if (
       siteCookie &&
