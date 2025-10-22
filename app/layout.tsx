@@ -3,8 +3,8 @@ import { ThemeProvider } from "./providers";
 import { createClient } from "@/utils/supabase/server";
 import { PostHogTracker } from "./PostHogTracker";
 import Footer from "@/components/footer";
-import { headers } from "next/headers";
 import SiteAccess from "@/components/site-access";
+import { getNonce } from "@/lib/nonce";
 
 export const metadata = {
   title: "STR Feeeback Genius",
@@ -19,27 +19,29 @@ export default async function RootLayout({
 }) {
   const supabase = createClient();
   const { data } = await supabase.auth.getUser();
-  const nonce = headers().get("x-nonce") || "";
+
+  // Only use nonce in production to avoid hydration issues in dev
+  const nonce = process.env.NODE_ENV === "production" ? getNonce() : undefined;
 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="px-0 md:px-5 bg-muted">
-        <SiteAccess>
-          <PostHogTracker>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="light"
-              enableSystem
-              disableTransitionOnChange
-              nonce={nonce}
-            >
+        <PostHogTracker>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+            {...(nonce ? { nonce } : {})}
+          >
+            <SiteAccess>
               <div className="min-h-screen">
                 {children}
                 <Footer authenticated={data.user} />
               </div>
-            </ThemeProvider>
-          </PostHogTracker>
-        </SiteAccess>
+            </SiteAccess>
+          </ThemeProvider>
+        </PostHogTracker>
       </body>
     </html>
   );

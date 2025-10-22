@@ -97,32 +97,37 @@ export async function middleware(request: NextRequest) {
 
   // Build CSP policy with nonce
   const isDev = process.env.NODE_ENV === "development";
-  const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:3002/api";
-  const backendUrl = apiEndpoint.replace("/api", "");
-  const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || "http://localhost:3005";
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://ynxbtvsbjzkcnkilnuts.supabase.co";
-  const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com";
-
-  const cspHeader = `
-    default-src 'self';
-    script-src 'self' 'nonce-${nonce}' ${isDev ? "'unsafe-eval' 'unsafe-inline'" : "'sha256-X9GtzORyUShRgrb5vBVwF3p8WtKom3jBuMyocEhfL3Q='"} https://js.stripe.com https://vercel.live;
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' blob: data: https://a0.muscache.com https://*.stripe.com;
-    font-src 'self';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-    frame-ancestors 'none';
-    frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://vercel.live;
-    connect-src 'self' ${supabaseUrl} https://*.supabase.co wss://*.supabase.co ${backendUrl} ${isDev ? "http://localhost:8000" : ""} https://syncnanny-ai-dev-production.up.railway.app https://syncnanny-ai-production.up.railway.app https://api.stripe.com https://api.geoapify.com ${posthogHost} https://internal-j.posthog.com ${appDomain}/ingest/;
-    upgrade-insecure-requests;
-  `.replace(/\s{2,}/g, " ").trim();
 
   // Create response with security headers
   const response = NextResponse.next();
 
-  response.headers.set("x-nonce", nonce);
-  response.headers.set("Content-Security-Policy", cspHeader);
+  // Only set CSP and nonce in production to avoid hydration issues in dev
+  if (!isDev) {
+    const apiEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:3002/api";
+    const backendUrl = apiEndpoint.replace("/api", "");
+    const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN || "http://localhost:3005";
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://ynxbtvsbjzkcnkilnuts.supabase.co";
+    const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com";
+
+    const cspHeader = `
+      default-src 'self';
+      script-src 'self' 'nonce-${nonce}' 'sha256-X9GtzORyUShRgrb5vBVwF3p8WtKom3jBuMyocEhfL3Q=' https://js.stripe.com https://vercel.live;
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' blob: data: https://a0.muscache.com https://*.stripe.com;
+      font-src 'self';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      frame-ancestors 'none';
+      frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://vercel.live;
+      connect-src 'self' ${supabaseUrl} https://*.supabase.co wss://*.supabase.co ${backendUrl} https://syncnanny-ai-dev-production.up.railway.app https://syncnanny-ai-production.up.railway.app https://api.stripe.com https://api.geoapify.com ${posthogHost} https://internal-j.posthog.com ${appDomain}/ingest/;
+      upgrade-insecure-requests;
+    `.replace(/\s{2,}/g, " ").trim();
+
+    response.headers.set("x-nonce", nonce);
+    response.headers.set("Content-Security-Policy", cspHeader);
+  }
+
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
