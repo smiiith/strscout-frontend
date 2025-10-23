@@ -6,9 +6,11 @@ import PropertyCompsComponent from "./ratings";
 const RatingsDialog = ({
   ratings,
   textLink,
+  buttonSize,
 }: {
   ratings: any;
   textLink?: boolean;
+  buttonSize?: "sm" | "lg" | "default" | "icon";
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -22,7 +24,14 @@ const RatingsDialog = ({
           View Sample Report
         </span>
       ) : (
-        <Button onClick={() => setIsOpen(true)}>View Sample Report</Button>
+        <Button
+          onClick={() => setIsOpen(true)}
+          variant="outline"
+          size={buttonSize || "default"}
+          className={buttonSize === "lg" ? "text-lg" : ""}
+        >
+          View Sample Report
+        </Button>
       )}
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
