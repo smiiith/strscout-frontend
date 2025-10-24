@@ -12,7 +12,7 @@ export function FinalCTA() {
         <Card className="max-w-4xl mx-auto p-8 md:p-12 text-center shadow-2xl border-2 border-accent bg-background">
           <div className="inline-flex items-center rounded-full bg-success/10 px-4 py-2 text-sm font-medium text-success mb-6">
             <Clock className="mr-2 h-4 w-4" />
-            Limited time: Get your report in 24 hours
+            Limited time: Get your report now
           </div>
 
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6 text-balance">
