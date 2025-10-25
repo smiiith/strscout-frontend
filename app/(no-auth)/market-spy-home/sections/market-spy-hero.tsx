@@ -1,4 +1,10 @@
 import { Button } from "@/components/ui/button";
+import {
+  Target03Icon,
+  Clock01Icon,
+  Zap01Icon,
+  ArrowRight01Icon,
+} from "@/components/Icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -12,7 +18,7 @@ export function MarketSpyHero() {
           <div className="relative lg:flex-1">
             <div className="relative aspect-square max-w-md mx-auto lg:max-w-none">
               <Image
-                src="/home/magnifying-glass-examining-miniature-house-model-o.jpg"
+                src="/home/market-spy-graphic-004.png"
                 alt="Market analysis concept"
                 width={600}
                 height={600}
@@ -22,21 +28,7 @@ export function MarketSpyHero() {
               <div className="absolute -bottom-6 left-4 bg-primary text-primary-foreground p-6 rounded-xl shadow-xl">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-primary-foreground/20 rounded-full flex items-center justify-center">
-                    <svg
-                      className="w-6 h-6"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z"
-                        fill="currentColor"
-                      />
-                      <path
-                        d="M12 6C8.69 6 6 8.69 6 12C6 15.31 8.69 18 12 18C15.31 18 18 15.31 18 12C18 8.69 15.31 6 12 6ZM12 16C9.79 16 8 14.21 8 12C8 9.79 9.79 8 12 8C14.21 8 16 9.79 16 12C16 14.21 14.21 16 12 16Z"
-                        fill="currentColor"
-                      />
-                    </svg>
+                    <Target03Icon className="w-6 h-6" />
                   </div>
                   <div>
                     <div className="text-2xl font-bold">STR</div>
@@ -75,35 +67,11 @@ export function MarketSpyHero() {
               </p>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
-                  <svg
-                    className="w-5 h-5 text-success"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
+                  <Clock01Icon className="w-5 h-5 text-success" />
                   Takes minutes
                 </div>
                 <div className="flex items-center gap-2">
-                  <svg
-                    className="w-5 h-5 text-success"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 10V3L4 14h7v7l9-11h-7z"
-                    />
-                  </svg>
+                  <Zap01Icon className="w-5 h-5 text-success" />
                   No setup &mdash; just insights.
                 </div>
               </div>
@@ -118,19 +86,7 @@ export function MarketSpyHero() {
                 }}
               >
                 Get My Report Now
-                <svg
-                  className="ml-2 h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
+                <ArrowRight01Icon className="ml-2 h-5 w-5" />
               </Button>
             </div>
 

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { ArrowRight01Icon } from "@/components/Icons";
 import { useRouter } from "next/navigation";
 
 export function MarketSpyFinalCTA() {
@@ -26,19 +27,7 @@ export function MarketSpyFinalCTA() {
               }}
             >
               Get My Report Now
-              <svg
-                className="ml-2 h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
-              </svg>
+              <ArrowRight01Icon className="ml-2 h-5 w-5" />
             </Button>
 
             <p className="text-sm text-muted-foreground mt-6">

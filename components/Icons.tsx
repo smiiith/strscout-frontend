@@ -869,3 +869,401 @@ export const RefreshIcon = (props: React.SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
+
+// Market Spy Home Section Icons - Hugeicons Style
+
+export const Tick02Icon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill={"none"}
+    {...props}
+  >
+    <path
+      d="M5 14L8.5 17.5L19 6.5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const ArrowRight01Icon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill={"none"}
+    {...props}
+  >
+    <path
+      d="M20 12L4 12"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M15 17C15 17 20 13.3176 20 12C20 10.6824 15 7 15 7"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const BarChart01Icon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill={"none"}
+    {...props}
+  >
+    <path
+      d="M21 21H10C6.70017 21 5.05025 21 4.02513 19.9749C3 18.9497 3 17.2998 3 14V3"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M8 14L8 10"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M12 14L12 6"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16 14L16 9"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M20 14L20 12"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const TrendingUp01Icon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill={"none"}
+    {...props}
+  >
+    <path
+      d="M22 7L14.6203 14.3347C13.6227 15.3263 13.1238 15.822 12.5051 15.822C11.8864 15.8219 11.3876 15.326 10.3902 14.3342L10.1448 14.0888C9.14767 13.0942 8.64915 12.5969 8.03047 12.5969C7.41179 12.5969 6.91315 13.0941 5.91593 14.0886L2 18"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M22 7H17M22 7V12"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const UserMultipleIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill={"none"}
+    {...props}
+  >
+    <path
+      d="M20.7739 18C21.5232 18 22.1192 17.5285 22.6543 16.8691C23.7498 15.5194 21.9512 14.4408 21.2652 13.9126C20.5679 13.3756 19.7893 13.0714 18.9999 13M17.9999 11C19.3806 11 20.4999 9.88071 20.4999 8.5C20.4999 7.11929 19.3806 6 17.9999 6"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M3.22592 18C2.47659 18 1.88061 17.5285 1.34555 16.8691C0.250089 15.5194 2.04861 14.4408 2.73458 13.9126C3.43191 13.3756 4.21052 13.0714 4.99994 13M5.49994 11C4.11923 11 2.99994 9.88071 2.99994 8.5C2.99994 7.11929 4.11923 6 5.49994 6"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M8.08368 15.1112C7.0619 15.743 4.38286 17.0331 6.01458 18.6474C6.81166 19.436 7.6994 20 8.8155 20H15.1843C16.3004 20 17.1881 19.436 17.9852 18.6474C19.6169 17.0331 16.9379 15.743 15.9161 15.1112C13.52 13.6296 10.4797 13.6296 8.08368 15.1112Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M15.4999 7.5C15.4999 9.433 13.9329 11 11.9999 11C10.0669 11 8.49988 9.433 8.49988 7.5C8.49988 5.567 10.0669 4 11.9999 4C13.9329 4 15.4999 5.567 15.4999 7.5Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+  </svg>
+);
+
+export const Award02Icon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill={"none"}
+    {...props}
+  >
+    <path
+      d="M14.3465 12.7248L16.0072 13.2807C16.6115 13.4633 16.9137 13.5546 17.0678 13.7681C17.2219 13.9815 17.1923 14.2676 17.1329 14.8397L16.9029 17.0372C16.8139 17.847 16.7694 18.2519 16.5065 18.5078C16.2437 18.7637 15.8496 18.7818 15.0614 18.818L12.6763 18.9288C12.2239 18.9478 11.998 18.9572 11.8499 19.086C11.7018 19.2148 11.6736 19.4261 11.6173 19.8488L11.2932 22.0822C11.2014 22.7468 11.1555 23.0791 10.9272 23.2372C10.699 23.3954 10.3836 23.3114 9.75298 23.1435L7.46417 22.5025C7.05877 22.3893 6.85607 22.3327 6.64684 22.3294C6.43761 22.3262 6.23329 22.3768 5.82466 22.478L3.50763 23.0826C2.87207 23.2409 2.55429 23.3201 2.32601 23.1593C2.09773 22.9985 2.05637 22.6651 1.97364 21.9984L1.67018 19.7625C1.61782 19.3416 1.59164 19.1312 1.44544 19.0047C1.29924 18.8782 1.07463 18.872 0.625409 18.8595L-1.71451 18.7999C-2.49611 18.7805 -2.88691 18.7708 -3.14478 18.5214C-3.40266 18.272 -3.44091 17.8724 -3.51741 17.0732L-3.72317 14.9026C-3.77667 14.3357 -3.80342 14.0522 -3.65335 13.8412C-3.50327 13.6301 -3.20592 13.5388 -2.61122 13.3562L-0.983754 12.8217C-0.589922 12.7004 -0.393006 12.6398 -0.264135 12.5026C-0.135265 12.3655 -0.104284 12.178 -0.0423211 11.803L0.41884 9.26152C0.549094 8.55226 0.614222 8.19763 0.870978 8.0267C1.12773 7.85576 1.48324 7.94293 2.19426 8.11727L4.50685 8.71127C4.91682 8.81398 5.12181 8.86534 5.3324 8.8607C5.54299 8.85606 5.74562 8.79596 6.15087 8.67578L8.50204 7.96094C9.13915 7.7722 9.45771 7.67783 9.69005 7.84379C9.92239 8.00975 9.96613 8.34927 10.0536 9.02831L10.3478 11.4111C10.3987 11.8295 10.4242 12.0387 10.5491 12.1756C10.674 12.3125 10.8668 12.3507 11.2523 12.4272L14.3465 12.7248Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16.5 7.5C16.5 10.2614 14.2614 12.5 11.5 12.5C8.73858 12.5 6.5 10.2614 6.5 7.5C6.5 4.73858 8.73858 2.5 11.5 2.5C14.2614 2.5 16.5 4.73858 16.5 7.5Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+  </svg>
+);
+
+export const Star01Icon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill={"none"}
+    {...props}
+  >
+    <path
+      d="M13.7276 3.44418L15.4874 6.99288C15.7274 7.48687 16.3673 7.9607 16.9073 8.05143L20.0969 8.58575C22.1367 8.92853 22.6167 10.4206 21.1468 11.8925L18.6671 14.3927C18.2471 14.8161 18.0172 15.6327 18.1471 16.2175L18.8571 19.3125C19.417 21.7623 18.1271 22.71 15.9774 21.4296L12.9877 19.6452C12.4478 19.3226 11.5579 19.3226 11.0079 19.6452L8.01827 21.4296C5.8785 22.71 4.57865 21.7522 5.13859 19.3125L5.84851 16.2175C5.97849 15.6327 5.74852 14.8161 5.32856 14.3927L2.84884 11.8925C1.389 10.4206 1.85895 8.92853 3.89872 8.58575L7.08837 8.05143C7.61831 7.9607 8.25824 7.48687 8.49821 6.99288L10.258 3.44418C11.2179 1.51861 12.7777 1.51861 13.7276 3.44418Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const Calendar03Icon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill={"none"}
+    {...props}
+  >
+    <path
+      d="M18 2V4M6 2V4"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M11.9955 13H12.0045M11.9955 17H12.0045M15.991 13H16M8 13H8.00897M8 17H8.00897"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M3.5 8H20.5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M2.5 12.2432C2.5 7.88594 2.5 5.70728 3.75212 4.35364C5.00424 3 7.01949 3 11.05 3H12.95C16.9805 3 18.9958 3 20.2479 4.35364C21.5 5.70728 21.5 7.88594 21.5 12.2432V12.7568C21.5 17.1141 21.5 19.2927 20.2479 20.6464C18.9958 22 16.9805 22 12.95 22H11.05C7.01949 22 5.00424 22 3.75212 20.6464C2.5 19.2927 2.5 17.1141 2.5 12.7568V12.2432Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M3 8H21"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const Settings02Icon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill={"none"}
+    {...props}
+  >
+    <path
+      d="M15.5 12C15.5 13.933 13.933 15.5 12 15.5C10.067 15.5 8.5 13.933 8.5 12C8.5 10.067 10.067 8.5 12 8.5C13.933 8.5 15.5 10.067 15.5 12Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+    <path
+      d="M21.011 14.0965C21.5329 13.9558 21.7939 13.8854 21.9968 13.7508C22.6624 13.3497 23.0261 12.6337 22.9572 11.8891C22.9335 11.6439 22.8054 11.3743 22.549 10.835C22.2926 10.2958 22.1644 10.0262 22.0766 9.78174C21.9209 9.34684 21.9209 8.87247 22.0766 8.43757C22.1644 8.19316 22.2926 7.92349 22.549 7.38414C22.8054 6.84479 22.9335 6.57512 22.9572 6.32997C23.0261 5.58538 22.6624 4.86943 21.9968 4.46834C21.7939 4.33375 21.5329 4.26335 21.011 4.12254C20.4891 3.98174 20.2281 3.91134 19.9961 3.81925C19.5357 3.6375 19.1249 3.34734 18.7992 2.96892C18.6231 2.76854 18.4791 2.51676 18.1911 2.01321C17.9031 1.50965 17.7591 1.25787 17.5758 1.07681C17.1895 0.67815 16.6662 0.441088 16.1061 0.410799C15.8529 0.394741 15.5822 0.467787 15.0408 0.61388C14.4994 0.759973 14.2287 0.833019 13.9728 0.880388C13.4767 0.975119 12.9647 0.975119 12.4686 0.880388C12.2127 0.833019 11.942 0.759973 11.4006 0.61388C10.8592 0.467787 10.5885 0.394741 10.3353 0.410799C9.77527 0.441088 9.25191 0.67815 8.86563 1.07681C8.68226 1.25787 8.53832 1.50965 8.25044 2.01321C7.96256 2.51676 7.81862 2.76854 7.64252 2.96892C7.31673 3.34734 6.90593 3.6375 6.44551 3.81925C6.21345 3.91134 5.95246 3.98174 5.43048 4.12254C4.90849 4.26335 4.64749 4.33375 4.44461 4.46834C3.77901 4.86943 3.41525 5.58538 3.48416 6.32997C3.50786 6.57512 3.63597 6.84479 3.89218 7.38414C4.1484 7.92349 4.27651 8.19316 4.36428 8.43757C4.51997 8.87247 4.51997 9.34684 4.36428 9.78174C4.27651 10.0262 4.1484 10.2958 3.89218 10.835C3.63597 11.3743 3.50786 11.6439 3.48416 11.8891C3.41525 12.6337 3.77901 13.3497 4.44461 13.7508C4.64749 13.8854 4.90849 13.9558 5.43048 14.0965C5.95246 14.2373 6.21345 14.3077 6.44551 14.3998C6.90593 14.5815 7.31673 14.8717 7.64252 15.2501C7.81862 15.4505 7.96256 15.7023 8.25044 16.2058C8.53832 16.7094 8.68226 16.9612 8.86563 17.1422C9.25191 17.5409 9.77527 17.7779 10.3353 17.8082C10.5885 17.8243 10.8592 17.7512 11.4006 17.6051C11.942 17.459 12.2127 17.386 12.4686 17.3386C12.9647 17.2439 13.4767 17.2439 13.9728 17.3386C14.2287 17.386 14.4994 17.459 15.0408 17.6051C15.5822 17.7512 15.8529 17.8243 16.1061 17.8082C16.6662 17.7779 17.1895 17.5409 17.5758 17.1422C17.7591 16.9612 17.9031 16.7094 18.1911 16.2058C18.4791 15.7023 18.6231 15.4505 18.7992 15.2501C19.1249 14.8717 19.5357 14.5815 19.9961 14.3998C20.2281 14.3077 20.4891 14.2373 21.011 14.0965Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+export const LightBulb01Icon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill={"none"}
+    {...props}
+  >
+    <path
+      d="M9.5 18.5C9.99153 18.8245 10.4755 19 11 19H13C13.5245 19 14.0085 18.8245 14.5 18.5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M9 22H15"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M11 19V22M13 19V22"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M15.5 14H8.5C7.11929 14 6 12.8807 6 11.5C6 11.0344 6 10.5 7.5 10.5M16 10.5C17.5 10.5 18 11.0344 18 11.5C18 12.8807 16.8807 14 15.5 14ZM15.5 14C16.8807 14 18 15.1193 18 16.5C18 17.8807 16.8807 19 15.5 19H8.5C7.11929 19 6 17.8807 6 16.5C6 15.1193 7.11929 14 8.5 14"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M8.00897 10C8.00897 6.68629 10.6952 4 14.009 4C17.3228 4 20.009 6.68629 20.009 10C20.009 10.9571 19.809 11.8695 19.449 12.6923"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M4 10.5H6"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+export const Target03Icon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill={"none"}
+    {...props}
+  >
+    <circle
+      cx="12"
+      cy="12"
+      r="10"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+    <circle
+      cx="12"
+      cy="12"
+      r="6"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+    <circle
+      cx="12"
+      cy="12"
+      r="2"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+  </svg>
+);
+
+export const Clock01Icon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill={"none"}
+    {...props}
+  >
+    <circle
+      cx="12"
+      cy="12"
+      r="10"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
+    <path
+      d="M12 8V12L14 14"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const Zap01Icon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill={"none"}
+    {...props}
+  >
+    <path
+      d="M13 2L3 14H12L11 22L21 10H12L13 2Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);

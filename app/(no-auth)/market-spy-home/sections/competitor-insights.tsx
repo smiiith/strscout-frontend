@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Tick02Icon } from "@/components/Icons";
 import { useRouter } from "next/navigation";
 
 export function CompetitorInsights() {
@@ -31,19 +32,7 @@ export function CompetitorInsights() {
               {questions.map((question, index) => (
                 <div key={index} className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg
-                      className="w-4 h-4 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
+                    <Tick02Icon className="w-4 h-4 text-primary" />
                   </div>
                   <p className="text-base md:text-lg text-foreground">
                     {question}
