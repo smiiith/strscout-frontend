@@ -2,7 +2,12 @@ export function MarketSpyFeatures() {
   const features = [
     {
       icon: (
-        <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg
+          className="w-6 h-6 text-primary"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -17,22 +22,38 @@ export function MarketSpyFeatures() {
     },
     {
       icon: (
-        <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg
+          className="w-6 h-6 text-primary"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
             d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
           />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+          />
         </svg>
       ),
       title: "Analyze Amenities & Policies",
-      description: "We look for pet policies, self check-in, Instant Book, and other conversion-critical settings.",
+      description:
+        "We look for Pet Policies, Self Check-in, Instant Book, and other conversion-critical settings.",
     },
     {
       icon: (
-        <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg
+          className="w-6 h-6 text-primary"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -42,11 +63,17 @@ export function MarketSpyFeatures() {
         </svg>
       ),
       title: "Evaluate Photos & Interior Design",
-      description: "Side-by-side rating of photo quality, layout, staging, and design cues.",
+      description:
+        "Side-by-side rating of photo quality, layout, staging, and design cues.",
     },
     {
       icon: (
-        <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg
+          className="w-6 h-6 text-primary"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -56,11 +83,17 @@ export function MarketSpyFeatures() {
         </svg>
       ),
       title: "Review Headlines & Descriptions",
-      description: "We break down how competitors are positioning themselves — and what guests see first.",
+      description:
+        "We break down how competitors are positioning themselves — and what guests see first.",
     },
     {
       icon: (
-        <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg
+          className="w-6 h-6 text-primary"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -70,30 +103,38 @@ export function MarketSpyFeatures() {
         </svg>
       ),
       title: "Get a Written Synopsis + Actionable Feedback",
-      description: "Every report includes a clear breakdown with takeaways and suggestions for your own listing.",
+      description:
+        "Every report includes a clear breakdown with takeaways and suggestions for your own listing.",
     },
-    {
-      icon: (
-        <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-          />
-        </svg>
-      ),
-      title: "Download the Full Report",
-      description: "PDF versions available for your records or team use.",
-    },
-  ]
+    // {
+    //   icon: (
+    //     <svg
+    //       className="w-6 h-6 text-primary"
+    //       fill="none"
+    //       viewBox="0 0 24 24"
+    //       stroke="currentColor"
+    //     >
+    //       <path
+    //         strokeLinecap="round"
+    //         strokeLinejoin="round"
+    //         strokeWidth={2}
+    //         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+    //       />
+    //     </svg>
+    //   ),
+    //   title: "Download the Full Report",
+    //   description: "PDF versions available for your records or team use.",
+    // },
+  ];
 
   return (
     <section className="py-16 md:py-24 bg-background">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-balance">Features and Benefits</h2>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-balance">
+              Features and Benefits
+            </h2>
             <p className="text-xl text-muted-foreground text-balance">
               Everything Your Competitors Are Doing — In One Report
             </p>
@@ -108,8 +149,12 @@ export function MarketSpyFeatures() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2 text-foreground">{feature.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                  <h3 className="text-xl font-semibold mb-2 text-foreground">
+                    {feature.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {feature.description}
+                  </p>
                 </div>
               </div>
             ))}
@@ -117,5 +162,5 @@ export function MarketSpyFeatures() {
         </div>
       </div>
     </section>
-  )
+  );
 }

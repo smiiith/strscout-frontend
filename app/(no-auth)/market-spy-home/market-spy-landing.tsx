@@ -6,14 +6,12 @@ import { MarketSpyFeatures } from "./sections/market-spy-features";
 import { MarketSpyFinalCTA } from "./sections/market-spy-final-cta";
 import { MarketSpyHero } from "./sections/market-spy-hero";
 import { MarketSpyReportPreview } from "./sections/market-spy-report-preview";
-import { MarketSpySocialProof } from "./sections/market-spy-social-proof";
-import { TestimonialsSection } from "./sections/testimonials-section";
 
 const MarketSpyLanding = () => {
   return (
     <main>
       <MarketSpyHero />
-      <MarketSpySocialProof />
+      {/* <MarketSpySocialProof /> */}
       <MarketSpyReportPreview />
       <CompetitorInsights />
       {/* <TestimonialsSection /> */}

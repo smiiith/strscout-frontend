@@ -57,15 +57,13 @@ export function MarketSpyHero() {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-balance">
-              Discover Why Competitors Are{" "}
-              <span className="text-primary">Booked Solid</span> While You're
-              Not
+              See the Winners. See Why.
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed text-pretty">
-              Stop guessing. Get real data on what's working in your market —
-              booking rates, pricing strategies, amenities, and the exact
-              tactics your top competitors use to stay fully booked.
+              See live occupancy near you and what top competitors do
+              differently — amenities, photos, headlines, descriptions, interior
+              design, policies, and more.
             </p>
 
             <div className="bg-muted/50 border border-border rounded-xl p-6 mb-8">
@@ -73,8 +71,7 @@ export function MarketSpyHero() {
                 <span className="font-semibold text-foreground">
                   STR Market Spy
                 </span>{" "}
-                shows you which nearby listings are getting booked most often —
-                and exactly how you stack up against them.
+                shows who's getting booked now and how you stack up.
               </p>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
@@ -91,7 +88,7 @@ export function MarketSpyHero() {
                       d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  Takes a few minutes
+                  Takes minutes
                 </div>
                 <div className="flex items-center gap-2">
                   <svg
@@ -107,7 +104,7 @@ export function MarketSpyHero() {
                       d="M13 10V3L4 14h7v7l9-11h-7z"
                     />
                   </svg>
-                  No set-up. Just insights.
+                  No setup &mdash; just insights.
                 </div>
               </div>
             </div>
@@ -141,7 +138,7 @@ export function MarketSpyHero() {
               <span className="font-semibold text-success">
                 ⚡ Results in a few minutes
               </span>{" "}
-              • No credit card
+              • Costs a fraction of one empty night
             </p>
           </div>
         </div>
