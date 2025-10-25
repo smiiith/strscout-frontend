@@ -124,7 +124,7 @@ const HeaderNav = (props: any) => {
     },
     {
       label: "STR Market Spy",
-      href: "/",
+      href: "/market-spy-home",
       enabled: true,
       icon: () => {
         return <House01Icon className="text-red-500 ml-6" />;

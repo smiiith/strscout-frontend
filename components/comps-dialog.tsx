@@ -32,7 +32,9 @@ const CompsDialog = ({
           {buttonText}
         </span>
       ) : (
-        <Button onClick={() => setIsOpen(true)}>{buttonText}</Button>
+        <Button onClick={() => setIsOpen(true)} variant="default">
+          {buttonText}
+        </Button>
       )}
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>

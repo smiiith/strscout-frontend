@@ -3,9 +3,9 @@ import "./home.css";
 // import HeaderNav from "@/components/header";
 import { createClient } from "@/utils/supabase/server";
 import { getUserWithPlan } from "@/app/(authenticated)/utils";
-import MarketSpyLanding from "@/app/market-spy-landing";
+import MarketSpyLanding from "./market-spy-landing";
 
-export default async function Home() {
+export default async function MarketSpyHome() {
   const supabase = createClient();
   const {
     data: { user },
@@ -21,7 +21,6 @@ export default async function Home() {
       <div className="flex-grow">
         <div className="container mx-auto p-0 max-w-7xl bg-background">
           <>
-            {/* <HeaderNav user={userProfile} /> */}
             <MarketSpyLanding />
           </>
         </div>
