@@ -25,14 +25,14 @@ export function MarketSpyHero() {
                 className="rounded-2xl shadow-2xl"
                 priority
               />
-              <div className="absolute -bottom-6 left-4 bg-primary text-primary-foreground p-6 rounded-xl shadow-xl">
+              <div className="absolute -bottom-12 left-4 bg-slate-200 border border-border rounded-xl p-4 shadow-lg">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-primary-foreground/20 rounded-full flex items-center justify-center">
-                    <Target03Icon className="w-6 h-6" />
+                  <div className="w-12 h-12 flex items-center justify-center text-3xl">
+                    💫
                   </div>
                   <div>
-                    <div className="text-2xl font-bold">STR</div>
-                    <div className="text-sm font-medium">Market Spy</div>
+                    <div className="text-3xl font-bold text-success">Quick</div>
+                    <div className="text-md font-medium">& Easy to Use</div>
                   </div>
                 </div>
               </div>
