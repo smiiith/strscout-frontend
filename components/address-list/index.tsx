@@ -17,9 +17,10 @@ interface Address {
 
 interface AddressListProps {
   comps: Address[];
+  detailsPageUrl?: string; // Optional custom URL for details page (defaults to /comp-details)
 }
 
-export default function AddressList({ comps: comps }: AddressListProps) {
+export default function AddressList({ comps: comps, detailsPageUrl = "/comp-details" }: AddressListProps) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredAddresses = useMemo(() => {
@@ -66,6 +67,7 @@ export default function AddressList({ comps: comps }: AddressListProps) {
             useNavigation={true}
             compBasisId={comp.id}
             runDate={comp.created_at}
+            detailsPageUrl={detailsPageUrl}
           />
         ))}
       </div>
