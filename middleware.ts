@@ -3,11 +3,14 @@ import { updateSession, checkUserPlan } from '@/utils/supabase/middleware'
 
 const protectedRoutes = [
   "/account",
-  "/properties", 
+  "/properties",
   "/market-spy",
   "/my-comps",
   "/comp-details",
   "/comp-analysis",
+  "/market-scout",
+  "/market-scout-reports",
+  "/market-scout-details",
   // "/contact"
 ];
 
@@ -16,6 +19,9 @@ const planProtectedRoutes = {
   "/my-comps": "pro",
   "/comp-details": "pro",
   "/comp-analysis": "pro",
+  "/market-scout": "pro",
+  "/market-scout-reports": "pro",
+  "/market-scout-details": "pro",
 };
 
 const ALLOWED_ORIGINS = ['https://strsage.com']; // Add other production domains if needed

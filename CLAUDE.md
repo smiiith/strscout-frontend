@@ -92,6 +92,7 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
 - **Frontend**: Next.js 14 with App Router, React 18, TypeScript
 - **Styling**: Tailwind CSS with custom design system using Radix UI components
 - **Backend**: Supabase (Auth, Database, Storage)
+- **Node Backend**: Express API for Market Spy/Scout scraping
 - **Analytics**: PostHog
 - **Email**: Resend with React Email components
 
@@ -105,13 +106,30 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
 
 **Core Features:**
 
-- Property analysis and assessment with competitive comparisons
-- Market research and spy tools (MarketSpy)
+- **Feedback Genius**: Property analysis and assessment with competitive comparisons
+- **Market Spy**: Market research tool with user-selectable room type (Room or Entire Home)
+- **Market Scout**: Streamlined market research for entire home properties only
 - User subscription management with different plans
 - Property scanning and ratings system via backend scraping
 - Address lookup with Geoapify integration
 - Automated calendar synchronization monitoring (Airbnb ↔ VRBO)
 - Email notifications for scan results and mismatches
+
+### Market Spy vs Market Scout
+
+Both products share the same underlying infrastructure but differ in UX:
+
+| Feature | Market Spy | Market Scout |
+|---------|-----------|--------------|
+| **Room Type** | User selects (Room or Entire Home) | Always "Entire Home" (hidden) |
+| **Form** | Shows room type dropdown | Hides room type field |
+| **Reports Page** | `/my-comps` | `/market-scout-reports` |
+| **Details Page** | `/comp-details` | `/market-scout-details` |
+| **Find Your Edge** | Shows AI analysis card | Hidden (not shown) |
+| **Logo** | `/market-spy-logo.png` | `/market-scout-logo.png` |
+| **Backend Param** | `product_type: 'market-spy'` | `product_type: 'market-scout'` |
+| **Database Table** | `market_spy_runs` | `market_scout_runs` |
+| **Shared Components** | `MarketAnalysisPage`, `MarketAnalysisForm`, etc. | Same shared components |
 
 ### Authentication & Security
 
@@ -167,8 +185,15 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
 
 - `components/ui/` - Radix UI-based design system components
   - `components/ui/message.tsx` - Reusable message component with variants (info, success, warning, error) using theme colors
+- `components/market-analysis/` - Shared components for Market Spy and Market Scout
+  - `MarketAnalysisPage.tsx` - Main page component with product type configuration
+  - `MarketAnalysisForm.tsx` - Form with conditional room type field
+  - `SearchCompleteDialog.tsx` - Success dialog after search
+  - `useMarketAnalysisAccount.ts` - Shared account/usage logic hook
 - `components/` - Feature-specific components (PropertyCard, Ratings, etc.)
 - `app/` - Next.js App Router pages and layouts
+  - `app/(authenticated)/market-spy/` - Market Spy pages
+  - `app/(authenticated)/market-scout/` - Market Scout pages
 - `utils/supabase/` - Supabase client configurations (client, server, middleware)
 
 ### Database Integration
