@@ -1,3 +1,5 @@
+'use client'
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { signup } from "@/app/(login)/login/actions"
 import Link from 'next/link'
@@ -6,9 +8,23 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
 import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 
 export default function CreateAccount() {
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirect_to') || ''
+
+  // Get the current origin (localhost or production) to use in confirmation email
+  // Use state to ensure it's set after component mounts on client
+  const [origin, setOrigin] = useState('')
+
+  useEffect(() => {
+    // Capture origin after component mounts to avoid hydration issues
+    setOrigin(window.location.origin)
+  }, [])
+
   return (
     <>
       <Image
@@ -52,6 +68,11 @@ export default function CreateAccount() {
                 </div>
                 <PasswordInput id="password" name="password" required />
               </div>
+
+              {/* Hidden fields to pass redirect destination and origin */}
+              <input type="hidden" name="redirect_to" value={redirectTo} />
+              <input type="hidden" name="origin" value={origin} />
+
               <Button type="submit" className="w-fit" formAction={signup}>
                 Create
               </Button>

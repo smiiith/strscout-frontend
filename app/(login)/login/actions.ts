@@ -8,6 +8,9 @@ import { createAdminClient, createClient } from "@/utils/supabase/server";
 export async function login(formData: FormData) {
   const supabase = createClient();
 
+  // Get the intended redirect destination
+  const redirectTo = formData.get("redirect_to") as string || "";
+
   // type-casting here for convenience
   // in practice, you should validate your inputs
   const data = {
@@ -33,7 +36,13 @@ export async function login(formData: FormData) {
 
   revalidatePath("/", "layout");
   revalidatePath("/properties");
-  redirect("/");
+
+  // Redirect to the intended destination or default to home
+  if (redirectTo && redirectTo.startsWith('/') && !redirectTo.startsWith('//')) {
+    redirect(redirectTo);
+  } else {
+    redirect("/");
+  }
 }
 
 export async function signup(formData: FormData) {
@@ -44,8 +53,20 @@ export async function signup(formData: FormData) {
     .split(",")
     .map((item: string) => item.trim());
 
+  // Get the intended post-confirmation redirect destination
+  const redirectTo = formData.get("redirect_to") as string || "";
+
+  // Get the origin (localhost or production) from the form data
+  // Fall back to APP_DOMAIN if not provided
+  const origin = (formData.get("origin") as string) || process.env.NEXT_PUBLIC_APP_DOMAIN;
+
   // Define the redirect URL for after confirmation
-  const redirectUrl = `${process.env.NEXT_PUBLIC_APP_DOMAIN}/auth/callback`;
+  let redirectUrl = `${origin}/auth/callback`;
+
+  // Append the next parameter if redirect_to was provided
+  if (redirectTo) {
+    redirectUrl += `?next=${encodeURIComponent(redirectTo)}`;
+  }
 
   // type-casting here for convenience
   // in practice, you should validate your inputs

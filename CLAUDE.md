@@ -82,6 +82,10 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
 - Production uses Supabase project `eklefalzcpfrnsmzrlbn`
 - Ensure `NEXT_PUBLIC_SITE_URL` matches your actual domain in each environment
 - Resend SMTP is also configured in Supabase Dashboard → Authentication → SMTP Settings
+- **Supabase Redirect URLs**: Must configure allowed redirect URLs in Supabase Dashboard → Authentication → URL Configuration:
+  - Development: `http://localhost:3005/**`
+  - Production: `https://www.strsage.com/**`
+  - Vercel previews: `https://*.vercel.app/**` (if needed)
 
 ## Architecture Overview
 
