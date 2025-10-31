@@ -1,3 +1,5 @@
+'use client'
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { login } from "./actions";
 import Link from "next/link";
@@ -5,8 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirect_to') || ''
   return (
     <div className="">
       <Card className="max-w-sm bg-background border-none">
@@ -48,6 +53,9 @@ export default function LoginPage() {
                   </div>
                 </div>
 
+                {/* Hidden field to pass redirect destination */}
+                <input type="hidden" name="redirect_to" value={redirectTo} />
+
                 <Button
                   type="submit"
                   className="w-full px-8"
@@ -77,7 +85,7 @@ export default function LoginPage() {
                     className="w-full border-[#1e6bb8] text-[#1e6bb8] hover:bg-[#1e6bb8] hover:text-white font-semibold bg-transparent"
                     asChild
                   >
-                    <Link href="/register">Create Free Account</Link>
+                    <Link href={redirectTo ? `/register?redirect_to=${encodeURIComponent(redirectTo)}` : "/register"}>Create Free Account</Link>
                   </Button>
                 </div>
               </div>

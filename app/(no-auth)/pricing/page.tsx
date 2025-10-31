@@ -77,9 +77,9 @@ export default function PricingPage() {
                   Current Plan
                 </Button>
               ) : (
-                <Button 
+                <Button
                   className="w-full"
-                  onClick={() => router.push("/register")}
+                  onClick={() => router.push("/register?redirect_to=/pricing")}
                 >
                   Sign Up Free Now
                 </Button>

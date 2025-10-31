@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useUserSession } from "@/lib/context/UserSessionProvider";
 
 export function HeroSection() {
   const router = useRouter();
+  const { session } = useUserSession();
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-muted to-background pt-10 pb-20 md:pb-32">
@@ -34,7 +36,13 @@ export function HeroSection() {
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-lg px-8 py-6 shadow-lg shadow-primary/25"
                 onClick={() => {
-                  router.push("/properties/assess-property/single");
+                  // If user is logged in, go directly to assess property
+                  // Otherwise, redirect to register with return path
+                  if (session?.id) {
+                    router.push("/properties/assess-property/single");
+                  } else {
+                    router.push("/register?redirect_to=/properties/assess-property/single");
+                  }
                 }}
               >
                 Get Your Free Analysis

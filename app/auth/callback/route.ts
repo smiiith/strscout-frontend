@@ -4,11 +4,31 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(request: NextRequest) {
     const requestUrl = new URL(request.url);
     const code = requestUrl.searchParams.get('code');
+    const next = requestUrl.searchParams.get('next');
 
     console.log('Auth callback - Full URL:', requestUrl.href);
     console.log('Auth callback - Code present:', !!code);
+    console.log('Auth callback - Next destination:', next);
 
     const supabase = createClient();
+
+    // Determine the redirect destination
+    // Default to /properties if no next parameter provided
+    const getRedirectUrl = () => {
+        if (!next) {
+            return new URL('/properties', requestUrl.origin);
+        }
+
+        // Validate that the redirect is to a path within our app (security)
+        // Only allow paths starting with /
+        if (next.startsWith('/') && !next.startsWith('//')) {
+            return new URL(next, requestUrl.origin);
+        }
+
+        // If validation fails, use default
+        console.warn('Invalid redirect_to parameter:', next);
+        return new URL('/properties', requestUrl.origin);
+    };
 
     // If there's a code, exchange it for a session (OAuth/PKCE flow)
     if (code) {
@@ -26,8 +46,8 @@ export async function GET(request: NextRequest) {
             return NextResponse.redirect(errorUrl);
         }
 
-        console.log('Auth callback - Code exchange success! Redirecting to login page');
-        return NextResponse.redirect(new URL('/login', requestUrl.origin));
+        console.log('Auth callback - Code exchange success! Redirecting to:', next || '/properties');
+        return NextResponse.redirect(getRedirectUrl());
     }
 
     // If there's no code, check if session already exists (email confirmation flow)
@@ -42,8 +62,8 @@ export async function GET(request: NextRequest) {
     }
 
     if (session) {
-        console.log('Auth callback - Session found! User already authenticated. Redirecting to login page');
-        return NextResponse.redirect(new URL('/login', requestUrl.origin));
+        console.log('Auth callback - Session found! User already authenticated. Redirecting to:', next || '/properties');
+        return NextResponse.redirect(getRedirectUrl());
     }
 
     // No code and no session - something went wrong

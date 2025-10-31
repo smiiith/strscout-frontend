@@ -175,7 +175,9 @@ export default function ProPlanSelector({
           ) : (
             <Button
               className="w-full"
-              onClick={() => (window.location.href = "/login")}
+              onClick={() =>
+                (window.location.href = "/register?redirect_to=/pricing")
+              }
             >
               Login to Get Started
             </Button>
