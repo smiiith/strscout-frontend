@@ -17,7 +17,7 @@ const AnswersSection = () => {
           <CardContent className="px-2 py-4 space-y-4">
             <div className="p-6">
               <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                Got Questions? We've Got Answers.
+                Frequently Asked Questions
               </h2>
 
               <div className="mb-6">
