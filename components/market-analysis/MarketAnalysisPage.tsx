@@ -8,10 +8,11 @@ import { Message } from "@/components/ui/message";
 import MarketAnalysisForm from "./MarketAnalysisForm";
 import SearchCompleteDialog from "./SearchCompleteDialog";
 import { useMarketAnalysisAccount } from "./useMarketAnalysisAccount";
+import { Badge } from "../ui/badge";
 
 interface MarketAnalysisPageProps {
   productName: string; // "Market Spy" or "Market Scout"
-  productType: 'market-spy' | 'market-scout'; // Backend identifier
+  productType: "market-spy" | "market-scout"; // Backend identifier
   showRoomTypeSelect: boolean; // true for Market Spy, false for Market Scout
   fixedRoomType?: string; // "entire home" for Market Scout
   reportsPageUrl: string; // "/my-comps" or "/market-scout-reports"
@@ -129,7 +130,9 @@ export default function MarketAnalysisPage({
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert(`An error occurred while running ${productName}. Please try again.`);
+      alert(
+        `An error occurred while running ${productName}. Please try again.`
+      );
     } finally {
       setLoading(false);
     }
@@ -137,7 +140,13 @@ export default function MarketAnalysisPage({
 
   return (
     <div className="min-h-[700px] py-6">
-      <Image src={logoSrc} alt={productName} width={233} height={80} />
+      <div className="flex flex-row">
+        <Image src={logoSrc} alt={productName} width={233} height={80} />
+
+        <Badge className="h-6 mx-4" variant="default">
+          Beta
+        </Badge>
+      </div>
 
       <h1 className="text-3xl font-bold mt-6">{title}</h1>
 
@@ -148,8 +157,8 @@ export default function MarketAnalysisPage({
         {showSuccess && (
           <div className="w-1/2">
             <Message variant="success">
-              🎉 Payment successful! You can now use {productName} with your
-              new plan.
+              🎉 Payment successful! You can now use {productName} with your new
+              plan.
             </Message>
           </div>
         )}
