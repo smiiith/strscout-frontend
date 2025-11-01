@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Clock } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useUserSession } from "@/lib/context/UserSessionProvider";
 
 export function FinalCTA() {
   const router = useRouter();
+  const { session } = useUserSession();
 
   return (
     <section className="py-20 md:py-24 bg-gradient-to-b from-primary/5 to-background">
@@ -28,7 +30,13 @@ export function FinalCTA() {
             size="lg"
             className="bg-primary hover:bg-primary/90 text-lg px-12 py-6 shadow-lg shadow-primary/25 w-full"
             onClick={() => {
-              router.push("/properties/assess-property/single");
+              // If user is logged in, go directly to assess property
+              // Otherwise, redirect to register with return path
+              if (session?.id) {
+                router.push("/properties/assess-property/single");
+              } else {
+                router.push("/register?redirect_to=/properties/assess-property/single");
+              }
             }}
           >
             Get Your Free Analysis Now

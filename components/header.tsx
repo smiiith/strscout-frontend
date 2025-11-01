@@ -58,6 +58,17 @@ const HeaderNav = (props: any) => {
       },
     },
     {
+      label: "Market Scout",
+      href: "/market-scout",
+      enabled:
+        props.user &&
+        props.user.plan &&
+        props.user.plan.key === PLANS.PRO,
+      icon: () => {
+        return <House01Icon className="text-red-500 ml-6" />;
+      },
+    },
+    {
       label: "Pricing",
       href: "/pricing",
       enabled: true,
@@ -104,6 +115,15 @@ const HeaderNav = (props: any) => {
     {
       label: "Market Spy Reports",
       href: "/my-comps",
+      enabled:
+        props.user && props.user.plan && props.user.plan.key === PLANS.PRO,
+      icon: () => {
+        return <House01Icon className="text-red-500 ml-6" />;
+      },
+    },
+    {
+      label: "Market Scout Reports",
+      href: "/market-scout-reports",
       enabled:
         props.user && props.user.plan && props.user.plan.key === PLANS.PRO,
       icon: () => {
@@ -328,15 +348,20 @@ const HeaderNav = (props: any) => {
           </div>
         )}
         {pageLinks.map((link: any, index: number) => {
-          // Check if Market Spy is enabled in pageLinks
+          // Check if Market Spy or Market Scout is enabled in pageLinks
           const marketSpyEnabled = pageLinks.some(
             (l: any) => l.href === "/market-spy" && l.enabled
           );
+          const marketScoutEnabled = pageLinks.some(
+            (l: any) => l.href === "/market-scout" && l.enabled
+          );
           // Determine if we should show My Reports after this link
+          // Show after Market Scout if enabled, otherwise after Market Spy if enabled, otherwise after Feedback Genius
           const showMyReportsAfter =
-            (link.href === "/market-spy" && link.enabled) ||
+            (link.href === "/market-scout" && link.enabled) ||
+            (link.href === "/market-spy" && link.enabled && !marketScoutEnabled) ||
             (link.href === "/properties/assess-property/single" &&
-              !marketSpyEnabled);
+              !marketSpyEnabled && !marketScoutEnabled);
 
           return (
             <React.Fragment key={`desktop-${index}`}>

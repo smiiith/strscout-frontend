@@ -49,6 +49,7 @@ export interface AddressCardProps {
   useNavigation?: boolean;
   compBasisId?: string;
   runDate?: string;
+  detailsPageUrl?: string; // Optional custom URL for details page
 }
 
 const getStatusIcon = (status: string) => {
@@ -88,6 +89,7 @@ export default function AddressCard({
   useNavigation = false,
   compBasisId,
   runDate,
+  detailsPageUrl = "/comp-details",
 }: AddressCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const router = useRouter();
@@ -109,7 +111,7 @@ export default function AddressCard({
       const searchParams = new URLSearchParams({
         compBasisId: compBasisId,
       });
-      router.push(`/comp-details?${searchParams.toString()}`);
+      router.push(`${detailsPageUrl}?${searchParams.toString()}`);
     } else if (!useNavigation) {
       setIsDialogOpen(true);
     }
