@@ -22,7 +22,7 @@ const AnswersSection = () => {
 
               <div className="mb-6">
                 <h3 className="text-xl font-semibold mb-2">
-                  What do you mean by nearby competitors??
+                  What do you mean by nearby competitors?
                 </h3>
                 <p className="text-gray-700">
                   We find 10-20 listings that are both close in proximity and
