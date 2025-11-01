@@ -58,12 +58,10 @@ const HeaderNav = (props: any) => {
       },
     },
     {
-      label: "Market Scout",
+      label: "Market Scout 🧪",
       href: "/market-scout",
       enabled:
-        props.user &&
-        props.user.plan &&
-        props.user.plan.key === PLANS.PRO,
+        props.user && props.user.plan && props.user.plan.key === PLANS.PRO,
       icon: () => {
         return <House01Icon className="text-red-500 ml-6" />;
       },
@@ -122,7 +120,7 @@ const HeaderNav = (props: any) => {
       },
     },
     {
-      label: "Market Scout Reports",
+      label: "Market Scout Reports 🧪",
       href: "/market-scout-reports",
       enabled:
         props.user && props.user.plan && props.user.plan.key === PLANS.PRO,
@@ -359,9 +357,12 @@ const HeaderNav = (props: any) => {
           // Show after Market Scout if enabled, otherwise after Market Spy if enabled, otherwise after Feedback Genius
           const showMyReportsAfter =
             (link.href === "/market-scout" && link.enabled) ||
-            (link.href === "/market-spy" && link.enabled && !marketScoutEnabled) ||
+            (link.href === "/market-spy" &&
+              link.enabled &&
+              !marketScoutEnabled) ||
             (link.href === "/properties/assess-property/single" &&
-              !marketSpyEnabled && !marketScoutEnabled);
+              !marketSpyEnabled &&
+              !marketScoutEnabled);
 
           return (
             <React.Fragment key={`desktop-${index}`}>
