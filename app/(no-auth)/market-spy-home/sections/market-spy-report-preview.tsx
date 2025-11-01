@@ -3,7 +3,12 @@ import ImageSlider from "@/components/image-slider";
 import { MockMarketSpyComps } from "@/components/ratings-example/market-spy-mock";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { BarChart01Icon, CheckmarkCircle02Icon, TrendingUp01Icon, File02Icon } from "@/components/Icons";
+import {
+  BarChart01Icon,
+  CheckmarkCircle02Icon,
+  TrendingUp01Icon,
+  File02Icon,
+} from "@/components/Icons";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -78,7 +83,7 @@ export function MarketSpyReportPreview() {
                 router.push("/pricing");
               }}
             >
-              Get My Report Now
+              Choose a plan
             </Button>
           </div>
 
