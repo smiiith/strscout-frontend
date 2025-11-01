@@ -55,7 +55,7 @@ export function CompetitorInsights() {
                   router.push("/pricing");
                 }}
               >
-                Get My Report Now
+                Choose a plan
               </Button>
             </div>
           </div>

@@ -26,7 +26,7 @@ export function MarketSpyFinalCTA() {
                 router.push("/pricing");
               }}
             >
-              Get My Report Now
+              Choose a plan
               <ArrowRight01Icon className="ml-2 h-5 w-5" />
             </Button>
 
