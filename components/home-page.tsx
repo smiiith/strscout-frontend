@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import HeaderNav from "@/components/header";
+import { Badge } from "./ui/badge";
 
 interface HomePageProps {
   user?: any;
@@ -50,9 +51,7 @@ const HomePage = ({ user }: HomePageProps) => {
                     <Link href="/feedback-genius">Learn More</Link>
                   </Button>
                   <Button asChild size="lg" className="w-4/5">
-                    <Link href="/feedback-genius/analyze">
-                      Start Now
-                    </Link>
+                    <Link href="/feedback-genius/analyze">Start Now</Link>
                   </Button>
                 </div>
               </div>
@@ -91,13 +90,19 @@ const HomePage = ({ user }: HomePageProps) => {
                     height={120}
                     className="object-contain"
                   />
+                  <Badge className="h-6 mx-4" variant="default">
+                    Beta
+                  </Badge>
                 </div>
                 <p className="text-gray-700 mb-8 text-lg leading-relaxed">
                   I want to research a new STR opportunity.
                 </p>
                 <div className="space-y-4">
                   <Button asChild size="lg" className="w-4/5">
-                    <Link href="/contact-us">Apply for Beta Test</Link>
+                    <Link href="/market-scout">Learn More</Link>
+                  </Button>
+                  <Button asChild size="lg" className="w-4/5">
+                    <Link href="/market-scout/analyze">Start Now</Link>
                   </Button>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 import { Calendar03Icon, Settings02Icon, Image02Icon, File02Icon, LightBulb01Icon } from "@/components/Icons";
 
-export function MarketSpyFeatures() {
+export function MarketScoutFeatures() {
   const features = [
     {
       icon: <Calendar03Icon className="w-6 h-6 text-primary" />,

@@ -7,7 +7,7 @@ import {
 
 // In saturated markets, real advantage comes from insight—see what works nearby and outperform it
 
-export function MarketSpySocialProof() {
+export function MarketScoutSocialProof() {
   return (
     <section className="border-y border-border bg-muted/30">
       <div className="container mx-auto px-4 py-12">
@@ -17,13 +17,10 @@ export function MarketSpySocialProof() {
               <Target02Icon className="w-24 h-24 text-primary/50" />
             </div>
             <div>
-              <div className="text-2xl text-foreground/50">
-                In saturated markets, real advantage comes from insight—see what
-                works nearby and outperform it
+              <div className="text-2xl text-foreground/50 mx-6">
+                Find properties in markets that give you the best chance to
+                succeed
               </div>
-              {/* <div className="text-sm text-muted-foreground">
-                Hosts Using Market Spy
-              </div> */}
             </div>
           </div>
         </div>

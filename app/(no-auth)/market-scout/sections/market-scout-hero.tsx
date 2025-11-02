@@ -8,7 +8,7 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-export function MarketSpyHero() {
+export function MarketScoutHero() {
   const router = useRouter();
 
   return (
@@ -49,21 +49,21 @@ export function MarketSpyHero() {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-balance">
-              See the Winners. See Why.
+              Buy Smart. Invest Confidently.
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed text-pretty">
-              See live occupancy near you and what top competitors do
-              differently — amenities, photos, headlines, descriptions, interior
-              design, policies, and more.
+              Thinking about buying a property for short-term rental? STR Market
+              Scout analyzes any address to show you the investment potential,
+              competition, and earning opportunities before you commit.
             </p>
 
             <div className="bg-muted/50 border border-border rounded-xl p-6 mb-8">
               <p className="text-base leading-relaxed mb-4">
                 <span className="font-semibold text-foreground">
-                  STR Market Spy
+                  STR Market Scout
                 </span>{" "}
-                shows who's getting booked now and how you stack up.
+                shows you how comparable properties in an area are performing.
               </p>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
