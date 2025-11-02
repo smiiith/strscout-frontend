@@ -43,7 +43,7 @@ const FeedbackGeniusHero = () => {
           </p>
 
           <Button
-            onClick={() => router.push("/properties/assess-property/single")}
+            onClick={() => router.push("/feedback-genius/analyze")}
             className="hover:opacity-80 h-auto"
           >
             Get Your Free Feedback
