@@ -137,7 +137,14 @@ const HeaderNav = (props: any) => {
       href: "/feedback-genius",
       enabled: true,
       icon: () => {
-        return <House01Icon className="text-red-500 ml-6" />;
+        return (
+          <Image
+            src="/images/icons/str-feedback-genius-icon.png"
+            alt="STR Feedback Genius"
+            width={24}
+            height={24}
+          />
+        );
       },
     },
     {
@@ -145,7 +152,29 @@ const HeaderNav = (props: any) => {
       href: "/market-spy",
       enabled: true,
       icon: () => {
-        return <House01Icon className="text-red-500 ml-6" />;
+        return (
+          <Image
+            src="/images/icons/market-spy-icon.png"
+            alt="STR Market Spy"
+            width={24}
+            height={24}
+          />
+        );
+      },
+    },
+    {
+      label: "STR Market Scout 🧪",
+      href: "/market-scout",
+      enabled: true,
+      icon: () => {
+        return (
+          <Image
+            src="/images/icons/market-scout-icon.png"
+            alt="STR Market Scout"
+            width={24}
+            height={24}
+          />
+        );
       },
     },
   ];
@@ -328,8 +357,11 @@ const HeaderNav = (props: any) => {
                             <NavigationMenuLink asChild>
                               <Link
                                 href={link.href}
-                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                className="flex block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                               >
+                                <div className="mr-2">
+                                  {link.icon && link.icon()}
+                                </div>
                                 <div className="text-sm font-medium leading-none">
                                   {link.label}
                                 </div>
