@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight01Icon } from "@/components/Icons";
 import { useRouter } from "next/navigation";
 
-export function MarketSpyFinalCTA() {
+export function MarketScoutFinalCTA() {
   const router = useRouter();
 
   return (
@@ -11,12 +11,12 @@ export function MarketSpyFinalCTA() {
         <div className="max-w-4xl mx-auto">
           <div className="bg-background border-2 border-primary/20 rounded-2xl p-8 md:p-12 shadow-xl text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-balance">
-              Stop Guessing. Start Winning.
+              Ready to Make a Smart Investment Decision?
             </h2>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto text-pretty">
-              Get the competitive intelligence you need to outperform other
-              listings in your area.
+              Get your Market Scout analysis and see the full investment picture
+              before you buy.
             </p>
 
             <Button

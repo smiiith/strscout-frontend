@@ -12,7 +12,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export function MarketSpyReportPreview() {
+export function MarketScoutReportPreview() {
   const router = useRouter();
   const [slideImages, setSlideImages] = useState<string[]>([]);
 
@@ -31,45 +31,37 @@ export function MarketSpyReportPreview() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-balance">
-              See What's Really Going On in Your Market
+              See the Full Investment Picture Before You Buy
             </h2>
 
             <div className="mb-8">
-              <h3 className="text-xl font-semibold mb-4">
-                Your report includes:
+              <h3 className=" mb-4">
+                Our comprehensive market analysis gives you everything you need
+                to make an informed investment decision.
               </h3>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-primary-foreground/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                     <BarChart01Icon className="w-4 h-4" />
                   </div>
                   <p className="text-primary-foreground/90">
-                    Breakdown of bookings in your area
+                    Occupancy rates up to 90 days out
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-primary-foreground/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                     <CheckmarkCircle02Icon className="w-4 h-4" />
                   </div>
                   <p className="text-primary-foreground/90">
-                    Policy and amenity analysis
+                    Competitive landscape analysis
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-primary-foreground/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                     <TrendingUp01Icon className="w-4 h-4" />
                   </div>
                   <p className="text-primary-foreground/90">
                     Listing quality assessment
-                  </p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-primary-foreground/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <File02Icon className="w-4 h-4" />
-                  </div>
-                  <p className="text-primary-foreground/90">
-                    Clear summary of what's helping (or hurting) your
-                    positioning
                   </p>
                 </div>
               </div>

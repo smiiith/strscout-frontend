@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-export function MarketSpyFAQ() {
+export function MarketScoutFAQ() {
   const faqs = [
     {
       question: "What do you mean by nearby competitors?",

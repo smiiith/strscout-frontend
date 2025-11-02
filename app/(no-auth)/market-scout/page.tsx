@@ -1,9 +1,8 @@
 import React from "react";
 import "./home.css";
-// import HeaderNav from "@/components/header";
 import { createClient } from "@/utils/supabase/server";
 import { getUserWithPlan } from "@/app/(authenticated)/utils";
-import MarketSpyLanding from "./market-spy-landing";
+import MarketScoutLanding from "./market-scout-landing";
 
 export default async function MarketSpyHome() {
   const supabase = createClient();
@@ -21,7 +20,7 @@ export default async function MarketSpyHome() {
       <div className="flex-grow">
         <div className="container mx-auto p-0 max-w-7xl bg-background">
           <>
-            <MarketSpyLanding />
+            <MarketScoutLanding />
           </>
         </div>
       </div>
