@@ -59,7 +59,7 @@ const HeaderNav = (props: any) => {
     },
     {
       label: "Market Scout 🧪",
-      href: "/market-scout",
+      href: "/market-scout/analyze",
       enabled:
         props.user && props.user.plan && props.user.plan.key === PLANS.PRO,
       icon: () => {
@@ -351,12 +351,12 @@ const HeaderNav = (props: any) => {
             (l: any) => l.href === "/market-spy/analyze" && l.enabled
           );
           const marketScoutEnabled = pageLinks.some(
-            (l: any) => l.href === "/market-scout" && l.enabled
+            (l: any) => l.href === "/market-scout/analyze" && l.enabled
           );
           // Determine if we should show My Reports after this link
           // Show after Market Scout if enabled, otherwise after Market Spy if enabled, otherwise after Feedback Genius
           const showMyReportsAfter =
-            (link.href === "/market-scout" && link.enabled) ||
+            (link.href === "/market-scout/analyze" && link.enabled) ||
             (link.href === "/market-spy/analyze" &&
               link.enabled &&
               !marketScoutEnabled) ||

@@ -8,7 +8,7 @@ const protectedRoutes = [
   "/my-comps",
   "/comp-details",
   "/comp-analysis",
-  "/market-scout",
+  "/market-scout/analyze",
   "/market-scout-reports",
   "/market-scout-details",
   // "/contact"
@@ -19,7 +19,7 @@ const planProtectedRoutes = {
   "/my-comps": "pro",
   "/comp-details": "pro",
   "/comp-analysis": "pro",
-  "/market-scout": "pro",
+  "/market-scout/analyze": "pro",
   "/market-scout-reports": "pro",
   "/market-scout-details": "pro",
 };

@@ -125,8 +125,8 @@ Both products share the same underlying infrastructure but differ in UX:
 
 | Feature | Market Spy | Market Scout |
 |---------|-----------|--------------|
-| **Landing Page** | `/market-spy` (public) | `/market-scout` |
-| **Tool Page** | `/market-spy/analyze` (protected) | `/market-scout/analyze` |
+| **Landing Page** | `/market-spy` (public) | `/market-scout` (public) |
+| **Tool Page** | `/market-spy/analyze` (protected) | `/market-scout/analyze` (protected) |
 | **Room Type** | User selects (Room or Entire Home) | Always "Entire Home" (hidden) |
 | **Form** | Shows room type dropdown | Hides room type field |
 | **Reports Page** | `/my-comps` | `/market-scout-reports` |
@@ -142,9 +142,9 @@ Both products share the same underlying infrastructure but differ in UX:
 
 - Supabase Auth with Row Level Security (RLS)
 - **Server-side authorization**: Middleware checks both authentication AND subscription plans (`middleware.ts`)
-- Plan-protected routes: `/market-spy/analyze`, `/my-comps` require "pro" plan (enforced server-side)
+- Plan-protected routes: `/market-spy/analyze`, `/market-scout/analyze`, `/my-comps` require "pro" plan (enforced server-side)
 - Session management with `UserSessionProvider` context using SSR-compatible Supabase client
-- Protected routes: `/account`, `/properties`, `/market-spy/analyze`, `/my-comps` (configured in middleware)
+- Protected routes: `/account`, `/properties`, `/market-spy/analyze`, `/market-scout/analyze`, `/my-comps` (configured in middleware)
 - PostHog analytics proxy with CORS handling (`/ingest/` routes)
 - **Security**: Plan authorization happens server-side in middleware, not client-side (prevents bypassing)
 - **Important**: Uses `utils/supabase/client.ts` (SSR-compatible) not `utils/supabase/js-client.ts` for authentication
@@ -201,7 +201,8 @@ Both products share the same underlying infrastructure but differ in UX:
 - `app/` - Next.js App Router pages and layouts
   - `app/(no-auth)/market-spy/` - Market Spy landing page (public)
   - `app/(authenticated)/market-spy/analyze/` - Market Spy tool (protected)
-  - `app/(authenticated)/market-scout/` - Market Scout pages
+  - `app/(no-auth)/market-scout/` - Market Scout landing page (public)
+  - `app/(authenticated)/market-scout/analyze/` - Market Scout tool (protected)
 - `utils/supabase/` - Supabase client configurations (client, server, middleware)
 
 ### Database Integration
