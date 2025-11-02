@@ -125,6 +125,8 @@ Both products share the same underlying infrastructure but differ in UX:
 
 | Feature | Market Spy | Market Scout |
 |---------|-----------|--------------|
+| **Landing Page** | `/market-spy` (public) | `/market-scout` |
+| **Tool Page** | `/market-spy/analyze` (protected) | `/market-scout/analyze` |
 | **Room Type** | User selects (Room or Entire Home) | Always "Entire Home" (hidden) |
 | **Form** | Shows room type dropdown | Hides room type field |
 | **Reports Page** | `/my-comps` | `/market-scout-reports` |
@@ -134,14 +136,15 @@ Both products share the same underlying infrastructure but differ in UX:
 | **Backend Param** | `product_type: 'market-spy'` | `product_type: 'market-scout'` |
 | **Database Table** | `market_spy_runs` | `market_scout_runs` |
 | **Shared Components** | `MarketAnalysisPage`, `MarketAnalysisForm`, etc. | Same shared components |
+| **Legacy Redirect** | `/market-spy-home` → `/market-spy` (301) | N/A |
 
 ### Authentication & Security
 
 - Supabase Auth with Row Level Security (RLS)
 - **Server-side authorization**: Middleware checks both authentication AND subscription plans (`middleware.ts`)
-- Plan-protected routes: `/market-spy`, `/my-comps` require "pro" plan (enforced server-side)
+- Plan-protected routes: `/market-spy/analyze`, `/my-comps` require "pro" plan (enforced server-side)
 - Session management with `UserSessionProvider` context using SSR-compatible Supabase client
-- Protected routes: `/account`, `/properties`, `/market-spy`, `/my-comps` (configured in middleware)
+- Protected routes: `/account`, `/properties`, `/market-spy/analyze`, `/my-comps` (configured in middleware)
 - PostHog analytics proxy with CORS handling (`/ingest/` routes)
 - **Security**: Plan authorization happens server-side in middleware, not client-side (prevents bypassing)
 - **Important**: Uses `utils/supabase/client.ts` (SSR-compatible) not `utils/supabase/js-client.ts` for authentication
@@ -196,7 +199,8 @@ Both products share the same underlying infrastructure but differ in UX:
   - `useMarketAnalysisAccount.ts` - Shared account/usage logic hook
 - `components/` - Feature-specific components (PropertyCard, Ratings, etc.)
 - `app/` - Next.js App Router pages and layouts
-  - `app/(authenticated)/market-spy/` - Market Spy pages
+  - `app/(no-auth)/market-spy/` - Market Spy landing page (public)
+  - `app/(authenticated)/market-spy/analyze/` - Market Spy tool (protected)
   - `app/(authenticated)/market-scout/` - Market Scout pages
 - `utils/supabase/` - Supabase client configurations (client, server, middleware)
 
@@ -307,7 +311,7 @@ Both products share the same underlying infrastructure but differ in UX:
 - Account page shows different UI for subscription vs one-time users
 - Stripe customer portal only shown for subscription users
 - One-time users get "Buy More Listings" functionality
-- Stripe checkout success redirects to `/market-spy` (not `/account`)
+- Stripe checkout success redirects to `/market-spy/analyze` (not `/account`)
 
 ### Stripe Webhook Configuration
 

@@ -4,7 +4,7 @@ import { updateSession, checkUserPlan } from '@/utils/supabase/middleware'
 const protectedRoutes = [
   "/account",
   "/properties",
-  "/market-spy",
+  "/market-spy/analyze",
   "/my-comps",
   "/comp-details",
   "/comp-analysis",
@@ -15,7 +15,7 @@ const protectedRoutes = [
 ];
 
 const planProtectedRoutes = {
-  "/market-spy": "pro",
+  "/market-spy/analyze": "pro",
   "/my-comps": "pro",
   "/comp-details": "pro",
   "/comp-analysis": "pro",

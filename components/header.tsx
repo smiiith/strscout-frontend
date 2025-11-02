@@ -47,7 +47,7 @@ const HeaderNav = (props: any) => {
     },
     {
       label: "Market Spy",
-      href: "/market-spy",
+      href: "/market-spy/analyze",
       enabled:
         props.user &&
         props.user.plan &&
@@ -142,7 +142,7 @@ const HeaderNav = (props: any) => {
     },
     {
       label: "STR Market Spy",
-      href: "/market-spy-home",
+      href: "/market-spy",
       enabled: true,
       icon: () => {
         return <House01Icon className="text-red-500 ml-6" />;
@@ -348,7 +348,7 @@ const HeaderNav = (props: any) => {
         {pageLinks.map((link: any, index: number) => {
           // Check if Market Spy or Market Scout is enabled in pageLinks
           const marketSpyEnabled = pageLinks.some(
-            (l: any) => l.href === "/market-spy" && l.enabled
+            (l: any) => l.href === "/market-spy/analyze" && l.enabled
           );
           const marketScoutEnabled = pageLinks.some(
             (l: any) => l.href === "/market-scout" && l.enabled
@@ -357,7 +357,7 @@ const HeaderNav = (props: any) => {
           // Show after Market Scout if enabled, otherwise after Market Spy if enabled, otherwise after Feedback Genius
           const showMyReportsAfter =
             (link.href === "/market-scout" && link.enabled) ||
-            (link.href === "/market-spy" &&
+            (link.href === "/market-spy/analyze" &&
               link.enabled &&
               !marketScoutEnabled) ||
             (link.href === "/properties/assess-property/single" &&

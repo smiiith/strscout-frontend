@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: "https://www.strsage.com/market-spy-home",
+      url: "https://www.strsage.com/market-spy",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.9,

@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     const absoluteSuccessUrl =
       successUrl && successUrl.startsWith("http")
         ? successUrl
-        : `${baseUrl}${successUrl || "/market-spy?success=true"}`;
+        : `${baseUrl}${successUrl || "/market-spy/analyze?success=true"}`;
     const absoluteCancelUrl =
       cancelUrl && cancelUrl.startsWith("http")
         ? cancelUrl

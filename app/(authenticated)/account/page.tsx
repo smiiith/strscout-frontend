@@ -120,7 +120,7 @@ const Account = async () => {
 
                   {(profile.market_spy_listings_used || 0) <
                     (profile.market_spy_listings_limit || 0) && (
-                    <Link href="/market-spy">
+                    <Link href="/market-spy/analyze">
                       <Button>
                         Use Listings (
                         {(profile.market_spy_listings_limit || 0) -
