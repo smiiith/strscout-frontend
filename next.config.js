@@ -15,6 +15,17 @@ const nextConfig = {
     }
     return config
   },
+  async redirects() {
+    return [
+      {
+        // Legacy URL redirect - market-spy-home was the old landing page
+        // New structure: /market-spy (landing) and /market-spy/analyze (tool)
+        source: '/market-spy-home',
+        destination: '/market-spy',
+        permanent: true, // 301 redirect
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

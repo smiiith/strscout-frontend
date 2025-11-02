@@ -73,10 +73,10 @@ const HomePage = ({ user }: HomePageProps) => {
                 </p>
                 <div className="space-y-4">
                   <Button asChild size="lg" className="w-4/5">
-                    <Link href="/market-spy-home">Learn More</Link>
+                    <Link href="/market-spy">Learn More</Link>
                   </Button>
                   <Button asChild size="lg" className="w-4/5">
-                    <Link href="/market-spy">Start Now</Link>
+                    <Link href="/market-spy/analyze">Start Now</Link>
                   </Button>
                 </div>
               </div>
