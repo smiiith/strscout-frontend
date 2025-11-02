@@ -53,7 +53,7 @@ export default function Properties() {
       if (response.data) {
         if (response.data.properties.length === 0) {
           console.log("No properties found, redirecting...");
-          router.push("/properties/assess-property/single");
+          router.push("/feedback-genius/analyze");
         }
         setProperties(response.data.properties);
         setLoadingPage(false);
@@ -88,7 +88,7 @@ export default function Properties() {
                   variant="outline"
                   size="sm"
                   onClick={() =>
-                    router.push("/properties/assess-property/single")
+                    router.push("/feedback-genius/analyze")
                   }
                   className="mt-4"
                 >

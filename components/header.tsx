@@ -39,7 +39,7 @@ const HeaderNav = (props: any) => {
   const authenticatedLinks = [
     {
       label: "Feedback Genius",
-      href: "/properties/assess-property/single",
+      href: "/feedback-genius/analyze",
       enabled: true,
       icon: () => {
         return <MyAccountIcon className="text-purple-500 ml-6" />;
@@ -134,7 +134,7 @@ const HeaderNav = (props: any) => {
   const productsLinks = [
     {
       label: "STR Feedback Genius",
-      href: "/str-feedback-genius",
+      href: "/feedback-genius",
       enabled: true,
       icon: () => {
         return <House01Icon className="text-red-500 ml-6" />;
@@ -360,7 +360,7 @@ const HeaderNav = (props: any) => {
             (link.href === "/market-spy/analyze" &&
               link.enabled &&
               !marketScoutEnabled) ||
-            (link.href === "/properties/assess-property/single" &&
+            (link.href === "/feedback-genius/analyze" &&
               !marketSpyEnabled &&
               !marketScoutEnabled);
 

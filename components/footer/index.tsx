@@ -12,7 +12,7 @@ const Footer = ({ authenticated }: { authenticated: any }) => {
                   {authenticated && (
                     <li>
                       <a
-                        href="/properties/assess-property/single"
+                        href="/feedback-genius/analyze"
                         className="hover:text-slate-300"
                       >
                         Get Your Free Listing Feedback Now

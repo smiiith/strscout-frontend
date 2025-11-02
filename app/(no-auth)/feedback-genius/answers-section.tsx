@@ -64,7 +64,7 @@ const AnswersSection = () => {
                   page: window.location.pathname,
                 });
 
-                router.push("/properties/assess-property/single");
+                router.push("/feedback-genius/analyze");
               }}
               className="hover:opacity-80 h-auto"
             >

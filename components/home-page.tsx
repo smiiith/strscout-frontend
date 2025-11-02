@@ -47,10 +47,10 @@ const HomePage = ({ user }: HomePageProps) => {
                 </p>
                 <div className="space-y-4">
                   <Button asChild size="lg" className="w-4/5">
-                    <Link href="/str-feedback-genius">Learn More</Link>
+                    <Link href="/feedback-genius">Learn More</Link>
                   </Button>
                   <Button asChild size="lg" className="w-4/5">
-                    <Link href="/properties/assess-property/single">
+                    <Link href="/feedback-genius/analyze">
                       Start Now
                     </Link>
                   </Button>
