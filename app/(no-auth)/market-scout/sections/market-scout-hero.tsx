@@ -18,7 +18,7 @@ export function MarketScoutHero() {
           <div className="relative lg:flex-1">
             <div className="relative aspect-square max-w-md mx-auto lg:max-w-none">
               <Image
-                src="/home/market-spy-graphic-004.png"
+                src="/home/scout-landing-hero-min.png"
                 alt="Market analysis concept"
                 width={600}
                 height={600}
@@ -52,10 +52,13 @@ export function MarketScoutHero() {
               Buy Smart. Invest Confidently.
             </h1>
 
+            <p className="text-lg md:text-xl text-muted-foreground mb-4 leading-relaxed text-pretty">
+              Thinking about buying a property for short-term rental?
+            </p>
+
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed text-pretty">
-              Thinking about buying a property for short-term rental? STR Market
-              Scout analyzes any address to show you the investment potential,
-              competition, and earning opportunities before you commit.
+              STR Market Scout analyzes any address to show you the investment
+              potential by analyzing demand and competition before you commit.
             </p>
 
             <div className="bg-muted/50 border border-border rounded-xl p-6 mb-8">
