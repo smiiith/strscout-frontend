@@ -1,18 +1,24 @@
-import { Calendar03Icon, Settings02Icon, Image02Icon, File02Icon, LightBulb01Icon } from "@/components/Icons";
+import {
+  Calendar03Icon,
+  Settings02Icon,
+  Image02Icon,
+  File02Icon,
+  LightBulb01Icon,
+} from "@/components/Icons";
 
 export function MarketScoutFeatures() {
   const features = [
     {
       icon: <Calendar03Icon className="w-6 h-6 text-primary" />,
-      title: "See Who's Getting Booked (and Who Isn't)",
+      title: "See Current Real Time Demand",
       description:
-        "We analyze real-time calendar activity across the next 90 days to reveal which listings are dominating bookings.",
+        "We analyze booking activity near your target address to reveal current real-time demand.",
     },
     {
       icon: <Settings02Icon className="w-6 h-6 text-primary" />,
-      title: "Analyze Amenities & Policies",
+      title: "How Hard is it to Compete?",
       description:
-        "We look for Pet Policies, Self Check-in, Instant Book, and other conversion-critical settings.",
+        "We generate a deep analysis on the strength of each comp including amenities, photos, design, & more -- so you know exactly how strong the competition is and what it takes to compete.",
     },
     {
       icon: <Image02Icon className="w-6 h-6 text-primary" />,
@@ -20,37 +26,6 @@ export function MarketScoutFeatures() {
       description:
         "Side-by-side rating of photo quality, layout, staging, and design cues.",
     },
-    {
-      icon: <File02Icon className="w-6 h-6 text-primary" />,
-      title: "Review Headlines & Descriptions",
-      description:
-        "We break down how competitors are positioning themselves — and what guests see first.",
-    },
-    {
-      icon: <LightBulb01Icon className="w-6 h-6 text-primary" />,
-      title: "Get a Written Synopsis + Actionable Feedback",
-      description:
-        "Every report includes a clear breakdown with takeaways and suggestions for your own listing.",
-    },
-    // {
-    //   icon: (
-    //     <svg
-    //       className="w-6 h-6 text-primary"
-    //       fill="none"
-    //       viewBox="0 0 24 24"
-    //       stroke="currentColor"
-    //     >
-    //       <path
-    //         strokeLinecap="round"
-    //         strokeLinejoin="round"
-    //         strokeWidth={2}
-    //         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-    //       />
-    //     </svg>
-    //   ),
-    //   title: "Download the Full Report",
-    //   description: "PDF versions available for your records or team use.",
-    // },
   ];
 
   return (
