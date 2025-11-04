@@ -87,21 +87,25 @@ export default function MarketScoutDetailsPage() {
     const top3Comps = comps.slice(0, 3);
 
     // Calculate average occupancy for demand
-    const top3Occupancy = top3Comps.reduce((sum, comp) =>
-      sum + (comp.overall_occupancy || 0), 0) / top3Comps.length;
-    const overallOccupancy = comps.reduce((sum, comp) =>
-      sum + (comp.overall_occupancy || 0), 0) / comps.length;
+    const top3Occupancy =
+      top3Comps.reduce((sum, comp) => sum + (comp.overall_occupancy || 0), 0) /
+      top3Comps.length;
+    const overallOccupancy =
+      comps.reduce((sum, comp) => sum + (comp.overall_occupancy || 0), 0) /
+      comps.length;
 
     // Calculate average genius score for competition
-    const top3GeniusScore = top3Comps.reduce((sum, comp) => {
-      const score = comp.overall_genius_score?.title?.rating_number || 0;
-      return sum + score;
-    }, 0) / top3Comps.length;
+    const top3GeniusScore =
+      top3Comps.reduce((sum, comp) => {
+        const score = comp.overall_genius_score?.title?.rating_number || 0;
+        return sum + score;
+      }, 0) / top3Comps.length;
 
-    const overallGeniusScore = comps.reduce((sum, comp) => {
-      const score = comp.overall_genius_score?.title?.rating_number || 0;
-      return sum + score;
-    }, 0) / comps.length;
+    const overallGeniusScore =
+      comps.reduce((sum, comp) => {
+        const score = comp.overall_genius_score?.title?.rating_number || 0;
+        return sum + score;
+      }, 0) / comps.length;
 
     return {
       demandTopListings: Math.round(top3Occupancy),
@@ -190,16 +194,17 @@ export default function MarketScoutDetailsPage() {
         <Card>
           {analysisResponse?.comp_basis && (
             <CardHeader>
-              <div className="flex justify-between items-start gap-6">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6">
                 <div className="flex-1">
-                  <CardTitle className="flex items-center gap-2 pb-4">
+                  <CardTitle className="flex flex-col md:flex-row md:items-center gap-2 pb-4">
                     <Image
                       src="/market-scout-logo.png"
                       alt="STR Market Scout"
-                      width={200}
-                      height={80}
+                      width={317}
+                      height={112}
+                      className="md:w-[200px] md:h-[80px] mr-4"
                     />
-                    <span className="text-foreground/50">
+                    <span className="text-foreground/50 text-base md:text-lg">
                       {analysisResponse.comp_basis.address}
                     </span>
                   </CardTitle>
@@ -247,12 +252,16 @@ export default function MarketScoutDetailsPage() {
                     )}
                   </div>
                 </div>
-                <div className="flex-shrink-0">
+                <div className="w-full md:w-auto md:flex-shrink-0">
                   <MarketAnalysisCard
                     demandTopListings={marketAnalysisScores.demandTopListings}
-                    demandOverallMarket={marketAnalysisScores.demandOverallMarket}
+                    demandOverallMarket={
+                      marketAnalysisScores.demandOverallMarket
+                    }
                     competitionTopTier={marketAnalysisScores.competitionTopTier}
-                    competitionOverallMarket={marketAnalysisScores.competitionOverallMarket}
+                    competitionOverallMarket={
+                      marketAnalysisScores.competitionOverallMarket
+                    }
                   />
                 </div>
               </div>

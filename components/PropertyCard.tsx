@@ -4,9 +4,6 @@ import {
   CheckmarkCircle02Icon,
   LoadingSpinner,
   PencilEdit02Icon,
-  RecordIcon,
-  SearchingIcon,
-  TrafficLightIcon,
 } from "./Icons";
 import {
   Card,
