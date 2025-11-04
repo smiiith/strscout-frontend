@@ -10,7 +10,7 @@ export function MarketScoutFAQ() {
     {
       question: "What do you mean by nearby competitors?",
       answer:
-        "We find 10-20 listings that are both close in proximity and similar to yours (type of stay and number of bedrooms). These are the properties guests are most likely comparing against your listing.",
+        "We find 10-20 STR listings that are close in proximity and similar in type of stay and number of bedrooms to your investment opportunity.",
     },
     {
       question: "What data do you analyze?",
@@ -25,7 +25,7 @@ export function MarketScoutFAQ() {
     {
       question: "What does it cost?",
       answer:
-        "The insights from STR Market Spy cost a fraction of one empty night with discounts for multiple properties and yearly subscription.",
+        "Less than a lunch. We have several plan options starting at only $35 with discounts for multiple properties and yearly subscription.",
     },
     {
       question: "Can I get reports for multiple properties?",
@@ -42,7 +42,7 @@ export function MarketScoutFAQ() {
             Got Questions? We've Got Answers.
           </h2>
           <p className="text-lg text-muted-foreground text-center mb-12">
-            Everything you need to know about STR Market Spy
+            Everything you need to know about STR Market Scout
           </p>
 
           <Accordion type="single" collapsible className="space-y-4">

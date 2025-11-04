@@ -20,12 +20,6 @@ export function MarketScoutFeatures() {
       description:
         "We generate a deep analysis on the strength of each comp including amenities, photos, design, & more -- so you know exactly how strong the competition is and what it takes to compete.",
     },
-    {
-      icon: <Image02Icon className="w-6 h-6 text-primary" />,
-      title: "Evaluate Photos & Interior Design",
-      description:
-        "Side-by-side rating of photo quality, layout, staging, and design cues.",
-    },
   ];
 
   return (

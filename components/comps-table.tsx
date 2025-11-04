@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/tooltip";
 import { TrendingUp, Star, Users, Home, Shield, FileText } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { LinkSquare02Icon } from "./Icons";
 
 export interface CompAnalysisData {
   comp_id: string;
@@ -161,7 +162,7 @@ export default function CompsTable({
             <TableHead className="w-[120px]">
               <div className="flex items-center gap-1">
                 <FileText className="h-4 w-4" />
-                Listing ID
+                View Listing
               </div>
             </TableHead>
             <TableHead className="w-[140px]">
@@ -207,7 +208,7 @@ export default function CompsTable({
                     );
                   }}
                 >
-                  {comp.listing_id}
+                  View listing <LinkSquare02Icon className="h-4 w-4 mx-2" />
                 </Button>
               </TableCell>
               <TableCell>
@@ -221,6 +222,7 @@ export default function CompsTable({
                             className={`h-auto p-1 font-semibold hover:bg-muted ${getOccupancyColor(comp.overall_occupancy)}`}
                           >
                             {comp.overall_occupancy?.toFixed(1)}%
+                            <LinkSquare02Icon className="h-4 w-4 mx-2" />
                           </Button>
                         </PopoverTrigger>
                       </TooltipTrigger>
@@ -272,21 +274,24 @@ export default function CompsTable({
               </TableCell>
               <TableCell>
                 {comp.overall_genius_score?.title?.rating_number ? (
-                  <Badge
-                    variant="secondary"
-                    className={mock ? "cursor-default" : "cursor-pointer"}
-                    onClick={
-                      mock
-                        ? undefined
-                        : () => {
-                            router.push(
-                              `/properties/comps/${comp.property_id}`
-                            );
-                          }
-                    }
-                  >
-                    {comp.overall_genius_score?.title?.rating_number}
-                  </Badge>
+                  <div className="flex">
+                    <Badge
+                      variant="secondary"
+                      className={mock ? "cursor-default" : "cursor-pointer"}
+                      onClick={
+                        mock
+                          ? undefined
+                          : () => {
+                              router.push(
+                                `/properties/comps/${comp.property_id}`
+                              );
+                            }
+                      }
+                    >
+                      {comp.overall_genius_score?.title?.rating_number}
+                      <LinkSquare02Icon className="h-4 w-4 ml-2" />
+                    </Badge>
+                  </div>
                 ) : (
                   <div className="text-muted-foreground">N/A</div>
                 )}
