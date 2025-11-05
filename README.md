@@ -17,7 +17,7 @@ This demonstrates how to use:
   - [Next.js](https://github.com/vercel/next.js) - a React framework for production.
   - [Supabase.js](https://supabase.com/docs/library/getting-started) for user management and realtime data syncing.
   - Supabase [Auth Helpers for Next.js](https://supabase.com/docs/guides/auth/auth-helpers/nextjs).
-  - Supabase [pre-built Auth UI for React](https://supabase.com/docs/guides/auth/auth-helpers/auth-ui).
+  - Google OAuth 2.0 for seamless authentication.
 - Backend:
   - [supabase.com/dashboard](https://supabase.com/dashboard/): hosted Postgres database with restful API for usage with Supabase.js.
 
@@ -222,3 +222,57 @@ SUPABASE_DB_PASSWORD=your_db_password
 - Keep migration files in version control
 - Use descriptive names for your migration files
 - Test your application after applying migrations
+
+## Authentication Configuration
+
+### Google OAuth Setup
+
+This application supports Google OAuth 2.0 in addition to traditional email/password authentication.
+
+#### 1. Google Cloud Console Configuration
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project (or select existing)
+3. Navigate to **APIs & Services** → **OAuth consent screen**
+   - Select **External** user type
+   - Add app name, support email, and developer contact
+   - Add authorized domain: `strsage.com`
+   - Configure scopes: `email`, `profile`, `openid`
+4. Navigate to **APIs & Services** → **Credentials**
+5. Click **Create Credentials** → **OAuth client ID**
+6. Select **Web application** as application type
+7. Add **Authorized redirect URIs**:
+   ```
+   https://ynxbtvsbjzkcnkilnuts.supabase.co/auth/v1/callback
+   https://eklefalzcpfrnsmzrlbn.supabase.co/auth/v1/callback
+   ```
+8. Save your **Client ID** and **Client Secret**
+
+#### 2. Supabase Configuration
+
+**Development Project:**
+1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
+2. Select development project
+3. Navigate to **Authentication** → **Providers**
+4. Enable **Google**
+5. Paste Client ID and Client Secret
+6. Click **Save**
+
+**Production Project:**
+1. Switch to production project
+2. Repeat steps 3-6 with the same credentials
+
+#### 3. Testing
+
+- Development: `http://localhost:3005/login`
+- Production: `https://www.strsage.com/login`
+
+Users can click "Continue with Google" on both login and register pages.
+
+#### Key Features
+
+- Single OAuth client works for both dev and prod environments
+- Google button displayed as primary authentication option
+- Automatic profile creation for new Google users via database trigger
+- Preserves redirect destinations throughout authentication flow
+- User names automatically populated from Google profile metadata
