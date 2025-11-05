@@ -1,6 +1,6 @@
 import { ContactFormEmailTemplate } from "@/components/email/contact-form-notification";
 import { Resend } from "resend";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const { name, email, message } = body;
 
     if (!name || !email || !message) {
-      return Response.json(
+      return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
       );
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
     if (recipients.length === 0) {
       console.error("CONTACT_FORM_RECIPIENTS not configured");
-      return Response.json(
+      return NextResponse.json(
         { error: "Email recipients not configured" },
         { status: 500 }
       );
@@ -38,12 +38,12 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error("Resend error:", error);
-      return Response.json({ error }, { status: 500 });
+      return NextResponse.json({ error }, { status: 500 });
     }
 
-    return Response.json({ success: true, data });
+    return NextResponse.json({ success: true, data });
   } catch (error) {
     console.error("Contact form email error:", error);
-    return Response.json({ error: "Failed to send email" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
   }
 }

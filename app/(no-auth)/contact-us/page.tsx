@@ -29,6 +29,7 @@ import { useRouter } from "next/navigation";
 export default function ContactUsPage() {
   const router = useRouter();
   const { register, handleSubmit, reset } = useForm();
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
 
   const onSubmit = async (data: any) => {
