@@ -39,9 +39,9 @@ export function HeroSection() {
                   // If user is logged in, go directly to assess property
                   // Otherwise, redirect to register with return path
                   if (session?.id) {
-                    router.push("/properties/assess-property/single");
+                    router.push("/feedback-genius/analyze");
                   } else {
-                    router.push("/register?redirect_to=/properties/assess-property/single");
+                    router.push("/register?redirect_to=/feedback-genius/analyze");
                   }
                 }}
               >

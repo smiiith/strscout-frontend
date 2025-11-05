@@ -119,6 +119,16 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
 - Automated calendar synchronization monitoring (Airbnb ↔ VRBO)
 - Email notifications for scan results and mismatches
 
+### Product URL Structure
+
+All three products follow a consistent URL pattern with public landing pages and protected tool pages:
+
+| Feature | Feedback Genius | Market Spy | Market Scout |
+|---------|-----------------|-----------|--------------|
+| **Landing Page** | `/feedback-genius` (public) | `/market-spy` (public) | `/market-scout` (public) |
+| **Tool Page** | `/feedback-genius/analyze` (auth) | `/market-spy/analyze` (pro) | `/market-scout/analyze` (pro) |
+| **Legacy URLs** | `/str-feedback-genius` → `/feedback-genius`<br>`/properties/assess-property/single` → `/feedback-genius/analyze` | `/market-spy-home` → `/market-spy` | N/A |
+
 ### Market Spy vs Market Scout
 
 Both products share the same underlying infrastructure but differ in UX:
@@ -139,9 +149,10 @@ Both products share the same underlying infrastructure but differ in UX:
 
 - Supabase Auth with Row Level Security (RLS)
 - **Server-side authorization**: Middleware checks both authentication AND subscription plans (`middleware.ts`)
-- Plan-protected routes: `/market-spy`, `/my-comps` require "pro" plan (enforced server-side)
+- **Auth-only routes**: `/feedback-genius/analyze` requires authentication (free for all users)
+- **Plan-protected routes**: `/market-spy/analyze`, `/market-scout/analyze`, `/my-comps` require "pro" plan (enforced server-side)
 - Session management with `UserSessionProvider` context using SSR-compatible Supabase client
-- Protected routes: `/account`, `/properties`, `/market-spy`, `/my-comps` (configured in middleware)
+- Protected routes: `/account`, `/properties`, `/feedback-genius/analyze`, `/market-spy/analyze`, `/market-scout/analyze`, `/my-comps` (configured in middleware)
 - PostHog analytics proxy with CORS handling (`/ingest/` routes)
 - **Security**: Plan authorization happens server-side in middleware, not client-side (prevents bypassing)
 - **Important**: Uses `utils/supabase/client.ts` (SSR-compatible) not `utils/supabase/js-client.ts` for authentication
@@ -196,8 +207,12 @@ Both products share the same underlying infrastructure but differ in UX:
   - `useMarketAnalysisAccount.ts` - Shared account/usage logic hook
 - `components/` - Feature-specific components (PropertyCard, Ratings, etc.)
 - `app/` - Next.js App Router pages and layouts
-  - `app/(authenticated)/market-spy/` - Market Spy pages
-  - `app/(authenticated)/market-scout/` - Market Scout pages
+  - `app/(no-auth)/feedback-genius/` - Feedback Genius landing page (public)
+  - `app/(authenticated)/feedback-genius/analyze/` - Feedback Genius tool (auth-only, free)
+  - `app/(no-auth)/market-spy/` - Market Spy landing page (public)
+  - `app/(authenticated)/market-spy/analyze/` - Market Spy tool (pro plan required)
+  - `app/(no-auth)/market-scout/` - Market Scout landing page (public)
+  - `app/(authenticated)/market-scout/analyze/` - Market Scout tool (pro plan required)
 - `utils/supabase/` - Supabase client configurations (client, server, middleware)
 
 ### Database Integration
@@ -307,7 +322,7 @@ Both products share the same underlying infrastructure but differ in UX:
 - Account page shows different UI for subscription vs one-time users
 - Stripe customer portal only shown for subscription users
 - One-time users get "Buy More Listings" functionality
-- Stripe checkout success redirects to `/market-spy` (not `/account`)
+- Stripe checkout success redirects to `/market-spy/analyze` (not `/account`)
 
 ### Stripe Webhook Configuration
 

@@ -23,7 +23,7 @@ const GuessworkSection = () => {
 
             <Button
               className="hover:opacity-80 h-auto"
-              onClick={() => router.push("/properties/assess-property/single")}
+              onClick={() => router.push("/feedback-genius/analyze")}
             >
               Improve Your Listing Now
             </Button>

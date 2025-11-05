@@ -77,7 +77,7 @@ export default function ProPlanSelector({
               <TabsTrigger value="subscription">
                 Monthly Subscription
               </TabsTrigger>
-              <TabsTrigger value="one_time">One-Time Payment</TabsTrigger>
+              <TabsTrigger value="one_time">One-Time Purchase</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -141,7 +141,7 @@ export default function ProPlanSelector({
                 priceId={getSubscriptionPriceId()}
                 quantity={listingCount} // Volume pricing handles quantity automatically
                 buttonText={`Subscribe for $${totalPrice.toFixed(2)}/month`}
-                successUrl="/market-spy?success=true"
+                successUrl="/market-spy/analyze?success=true"
                 cancelUrl="/pricing"
                 className="w-full"
                 mode="subscription"
@@ -151,7 +151,7 @@ export default function ProPlanSelector({
                 priceId={getOneTimePriceId(listingCount)!}
                 quantity={1}
                 buttonText={`Pay $${totalPrice.toFixed(2)} once`}
-                successUrl="/market-spy?success=true"
+                successUrl="/market-spy/analyze?success=true"
                 cancelUrl="/pricing"
                 className="w-full"
                 mode="payment"

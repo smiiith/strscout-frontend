@@ -4,22 +4,23 @@ import { updateSession, checkUserPlan } from '@/utils/supabase/middleware'
 const protectedRoutes = [
   "/account",
   "/properties",
-  "/market-spy",
+  "/feedback-genius/analyze",
+  "/market-spy/analyze",
   "/my-comps",
   "/comp-details",
   "/comp-analysis",
-  "/market-scout",
+  "/market-scout/analyze",
   "/market-scout-reports",
   "/market-scout-details",
   // "/contact"
 ];
 
 const planProtectedRoutes = {
-  "/market-spy": "pro",
+  "/market-spy/analyze": "pro",
   "/my-comps": "pro",
   "/comp-details": "pro",
   "/comp-analysis": "pro",
-  "/market-scout": "pro",
+  "/market-scout/analyze": "pro",
   "/market-scout-reports": "pro",
   "/market-scout-details": "pro",
 };

@@ -32,7 +32,7 @@ export function Sidebar() {
                 // },
                 {
                     label: 'Assess Property',
-                    href: '/properties/assess-property/single',
+                    href: '/feedback-genius/analyze',
                     icon: <City01Icon className="text-secondary-foreground" />,
                 },
             ]

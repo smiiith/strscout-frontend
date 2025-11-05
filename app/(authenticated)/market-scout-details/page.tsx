@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -11,6 +11,7 @@ import CompsTable from "@/components/comps-table";
 import { formatDate } from "@/lib/utils";
 import Image from "next/image";
 import { useUserSession } from "@/lib/context/UserSessionProvider";
+import { MarketAnalysisCard } from "./scores";
 
 interface CompAnalysisData {
   comp_id: string;
@@ -71,6 +72,49 @@ export default function MarketScoutDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Calculate market analysis scores from top 3 comps
+  const marketAnalysisScores = useMemo(() => {
+    if (!analysisResponse?.comps || analysisResponse.comps.length === 0) {
+      return {
+        demandTopListings: 0,
+        demandOverallMarket: 0,
+        competitionTopTier: 0,
+        competitionOverallMarket: 0,
+      };
+    }
+
+    const comps = analysisResponse.comps;
+    const top3Comps = comps.slice(0, 3);
+
+    // Calculate average occupancy for demand
+    const top3Occupancy =
+      top3Comps.reduce((sum, comp) => sum + (comp.overall_occupancy || 0), 0) /
+      top3Comps.length;
+    const overallOccupancy =
+      comps.reduce((sum, comp) => sum + (comp.overall_occupancy || 0), 0) /
+      comps.length;
+
+    // Calculate average genius score for competition
+    const top3GeniusScore =
+      top3Comps.reduce((sum, comp) => {
+        const score = comp.overall_genius_score?.title?.rating_number || 0;
+        return sum + score;
+      }, 0) / top3Comps.length;
+
+    const overallGeniusScore =
+      comps.reduce((sum, comp) => {
+        const score = comp.overall_genius_score?.title?.rating_number || 0;
+        return sum + score;
+      }, 0) / comps.length;
+
+    return {
+      demandTopListings: Math.round(top3Occupancy),
+      demandOverallMarket: Math.round(overallOccupancy),
+      competitionTopTier: Math.round(top3GeniusScore),
+      competitionOverallMarket: Math.round(overallGeniusScore),
+    };
+  }, [analysisResponse]);
+
   useEffect(() => {
     const fetchCompAnalysis = async () => {
       const compBasisId = searchParams.get("compBasisId");
@@ -93,7 +137,7 @@ export default function MarketScoutDetailsPage() {
 
         const authHeaders = {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         };
 
         const response = await axios.get(
@@ -150,16 +194,17 @@ export default function MarketScoutDetailsPage() {
         <Card>
           {analysisResponse?.comp_basis && (
             <CardHeader>
-              <div className="flex justify-between items-start gap-6">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6">
                 <div className="flex-1">
-                  <CardTitle className="flex items-center gap-2 pb-4">
+                  <CardTitle className="flex flex-col md:flex-row md:items-center gap-2 pb-4">
                     <Image
                       src="/market-scout-logo.png"
                       alt="STR Market Scout"
-                      width={200}
-                      height={80}
+                      width={317}
+                      height={112}
+                      className="md:w-[200px] md:h-[80px] mr-4"
                     />
-                    <span className="text-foreground/50">
+                    <span className="text-foreground/50 text-base md:text-lg">
                       {analysisResponse.comp_basis.address}
                     </span>
                   </CardTitle>
@@ -206,6 +251,18 @@ export default function MarketScoutDetailsPage() {
                       </div>
                     )}
                   </div>
+                </div>
+                <div className="w-full md:w-auto md:flex-shrink-0">
+                  <MarketAnalysisCard
+                    demandTopListings={marketAnalysisScores.demandTopListings}
+                    demandOverallMarket={
+                      marketAnalysisScores.demandOverallMarket
+                    }
+                    competitionTopTier={marketAnalysisScores.competitionTopTier}
+                    competitionOverallMarket={
+                      marketAnalysisScores.competitionOverallMarket
+                    }
+                  />
                 </div>
               </div>
             </CardHeader>

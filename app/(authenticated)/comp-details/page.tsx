@@ -114,7 +114,7 @@ export default function CompDetailsPage() {
 
         const authHeaders = {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         };
 
         const response = await axios.get(
@@ -176,16 +176,17 @@ export default function CompDetailsPage() {
         <Card>
           {analysisResponse?.comp_basis && (
             <CardHeader>
-              <div className="flex justify-between items-start gap-6">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6">
                 <div className="flex-1">
-                  <CardTitle className="flex items-center gap-2 pb-4">
+                  <CardTitle className="flex flex-col md:flex-row md:items-center gap-2 pb-4">
                     <Image
                       src="/market-spy-logo.png"
                       alt="STR Market Spy"
-                      width={200}
-                      height={80}
+                      width={150}
+                      height={60}
+                      className="md:w-[200px] md:h-[80px]"
                     />
-                    <span className="text-foreground/50">
+                    <span className="text-foreground/50 text-base md:text-lg">
                       {analysisResponse.comp_basis.address}
                     </span>
                   </CardTitle>
@@ -234,8 +235,8 @@ export default function CompDetailsPage() {
                   </div>
                 </div>
 
-                {/* Analysis Card - positioned in upper right */}
-                <Card className="w-96 bg-background border shadow-lg flex-shrink-0">
+                {/* Analysis Card - full width on mobile, upper right on desktop */}
+                <Card className="w-full md:w-96 bg-background border shadow-lg md:flex-shrink-0">
                   <CardHeader className="pb-3">
                     <CardTitle className="flex items-center gap-2 text-base">
                       <TrendingUp className="h-4 w-4" />

@@ -39,7 +39,7 @@ const HeaderNav = (props: any) => {
   const authenticatedLinks = [
     {
       label: "Feedback Genius",
-      href: "/properties/assess-property/single",
+      href: "/feedback-genius/analyze",
       enabled: true,
       icon: () => {
         return <MyAccountIcon className="text-purple-500 ml-6" />;
@@ -47,7 +47,7 @@ const HeaderNav = (props: any) => {
     },
     {
       label: "Market Spy",
-      href: "/market-spy",
+      href: "/market-spy/analyze",
       enabled:
         props.user &&
         props.user.plan &&
@@ -59,7 +59,7 @@ const HeaderNav = (props: any) => {
     },
     {
       label: "Market Scout 🧪",
-      href: "/market-scout",
+      href: "/market-scout/analyze",
       enabled:
         props.user && props.user.plan && props.user.plan.key === PLANS.PRO,
       icon: () => {
@@ -134,18 +134,47 @@ const HeaderNav = (props: any) => {
   const productsLinks = [
     {
       label: "STR Feedback Genius",
-      href: "/str-feedback-genius",
+      href: "/feedback-genius",
       enabled: true,
       icon: () => {
-        return <House01Icon className="text-red-500 ml-6" />;
+        return (
+          <Image
+            src="/images/icons/str-feedback-genius-icon.png"
+            alt="STR Feedback Genius"
+            width={24}
+            height={24}
+          />
+        );
       },
     },
     {
       label: "STR Market Spy",
-      href: "/market-spy-home",
+      href: "/market-spy",
       enabled: true,
       icon: () => {
-        return <House01Icon className="text-red-500 ml-6" />;
+        return (
+          <Image
+            src="/images/icons/market-spy-icon.png"
+            alt="STR Market Spy"
+            width={24}
+            height={24}
+          />
+        );
+      },
+    },
+    {
+      label: "STR Market Scout 🧪",
+      href: "/market-scout",
+      enabled: true,
+      icon: () => {
+        return (
+          <Image
+            src="/images/icons/market-scout-icon.png"
+            alt="STR Market Scout"
+            width={24}
+            height={24}
+          />
+        );
       },
     },
   ];
@@ -328,8 +357,11 @@ const HeaderNav = (props: any) => {
                             <NavigationMenuLink asChild>
                               <Link
                                 href={link.href}
-                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                className="flex block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                               >
+                                <div className="mr-2">
+                                  {link.icon && link.icon()}
+                                </div>
                                 <div className="text-sm font-medium leading-none">
                                   {link.label}
                                 </div>
@@ -348,19 +380,19 @@ const HeaderNav = (props: any) => {
         {pageLinks.map((link: any, index: number) => {
           // Check if Market Spy or Market Scout is enabled in pageLinks
           const marketSpyEnabled = pageLinks.some(
-            (l: any) => l.href === "/market-spy" && l.enabled
+            (l: any) => l.href === "/market-spy/analyze" && l.enabled
           );
           const marketScoutEnabled = pageLinks.some(
-            (l: any) => l.href === "/market-scout" && l.enabled
+            (l: any) => l.href === "/market-scout/analyze" && l.enabled
           );
           // Determine if we should show My Reports after this link
           // Show after Market Scout if enabled, otherwise after Market Spy if enabled, otherwise after Feedback Genius
           const showMyReportsAfter =
-            (link.href === "/market-scout" && link.enabled) ||
-            (link.href === "/market-spy" &&
+            (link.href === "/market-scout/analyze" && link.enabled) ||
+            (link.href === "/market-spy/analyze" &&
               link.enabled &&
               !marketScoutEnabled) ||
-            (link.href === "/properties/assess-property/single" &&
+            (link.href === "/feedback-genius/analyze" &&
               !marketSpyEnabled &&
               !marketScoutEnabled);
 
