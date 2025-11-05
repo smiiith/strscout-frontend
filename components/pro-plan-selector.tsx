@@ -77,7 +77,7 @@ export default function ProPlanSelector({
               <TabsTrigger value="subscription">
                 Monthly Subscription
               </TabsTrigger>
-              <TabsTrigger value="one_time">One-Time Payment</TabsTrigger>
+              <TabsTrigger value="one_time">One-Time Purchase</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
