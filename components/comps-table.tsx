@@ -277,24 +277,35 @@ export default function CompsTable({
                 </TableCell>
                 <TableCell>
                   {comp.overall_genius_score?.title?.rating_number ? (
-                    <div className="flex">
-                      <Badge
-                        variant="secondary"
-                        className={mock ? "cursor-default" : "cursor-pointer"}
-                        onClick={
-                          mock
-                            ? undefined
-                            : () => {
-                                router.push(
-                                  `/properties/comps/${comp.property_id}`
-                                );
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex">
+                            <Badge
+                              variant="secondary"
+                              className={
+                                mock ? "cursor-default" : "cursor-pointer"
                               }
-                        }
-                      >
-                        {comp.overall_genius_score?.title?.rating_number}
-                        <LinkSquare02Icon className="h-4 w-4 ml-2" />
-                      </Badge>
-                    </div>
+                              onClick={
+                                mock
+                                  ? undefined
+                                  : () => {
+                                      router.push(
+                                        `/properties/comps/${comp.property_id}`
+                                      );
+                                    }
+                              }
+                            >
+                              {comp.overall_genius_score?.title?.rating_number}
+                              <LinkSquare02Icon className="h-4 w-4 ml-2" />
+                            </Badge>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Detailed Analysis of this Competitor</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   ) : (
                     <div className="text-muted-foreground">N/A</div>
                   )}
@@ -318,7 +329,10 @@ export default function CompsTable({
       {/* Mobile Card View */}
       <div className="md:hidden space-y-4">
         {filteredComps.map((comp, index) => (
-          <Card key={comp.comp_id} className="overflow-hidden border-2 border-primary/20 shadow-md">
+          <Card
+            key={comp.comp_id}
+            className="overflow-hidden border-2 border-primary/20 shadow-md"
+          >
             <CardContent className="p-4 space-y-3">
               {/* View Listing Button */}
               <div className="flex justify-between items-start">
@@ -349,7 +363,8 @@ export default function CompsTable({
                         variant="outline"
                         className={`h-auto p-2 font-semibold ${getOccupancyColor(comp.overall_occupancy)}`}
                       >
-                        {comp.overall_occupancy?.toFixed(1)}% (tap for breakdown)
+                        {comp.overall_occupancy?.toFixed(1)}% (tap for
+                        breakdown)
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-64">

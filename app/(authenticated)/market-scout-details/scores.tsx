@@ -18,7 +18,7 @@ function getDemandLabel(score: number): string {
 
 function getCompetitionLabel(score: number): string {
   if (score >= 85) return "🥊 Brutal";
-  if (score >= 75) return "💪 Strong";
+  if (score >= 75) return "💪 Tough";
   if (score >= 70) return "⚔️ Contested";
   if (score >= 60) return "🍰 Easy to Beat";
   if (score >= 50) return "🎯 Soft";
