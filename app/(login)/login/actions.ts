@@ -45,6 +45,33 @@ export async function login(formData: FormData) {
   }
 }
 
+export async function signInWithGoogle(redirectTo?: string) {
+  const supabase = createClient();
+  const origin = process.env.NEXT_PUBLIC_APP_DOMAIN || process.env.NEXT_PUBLIC_SITE_URL;
+
+  // Build the redirect URL with optional next parameter
+  let redirectUrl = `${origin}/auth/callback`;
+  if (redirectTo && redirectTo.startsWith('/') && !redirectTo.startsWith('//')) {
+    redirectUrl += `?next=${encodeURIComponent(redirectTo)}`;
+  }
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: redirectUrl,
+    },
+  });
+
+  if (error) {
+    console.error("Google sign-in error:", error);
+    redirect("/login-issue");
+  }
+
+  if (data.url) {
+    redirect(data.url); // Redirect to Google OAuth consent screen
+  }
+}
+
 export async function signup(formData: FormData) {
   const supabase = createClient();
   const supabaseAdmin = createAdminClient();

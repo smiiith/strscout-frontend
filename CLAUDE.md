@@ -148,6 +148,7 @@ Both products share the same underlying infrastructure but differ in UX:
 ### Authentication & Security
 
 - Supabase Auth with Row Level Security (RLS)
+- **OAuth Providers**: Google OAuth 2.0 + traditional email/password authentication
 - **Server-side authorization**: Middleware checks both authentication AND subscription plans (`middleware.ts`)
 - **Auth-only routes**: `/feedback-genius/analyze` requires authentication (free for all users)
 - **Plan-protected routes**: `/market-spy/analyze`, `/market-scout/analyze`, `/my-comps` require "pro" plan (enforced server-side)
@@ -195,6 +196,55 @@ Both products share the same underlying infrastructure but differ in UX:
   ```
 - Without a valid `plan_id`, `getUserWithPlan()` returns null and login fails
 - The authenticated layout (`app/(authenticated)/layout.tsx`) requires a valid profile with plan to initialize session
+
+#### Google OAuth Setup
+
+The application supports Google OAuth 2.0 for seamless authentication. Users can sign in or register using their Google account on both `/login` and `/register` pages.
+
+**Implementation:**
+- Server action: `signInWithGoogle()` in `app/(login)/login/actions.ts:48`
+- Login page: `app/(login)/login/page.tsx` with Google button at top
+- Register page: `app/(login)/register/page.tsx` with Google button at top
+- Uses `react-icons/fc` for Google icon (`FcGoogle`)
+
+**Configuration Requirements:**
+
+1. **Google Cloud Console Setup:**
+   - Create OAuth 2.0 Client ID at [Google Cloud Console](https://console.cloud.google.com/)
+   - Application type: Web application
+   - Authorized redirect URIs (add both dev and prod):
+     ```
+     https://ynxbtvsbjzkcnkilnuts.supabase.co/auth/v1/callback  (development)
+     https://eklefalzcpfrnsmzrlbn.supabase.co/auth/v1/callback  (production)
+     ```
+   - OAuth consent screen: Add `strsage.com` as authorized domain
+   - Scopes: `email`, `profile`, `openid` (default for OAuth)
+
+2. **Supabase Configuration:**
+   - Enable Google provider in both development and production projects
+   - Navigate to: Authentication → Providers → Google
+   - Add Client ID and Client Secret from Google Cloud Console
+   - Same credentials work for both dev and prod (different redirect URIs configured in Google)
+
+3. **Authentication Flow:**
+   - User clicks "Continue with Google" button
+   - Redirects to Google OAuth consent screen
+   - After approval, redirects back to `/auth/callback`
+   - Callback route handles OAuth exchange and redirects to destination
+   - New users automatically get profile created via `handle_new_user()` trigger
+   - Google provides `full_name` via `raw_user_meta_data`
+
+**User Experience:**
+- Google button displayed as primary option (at top of forms)
+- Traditional email/password below "OR" divider
+- Preserves redirect destinations (`redirect_to` parameter)
+- Works seamlessly in both development and production
+
+**Important Notes:**
+- Same Google OAuth credentials used for both dev and prod environments
+- Multiple redirect URIs configured in single Google OAuth client
+- Email/password users can't automatically link to Google OAuth (separate accounts unless configured in Supabase)
+- First-time Google users get freemium plan via database trigger
 
 ### Key Components Structure
 
