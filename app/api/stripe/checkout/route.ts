@@ -64,7 +64,6 @@ export async function POST(request: Request) {
         },
       ],
       mode: checkoutMode,
-      allow_promotion_codes: true,
       success_url: absoluteSuccessUrl,
       cancel_url: absoluteCancelUrl,
       metadata: {
@@ -73,13 +72,15 @@ export async function POST(request: Request) {
       },
     };
 
-    // Auto-apply promotional coupon if configured
+    // Auto-apply promotional coupon if configured, otherwise allow manual promo codes
     if (process.env.STRIPE_PROMOTIONAL_COUPON_ID) {
       sessionConfig.discounts = [
         {
           coupon: process.env.STRIPE_PROMOTIONAL_COUPON_ID,
         },
       ];
+    } else {
+      sessionConfig.allow_promotion_codes = true;
     }
 
     const session = await stripe.checkout.sessions.create(sessionConfig);

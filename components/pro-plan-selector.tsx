@@ -35,9 +35,27 @@ export default function ProPlanSelector({
 
   const totalPrice = calculatePrice(listingCount, billingType);
   const perListingRate = getPerListingRate(listingCount, billingType);
+  const isPromoActive = process.env.NEXT_PUBLIC_PROMO_ACTIVE === "true";
 
   return (
-    <Card className={`border-primary ${className} flex flex-col`}>
+    <Card className={`border-primary ${className} flex flex-col relative`}>
+      {/* Black Friday Badge - Mobile Only (absolute positioned) */}
+      {isPromoActive && (
+        <div className="absolute -top-4 -right-4 z-10 md:hidden text-center">
+          <Image
+            src="/images/50-percept-off-black-friday.png"
+            alt="50% Off Black Friday Sale"
+            width={120}
+            height={120}
+            quality={100}
+            className="w-[120px] h-auto"
+          />
+          <p className="text-[10px] text-muted-foreground mt-1 bg-background/80 px-1 rounded">
+            Discounted prices shown
+          </p>
+        </div>
+      )}
+
       <CardHeader>
         <div className="flex items-center gap-4 mb-4">
           <Image
@@ -55,15 +73,34 @@ export default function ProPlanSelector({
         </p>
       </CardHeader>
       <CardContent className="space-y-6 flex-1 flex flex-col">
-        <div>
-          <h4 className="font-semibold mb-3">✅ Market Spy Features:</h4>
-          <ul className="space-y-2 text-muted-foreground text-sm">
-            <li>• Find nearby similar properties</li>
-            <li>• Competitor occupancy analysis</li>
-            <li>• Performance benchmarking</li>
-            <li>• Amenities comparison</li>
-            <li>• Policy analysis</li>
-          </ul>
+        <div className="flex gap-4 items-start">
+          <div className="flex-1">
+            <h4 className="font-semibold mb-3">✅ Market Spy Features:</h4>
+            <ul className="space-y-2 text-muted-foreground text-sm">
+              <li>• Find nearby similar properties</li>
+              <li>• Competitor occupancy analysis</li>
+              <li>• Performance benchmarking</li>
+              <li>• Amenities comparison</li>
+              <li>• Policy analysis</li>
+            </ul>
+          </div>
+
+          {/* Black Friday Badge - Desktop Only (inline) */}
+          {isPromoActive && (
+            <div className="hidden md:block flex-shrink-0 text-center">
+              <Image
+                src="/images/50-percept-off-black-friday.png"
+                alt="50% Off Black Friday Sale"
+                width={150}
+                height={150}
+                quality={100}
+                className="w-[150px] h-auto"
+              />
+              <p className="text-xs text-muted-foreground mt-2">
+                Discounted prices shown
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Billing Type Selector */}
