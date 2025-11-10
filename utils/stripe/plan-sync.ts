@@ -282,7 +282,7 @@ export function calculateTier(listingCount: number): string {
  */
 export async function getAllPlans() {
   const supabase = await createClient();
-  
+
   const { data: plans, error } = await supabase
     .from('plans')
     .select('*')
@@ -295,4 +295,29 @@ export async function getAllPlans() {
   }
 
   return plans || [];
+}
+
+/**
+ * Get current listings purchased and limit for a user
+ * Used to calculate cumulative totals for one-time purchases
+ */
+export async function getCurrentListingsData(
+  userId: string,
+  supabaseClient: any
+) {
+  const { data, error } = await supabaseClient
+    .from('profiles')
+    .select('listings_purchased, market_spy_listings_limit')
+    .eq('id', userId)
+    .single();
+
+  if (error) {
+    console.error('Error fetching current listings data:', error);
+    return { listings_purchased: 0, market_spy_listings_limit: 0 };
+  }
+
+  return {
+    listings_purchased: data?.listings_purchased || 0,
+    market_spy_listings_limit: data?.market_spy_listings_limit || 0,
+  };
 }

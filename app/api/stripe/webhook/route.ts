@@ -8,6 +8,7 @@ import {
   syncUserPlanBySubscriptionId,
   getListingCountFromPriceId,
   calculateTier,
+  getCurrentListingsData,
 } from "@/utils/stripe/plan-sync";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -194,6 +195,17 @@ export async function POST(request: Request) {
           console.log("📊 Actual Listing Count:", actualListingCount);
 
           if (userId && priceId) {
+            // Get current listings data to make purchases cumulative
+            const currentData = await getCurrentListingsData(userId, supabase);
+            const newTotalListings = currentData.listings_purchased + actualListingCount;
+            const newTotalLimit = currentData.market_spy_listings_limit + actualListingCount;
+
+            console.log("📊 Previous listings purchased:", currentData.listings_purchased);
+            console.log("📊 Previous listings limit:", currentData.market_spy_listings_limit);
+            console.log("📊 New listings purchased:", actualListingCount);
+            console.log("📊 Total listings purchased:", newTotalListings);
+            console.log("📊 Total listings limit:", newTotalLimit);
+
             // Update user profile with customer info (no subscription for one-time)
             const { error } = await supabase
               .from("profiles")
@@ -202,8 +214,9 @@ export async function POST(request: Request) {
                 stripe_subscription_id: null, // Clear any existing subscription
                 subscription_status: null, // No subscription status for one-time
                 billing_type: "one_time",
-                current_tier: calculateTier(actualListingCount),
-                listings_purchased: actualListingCount, // Use actual listing count
+                current_tier: calculateTier(newTotalListings),
+                listings_purchased: newTotalListings, // Cumulative total
+                market_spy_listings_limit: newTotalLimit, // Cumulative limit
                 purchase_date: new Date().toISOString(),
                 updated_at: new Date().toISOString(),
               })
@@ -223,13 +236,13 @@ export async function POST(request: Request) {
               userId,
               priceId,
               null, // No subscription status for one-time payments
-              actualListingCount, // Use actual listing count
+              newTotalListings, // Use cumulative total listing count
               supabase // Pass service role client to bypass RLS
             );
             if (planSyncResult) {
               console.log(
-                "✅ Successfully synced user plan for one-time purchase with listing count:",
-                actualListingCount
+                "✅ Successfully synced user plan for one-time purchase with cumulative listing count:",
+                newTotalListings
               );
             } else {
               console.error(
