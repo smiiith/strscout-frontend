@@ -21,6 +21,7 @@ import {
   type BillingType,
 } from "@/lib/pricing";
 import Image from "next/image";
+import { Badge } from "./ui/badge";
 
 interface ProPlanSelectorProps {
   className?: string;
@@ -57,7 +58,7 @@ export default function ProPlanSelector({
       )}
 
       <CardHeader>
-        <div className="flex items-center gap-4 mb-4">
+        <div className="flex justify-between gap-4 mb-4">
           <Image
             src="/images/market-spy-logo.png"
             alt="STR Market Spy"
@@ -66,10 +67,18 @@ export default function ProPlanSelector({
             quality={100}
             className="w-auto h-[60px]"
           />
+          <Image
+            src="/images/market-scout-logo.png"
+            alt="STR Market Scout"
+            width={200}
+            height={60}
+            quality={100}
+            className="w-auto h-[60px] hidden md:block"
+          />
         </div>
         <CardTitle className="text-2xl">Pro Plan</CardTitle>
         <p className="text-muted-foreground">
-          STR Genius + Market Spy features with flexible pricing
+          STR Genius + Market Spy + Market Scout beta
         </p>
       </CardHeader>
       <CardContent className="space-y-6 flex-1 flex flex-col">
@@ -82,6 +91,17 @@ export default function ProPlanSelector({
               <li>• Performance benchmarking</li>
               <li>• Amenities comparison</li>
               <li>• Policy analysis</li>
+            </ul>
+            <h4 className="font-semibold my-3">
+              ✅ Market Scout Features:
+              <Badge className="h-6 mx-4" variant="default">
+                Beta
+              </Badge>
+            </h4>
+            <ul className="space-y-2 text-muted-foreground text-sm">
+              <li>• Find neighborhood comps</li>
+              <li>• Show current STR demand</li>
+              <li>• Strength of competition analysis</li>
             </ul>
           </div>
 
