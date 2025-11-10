@@ -222,6 +222,8 @@ export default function MarketAnalysisPage({
           onRunAnother={handleRunAnother}
           reportsPageUrl={reportsPageUrl}
           productName={productName}
+          oneTimeBalance={accountData?.one_time_listings_balance || 0}
+          subscriptionQuantity={accountData?.subscription_quantity || 0}
         />
       </div>
     </div>

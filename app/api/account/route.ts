@@ -25,7 +25,9 @@ export async function GET() {
         market_spy_listings_used,
         market_spy_listings_limit,
         current_tier,
-        listings_purchased
+        listings_purchased,
+        one_time_listings_balance,
+        subscription_quantity
       `)
       .eq('id', user.id)
       .single();
@@ -52,6 +54,8 @@ export async function GET() {
         market_spy_listings_limit: limit,
         current_tier: profile?.current_tier,
         listings_purchased: profile?.listings_purchased,
+        one_time_listings_balance: profile?.one_time_listings_balance || 0,
+        subscription_quantity: profile?.subscription_quantity || 0,
         remaining_runs: remainingRuns,
       }
     });

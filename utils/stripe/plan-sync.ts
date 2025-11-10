@@ -63,7 +63,7 @@ export async function syncUserPlan(
   try {
     // Get plan key from price ID, default to freemium if not found
     const planKey = STRIPE_PRICE_TO_PLAN[priceId] || PLANS.FREEMIUM;
-    
+
     // Get plan ID from database
     const { data: plan, error: planError } = await supabase
       .from('plans')
@@ -77,21 +77,38 @@ export async function syncUserPlan(
     }
 
     // Determine final plan based on subscription status
-    const finalPlanId = shouldDowngradeToFreemium(subscriptionStatus) 
+    const finalPlanId = shouldDowngradeToFreemium(subscriptionStatus)
       ? DEFAULT_PLAN_IDS.freemium
       : plan.id;
 
-    // Calculate Market Spy listings based on plan and quantity
-    const marketSpyLimit = calculateMarketSpyLimit(planKey, quantity, subscriptionStatus);
-
     // Determine billing type based on price ID
     const billingType = isOneTimePriceId(priceId) ? 'one_time' : 'subscription';
+
+    // Get current prepaid balance to preserve it for subscriptions
+    const { data: currentProfile } = await supabase
+      .from('profiles')
+      .select('one_time_listings_balance')
+      .eq('id', userId)
+      .single();
+
+    const prepaidBalance = currentProfile?.one_time_listings_balance || 0;
+
+    // Calculate Market Spy limit
+    let marketSpyLimit: number;
+    if (billingType === 'subscription') {
+      // For subscriptions: subscription quantity + prepaid balance
+      marketSpyLimit = quantity + prepaidBalance;
+      console.log(`📊 Subscription limit calculation: ${quantity} (subscription) + ${prepaidBalance} (prepaid) = ${marketSpyLimit}`);
+    } else {
+      // For one-time: just use the quantity (which is the total prepaid balance)
+      marketSpyLimit = calculateMarketSpyLimit(planKey, quantity, subscriptionStatus);
+    }
 
     // Calculate tier based on quantity/listing count
     const currentTier = calculateTier(quantity);
 
     // Update user's plan and subscription details
-    const updateData: any = { 
+    const updateData: any = {
       plan_id: finalPlanId,
       subscription_quantity: quantity,
       market_spy_listings_limit: marketSpyLimit,
