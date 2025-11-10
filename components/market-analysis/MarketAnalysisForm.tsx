@@ -125,7 +125,9 @@ export default function MarketAnalysisForm({
           control={form.control}
           name="roomType"
           render={({ field }) => (
-            <FormItem className={showRoomTypeSelect ? "max-w-[300px]" : "hidden"}>
+            <FormItem
+              className={showRoomTypeSelect ? "max-w-[300px]" : "hidden"}
+            >
               <FormLabel>Type of Stay</FormLabel>
               <FormControl>
                 {showRoomTypeSelect ? (
@@ -177,8 +179,8 @@ export default function MarketAnalysisForm({
         <div className="text-sm text-muted-foreground">
           Run your report now - it typically takes 12-15 minutes.
           <div>
-            Head to the {productName} Reports page to check its progress on
-            your reports page.
+            Head to the {productName} Reports page to check its progress on your
+            reports page.
           </div>
         </div>
 

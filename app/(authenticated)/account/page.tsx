@@ -29,7 +29,8 @@ const Account = async () => {
       purchase_date,
       market_spy_listings_limit,
       market_spy_listings_used,
-      subscription_quantity
+      subscription_quantity,
+      one_time_listings_balance
     `
     )
     .eq("id", user?.id)
@@ -68,23 +69,60 @@ const Account = async () => {
                 <Message variant="info">
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="font-medium">Active Subscription</h3>
-                    <span className="text-sm capitalize">
-                      {profile.current_tier || "Pro"} Plan
+                    <span className="text-sm">
+                      Pro Plan
                     </span>
                   </div>
                   {/* <pre>{JSON.stringify(profile, null, 2)}</pre> */}
-                  <p className="text-sm mb-3">
-                    {profile.market_spy_listings_limit} Market Spy reports
-                  </p>
-                  <div className="flex items-center justify-between text-sm">
-                    <span>
-                      Used this month: {profile.market_spy_listings_used || 0} /{" "}
-                      {profile.market_spy_listings_limit || 0}
-                    </span>
-                  </div>
+
+                  {/* Show detailed breakdown if user has prepaid balance */}
+                  {(profile.one_time_listings_balance || 0) > 0 ? (
+                    <div className="space-y-3">
+                      <div className="bg-blue-50 border border-blue-200 rounded p-3 space-y-2">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="font-medium">Prepaid Reports</span>
+                          <span className="font-semibold">{profile.one_time_listings_balance || 0} available</span>
+                        </div>
+                        <p className="text-xs text-gray-600">Never expires • Used first</p>
+                      </div>
+
+                      <div className="bg-green-50 border border-green-200 rounded p-3 space-y-2">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="font-medium">Subscription Reports</span>
+                          <span className="font-semibold">{profile.subscription_quantity || 0}/month</span>
+                        </div>
+                        <p className="text-xs text-gray-600">Resets monthly • Used after prepaid</p>
+                      </div>
+
+                      <div className="pt-2 border-t">
+                        <div className="flex items-center justify-between text-sm font-medium">
+                          <span>Total Available</span>
+                          <span>{profile.market_spy_listings_limit || 0} reports</span>
+                        </div>
+                        <div className="flex items-center justify-between text-sm text-gray-600 mt-1">
+                          <span>Used This Month</span>
+                          <span>{profile.market_spy_listings_used || 0}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="text-sm mb-3">
+                        {profile.subscription_quantity || 0} Market Spy reports per month
+                      </p>
+                      <div className="flex items-center justify-between text-sm">
+                        <span>
+                          Used this month: {profile.market_spy_listings_used || 0} /{" "}
+                          {profile.market_spy_listings_limit || 0}
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </Message>
 
-                <ManageSubscriptionButton />
+                <div className="pb-8">
+                  <ManageSubscriptionButton />
+                </div>
               </div>
             )}
 
@@ -95,8 +133,8 @@ const Account = async () => {
                   {/* <pre>{JSON.stringify(profile, null, 2)}</pre> */}
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="font-medium">One-time Purchase</h3>
-                    <span className="text-sm capitalize">
-                      {profile.current_tier || "Pro"} Plan
+                    <span className="text-sm">
+                      Pro Plan
                     </span>
                   </div>
                   {profile.purchase_date && (
