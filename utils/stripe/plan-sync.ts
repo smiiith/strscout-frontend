@@ -125,13 +125,13 @@ export async function syncUserPlan(
     }
 
     // Only update billing_type if not already set correctly by webhook
-    const { data: currentProfile } = await supabase
+    const { data: profileBillingData } = await supabase
       .from('profiles')
       .select('billing_type')
       .eq('id', userId)
       .single();
 
-    if (!currentProfile?.billing_type || currentProfile.billing_type !== billingType) {
+    if (!profileBillingData?.billing_type || profileBillingData.billing_type !== billingType) {
       updateData.billing_type = billingType;
     }
 
