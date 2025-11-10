@@ -23,7 +23,13 @@ export const POST = async (request: NextRequest) => {
 
   if (req.body.access_pwd) {
     if (req.body.access_pwd === process.env.BASIC_AUTH_PASSWORD) {
-      cookieStore?.set(SITE_ACCESS_COOKIE, req.body.access_pwd);
+      // Set cookie with 1 year expiration for long-lasting access
+      cookieStore?.set(SITE_ACCESS_COOKIE, req.body.access_pwd, {
+        maxAge: 60 * 60 * 24 * 365, // 1 year in seconds
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+      });
       return NextResponse.json("success");
     }
   }
