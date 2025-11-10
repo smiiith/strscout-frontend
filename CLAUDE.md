@@ -275,6 +275,8 @@ The application supports Google OAuth 2.0 for seamless authentication. Users can
   - Individual one-time payment prices (10 separate price IDs for 1-10 listings)
   - Webhooks handle both subscription and one-time payment events (`app/api/stripe/webhook/route.ts`)
   - Plan sync utilities (`utils/stripe/plan-sync.ts`) manage user billing state
+  - **One-time purchases are cumulative**: Multiple one-time purchases add together (e.g., buying 1 listing then 10 more = 11 total available)
+  - `getCurrentListingsData()` helper in `plan-sync.ts` fetches current totals before adding new purchases
 - Schema migrations managed via Supabase CLI
 - **Backend Database Operations**:
   - Direct PostgreSQL queries via `pg` client in backend

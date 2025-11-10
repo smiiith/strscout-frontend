@@ -307,17 +307,24 @@ export async function getCurrentListingsData(
 ) {
   const { data, error } = await supabaseClient
     .from('profiles')
-    .select('listings_purchased, market_spy_listings_limit')
+    .select('listings_purchased, market_spy_listings_limit, one_time_listings_balance, billing_type')
     .eq('id', userId)
     .single();
 
   if (error) {
     console.error('Error fetching current listings data:', error);
-    return { listings_purchased: 0, market_spy_listings_limit: 0 };
+    return {
+      listings_purchased: 0,
+      market_spy_listings_limit: 0,
+      one_time_listings_balance: 0,
+      billing_type: null
+    };
   }
 
   return {
     listings_purchased: data?.listings_purchased || 0,
     market_spy_listings_limit: data?.market_spy_listings_limit || 0,
+    one_time_listings_balance: data?.one_time_listings_balance || 0,
+    billing_type: data?.billing_type || null,
   };
 }
