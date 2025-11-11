@@ -9,6 +9,8 @@ export interface AccountData {
   market_spy_listings_limit: number;
   current_tier: string | null;
   listings_purchased: number | null;
+  one_time_listings_balance: number;
+  subscription_quantity: number;
   remaining_runs: number;
 }
 
@@ -62,15 +64,27 @@ export function useMarketAnalysisAccount(productName: string) {
     const remainingRuns = accountData.remaining_runs;
     const hasActiveSubscription = accountData.subscription_status === "active";
     const isOneTime = accountData.billing_type === "one_time";
+    const oneTimeBalance = accountData.one_time_listings_balance || 0;
+    const subscriptionQty = accountData.subscription_quantity || 0;
 
     if (remainingRuns > 0) {
       if (hasActiveSubscription) {
+        // Show breakdown if user has prepaid balance
+        if (oneTimeBalance > 0) {
+          return `You have ${remainingRuns} ${productName} ${remainingRuns === 1 ? "run" : "runs"} remaining (${oneTimeBalance} prepaid + ${subscriptionQty} subscription).`;
+        }
         return `You have ${remainingRuns} ${productName} ${remainingRuns === 1 ? "run" : "runs"} remaining this month.`;
       } else if (isOneTime) {
-        return `You have ${remainingRuns} ${productName} ${remainingRuns === 1 ? "run" : "runs"} remaining.`;
+        return `You have ${remainingRuns} prepaid ${productName} ${remainingRuns === 1 ? "run" : "runs"} remaining.`;
       }
     } else {
+      // User has no remaining runs
       if (hasActiveSubscription) {
+        // Check if they have prepaid balance - if so, they shouldn't see this message
+        if (oneTimeBalance > 0) {
+          // This shouldn't happen, but show prepaid balance if it exists
+          return `You have ${oneTimeBalance} prepaid ${productName} ${oneTimeBalance === 1 ? "run" : "runs"} remaining.`;
+        }
         return `You've used all your ${productName} runs for this month. Your usage will reset at the start of your next billing cycle.`;
       } else if (isOneTime) {
         return `You've used all your ${productName} runs. Purchase more listings to continue using ${productName}.`;

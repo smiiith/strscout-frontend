@@ -63,7 +63,7 @@ export async function syncUserPlan(
   try {
     // Get plan key from price ID, default to freemium if not found
     const planKey = STRIPE_PRICE_TO_PLAN[priceId] || PLANS.FREEMIUM;
-    
+
     // Get plan ID from database
     const { data: plan, error: planError } = await supabase
       .from('plans')
@@ -77,21 +77,38 @@ export async function syncUserPlan(
     }
 
     // Determine final plan based on subscription status
-    const finalPlanId = shouldDowngradeToFreemium(subscriptionStatus) 
+    const finalPlanId = shouldDowngradeToFreemium(subscriptionStatus)
       ? DEFAULT_PLAN_IDS.freemium
       : plan.id;
 
-    // Calculate Market Spy listings based on plan and quantity
-    const marketSpyLimit = calculateMarketSpyLimit(planKey, quantity, subscriptionStatus);
-
     // Determine billing type based on price ID
     const billingType = isOneTimePriceId(priceId) ? 'one_time' : 'subscription';
+
+    // Get current prepaid balance to preserve it for subscriptions
+    const { data: currentProfile } = await supabase
+      .from('profiles')
+      .select('one_time_listings_balance')
+      .eq('id', userId)
+      .single();
+
+    const prepaidBalance = currentProfile?.one_time_listings_balance || 0;
+
+    // Calculate Market Spy limit
+    let marketSpyLimit: number;
+    if (billingType === 'subscription') {
+      // For subscriptions: subscription quantity + prepaid balance
+      marketSpyLimit = quantity + prepaidBalance;
+      console.log(`📊 Subscription limit calculation: ${quantity} (subscription) + ${prepaidBalance} (prepaid) = ${marketSpyLimit}`);
+    } else {
+      // For one-time: just use the quantity (which is the total prepaid balance)
+      marketSpyLimit = calculateMarketSpyLimit(planKey, quantity, subscriptionStatus);
+    }
 
     // Calculate tier based on quantity/listing count
     const currentTier = calculateTier(quantity);
 
     // Update user's plan and subscription details
-    const updateData: any = { 
+    const updateData: any = {
       plan_id: finalPlanId,
       subscription_quantity: quantity,
       market_spy_listings_limit: marketSpyLimit,
@@ -108,13 +125,13 @@ export async function syncUserPlan(
     }
 
     // Only update billing_type if not already set correctly by webhook
-    const { data: currentProfile } = await supabase
+    const { data: profileBillingData } = await supabase
       .from('profiles')
       .select('billing_type')
       .eq('id', userId)
       .single();
 
-    if (!currentProfile?.billing_type || currentProfile.billing_type !== billingType) {
+    if (!profileBillingData?.billing_type || profileBillingData.billing_type !== billingType) {
       updateData.billing_type = billingType;
     }
 
@@ -282,7 +299,7 @@ export function calculateTier(listingCount: number): string {
  */
 export async function getAllPlans() {
   const supabase = await createClient();
-  
+
   const { data: plans, error } = await supabase
     .from('plans')
     .select('*')
@@ -295,4 +312,36 @@ export async function getAllPlans() {
   }
 
   return plans || [];
+}
+
+/**
+ * Get current listings purchased and limit for a user
+ * Used to calculate cumulative totals for one-time purchases
+ */
+export async function getCurrentListingsData(
+  userId: string,
+  supabaseClient: any
+) {
+  const { data, error } = await supabaseClient
+    .from('profiles')
+    .select('listings_purchased, market_spy_listings_limit, one_time_listings_balance, billing_type')
+    .eq('id', userId)
+    .single();
+
+  if (error) {
+    console.error('Error fetching current listings data:', error);
+    return {
+      listings_purchased: 0,
+      market_spy_listings_limit: 0,
+      one_time_listings_balance: 0,
+      billing_type: null
+    };
+  }
+
+  return {
+    listings_purchased: data?.listings_purchased || 0,
+    market_spy_listings_limit: data?.market_spy_listings_limit || 0,
+    one_time_listings_balance: data?.one_time_listings_balance || 0,
+    billing_type: data?.billing_type || null,
+  };
 }

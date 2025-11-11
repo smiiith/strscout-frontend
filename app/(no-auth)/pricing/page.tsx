@@ -108,12 +108,17 @@ export default function PricingPage() {
                 </thead>
                 <tbody className="space-y-2">
                   <tr className="border-b">
-                    <td className="py-3 px-4 font-medium">STR Genius Analysis</td>
+                    <td className="py-3 px-4 font-medium">Feedback Genius Analysis</td>
                     <td className="text-center py-3 px-4">✅</td>
                     <td className="text-center py-3 px-4">✅</td>
                   </tr>
                   <tr className="border-b">
-                    <td className="py-3 px-4 font-medium">Listing Feedback</td>
+                    <td className="py-3 px-4 font-medium">Personalized Listing Feedback</td>
+                    <td className="text-center py-3 px-4">✅</td>
+                    <td className="text-center py-3 px-4">✅</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-3 px-4 font-medium">Recommendations to Improve</td>
                     <td className="text-center py-3 px-4">✅</td>
                     <td className="text-center py-3 px-4">✅</td>
                   </tr>
@@ -123,14 +128,54 @@ export default function PricingPage() {
                     <td className="text-center py-3 px-4">✅</td>
                   </tr>
                   <tr className="border-b">
-                    <td className="py-3 px-4 font-medium">Competitor Analysis</td>
+                    <td className="py-3 px-4 font-medium">Detailed Market Report</td>
                     <td className="text-center py-3 px-4">❌</td>
                     <td className="text-center py-3 px-4">✅</td>
                   </tr>
                   <tr className="border-b">
-                    <td className="py-3 px-4 font-medium">Market Spy Listings</td>
-                    <td className="text-center py-3 px-4">0</td>
-                    <td className="text-center py-3 px-4">2 per plan</td>
+                    <td className="py-3 px-4 font-medium">Competitor's Current Occupancy</td>
+                    <td className="text-center py-3 px-4">❌</td>
+                    <td className="text-center py-3 px-4">✅</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-3 px-4 font-medium">Why Competitors Get Booked</td>
+                    <td className="text-center py-3 px-4">❌</td>
+                    <td className="text-center py-3 px-4">✅</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-3 px-4 font-medium">Compare Your Listing with Top Performers</td>
+                    <td className="text-center py-3 px-4">❌</td>
+                    <td className="text-center py-3 px-4">✅</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-3 px-4 font-medium">Summary with Action Steps</td>
+                    <td className="text-center py-3 px-4">❌</td>
+                    <td className="text-center py-3 px-4">✅</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-3 px-4 font-medium">Market Scout Access</td>
+                    <td className="text-center py-3 px-4">❌</td>
+                    <td className="text-center py-3 px-4">✅</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-3 px-4 font-medium">Neighborhood Comps</td>
+                    <td className="text-center py-3 px-4">❌</td>
+                    <td className="text-center py-3 px-4">✅</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-3 px-4 font-medium">Detailed Report on Each Comp</td>
+                    <td className="text-center py-3 px-4">❌</td>
+                    <td className="text-center py-3 px-4">✅</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-3 px-4 font-medium">Current Neighborhood Demand</td>
+                    <td className="text-center py-3 px-4">❌</td>
+                    <td className="text-center py-3 px-4">✅</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-3 px-4 font-medium">Detailed Strength of Competition Report</td>
+                    <td className="text-center py-3 px-4">❌</td>
+                    <td className="text-center py-3 px-4">✅</td>
                   </tr>
                   <tr className="border-b">
                     <td className="py-3 px-4 font-medium">Support</td>

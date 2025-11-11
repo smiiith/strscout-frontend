@@ -429,6 +429,7 @@ export type Database = {
           market_spy_listings_limit: number | null
           market_spy_listings_used: number | null
           notification_preference: string | null
+          one_time_listings_balance: number | null
           plan_id: string | null
           primary_email: string | null
           primary_phone: string | null
@@ -455,6 +456,7 @@ export type Database = {
           market_spy_listings_limit?: number | null
           market_spy_listings_used?: number | null
           notification_preference?: string | null
+          one_time_listings_balance?: number | null
           plan_id?: string | null
           primary_email?: string | null
           primary_phone?: string | null
@@ -481,6 +483,7 @@ export type Database = {
           market_spy_listings_limit?: number | null
           market_spy_listings_used?: number | null
           notification_preference?: string | null
+          one_time_listings_balance?: number | null
           plan_id?: string | null
           primary_email?: string | null
           primary_phone?: string | null

@@ -8,6 +8,7 @@ import {
   syncUserPlanBySubscriptionId,
   getListingCountFromPriceId,
   calculateTier,
+  getCurrentListingsData,
 } from "@/utils/stripe/plan-sync";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -118,6 +119,9 @@ export async function POST(request: Request) {
           const subscriptionId = session.subscription as string;
 
           if (userId) {
+            // Get current data to preserve one-time balance when switching to subscription
+            const currentData = await getCurrentListingsData(userId, supabase);
+
             // Get subscription details to extract price ID and quantity for plan mapping
             const subscription =
               await stripe.subscriptions.retrieve(subscriptionId);
@@ -125,15 +129,20 @@ export async function POST(request: Request) {
             const quantity = subscription.items.data[0]?.quantity || 1;
 
             console.log("💰 Price ID:", priceId);
-            console.log("🔢 Quantity:", quantity);
+            console.log("🔢 Subscription Quantity:", quantity);
+            console.log("📊 Existing one-time balance:", currentData.one_time_listings_balance);
+
+            // Calculate new limit: subscription quantity + existing one-time balance
+            const newTotalLimit = quantity + currentData.one_time_listings_balance;
+            console.log("📊 New total limit (subscription + one-time balance):", newTotalLimit);
 
             // Update user profile with subscription info
             const sub = subscription as any;
-            const periodStart = sub.current_period_start 
+            const periodStart = sub.current_period_start
               ? new Date(sub.current_period_start * 1000).toISOString()
               : null;
             const periodEnd = sub.current_period_end
-              ? new Date(sub.current_period_end * 1000).toISOString() 
+              ? new Date(sub.current_period_end * 1000).toISOString()
               : null;
 
             const { error } = await supabase
@@ -144,6 +153,8 @@ export async function POST(request: Request) {
                 subscription_status: "active",
                 billing_type: "subscription",
                 current_tier: calculateTier(quantity),
+                subscription_quantity: quantity,
+                market_spy_listings_limit: newTotalLimit, // Subscription + one-time balance
                 current_period_start: periodStart,
                 current_period_end: periodEnd,
                 updated_at: new Date().toISOString(),
@@ -194,6 +205,19 @@ export async function POST(request: Request) {
           console.log("📊 Actual Listing Count:", actualListingCount);
 
           if (userId && priceId) {
+            // Get current listings data to make purchases cumulative
+            const currentData = await getCurrentListingsData(userId, supabase);
+            const newTotalListings = currentData.listings_purchased + actualListingCount;
+            const newOneTimeBalance = currentData.one_time_listings_balance + actualListingCount;
+            const newTotalLimit = newOneTimeBalance; // For one-time only users, limit = balance
+
+            console.log("📊 Previous listings purchased:", currentData.listings_purchased);
+            console.log("📊 Previous one-time balance:", currentData.one_time_listings_balance);
+            console.log("📊 New listings purchased:", actualListingCount);
+            console.log("📊 Total listings purchased:", newTotalListings);
+            console.log("📊 New one-time balance:", newOneTimeBalance);
+            console.log("📊 Total listings limit:", newTotalLimit);
+
             // Update user profile with customer info (no subscription for one-time)
             const { error } = await supabase
               .from("profiles")
@@ -202,8 +226,10 @@ export async function POST(request: Request) {
                 stripe_subscription_id: null, // Clear any existing subscription
                 subscription_status: null, // No subscription status for one-time
                 billing_type: "one_time",
-                current_tier: calculateTier(actualListingCount),
-                listings_purchased: actualListingCount, // Use actual listing count
+                current_tier: calculateTier(newTotalListings),
+                listings_purchased: newTotalListings, // Cumulative total ever purchased
+                one_time_listings_balance: newOneTimeBalance, // Current unused balance
+                market_spy_listings_limit: newTotalLimit, // Total available (balance only)
                 purchase_date: new Date().toISOString(),
                 updated_at: new Date().toISOString(),
               })
@@ -223,13 +249,13 @@ export async function POST(request: Request) {
               userId,
               priceId,
               null, // No subscription status for one-time payments
-              actualListingCount, // Use actual listing count
+              newTotalListings, // Use cumulative total listing count
               supabase // Pass service role client to bypass RLS
             );
             if (planSyncResult) {
               console.log(
-                "✅ Successfully synced user plan for one-time purchase with listing count:",
-                actualListingCount
+                "✅ Successfully synced user plan for one-time purchase with cumulative listing count:",
+                newTotalListings
               );
             } else {
               console.error(
@@ -352,20 +378,35 @@ export async function POST(request: Request) {
           // Get subscription details to check billing period
           const subscription =
             await stripe.subscriptions.retrieve(subscriptionId);
+          const quantity = subscription.items.data[0]?.quantity || 1;
+
+          // Get current profile to preserve one-time balance
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("one_time_listings_balance")
+            .eq("stripe_subscription_id", subscriptionId)
+            .single();
+
+          const oneTimeBalance = profile?.one_time_listings_balance || 0;
+          const newTotalLimit = quantity + oneTimeBalance;
+
+          console.log("💰 Subscription renewal - preserving one-time balance:", oneTimeBalance);
+          console.log("📊 New limit (subscription + balance):", newTotalLimit);
 
           // Reset Market Spy usage for subscription billing cycles
           const sub = subscription as any;
-          const periodStart = sub.current_period_start 
+          const periodStart = sub.current_period_start
             ? new Date(sub.current_period_start * 1000).toISOString()
             : null;
           const periodEnd = sub.current_period_end
-            ? new Date(sub.current_period_end * 1000).toISOString() 
+            ? new Date(sub.current_period_end * 1000).toISOString()
             : null;
 
           const { error: resetError } = await supabase
             .from("profiles")
             .update({
               market_spy_listings_used: 0,
+              market_spy_listings_limit: newTotalLimit, // Refresh limit with balance preserved
               current_period_start: periodStart,
               current_period_end: periodEnd,
               subscription_status: "active",

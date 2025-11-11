@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     // Get current usage and limit
     const { data: profile, error: fetchError } = await supabase
       .from('profiles')
-      .select('market_spy_listings_used, market_spy_listings_limit')
+      .select('market_spy_listings_used, market_spy_listings_limit, one_time_listings_balance, billing_type')
       .eq('id', userId)
       .single();
 
@@ -25,23 +25,33 @@ export async function POST(request: Request) {
 
     const currentUsed = profile.market_spy_listings_used || 0;
     const limit = profile.market_spy_listings_limit || 0;
+    const oneTimeBalance = profile.one_time_listings_balance || 0;
 
     // Check if user has remaining runs
     if (currentUsed >= limit) {
-      return NextResponse.json({ 
+      return NextResponse.json({
         error: 'Usage limit exceeded',
         used: currentUsed,
         limit: limit
       }, { status: 403 });
     }
 
+    // Decrement from one-time balance first, then subscription
+    const updateData: any = {
+      market_spy_listings_used: currentUsed + 1,
+      updated_at: new Date().toISOString()
+    };
+
+    if (oneTimeBalance > 0) {
+      // Use one-time balance first
+      updateData.one_time_listings_balance = oneTimeBalance - 1;
+      console.log(`💰 Decrementing one-time balance: ${oneTimeBalance} -> ${oneTimeBalance - 1}`);
+    }
+
     // Increment usage
     const { error: updateError } = await supabase
       .from('profiles')
-      .update({ 
-        market_spy_listings_used: currentUsed + 1,
-        updated_at: new Date().toISOString()
-      })
+      .update(updateData)
       .eq('id', userId);
 
     if (updateError) {

@@ -18,6 +18,8 @@ interface SearchCompleteDialogProps {
   onRunAnother: () => void;
   reportsPageUrl: string;
   productName: string; // "Market Spy" or "Market Scout"
+  oneTimeBalance?: number;
+  subscriptionQuantity?: number;
 }
 
 export default function SearchCompleteDialog({
@@ -28,19 +30,46 @@ export default function SearchCompleteDialog({
   onRunAnother,
   reportsPageUrl,
   productName,
+  oneTimeBalance = 0,
+  subscriptionQuantity = 0,
 }: SearchCompleteDialogProps) {
+  const hasActiveSubscription = subscriptionStatus === "active";
+  const hasPrepaidBalance = oneTimeBalance > 0;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{productName} Search Started!</DialogTitle>
           <DialogDescription className="space-y-4 pt-4">
-            <p className="font-medium text-foreground">
-              You have {remainingRuns || 0} {productName}{" "}
-              {remainingRuns === 1 ? "run" : "runs"} left{" "}
-              {subscriptionStatus === "active" ? "for this month" : ""} after
-              this search.
-            </p>
+            {/* Show breakdown if subscription user has prepaid balance */}
+            {hasActiveSubscription && hasPrepaidBalance ? (
+              <div className="space-y-3">
+                <p className="font-medium text-foreground">
+                  You have {oneTimeBalance + subscriptionQuantity} {productName}{" "}
+                  {(oneTimeBalance + subscriptionQuantity) === 1 ? "run" : "runs"} remaining after this search:
+                </p>
+                <div className="bg-muted rounded p-3 text-sm space-y-1">
+                  <div className="flex justify-between">
+                    <span>Prepaid reports:</span>
+                    <span className="font-medium">{oneTimeBalance}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Subscription reports:</span>
+                    <span className="font-medium">{subscriptionQuantity}</span>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Prepaid reports are used first and never expire.
+                </p>
+              </div>
+            ) : (
+              <p className="font-medium text-foreground">
+                You have {remainingRuns || 0} {productName}{" "}
+                {remainingRuns === 1 ? "run" : "runs"} left{" "}
+                {hasActiveSubscription ? "for this month" : ""} after this search.
+              </p>
+            )}
 
             <p className="text-sm text-muted-foreground">
               You can now check on the status of your current search on the{" "}

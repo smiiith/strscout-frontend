@@ -54,7 +54,7 @@ export async function POST(request: Request) {
     const checkoutMode = mode || (priceId.includes("subscription") ? "subscription" : "payment");
 
     // Create Stripe checkout session
-    const session = await stripe.checkout.sessions.create({
+    const sessionConfig: Stripe.Checkout.SessionCreateParams = {
       customer_email: user.email,
       client_reference_id: user.id,
       line_items: [
@@ -64,14 +64,26 @@ export async function POST(request: Request) {
         },
       ],
       mode: checkoutMode,
-      allow_promotion_codes: true,
       success_url: absoluteSuccessUrl,
       cancel_url: absoluteCancelUrl,
       metadata: {
         userId: user.id,
         quantity: quantity.toString(),
       },
-    });
+    };
+
+    // Auto-apply promotional coupon if configured, otherwise allow manual promo codes
+    if (process.env.STRIPE_PROMOTIONAL_COUPON_ID) {
+      sessionConfig.discounts = [
+        {
+          coupon: process.env.STRIPE_PROMOTIONAL_COUPON_ID,
+        },
+      ];
+    } else {
+      sessionConfig.allow_promotion_codes = true;
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
     return NextResponse.json({ sessionId: session.id, url: session.url });
   } catch (error) {

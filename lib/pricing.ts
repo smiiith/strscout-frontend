@@ -8,6 +8,13 @@ export interface PricingTier {
 }
 
 /**
+ * Check if promotional pricing is active
+ */
+function isPromoActive(): boolean {
+  return process.env.NEXT_PUBLIC_PROMO_ACTIVE === "true";
+}
+
+/**
  * Calculate total price using volume-based pricing tiers
  * In volume pricing, the per-listing rate depends on the quantity tier
  * @param listings - Number of listings
@@ -18,40 +25,55 @@ export function calculatePrice(
   listings: number,
   billingType: BillingType
 ): number {
+  let basePrice: number;
+
   // Volume pricing - different rate per listing based on quantity tier
   if (billingType === "subscription") {
     // Subscription volume pricing
     switch (listings) {
       case 1:
-        return listings * 30.0;
+        basePrice = listings * 30.0;
+        break;
       case 2:
-        return listings * 20.0;
+        basePrice = listings * 20.0;
+        break;
       case 3:
-        return listings * 16.66;
+        basePrice = listings * 16.66;
+        break;
       case 4:
-        return listings * 15.0;
+        basePrice = listings * 15.0;
+        break;
       case 5:
-        return listings * 14.0;
+        basePrice = listings * 14.0;
+        break;
       default:
-        return listings * 12.0; // 6+ listings
+        basePrice = listings * 12.0; // 6+ listings
     }
   } else {
     // One-time volume pricing
     switch (listings) {
       case 1:
-        return listings * 35.0;
+        basePrice = listings * 35.0;
+        break;
       case 2:
-        return listings * 22.5;
+        basePrice = listings * 22.5;
+        break;
       case 3:
-        return listings * 18.33;
+        basePrice = listings * 18.33;
+        break;
       case 4:
-        return listings * 16.25;
+        basePrice = listings * 16.25;
+        break;
       case 5:
-        return listings * 15.0;
+        basePrice = listings * 15.0;
+        break;
       default:
-        return listings * 13.0; // 6+ listings
+        basePrice = listings * 13.0; // 6+ listings
     }
   }
+
+  // Apply 50% discount if promo is active
+  return isPromoActive() ? basePrice * 0.5 : basePrice;
 }
 
 // Get the appropriate Stripe price ID for one-time payments
@@ -96,36 +118,51 @@ export function getPerListingRate(
   listings: number,
   billingType: BillingType
 ): number {
+  let baseRate: number;
+
   // Return the exact rate used in volume pricing
   if (billingType === "subscription") {
     switch (listings) {
       case 1:
-        return 30.0;
+        baseRate = 30.0;
+        break;
       case 2:
-        return 20.0;
+        baseRate = 20.0;
+        break;
       case 3:
-        return 16.66;
+        baseRate = 16.66;
+        break;
       case 4:
-        return 15.0;
+        baseRate = 15.0;
+        break;
       case 5:
-        return 14.0;
+        baseRate = 14.0;
+        break;
       default:
-        return 12.0; // 6+ listings
+        baseRate = 12.0; // 6+ listings
     }
   } else {
     switch (listings) {
       case 1:
-        return 35.0;
+        baseRate = 35.0;
+        break;
       case 2:
-        return 22.5;
+        baseRate = 22.5;
+        break;
       case 3:
-        return 18.33;
+        baseRate = 18.33;
+        break;
       case 4:
-        return 16.25;
+        baseRate = 16.25;
+        break;
       case 5:
-        return 15.0;
+        baseRate = 15.0;
+        break;
       default:
-        return 13.0; // 6+ listings
+        baseRate = 13.0; // 6+ listings
     }
   }
+
+  // Apply 50% discount if promo is active
+  return isPromoActive() ? baseRate * 0.5 : baseRate;
 }

@@ -19,7 +19,7 @@ export default function SiteAccess(props: any) {
   const [siteAccess, setSiteAccess] = useState(true);
 
   useEffect(() => {
-    const siteCookie = getCookie("access_pwd");
+    const siteCookie = getCookie("strsage-site-access");
 
     // If site access is not enabled (false or undefined), grant access
     if (process.env.NEXT_PUBLIC_BASIC_SITE_ACCESS_ENABLED !== "true") {

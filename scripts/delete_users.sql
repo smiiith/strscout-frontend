@@ -24,9 +24,23 @@ BEGIN
     FOR target_user_id IN
         WITH users_to_delete AS (
             VALUES
-                ('REPLACE-WITH-USER-ID-1'::uuid)
-                -- ('REPLACE-WITH-USER-ID-2'::uuid),
-                -- ('REPLACE-WITH-USER-ID-3'::uuid)
+('d2bbecea-e946-4c47-8871-7bf19e1736f1'::uuid),
+('1e0fcd25-9a78-45a8-bab3-c17898af27b4'::uuid),
+('053237f8-9535-4c6d-b0c7-290a17b00c5f'::uuid),
+('460e67c7-09c7-4b9f-93ca-b4a257e491fc'::uuid),
+('9506b3e4-e836-476b-9c4e-96ddb0b7ecc2'::uuid),
+('990c186f-ea35-4c4d-a4c0-48948d8832c7'::uuid),
+('ae92eead-3e8e-4ef9-8117-da52c5c2b98d'::uuid),
+('099e3c4f-ca47-4a5c-b4ea-9e1a93762c33'::uuid),
+('cd7a4b12-6477-4a58-8875-2ab3018e66fa'::uuid),
+('76e44862-f5f3-4619-b8fc-c4ade4434467'::uuid),
+('9ed068cf-4745-4482-a276-828a7fdd60ca'::uuid),
+('7f3b4a40-16af-41a5-be06-db4075a493c4'::uuid),
+('8fd76758-0577-4492-a270-7e8b9774429f'::uuid),
+('22f48190-763b-4644-8d40-4e31aae429e5'::uuid),
+('07ab484c-b3e1-42b3-ab39-4d2422bf2526'::uuid),
+('a823b11d-436e-4d70-9219-50d9ac6589a9'::uuid),
+('f4307620-db5f-4d50-b661-119082122ce0'::uuid)
                 -- Add more user IDs as needed (comma-separated)
         )
         SELECT column1 FROM users_to_delete
@@ -44,13 +58,15 @@ BEGIN
         -- Order matters due to foreign key constraints
         
         -- Delete LLM usage records (no FK constraint but user-related)
+        -- Cast scan_id to text since run_id is text type
         DELETE FROM llm_usage WHERE run_id IN (
-            SELECT scan_id FROM comp_basis WHERE profile_id = target_user_id
+            SELECT scan_id::text FROM comp_basis WHERE profile_id = target_user_id
         );
 
         -- Delete LLM usage for user's market spy runs
+        -- Cast id to text since run_id is text type
         DELETE FROM llm_usage WHERE run_id IN (
-            SELECT id FROM market_spy_runs WHERE profile_id = target_user_id
+            SELECT id::text FROM market_spy_runs WHERE profile_id = target_user_id
         );
 
         -- Note: stripe_events doesn't have profile_id column, stores data in JSON
