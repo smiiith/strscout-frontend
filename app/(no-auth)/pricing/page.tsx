@@ -9,6 +9,7 @@ import { useUserSession } from "@/lib/context/UserSessionProvider";
 import StripePricingTable from "@/components/stripe-pricing-table";
 import ProPlanSelector from "@/components/pro-plan-selector";
 import { PLANS } from "@/app/types/plans";
+import ExitSurvey from "@/components/exit-survey";
 
 export default function PricingPage() {
   const router = useRouter();
@@ -20,14 +21,16 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Page Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Choose Your Plan</h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Start with STR Genius for free, or upgrade to Pro Plan for powerful Market Spy features
-        </p>
-      </div>
+    <>
+      <ExitSurvey pagePath="/pricing" />
+      <div className="container mx-auto px-4 py-8">
+        {/* Page Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold mb-4">Choose Your Plan</h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Start with STR Genius for free, or upgrade to Pro Plan for powerful Market Spy features
+          </p>
+        </div>
 
       {/* Pricing Plans Grid */}
       <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
@@ -188,7 +191,8 @@ export default function PricingPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 
