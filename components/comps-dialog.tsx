@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
+import { Card, CardContent } from "./ui/card";
 import CompsTable, { CompAnalysisData } from "./comps-table";
 
 interface CompsDialogProps {
   comps: CompAnalysisData[];
   textLink?: boolean;
-  buttonText?: string;
+  buttonText?: string | React.ReactNode;
   dialogTitle?: string;
   filterOut100Percent?: boolean;
   mock?: boolean;
+  buttonVariant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  buttonClassName?: string;
 }
 
 const CompsDialog = ({
@@ -19,6 +22,8 @@ const CompsDialog = ({
   dialogTitle = "Market Analysis - Comparable Listings",
   filterOut100Percent = true,
   mock = false,
+  buttonVariant = "default",
+  buttonClassName = "",
 }: CompsDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -32,7 +37,11 @@ const CompsDialog = ({
           {buttonText}
         </span>
       ) : (
-        <Button onClick={() => setIsOpen(true)} variant="default">
+        <Button
+          onClick={() => setIsOpen(true)}
+          variant={buttonVariant}
+          className={buttonClassName}
+        >
           {buttonText}
         </Button>
       )}
@@ -44,11 +53,15 @@ const CompsDialog = ({
           </DialogHeader>
 
           <div className="flex-1 overflow-auto">
-            <CompsTable
-              comps={comps}
-              filterOut100Percent={filterOut100Percent}
-              mock={mock}
-            />
+            <Card>
+              <CardContent className="pt-6">
+                <CompsTable
+                  comps={comps}
+                  filterOut100Percent={filterOut100Percent}
+                  mock={mock}
+                />
+              </CardContent>
+            </Card>
           </div>
         </DialogContent>
       </Dialog>

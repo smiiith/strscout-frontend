@@ -13,12 +13,12 @@ interface ExitSurveyProps {
 }
 
 const SURVEY_OPTIONS = [
-  { value: "too-expensive", label: "Too expensive" },
-  { value: "not-sure-worth", label: "Not sure it's worth it" },
-  { value: "want-examples", label: "Want to see more examples/proof" },
-  { value: "need-time", label: "Need more time to decide" },
-  { value: "just-researching", label: "Just researching options" },
-  { value: "other", label: "Other (please specify)" },
+  { value: "price-higher", label: "Price is higher than I expected" },
+  { value: "no-right-plan", label: "I couldn't find the right plan" },
+  { value: "missing-data", label: "The report is missing specific data I need or doesn't address my primary goal", hasTextField: true },
+  { value: "payment-trouble", label: "I had trouble paying" },
+  { value: "just-researching", label: "I'm just researching for now" },
+  { value: "other", label: "Other", hasTextField: true },
 ];
 
 export default function ExitSurvey({ pagePath }: ExitSurveyProps) {
@@ -162,7 +162,7 @@ export default function ExitSurvey({ pagePath }: ExitSurveyProps) {
             <X className="h-4 w-4" />
           </button>
           <CardTitle className="text-xl">
-            {hasSubmitted ? "Thank you!" : "Wait! Before you go..."}
+            {hasSubmitted ? "Thank you!" : "Before you go -- What didn't work?"}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -172,40 +172,42 @@ export default function ExitSurvey({ pagePath }: ExitSurveyProps) {
             </p>
           ) : (
             <div className="space-y-4">
-              <p className="text-muted-foreground">
-                What's holding you back from trying STR Sage today?
-              </p>
 
               <RadioGroup value={selectedOption} onValueChange={setSelectedOption}>
                 <div className="space-y-3">
                   {SURVEY_OPTIONS.map((option) => (
-                    <div key={option.value} className="flex items-start space-x-2">
-                      <RadioGroupItem value={option.value} id={option.value} />
-                      <Label
-                        htmlFor={option.value}
-                        className="font-normal cursor-pointer flex-1"
-                      >
-                        {option.label}
-                      </Label>
+                    <div key={option.value} className="space-y-2">
+                      <div className="flex items-start space-x-2">
+                        <RadioGroupItem value={option.value} id={option.value} />
+                        <Label
+                          htmlFor={option.value}
+                          className="font-normal cursor-pointer flex-1"
+                        >
+                          {option.label}
+                        </Label>
+                      </div>
+                      {option.hasTextField && selectedOption === option.value && (
+                        <Textarea
+                          placeholder="Please tell us more..."
+                          value={otherText}
+                          onChange={(e) => setOtherText(e.target.value)}
+                          rows={2}
+                          className="ml-6"
+                        />
+                      )}
                     </div>
                   ))}
                 </div>
               </RadioGroup>
 
-              {selectedOption === "other" && (
-                <Textarea
-                  placeholder="Please tell us more..."
-                  value={otherText}
-                  onChange={(e) => setOtherText(e.target.value)}
-                  rows={3}
-                  className="mt-2"
-                />
-              )}
-
               <div className="flex gap-2 pt-4">
                 <Button
                   onClick={handleSubmit}
-                  disabled={!selectedOption || isSubmitting || (selectedOption === "other" && !otherText.trim())}
+                  disabled={
+                    !selectedOption ||
+                    isSubmitting ||
+                    (SURVEY_OPTIONS.find(opt => opt.value === selectedOption)?.hasTextField && !otherText.trim())
+                  }
                   className="flex-1"
                 >
                   {isSubmitting ? "Submitting..." : "Submit"}

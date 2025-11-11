@@ -25,6 +25,8 @@ import {
 import { TrendingUp, Star, Users, Home, Shield, FileText } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { LinkSquare02Icon } from "./Icons";
+import { MockFeedbackDialog } from "./mock-feedback-dialog";
+import { useState } from "react";
 
 export interface CompAnalysisData {
   comp_id: string;
@@ -59,6 +61,7 @@ export default function CompsTable({
   roomType = "",
 }: CompsTableProps) {
   const router = useRouter();
+  const [isMockDialogOpen, setIsMockDialogOpen] = useState(false);
 
   const getOccupancyColor = (percentage: number) => {
     if (percentage >= 90) return "text-green-600";
@@ -283,18 +286,16 @@ export default function CompsTable({
                           <div className="flex">
                             <Badge
                               variant="secondary"
-                              className={
-                                mock ? "cursor-default" : "cursor-pointer"
-                              }
-                              onClick={
-                                mock
-                                  ? undefined
-                                  : () => {
-                                      router.push(
-                                        `/properties/comps/${comp.property_id}`
-                                      );
-                                    }
-                              }
+                              className="cursor-pointer"
+                              onClick={() => {
+                                if (mock) {
+                                  setIsMockDialogOpen(true);
+                                } else {
+                                  router.push(
+                                    `/properties/comps/${comp.property_id}`
+                                  );
+                                }
+                              }}
                             >
                               {comp.overall_genius_score?.title?.rating_number}
                               <LinkSquare02Icon className="h-4 w-4 ml-2" />
@@ -302,7 +303,7 @@ export default function CompsTable({
                           </div>
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Detailed Analysis of this Competitor</p>
+                          <p>{mock ? "Click to see sample feedback report" : "Click to see detailed analysis of this competitor"}</p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
@@ -463,6 +464,12 @@ export default function CompsTable({
           </Card>
         ))}
       </div>
+
+      {/* Mock Feedback Dialog */}
+      <MockFeedbackDialog
+        isOpen={isMockDialogOpen}
+        onClose={() => setIsMockDialogOpen(false)}
+      />
     </>
   );
 }
