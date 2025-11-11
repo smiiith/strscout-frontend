@@ -239,11 +239,13 @@ interface MockFeedbackDialogProps {
 
 export function MockFeedbackDialog({ isOpen, onClose }: MockFeedbackDialogProps) {
   // Format mock data to match PropertyRatings component expectations
+  // Note: icons are added dynamically in PropertyRatings component (lines 60-65)
   const formattedRatings = {
     heroImage: {
       name: "Hero Image",
       score: MOCK_FEEDBACK_DATA.ratings.hero_image.rating_number,
       category: MOCK_FEEDBACK_DATA.ratings.hero_image.rating_category,
+      icon: null, // Added by PropertyRatings component
       feedback: {
         summary: MOCK_FEEDBACK_DATA.ratings.hero_image.feedback.summary,
         items: MOCK_FEEDBACK_DATA.ratings.hero_image.feedback.items,
@@ -255,6 +257,7 @@ export function MockFeedbackDialog({ isOpen, onClose }: MockFeedbackDialogProps)
       name: "Title",
       score: MOCK_FEEDBACK_DATA.ratings.title.rating_number,
       category: MOCK_FEEDBACK_DATA.ratings.title.rating_category,
+      icon: null, // Added by PropertyRatings component
       feedback: {
         summary: MOCK_FEEDBACK_DATA.ratings.title.feedback.summary,
         items: MOCK_FEEDBACK_DATA.ratings.title.feedback.items,
@@ -267,6 +270,7 @@ export function MockFeedbackDialog({ isOpen, onClose }: MockFeedbackDialogProps)
       name: "Description",
       score: MOCK_FEEDBACK_DATA.ratings.description.rating_number,
       category: MOCK_FEEDBACK_DATA.ratings.description.rating_category,
+      icon: null, // Added by PropertyRatings component
       feedback: {
         summary: MOCK_FEEDBACK_DATA.ratings.description.feedback.summary,
         items: MOCK_FEEDBACK_DATA.ratings.description.feedback.items,
@@ -279,6 +283,7 @@ export function MockFeedbackDialog({ isOpen, onClose }: MockFeedbackDialogProps)
       name: "Amenities",
       score: MOCK_FEEDBACK_DATA.ratings.amenities.rating_number,
       category: MOCK_FEEDBACK_DATA.ratings.amenities.rating_category,
+      icon: null, // Added by PropertyRatings component
       feedback: {
         summary: MOCK_FEEDBACK_DATA.ratings.amenities.feedback.summary,
         items: MOCK_FEEDBACK_DATA.ratings.amenities.feedback.items,
@@ -290,6 +295,7 @@ export function MockFeedbackDialog({ isOpen, onClose }: MockFeedbackDialogProps)
       name: "Your photos",
       score: MOCK_FEEDBACK_DATA.ratings.other_images.rating_number,
       category: MOCK_FEEDBACK_DATA.ratings.other_images.rating_category,
+      icon: null, // Added by PropertyRatings component
       feedback: {
         summary: MOCK_FEEDBACK_DATA.ratings.other_images.feedback.summary,
         items: MOCK_FEEDBACK_DATA.ratings.other_images.feedback.items,
@@ -301,6 +307,7 @@ export function MockFeedbackDialog({ isOpen, onClose }: MockFeedbackDialogProps)
       name: "Interior Design",
       score: MOCK_FEEDBACK_DATA.ratings.interior_design.rating_number,
       category: MOCK_FEEDBACK_DATA.ratings.interior_design.rating_category,
+      icon: null, // Added by PropertyRatings component
       feedback: {
         summary: MOCK_FEEDBACK_DATA.ratings.interior_design.feedback.summary,
         items: MOCK_FEEDBACK_DATA.ratings.interior_design.feedback.items,
@@ -315,7 +322,7 @@ export function MockFeedbackDialog({ isOpen, onClose }: MockFeedbackDialogProps)
     suggestions: MOCK_FEEDBACK_DATA.ratings.overall_ratings.suggestions,
     overall_rating_number: MOCK_FEEDBACK_DATA.ratings.overall_ratings.rating_number,
     overall_rating_category: MOCK_FEEDBACK_DATA.ratings.overall_ratings.rating_category,
-  };
+  } as any; // Using 'as any' because PropertyRatings adds icons dynamically
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
