@@ -8,9 +8,10 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import PropertyRatings from "./PropertyRatings";
+import { MockMarketSpyDetails } from "./ratings-example/market-spy-mock-details";
 
-// Mock feedback data based on sample-feedback-report.json
-const MOCK_FEEDBACK_DATA = {
+// Mock feedback data based on market-spy-mock-details.ts
+const MOCK_FEEDBACK_DATA = MockMarketSpyDetails.ratings || {
   id: "mock-sample-1",
   created_at: new Date().toISOString(),
   property_id: "mock-property-1",
@@ -328,9 +329,9 @@ export function MockFeedbackDialog({ isOpen, onClose }: MockFeedbackDialogProps)
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[95vw] sm:h-[95vh] sm:max-h-[95vh] overflow-hidden flex flex-col">
         <DialogHeader>
-          <DialogTitle>Sample Feedback Report</DialogTitle>
+          <DialogTitle>Sample Competitor Analysis Report</DialogTitle>
           <p className="text-sm text-muted-foreground">
-            This is a sample of the detailed feedback you'll receive for each comparable property in your real Market Spy report.
+            This is a sample of the detailed AI-powered feedback you'll receive for each comparable property in your real Market Spy report. Discover what makes top-performing listings stand out.
           </p>
         </DialogHeader>
 

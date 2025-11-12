@@ -11,7 +11,13 @@ interface CompsDialogProps {
   dialogTitle?: string;
   filterOut100Percent?: boolean;
   mock?: boolean;
-  buttonVariant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  buttonVariant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
   buttonClassName?: string;
 }
 
@@ -49,7 +55,14 @@ const CompsDialog = ({
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-[95vw] sm:h-[95vh] sm:max-h-[95vh] overflow-hidden flex flex-col">
           <DialogHeader>
-            <DialogTitle>{dialogTitle}</DialogTitle>
+            <DialogTitle>
+              {dialogTitle}
+              {mock && (
+                <span className="text-sm font-normal text-muted-foreground ml-2">
+                  (first row is interactive)
+                </span>
+              )}
+            </DialogTitle>
           </DialogHeader>
 
           <div className="flex-1 overflow-auto">

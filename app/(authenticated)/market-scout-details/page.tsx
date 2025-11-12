@@ -97,13 +97,13 @@ export default function MarketScoutDetailsPage() {
     // Calculate average genius score for competition
     const top3GeniusScore =
       top3Comps.reduce((sum, comp) => {
-        const score = comp.overall_genius_score?.title?.rating_number || 0;
+        const score = comp.overall_genius_score?.overall_ratings?.rating_number || 0;
         return sum + score;
       }, 0) / top3Comps.length;
 
     const overallGeniusScore =
       comps.reduce((sum, comp) => {
-        const score = comp.overall_genius_score?.title?.rating_number || 0;
+        const score = comp.overall_genius_score?.overall_ratings?.rating_number || 0;
         return sum + score;
       }, 0) / comps.length;
 
