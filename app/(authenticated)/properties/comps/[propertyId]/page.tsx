@@ -25,7 +25,10 @@ import posthog from "posthog-js";
 import { useUserSession } from "@/lib/context/UserSessionProvider";
 
 // Helper function moved outside component to accept getAccessToken
-const fetchPropertyRatings = async (propertyId: any, getAccessToken: () => Promise<string | null>) => {
+const fetchPropertyRatings = async (
+  propertyId: any,
+  getAccessToken: () => Promise<string | null>
+) => {
   try {
     const token = await getAccessToken();
 
@@ -36,7 +39,7 @@ const fetchPropertyRatings = async (propertyId: any, getAccessToken: () => Promi
 
     const authHeaders = {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     };
 
     const response = await axios.get(
@@ -95,7 +98,10 @@ const PropertyCompsPage = () => {
     if (propertyId && !ratings) {
       const loadRatings = async () => {
         setLoading(true);
-        const propertyRatings = await fetchPropertyRatings(propertyId, getAccessToken);
+        const propertyRatings = await fetchPropertyRatings(
+          propertyId,
+          getAccessToken
+        );
 
         if (!propertyRatings) {
           console.error("Failed to load property ratings");
