@@ -131,7 +131,7 @@ export default function ExitSurvey({ pagePath }: ExitSurveyProps) {
         body: JSON.stringify({
           page_path: pagePath,
           selected_option: selectedOption,
-          other_text: selectedOption === "other" ? otherText : null,
+          other_text: SURVEY_OPTIONS.find(opt => opt.value === selectedOption)?.hasTextField ? otherText : null,
         }),
       });
 
