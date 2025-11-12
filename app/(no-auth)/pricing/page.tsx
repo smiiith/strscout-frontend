@@ -36,11 +36,6 @@ export default function PricingPage() {
           </p>
         </div>
 
-        {/* Help Banner */}
-        <div className="w-fit mx-auto">
-          <PricingHelpBanner />
-        </div>
-
         {/* Pricing Plans Grid */}
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {/* Free Plan Card */}
@@ -110,6 +105,11 @@ export default function PricingPage() {
 
           {/* Pro Plan Card with Fallback Selector */}
           <ProPlanSelector />
+        </div>
+
+        {/* Help Banner */}
+        <div className="w-fit mx-auto my-8">
+          <PricingHelpBanner />
         </div>
 
         {/* Feature Comparison Section */}
