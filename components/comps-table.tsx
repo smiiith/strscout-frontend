@@ -25,6 +25,8 @@ import {
 import { TrendingUp, Star, Users, Home, Shield, FileText } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { LinkSquare02Icon } from "./Icons";
+import { MockFeedbackDialog } from "./mock-feedback-dialog";
+import { useState } from "react";
 
 export interface CompAnalysisData {
   comp_id: string;
@@ -59,6 +61,7 @@ export default function CompsTable({
   roomType = "",
 }: CompsTableProps) {
   const router = useRouter();
+  const [isMockDialogOpen, setIsMockDialogOpen] = useState(false);
 
   const getOccupancyColor = (percentage: number) => {
     if (percentage >= 90) return "text-green-600";
@@ -203,80 +206,106 @@ export default function CompsTable({
                 <TableCell>
                   <Button
                     variant="link"
-                    className="h-auto p-0 font-mono text-sm text-blue-600 hover:text-blue-800"
+                    className={`h-auto p-0 font-mono text-sm ${
+                      mock && index !== 0
+                        ? "text-gray-400 cursor-default opacity-60"
+                        : "text-blue-600 hover:text-blue-800"
+                    }`}
                     onClick={() => {
-                      window.open(
-                        `https://www.airbnb.com/rooms/${comp.listing_id}`,
-                        "_blank"
-                      );
+                      if (!mock || index === 0) {
+                        window.open(
+                          `https://www.airbnb.com/rooms/${comp.listing_id}`,
+                          "_blank"
+                        );
+                      }
                     }}
                   >
-                    View listing <LinkSquare02Icon className="h-4 w-4 mx-2" />
+                    View listing{" "}
+                    {(!mock || index === 0) && (
+                      <LinkSquare02Icon className="h-4 w-4 mx-2" />
+                    )}
                   </Button>
                 </TableCell>
                 <TableCell>
                   <TooltipProvider>
                     <Tooltip>
-                      <Popover>
+                      {mock && index !== 0 ? (
                         <TooltipTrigger asChild>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              className={`h-auto p-1 font-semibold hover:bg-muted ${getOccupancyColor(comp.overall_occupancy)}`}
-                            >
-                              {comp.overall_occupancy?.toFixed(1)}%
-                              <LinkSquare02Icon className="h-4 w-4 mx-2" />
-                            </Button>
-                          </PopoverTrigger>
+                          <div
+                            className={`inline-flex items-center h-auto p-1 font-semibold opacity-60 ${getOccupancyColor(comp.overall_occupancy)}`}
+                          >
+                            {comp.overall_occupancy?.toFixed(1)}%
+                          </div>
                         </TooltipTrigger>
-                        <PopoverContent className="w-48">
-                          <div className="space-y-2">
-                            <h4 className="font-medium text-sm">
-                              Occupancy Breakdown
-                            </h4>
-                            <div className="space-y-1 text-sm">
-                              <div className="flex justify-between">
-                                <span className="text-muted-foreground">
-                                  30 days:
-                                </span>
-                                <span
-                                  className={`font-medium ${getOccupancyColor(comp.thirty_day)}`}
-                                >
-                                  {comp.thirty_day?.toFixed(1)}%
-                                </span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-muted-foreground">
-                                  60 days:
-                                </span>
-                                <span
-                                  className={`font-medium ${getOccupancyColor(comp.sixty_day)}`}
-                                >
-                                  {comp.sixty_day?.toFixed(1)}%
-                                </span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-muted-foreground">
-                                  90 days:
-                                </span>
-                                <span
-                                  className={`font-medium ${getOccupancyColor(comp.ninety_day)}`}
-                                >
-                                  {comp.ninety_day?.toFixed(1)}%
-                                </span>
+                      ) : (
+                        <Popover>
+                          <TooltipTrigger asChild>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                className={`h-auto p-1 font-semibold hover:bg-muted ${getOccupancyColor(comp.overall_occupancy)}`}
+                              >
+                                {comp.overall_occupancy?.toFixed(1)}%
+                                <LinkSquare02Icon className="h-4 w-4 mx-2" />
+                              </Button>
+                            </PopoverTrigger>
+                          </TooltipTrigger>
+                          <PopoverContent className="w-48">
+                            <div className="space-y-2">
+                              <h4 className="font-medium text-sm">
+                                Occupancy Breakdown
+                              </h4>
+                              <div className="space-y-1 text-sm">
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">
+                                    30 days:
+                                  </span>
+                                  <span
+                                    className={`font-medium ${getOccupancyColor(comp.thirty_day)}`}
+                                  >
+                                    {comp.thirty_day?.toFixed(1)}%
+                                  </span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">
+                                    60 days:
+                                  </span>
+                                  <span
+                                    className={`font-medium ${getOccupancyColor(comp.sixty_day)}`}
+                                  >
+                                    {comp.sixty_day?.toFixed(1)}%
+                                  </span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-muted-foreground">
+                                    90 days:
+                                  </span>
+                                  <span
+                                    className={`font-medium ${getOccupancyColor(comp.ninety_day)}`}
+                                  >
+                                    {comp.ninety_day?.toFixed(1)}%
+                                  </span>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </PopoverContent>
-                      </Popover>
+                          </PopoverContent>
+                        </Popover>
+                      )}
                       <TooltipContent>
-                        <p>Click to see 30/60/90 day breakdown</p>
+                        <p>
+                          {mock && index !== 0
+                            ? "Only the first row is interactive in the sample"
+                            : "Click to see 30/60/90 day breakdown"}
+                        </p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </TableCell>
                 <TableCell>
-                  {comp.overall_genius_score?.title?.rating_number ? (
+                  {/* <pre>
+                    {JSON.stringify(comp.overall_genius_score, null, 2)}
+                  </pre> */}
+                  {comp.overall_genius_score?.overall_ratings?.rating_number ? (
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
@@ -284,25 +313,37 @@ export default function CompsTable({
                             <Badge
                               variant="secondary"
                               className={
-                                mock ? "cursor-default" : "cursor-pointer"
+                                mock && index !== 0
+                                  ? "cursor-default opacity-60"
+                                  : "cursor-pointer"
                               }
-                              onClick={
-                                mock
-                                  ? undefined
-                                  : () => {
-                                      router.push(
-                                        `/properties/comps/${comp.property_id}`
-                                      );
-                                    }
-                              }
+                              onClick={() => {
+                                if (mock) {
+                                  if (index === 0) {
+                                    setIsMockDialogOpen(true);
+                                  }
+                                } else {
+                                  router.push(
+                                    `/properties/comps/${comp.property_id}`
+                                  );
+                                }
+                              }}
                             >
-                              {comp.overall_genius_score?.title?.rating_number}
-                              <LinkSquare02Icon className="h-4 w-4 ml-2" />
+                              {comp.overall_genius_score?.overall_ratings?.rating_number}
+                              {(!mock || index === 0) && (
+                                <LinkSquare02Icon className="h-4 w-4 ml-2" />
+                              )}
                             </Badge>
                           </div>
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Detailed Analysis of this Competitor</p>
+                          <p>
+                            {mock
+                              ? index === 0
+                                ? "Click to see sample report"
+                                : "Only the first row is interactive in the sample"
+                              : "Click to see detailed analysis of this competitor"}
+                          </p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
@@ -338,15 +379,24 @@ export default function CompsTable({
               <div className="flex justify-between items-start">
                 <Button
                   variant="link"
-                  className="h-auto p-0 font-mono text-sm text-blue-600 hover:text-blue-800"
+                  className={`h-auto p-0 font-mono text-sm ${
+                    mock && index !== 0
+                      ? "text-gray-400 cursor-default opacity-60"
+                      : "text-blue-600 hover:text-blue-800"
+                  }`}
                   onClick={() => {
-                    window.open(
-                      `https://www.airbnb.com/rooms/${comp.listing_id}`,
-                      "_blank"
-                    );
+                    if (!mock || index === 0) {
+                      window.open(
+                        `https://www.airbnb.com/rooms/${comp.listing_id}`,
+                        "_blank"
+                      );
+                    }
                   }}
                 >
-                  View on AirBnB <LinkSquare02Icon className="h-4 w-4 ml-1" />
+                  View on AirBnB{" "}
+                  {(!mock || index === 0) && (
+                    <LinkSquare02Icon className="h-4 w-4 ml-1" />
+                  )}
                 </Button>
               </div>
 
@@ -357,73 +407,87 @@ export default function CompsTable({
                   Occupancy
                 </div>
                 <TooltipProvider>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={`h-auto p-2 font-semibold ${getOccupancyColor(comp.overall_occupancy)}`}
-                      >
-                        {comp.overall_occupancy?.toFixed(1)}% (tap for
-                        breakdown)
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-64">
-                      <div className="space-y-2">
-                        <h4 className="font-medium text-sm">
-                          Occupancy Breakdown
-                        </h4>
-                        <div className="space-y-1 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">
-                              30 days:
-                            </span>
-                            <span
-                              className={`font-medium ${getOccupancyColor(comp.thirty_day)}`}
-                            >
-                              {comp.thirty_day?.toFixed(1)}%
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">
-                              60 days:
-                            </span>
-                            <span
-                              className={`font-medium ${getOccupancyColor(comp.sixty_day)}`}
-                            >
-                              {comp.sixty_day?.toFixed(1)}%
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">
-                              90 days:
-                            </span>
-                            <span
-                              className={`font-medium ${getOccupancyColor(comp.ninety_day)}`}
-                            >
-                              {comp.ninety_day?.toFixed(1)}%
-                            </span>
+                  {mock && index !== 0 ? (
+                    <div
+                      className={`h-auto p-2 font-semibold opacity-60 ${getOccupancyColor(comp.overall_occupancy)}`}
+                    >
+                      {comp.overall_occupancy?.toFixed(1)}%
+                    </div>
+                  ) : (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={`h-auto p-2 font-semibold ${getOccupancyColor(comp.overall_occupancy)}`}
+                        >
+                          {comp.overall_occupancy?.toFixed(1)}% (tap for
+                          breakdown)
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-64">
+                        <div className="space-y-2">
+                          <h4 className="font-medium text-sm">
+                            Occupancy Breakdown
+                          </h4>
+                          <div className="space-y-1 text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">
+                                30 days:
+                              </span>
+                              <span
+                                className={`font-medium ${getOccupancyColor(comp.thirty_day)}`}
+                              >
+                                {comp.thirty_day?.toFixed(1)}%
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">
+                                60 days:
+                              </span>
+                              <span
+                                className={`font-medium ${getOccupancyColor(comp.sixty_day)}`}
+                              >
+                                {comp.sixty_day?.toFixed(1)}%
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">
+                                90 days:
+                              </span>
+                              <span
+                                className={`font-medium ${getOccupancyColor(comp.ninety_day)}`}
+                              >
+                                {comp.ninety_day?.toFixed(1)}%
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+                      </PopoverContent>
+                    </Popover>
+                  )}
                 </TooltipProvider>
               </div>
 
-              {/* Feedback Score */}
+              {/* Feedback Score mobile */}
               <div className="space-y-1">
                 <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                   <Star className="h-4 w-4" />
                   Feedback Score
                 </div>
                 <div>
-                  {comp.overall_genius_score?.title?.rating_number ? (
+                  {comp.overall_genius_score?.overall_ratings?.rating_number ? (
                     <Badge
                       variant="secondary"
-                      className={mock ? "cursor-default" : "cursor-pointer"}
+                      className={
+                        mock && index !== 0
+                          ? "cursor-default opacity-60"
+                          : "cursor-pointer"
+                      }
                       onClick={
                         mock
-                          ? undefined
+                          ? index === 0
+                            ? () => setIsMockDialogOpen(true)
+                            : undefined
                           : () => {
                               router.push(
                                 `/properties/comps/${comp.property_id}`
@@ -431,8 +495,10 @@ export default function CompsTable({
                             }
                       }
                     >
-                      {comp.overall_genius_score?.title?.rating_number}
-                      <LinkSquare02Icon className="h-4 w-4 ml-2" />
+                      {comp.overall_genius_score?.overall_ratings?.rating_number}
+                      {(!mock || index === 0) && (
+                        <LinkSquare02Icon className="h-4 w-4 ml-2" />
+                      )}
                     </Badge>
                   ) : (
                     <span className="text-muted-foreground">N/A</span>
@@ -463,6 +529,12 @@ export default function CompsTable({
           </Card>
         ))}
       </div>
+
+      {/* Mock Feedback Dialog */}
+      <MockFeedbackDialog
+        isOpen={isMockDialogOpen}
+        onClose={() => setIsMockDialogOpen(false)}
+      />
     </>
   );
 }

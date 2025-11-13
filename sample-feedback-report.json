@@ -1,0 +1,303 @@
+{
+  "message": "Ratings fetched successfully",
+  "ratings": {
+    "id": "d18c69b9-694a-4958-97bb-b4c94e7e4572",
+    "created_at": "2025-11-10T19:13:54.923382+00:00",
+    "property_id": "975dc033-998c-42fe-b391-dcf520670adf",
+    "ratings": {
+      "title": {
+        "feedback": {
+          "items": [
+            {
+              "title": "Title Clarity",
+              "feedback": "The name 'Cotton Cottage' is memorable and evokes a warm atmosphere."
+            },
+            {
+              "title": "Appeal",
+              "feedback": "The title's charm is inviting for families looking for a peaceful retreat."
+            },
+            {
+              "title": "Local Insight",
+              "feedback": "Consider including hints about the nearby shopping and restaurants."
+            }
+          ],
+          "summary": "Your listing title is charming and has a cozy feel, but it may benefit from added keywords to enhance its appeal."
+        },
+        "revisions": null,
+        "suggestions": [
+          "Consider adding 'Family-Friendly' in the title to attract families.",
+          "Include a phrase that emphasizes convenience to local attractions.",
+          "Try to mention serenity or peacefulness to align with the description."
+        ],
+        "property_name": "Cotton Cottage",
+        "rating_number": 67,
+        "expert_ratings": [
+          62, 74, 41, 58, 31, 39, 83, 40, 49, 10, 68, 77, 47, 26, 91, 34, 64,
+          71, 50, 26, 67, 28, 56, 13, 23, 86, 60, 92, 76, 19, 11, 95, 46, 5, 44,
+          72, 35, 54, 30, 78, 90, 70, 7, 17, 89, 33, 75, 12, 42, 96, 20, 38, 8,
+          37, 74, 80, 62, 23, 63, 61, 21, 48, 3, 66, 24, 53, 99, 20, 42, 27, 45,
+          55, 14, 88, 72, 71, 83, 9, 98, 15, 16, 45, 38, 2, 81, 4, 80, 93, 29,
+          59, 22, 36, 1, 94, 82, 65, 81, 65, 99, 66, 38, 10, 15, 58, 14, 7, 12,
+          5
+        ],
+        "title_rewrites": [
+          "Cotton Cottage: A Serene Family Retreat",
+          "Cotton Cottage: Family Friendly Stay Near Shopping",
+          "Peaceful Cotton Cottage - Your Family Getaway"
+        ],
+        "rating_category": "Needs Work"
+      },
+      "amenities": {
+        "feedback": {
+          "items": [
+            {
+              "title": "Comprehensive Kitchen Supplies",
+              "feedback": "Your kitchen amenities are well-stocked, allowing guests to prepare their meals without hassle."
+            },
+            {
+              "title": "Comfortable Sleeping Arrangements",
+              "feedback": "The attention to bedroom and laundry amenities ensures a restful stay for guests."
+            },
+            {
+              "title": "Safety Measures in Place",
+              "feedback": "Having smoke and carbon monoxide alarms highlights the importance of guest safety."
+            },
+            {
+              "title": "Adequate Entertainment Options",
+              "feedback": "The availability of a TV alongside other amenities enhances the guest experience."
+            },
+            {
+              "title": "Climate Control Features",
+              "feedback": "Heating and cooling options provide comfort in various weather conditions."
+            }
+          ],
+          "summary": "The amenities provided in your listing are comprehensive and cater well to the varied needs of guests. They highlight a commitment to comfort, convenience, and safety, making the property an attractive option for potential renters."
+        },
+        "revisions": null,
+        "suggestions": [
+          "Consider adding a few more entertainment options like board games or streaming services.",
+          "Enhance the outdoor experience by including a patio or balcony setup along with outdoor furniture.",
+          "Implement a guest welcome package with local snacks or essential information about the area."
+        ],
+        "property_name": "Standard Stay",
+        "rating_number": 64,
+        "expert_ratings": [
+          53, 36, 68, 82, 57, 47, 29, 32, 92, 75, 68, 46, 69, 61, 45, 77, 85,
+          36, 58, 61, 71, 64, 24, 73, 65, 91, 83, 28, 52, 37, 11, 79, 74, 35,
+          48, 30, 40, 61, 64, 94, 76, 12, 20, 86, 71, 98, 38, 56, 83, 14, 58,
+          33, 66, 22, 25, 19, 42, 68, 92, 23, 81, 60, 35, 37, 52, 88, 61, 27,
+          97, 96, 99, 54, 59, 49, 58, 45, 70, 12, 75, 69, 21, 81, 57, 33, 84,
+          93, 10, 44, 50, 36, 64, 41, 14, 99, 76, 90, 88, 77, 37, 45, 92, 96,
+          43, 15, 10, 41, 39, 90, 43, 18, 80, 95, 62, 56, 47, 29, 18
+        ],
+        "rating_category": "Needs Work"
+      },
+      "hero_image": {
+        "feedback": {
+          "items": [
+            {
+              "title": "Cozy living area",
+              "feedback": "The living area looks warm and inviting with its comfortable sofas and a fireplace, suggesting a nice place for relaxation."
+            },
+            {
+              "title": "Neutral color palette",
+              "feedback": "The neutral tones of the walls and furniture create a peaceful and clean atmosphere, which is appealing to many guests."
+            },
+            {
+              "title": "Room layout",
+              "feedback": "The photograph captures a good layout of the room, showing how the seating is oriented around a central table and TV, emphasizing community and relaxation."
+            }
+          ],
+          "summary": "The hero image gives a good first impression of a comfortable and inviting living space. It highlights the cozy atmosphere with a focus on the living area furnishings."
+        },
+        "revisions": null,
+        "suggestions": [
+          "Add some vibrant decorative elements or cushions to add a splash of color.",
+          "Ensure the lighting is bright enough to showcase the room's features.",
+          "Include more angles of the living room to give potential guests a complete view.",
+          "Add some plants or other décor to enhance the visual appeal.",
+          "Consider tidying up visible cords or electronic equipment for a cleaner look."
+        ],
+        "property_name": "Cotton Cottage",
+        "rating_number": 78,
+        "expert_ratings": [
+          85, 78, 79, 74, 77, 82, 76, 84, 78, 73, 77, 80, 81, 75, 78, 79, 74,
+          77, 82, 76, 84, 78, 73, 77, 80, 81, 75, 78, 79, 74, 77, 82, 76, 84,
+          78, 73, 77, 80, 81, 75, 78, 79, 74, 77, 82, 76, 84, 78, 73, 77, 80,
+          81, 75, 78, 79, 74, 77, 82, 76, 84, 78, 73, 77, 80, 81, 75, 78, 79,
+          74, 77, 82, 76, 84, 78, 73, 77, 80, 81, 75, 78, 79, 74, 77, 82, 76,
+          84, 78, 73, 77, 80, 81, 75
+        ],
+        "rating_category": "Satisfactory"
+      },
+      "description": {
+        "feedback": {
+          "items": [
+            {
+              "title": "Ambiguity in 'The space' Section",
+              "feedback": "Some descriptions are too vague; provide more specifics about what makes your space unique."
+            },
+            {
+              "title": "Highlighting Amenities",
+              "feedback": "While amenities are mentioned, they could be better integrated into the overall description for more impact."
+            },
+            {
+              "title": "Neighborhood Details",
+              "feedback": "More information about nearby attractions or local charm would enhance the listing."
+            },
+            {
+              "title": "Visual Appeal",
+              "feedback": "Consider improving the visual presentation of your description to make it more inviting."
+            },
+            {
+              "title": "Guest Experience",
+              "feedback": "Emphasize how guests will feel during their stay to make them more excited about booking."
+            }
+          ],
+          "summary": "Your listing is good, but there's room for improvement."
+        },
+        "revisions": [
+          "Enhance 'The space' section with more details about the interior decor and furnishings.",
+          "Add personal touches about why you love hosting at Cotton Cottage.",
+          "Integrate local insights that highlight unique experiences guests can enjoy nearby."
+        ],
+        "suggestions": [
+          "Provide more details about local attractions and things to do nearby.",
+          "Consider adding unique features or characteristics of the property.",
+          "Include more descriptive language to make the listing more inviting.",
+          "Utilize bullet points for amenities to make them more readable.",
+          "Highlight any recent renovations or special decorating points."
+        ],
+        "property_name": "Cotton Cottage",
+        "rating_number": 75,
+        "expert_ratings": [
+          39, 54, 68, 75, 85, 62, 48, 51, 63, 72, 79, 57, 70, 90, 53, 66, 40,
+          80, 69, 88, 58, 66, 75, 74, 68, 49, 61, 55, 78, 66, 59, 82, 73, 39,
+          65, 70, 53, 61, 77, 72, 47, 60, 50, 93, 87, 42, 52, 48, 41, 67, 75,
+          78, 89, 60, 43, 83, 50, 68, 40, 76, 71, 52, 59, 92, 90, 88, 41, 66,
+          62, 76, 84, 71, 89, 74, 78, 67, 38, 49, 88, 64, 37, 64, 53, 62, 80,
+          47, 50, 55, 81, 86, 69, 38, 58, 41, 78, 93, 84, 71, 57, 72, 49, 70,
+          36, 41, 31, 40, 46, 58, 55, 39, 61, 31, 93, 87, 82
+        ],
+        "rating_category": "Satisfactory",
+        "description_rewrite": {
+          "guest_access": "Enjoy complete access to the entire house, ensuring a home-away-from-home experience.",
+          "your_property": "Your home is a well-stocked haven featuring comfortable spaces and serene vibes ideal for family gatherings or unwinding solo.",
+          "listing_description": "Experience tranquility at Cotton Cottage, a cozy family retreat tucked away in a peaceful neighborhood. Conveniently located near shopping, dining, and highways, our home is perfect for those seeking relaxation without compromising accessibility.",
+          "other_details_to_note": "Please note that the property has outdoor security cameras for safety.",
+          "interaction_with_guests": "I'm available for assistance or local tips during your stay via message, to ensure you have an enjoyable experience."
+        }
+      },
+      "other_images": {
+        "feedback": {
+          "items": [
+            {
+              "title": "Lighting Quality",
+              "feedback": "The lighting in the photos is adequate but could be improved to better showcase the space. Consider using natural light or enhancing lighting before taking pictures."
+            },
+            {
+              "title": "Clarity and Focus",
+              "feedback": "While most images are clear, a few could benefit from better focus and resolution to enhance detail."
+            },
+            {
+              "title": "Framing and Composition",
+              "feedback": "Some photos might benefit from being retaken using different angles or perspectives to capture more of the room's elements."
+            }
+          ],
+          "summary": "The property photos do a good job highlighting the space, but there are some areas to improve clarity and composition."
+        },
+        "revisions": null,
+        "suggestions": [
+          "Use natural light from windows during the day to enhance photo brightness.",
+          "Consider retaking photos with a focus on room corners to show the full space.",
+          "Experiment with different angles to capture the room more dynamically.",
+          "Ensure all photos are crisp and in focus to highlight the decor.",
+          "Use a wide-angle lens to give a sense of space in each room.",
+          "Stage rooms with decor items to add warmth and appeal.",
+          "Consider Hiring a Professional Photographer\n                               \n            While your photos are a good start, hiring a professional photographer could significantly elevate the visual appeal of your listing. A pro has the experience to capture your space in the best possible light, ensuring that it looks both inviting and accurate. This investment can help differentiate your property in a competitive market, where high-quality visuals can be the deciding factor for potential guests. Professional photographers are skilled in aspects like lighting, composition, and angles, which can make your property look more spacious, appealing, and true to its real-life charm.\n                               \n            For Those Who Prefer DIY Photography or Are Working Within a Budget\n                               \n            If you prefer to handle your own photography or a professional is outside your budget, here are a few simple tips to help improve your photos:\n                               \n            Maximize Natural Light: Aim to shoot during the day when natural light is abundant. Open all windows, use light-colored curtains, and avoid harsh overhead lights. Natural light enhances the warmth and appeal of the space, making it feel more inviting.\n                               \n            Use Wide Angles: When photographing rooms, use wide-angle shots to capture the entire space. This helps give viewers a sense of the room's size and layout. Avoid tight or cluttered shots, as they can make the space feel smaller than it actually is.\n                               \n            Focus on Clean and Tidy Staging: Before you take the photo, clear away any clutter. Neatly arrange furniture and decor to make the space look polished and functional. The simpler and more streamlined the space appears, the more likely it is to resonate with potential guests."
+        ],
+        "property_name": "Standard Stay",
+        "rating_number": 79,
+        "expert_ratings": [
+          81, 77, 79, 78, 80, 76, 75, 81, 83, 84, 78, 82, 80, 76, 77, 79, 82,
+          81, 74, 83, 80, 75, 77, 82, 78, 86, 80, 77, 83, 78, 81, 78, 80, 76,
+          85, 79, 77, 84, 81, 76, 79, 82, 73, 74, 78, 81, 79, 76, 80, 83, 77,
+          74, 81, 79, 76, 75, 80, 78, 80, 82, 84, 79, 78, 77, 83, 75, 81, 80,
+          79, 79, 79, 80, 76, 78, 82, 81, 74, 83, 78, 77, 81, 82, 74, 76, 79,
+          80, 78, 79, 76, 80, 82, 77, 81, 78, 79, 75, 82, 76, 80, 77
+        ],
+        "rating_category": "Satisfactory"
+      },
+      "interior_design": {
+        "feedback": {
+          "items": [
+            {
+              "title": "Cozy Vibe",
+              "feedback": "The overall ambiance is warm and welcoming, making it ideal for family stays."
+            },
+            {
+              "title": "Functional Layout",
+              "feedback": "The space is organized effectively, allowing ease of movement and access to amenities."
+            },
+            {
+              "title": "Needs a Splash of Color",
+              "feedback": "Consider adding more decorative elements and color accents to enhance visual interest."
+            },
+            {
+              "title": "Modern Amenities",
+              "feedback": "The inclusion of modern appliances ensures guests have a comfortable stay."
+            },
+            {
+              "title": "Outdoor Appeal",
+              "feedback": "While the indoor design is strong, consider enhancing outdoor spaces for relaxation."
+            }
+          ],
+          "summary": "Cotton Cottage boasts a cozy and inviting design that appeals to families seeking comfort and relaxation. The blend of functionality and aesthetics creates an enjoyable atmosphere for guests."
+        },
+        "revisions": null,
+        "suggestions": [
+          "Incorporate vibrant artwork or wall decor to add personality to the space.",
+          "Introduce more colorful textiles such as cushions or throws for a homier feel.",
+          "Enhance outdoor seating or landscaping to improve the overall aesthetic.",
+          "Utilize lighting fixtures that not only serve a purpose but also add to the decor style."
+        ],
+        "property_name": "Cotton Cottage",
+        "rating_number": 79,
+        "expert_ratings": [
+          64, 88, 75, 81, 72, 91, 77, 68, 85, 79, 62, 74, 82, 78, 76, 70, 66,
+          90, 67, 80, 73, 64, 59, 84, 97, 81, 66, 60, 71, 83, 87, 75, 80, 77,
+          88, 76, 92, 61, 69, 70, 68, 72, 78, 89, 66, 63, 75, 74, 84, 85, 90,
+          76, 68, 64, 61, 62, 79, 83, 86, 71, 63, 89, 88, 91, 65, 82, 92, 67,
+          89, 66, 80, 63, 75, 78, 73, 82, 87, 66, 84, 89, 70, 72, 60, 82, 65,
+          84, 95, 81, 78, 64, 71, 90, 62, 86, 88, 72, 65, 75, 71, 77, 82, 87,
+          64, 68, 88, 78, 62, 70, 90, 91, 76, 85
+        ],
+        "rating_category": "Satisfactory"
+      },
+      "overall_ratings": {
+        "feedback": {
+          "items": [],
+          "summary": "Based on analysis of all categories, this property scores 74/99. The rating considers hero image (20%), title (17.5%), other images (17.5%), description (15%), amenities (15%), and interior design (15%)."
+        },
+        "revisions": null,
+        "suggestions": [
+          "Focus on improving the lowest-rated categories for maximum impact",
+          "Maintain strengths in your highest-performing areas",
+          "Consider the weighted importance when prioritizing improvements"
+        ],
+        "property_name": "Overall Property Rating",
+        "rating_number": 74,
+        "expert_ratings": [
+          74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74,
+          74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74,
+          74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74,
+          74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74,
+          74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74,
+          74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74, 74
+        ],
+        "rating_category": "Satisfactory"
+      }
+    },
+    "modified_at": "2025-11-10T19:13:54.923382"
+  }
+}

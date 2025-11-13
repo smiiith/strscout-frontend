@@ -126,7 +126,7 @@ export async function middleware(request: NextRequest) {
       base-uri 'self';
       form-action 'self';
       frame-ancestors 'none';
-      frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://vercel.live;
+      frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://vercel.live https://www.youtube.com;
       connect-src 'self' ${supabaseUrl} https://*.supabase.co wss://*.supabase.co ${backendUrl} https://syncnanny-ai-dev-production.up.railway.app https://syncnanny-ai-production.up.railway.app https://api.stripe.com https://api.geoapify.com ${posthogHost} https://internal-j.posthog.com ${appDomain}/ingest/;
       upgrade-insecure-requests;
     `.replace(/\s{2,}/g, " ").trim();
