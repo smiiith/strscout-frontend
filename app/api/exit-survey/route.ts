@@ -163,7 +163,7 @@ async function sendNotifications(data: {
             type: "mrkdwn",
             text: `*Additional Details:*\n${otherText}`,
           },
-        });
+        } as any);
       }
 
       await fetch(slackWebhookUrl, {
