@@ -34,6 +34,10 @@ NEXT_PUBLIC_APP_DOMAIN=http://localhost:3005
 # Email Provider
 RESEND_API_KEY=re_...
 
+# Exit Survey Notifications
+EXIT_SURVEY_RECIPIENTS=info@strsage.com,smiiith@gmail.com
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/WEBHOOK/URL
+
 # Stripe Configuration
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
@@ -70,6 +74,10 @@ NEXT_PUBLIC_APP_DOMAIN=https://www.strsage.com
 
 # Email Provider
 RESEND_API_KEY=re_...  # Production API key
+
+# Exit Survey Notifications
+EXIT_SURVEY_RECIPIENTS=info@strsage.com,smiiith@gmail.com
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/WEBHOOK/URL
 
 # Stripe Configuration (Production)
 STRIPE_SECRET_KEY=sk_live_...
