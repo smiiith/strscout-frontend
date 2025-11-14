@@ -5,6 +5,7 @@ import { PostHogTracker } from "./PostHogTracker";
 import Footer from "@/components/footer";
 import SiteAccess from "@/components/site-access";
 import { getNonce } from "@/lib/nonce";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata = {
   title: "STR Feeeback Genius",
@@ -38,6 +39,7 @@ export default async function RootLayout({
               <div className="min-h-screen">
                 {children}
                 <Footer authenticated={data.user} />
+                <Analytics />
               </div>
             </SiteAccess>
           </ThemeProvider>
