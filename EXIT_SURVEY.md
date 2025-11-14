@@ -284,18 +284,65 @@ if (window.scrollY < 100)  // Line 61 - Within 100px of top
 
 Adjust these values based on your analytics and user behavior.
 
+## Notifications
+
+### Email Notifications
+
+Exit survey responses automatically trigger email notifications to configured recipients:
+
+**Configuration:**
+```bash
+# .env.local or Vercel environment variables
+EXIT_SURVEY_RECIPIENTS=info@strsage.com,smiiith@gmail.com
+RESEND_API_KEY=re_...  # Required for email sending
+```
+
+**Email Features:**
+- Sent from: `STR Sage Exit Survey <contact@strsage.com>`
+- Subject: `🚨 Exit Survey Response - Pricing Page`
+- Contains: Response option, additional details (if provided), user info, timestamp
+- Formatted with React Email template for professional appearance
+
+### Slack Notifications
+
+Exit survey responses also post to a configured Slack channel:
+
+**Configuration:**
+```bash
+# .env.local or Vercel environment variables
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/WEBHOOK/URL
+```
+
+**Slack Features:**
+- Posts to webhook URL immediately after response
+- Rich formatted message with structured blocks
+- Shows: Page, user type, response option, timestamp, and additional details
+- Non-blocking (won't fail the survey if Slack is down)
+
+**Important Notes:**
+- Notifications are non-blocking - if email/Slack fails, the survey response is still saved
+- Both notifications are optional (only sent if environment variables are configured)
+- Check server logs for notification errors: `"Exit survey email sent successfully"` or `"Failed to send exit survey email"`
+
 ## Production Deployment
 
 ### Checklist:
 1. ✅ Database migration applied to production
 2. ✅ Environment variables configured (Supabase credentials)
-3. ✅ Test survey on production domain
-4. ✅ Verify data is being saved to production database
-5. ✅ Set up monitoring/alerts for survey responses (optional)
-6. ✅ Plan to review responses weekly and act on insights
+3. ✅ Email recipients configured (`EXIT_SURVEY_RECIPIENTS`)
+4. ✅ Resend API key configured (`RESEND_API_KEY`)
+5. ✅ Slack webhook URL configured (`SLACK_WEBHOOK_URL`)
+6. ✅ Test survey on production domain
+7. ✅ Verify data is being saved to production database
+8. ✅ Verify email notifications are received
+9. ✅ Verify Slack notifications are posted
+10. ✅ Plan to review responses weekly and act on insights
 
 ### Monitoring:
+- Check email inbox for exit survey notifications
+- Monitor Slack channel for real-time responses
 - Check Supabase table for new responses
+- Review server logs for notification errors
 - Set up PostHog/analytics event tracking (optional enhancement)
 - Create dashboard to visualize response trends
 
@@ -310,7 +357,7 @@ Potential improvements to consider:
 5. **Show sample report** for "want examples" responses
 6. **PostHog integration** for advanced analytics
 7. **Admin dashboard** to view responses without SQL queries
-8. **Slack/email notifications** when new responses submitted
+8. ~~**Slack/email notifications** when new responses submitted~~ ✅ **Implemented**
 
 ## Support
 
@@ -322,5 +369,5 @@ For issues or questions:
 
 ---
 
-**Last Updated**: 2025-11-11
-**Version**: 1.0
+**Last Updated**: 2025-11-13
+**Version**: 1.1 (Added email and Slack notifications)
