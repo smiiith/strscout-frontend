@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import posthog from "posthog-js";
 
 interface ExitSurveyProps {
   pagePath: string;
@@ -95,6 +96,13 @@ export default function ExitSurvey({ pagePath }: ExitSurveyProps) {
       if (shouldShow) {
         setIsVisible(true);
         localStorage.setItem("exit-survey-seen", "true");
+
+        // Track exit survey shown event
+        posthog.capture('exit_survey_shown', {
+          page: pagePath,
+          trigger: isMouseExiting ? 'mouse_exit' : (hasScrolledToPricing ? 'scroll_back' : 'time_threshold'),
+          time_on_page: timeOnPage,
+        });
       }
     };
 
@@ -115,6 +123,13 @@ export default function ExitSurvey({ pagePath }: ExitSurveyProps) {
   const handleDismiss = () => {
     setIsVisible(false);
     localStorage.setItem("exit-survey-seen", "true");
+
+    // Track exit survey dismissed event
+    posthog.capture('exit_survey_dismissed', {
+      page: pagePath,
+      selected_option: selectedOption || 'none',
+      had_text_input: otherText.trim().length > 0,
+    });
   };
 
   const handleSubmit = async () => {
@@ -137,6 +152,14 @@ export default function ExitSurvey({ pagePath }: ExitSurveyProps) {
 
       if (response.ok) {
         setHasSubmitted(true);
+
+        // Track exit survey submitted event
+        posthog.capture('exit_survey_submitted', {
+          page: pagePath,
+          selected_option: selectedOption,
+          has_other_text: SURVEY_OPTIONS.find(opt => opt.value === selectedOption)?.hasTextField && otherText.trim().length > 0,
+        });
+
         setTimeout(() => {
           setIsVisible(false);
         }, 2000);
