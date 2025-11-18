@@ -21,6 +21,8 @@ export function PostHogTracker({ children }: { children: React.ReactNode }) {
                 loaded: (ph) => {
                     if (process.env.NODE_ENV === "development") ph.debug(false);
                 },
+                // Disable toolbar metrics in production to avoid CSP violations and ad blocker issues
+                advanced_disable_toolbar_metrics: process.env.NODE_ENV === "production",
             });
             setIsInitialized(true); // Ensure we don't reinitialize PostHog
         }
