@@ -69,7 +69,7 @@ export default function PricingPocPage() {
           <div className="flex items-center justify-center gap-2 mt-6 text-sm text-muted-foreground">
             <span>Featured on</span>
             <Image
-              src="/images/affiliates/inndirectly-logo.png"
+              src="/images/affiliates/inndirectly-logo-02.png"
               alt="Inndirectly"
               width={120}
               height={32}
@@ -169,7 +169,10 @@ export default function PricingPocPage() {
               </p>
               <div className="mt-4">
                 <span className="text-5xl md:text-6xl font-bold">
-                  ${perListingRate % 1 === 0 ? perListingRate.toFixed(0) : perListingRate.toFixed(2)}
+                  $
+                  {perListingRate % 1 === 0
+                    ? perListingRate.toFixed(0)
+                    : perListingRate.toFixed(2)}
                 </span>
                 <span className="text-lg text-muted-foreground ml-1">
                   {billingType === "subscription"
@@ -184,7 +187,11 @@ export default function PricingPocPage() {
                         onClick={() => setBillingType("one_time")}
                         className="underline hover:text-foreground"
                       >
-                        ${altPerListingRate % 1 === 0 ? altPerListingRate.toFixed(0) : altPerListingRate.toFixed(2)} one-time
+                        $
+                        {altPerListingRate % 1 === 0
+                          ? altPerListingRate.toFixed(0)
+                          : altPerListingRate.toFixed(2)}{" "}
+                        one-time
                       </button>
                     </>
                   ) : (
@@ -194,7 +201,11 @@ export default function PricingPocPage() {
                         onClick={() => setBillingType("subscription")}
                         className="underline hover:text-foreground"
                       >
-                        ${altPerListingRate % 1 === 0 ? altPerListingRate.toFixed(0) : altPerListingRate.toFixed(2)}/mo
+                        $
+                        {altPerListingRate % 1 === 0
+                          ? altPerListingRate.toFixed(0)
+                          : altPerListingRate.toFixed(2)}
+                        /mo
                       </button>
                     </>
                   )}
