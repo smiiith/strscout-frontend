@@ -19,7 +19,7 @@ export function PricingHelpWidget() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2">
+    <div className="hidden md:flex fixed bottom-6 right-6 z-40 flex-col items-end gap-2">
       {/* Expanded Menu */}
       {isMenuOpen && (
         <Card className="p-3 shadow-2xl w-64 animate-in slide-in-from-bottom-2 border-2 border-primary bg-card">

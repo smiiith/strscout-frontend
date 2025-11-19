@@ -1,0 +1,192 @@
+{
+  "_readme": "Each insight below should be created separately via POST to /api/projects/:project_id/insights/",
+
+  "exit_survey_funnel": {
+    "name": "Exit Survey Funnel",
+    "description": "Conversion funnel from survey shown to submitted",
+    "filters": {
+      "insight": "FUNNELS",
+      "funnel_viz_type": "steps",
+      "date_from": "-30d",
+      "events": [
+        {
+          "id": "exit_survey_shown",
+          "name": "Exit Survey Shown",
+          "type": "events",
+          "order": 0
+        },
+        {
+          "id": "exit_survey_submitted",
+          "name": "Exit Survey Submitted",
+          "type": "events",
+          "order": 1
+        }
+      ]
+    }
+  },
+
+  "exit_survey_dismissal_rate": {
+    "name": "Exit Survey Dismissal Rate",
+    "description": "Compare shown vs dismissed vs submitted counts over time",
+    "filters": {
+      "insight": "TRENDS",
+      "date_from": "-30d",
+      "interval": "day",
+      "events": [
+        {
+          "id": "exit_survey_shown",
+          "name": "Exit Survey Shown",
+          "type": "events",
+          "math": "total"
+        },
+        {
+          "id": "exit_survey_dismissed",
+          "name": "Exit Survey Dismissed",
+          "type": "events",
+          "math": "total"
+        },
+        {
+          "id": "exit_survey_submitted",
+          "name": "Exit Survey Submitted",
+          "type": "events",
+          "math": "total"
+        }
+      ]
+    }
+  },
+
+  "exit_survey_reasons_breakdown": {
+    "name": "Exit Survey Reasons Breakdown",
+    "description": "Distribution of reasons users selected in the exit survey",
+    "filters": {
+      "insight": "TRENDS",
+      "date_from": "-30d",
+      "breakdown": "selected_option",
+      "breakdown_type": "event",
+      "events": [
+        {
+          "id": "exit_survey_submitted",
+          "name": "Exit Survey Submitted",
+          "type": "events",
+          "math": "total"
+        }
+      ]
+    }
+  },
+
+  "exit_survey_triggers_performance": {
+    "name": "Exit Survey Triggers Performance",
+    "description": "Which triggers show the survey most often",
+    "filters": {
+      "insight": "TRENDS",
+      "date_from": "-30d",
+      "breakdown": "trigger",
+      "breakdown_type": "event",
+      "events": [
+        {
+          "id": "exit_survey_shown",
+          "name": "Exit Survey Shown",
+          "type": "events",
+          "math": "total"
+        }
+      ]
+    }
+  },
+
+  "exit_survey_conversion_by_trigger": {
+    "name": "Exit Survey Conversion by Trigger",
+    "description": "Conversion rate from shown to submitted, broken down by trigger type",
+    "filters": {
+      "insight": "FUNNELS",
+      "funnel_viz_type": "steps",
+      "date_from": "-30d",
+      "breakdown": "trigger",
+      "breakdown_type": "event",
+      "events": [
+        {
+          "id": "exit_survey_shown",
+          "name": "Exit Survey Shown",
+          "type": "events",
+          "order": 0
+        },
+        {
+          "id": "exit_survey_submitted",
+          "name": "Exit Survey Submitted",
+          "type": "events",
+          "order": 1
+        }
+      ]
+    }
+  },
+
+  "exit_survey_by_page": {
+    "name": "Exit Survey by Page",
+    "description": "Which pages show the exit survey most frequently",
+    "filters": {
+      "insight": "TRENDS",
+      "date_from": "-30d",
+      "breakdown": "page",
+      "breakdown_type": "event",
+      "events": [
+        {
+          "id": "exit_survey_shown",
+          "name": "Exit Survey Shown",
+          "type": "events",
+          "math": "total"
+        },
+        {
+          "id": "exit_survey_submitted",
+          "name": "Exit Survey Submitted",
+          "type": "events",
+          "math": "total"
+        }
+      ]
+    }
+  },
+
+  "exit_survey_completion_with_text": {
+    "name": "Exit Survey Completion Rate with Text Input",
+    "description": "How many submitted surveys included additional text feedback",
+    "filters": {
+      "insight": "TRENDS",
+      "date_from": "-30d",
+      "breakdown": "has_other_text",
+      "breakdown_type": "event",
+      "events": [
+        {
+          "id": "exit_survey_submitted",
+          "name": "Exit Survey Submitted",
+          "type": "events",
+          "math": "total"
+        }
+      ]
+    }
+  },
+
+  "exit_survey_partial_completions": {
+    "name": "Exit Survey Partial Completions",
+    "description": "Users who selected an option but dismissed before submitting",
+    "filters": {
+      "insight": "TRENDS",
+      "date_from": "-30d",
+      "breakdown": "selected_option",
+      "breakdown_type": "event",
+      "events": [
+        {
+          "id": "exit_survey_dismissed",
+          "name": "Exit Survey Dismissed",
+          "type": "events",
+          "math": "total",
+          "properties": [
+            {
+              "key": "selected_option",
+              "type": "event",
+              "value": "none",
+              "operator": "is_not"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
