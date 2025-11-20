@@ -27,6 +27,7 @@ import {
   type BillingType,
 } from "@/lib/pricing";
 import { Badge } from "@/components/ui/badge";
+import posthog from "posthog-js";
 
 export default function PricingPageNew() {
   const router = useRouter();
@@ -47,6 +48,14 @@ export default function PricingPageNew() {
 
   const isCurrentPlan = (planKey: string) => {
     return planData?.key === planKey;
+  };
+
+  const trackBuyClick = () => {
+    posthog.capture("clicked_buy_market_spy", {
+      billing_type: billingType,
+      listing_count: listingCount,
+      total_price: totalPrice,
+    });
   };
 
   return (
@@ -302,31 +311,36 @@ export default function PricingPageNew() {
               <div className="space-y-2">
                 {session ? (
                   billingType === "subscription" ? (
-                    <StripeCheckoutButton
-                      priceId={getSubscriptionPriceId()}
-                      quantity={listingCount}
-                      buttonText="Get Started Now"
-                      successUrl="/market-spy/analyze?success=true"
-                      cancelUrl="/pricing"
-                      className="w-full h-12 text-base font-semibold"
-                      mode="subscription"
-                    />
+                    <div onClick={trackBuyClick}>
+                      <StripeCheckoutButton
+                        priceId={getSubscriptionPriceId()}
+                        quantity={listingCount}
+                        buttonText="Get Started Now"
+                        successUrl="/market-spy/analyze?success=true"
+                        cancelUrl="/pricing"
+                        className="w-full h-12 text-base font-semibold"
+                        mode="subscription"
+                      />
+                    </div>
                   ) : listingCount <= 10 ? (
-                    <StripeCheckoutButton
-                      priceId={getOneTimePriceId(listingCount)!}
-                      quantity={1}
-                      buttonText="Get Started Now"
-                      successUrl="/market-spy/analyze?success=true"
-                      cancelUrl="/pricing"
-                      className="w-full h-12 text-base font-semibold"
-                      mode="payment"
-                    />
+                    <div onClick={trackBuyClick}>
+                      <StripeCheckoutButton
+                        priceId={getOneTimePriceId(listingCount)!}
+                        quantity={1}
+                        buttonText="Get Started Now"
+                        successUrl="/market-spy/analyze?success=true"
+                        cancelUrl="/pricing"
+                        className="w-full h-12 text-base font-semibold"
+                        mode="payment"
+                      />
+                    </div>
                   ) : (
                     <Button
                       className="w-full h-12 text-base"
-                      onClick={() =>
-                        (window.location.href = "mailto:support@strsage.com")
-                      }
+                      onClick={() => {
+                        trackBuyClick();
+                        window.location.href = "mailto:support@strsage.com";
+                      }}
                     >
                       Contact for Custom Pricing
                     </Button>
@@ -334,9 +348,10 @@ export default function PricingPageNew() {
                 ) : (
                   <Button
                     className="w-full h-12 text-base font-semibold"
-                    onClick={() =>
-                      router.push("/register?redirect_to=/pricing")
-                    }
+                    onClick={() => {
+                      trackBuyClick();
+                      router.push("/register?redirect_to=/pricing");
+                    }}
                   >
                     Get Started Now
                   </Button>
