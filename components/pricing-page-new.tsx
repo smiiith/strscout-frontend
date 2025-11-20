@@ -28,7 +28,7 @@ import {
 } from "@/lib/pricing";
 import { Badge } from "@/components/ui/badge";
 
-export default function PricingPocPage() {
+export default function PricingPageNew() {
   const router = useRouter();
   const { session } = useUserSession();
   const planData = session?.profile?.plan;
@@ -51,7 +51,7 @@ export default function PricingPocPage() {
 
   return (
     <>
-      <ExitSurvey pagePath="/pricing-poc" />
+      <ExitSurvey pagePath="/pricing" />
       <PricingHelpWidget />
 
       <div className="container mx-auto px-4 py-8 md:py-12">
@@ -307,7 +307,7 @@ export default function PricingPocPage() {
                       quantity={listingCount}
                       buttonText="Get Started Now"
                       successUrl="/market-spy/analyze?success=true"
-                      cancelUrl="/pricing-poc"
+                      cancelUrl="/pricing"
                       className="w-full h-12 text-base font-semibold"
                       mode="subscription"
                     />
@@ -317,7 +317,7 @@ export default function PricingPocPage() {
                       quantity={1}
                       buttonText="Get Started Now"
                       successUrl="/market-spy/analyze?success=true"
-                      cancelUrl="/pricing-poc"
+                      cancelUrl="/pricing"
                       className="w-full h-12 text-base font-semibold"
                       mode="payment"
                     />
@@ -335,7 +335,7 @@ export default function PricingPocPage() {
                   <Button
                     className="w-full h-12 text-base font-semibold"
                     onClick={() =>
-                      router.push("/register?redirect_to=/pricing-poc")
+                      router.push("/register?redirect_to=/pricing")
                     }
                   >
                     Get Started Now
