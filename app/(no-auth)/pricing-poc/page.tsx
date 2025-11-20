@@ -351,6 +351,29 @@ export default function PricingPocPage() {
           </Card>
         </div>
 
+        {/* Testimonials */}
+        <div className="max-w-4xl mx-auto mt-12 md:mt-24 mb-12">
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="border-t-2 border-primary p-6 bg-background">
+              <p className="text-sm md:text-base italic mb-3">
+                &quot;I found the Feedback Genius was really really good! I used
+                the recommendation to update my listing description.&quot;
+              </p>
+              <p className="text-sm font-medium text-muted-foreground">
+                — Michelle, Superhost from Washington
+              </p>
+            </div>
+            <div className="border-t-2 border-primary p-6 bg-background">
+              <p className="text-sm md:text-base italic mb-3">
+                &quot;I found it easy! 15 minutes.&quot;
+              </p>
+              <p className="text-sm font-medium text-muted-foreground">
+                — Brian, Superhost from Texas
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Feature Comparison */}
         <div className="max-w-4xl mx-auto mt-8">
           <h2 className="text-2xl font-bold text-center mb-6">
