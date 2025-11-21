@@ -83,7 +83,7 @@ export function MarketSpyReportPreview() {
                 router.push("/pricing");
               }}
             >
-              Choose a plan
+              Analyze My Market
             </Button>
           </div>
 

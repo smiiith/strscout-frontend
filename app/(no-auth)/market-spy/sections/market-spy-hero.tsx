@@ -85,7 +85,7 @@ export function MarketSpyHero() {
                   router.push("/pricing");
                 }}
               >
-                Choose a plan
+                Analyze My Market
                 <ArrowRight01Icon className="ml-2 h-5 w-5" />
               </Button>
             </div>
