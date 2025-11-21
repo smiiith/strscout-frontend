@@ -26,7 +26,7 @@ export function MarketScoutFinalCTA() {
                 router.push("/pricing");
               }}
             >
-              Choose a plan
+              Analyze a Property
               <ArrowRight01Icon className="ml-2 h-5 w-5" />
             </Button>
 

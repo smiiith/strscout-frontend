@@ -75,7 +75,7 @@ export function MarketScoutReportPreview() {
                 router.push("/pricing");
               }}
             >
-              Choose a plan
+              Scout a Property
             </Button>
           </div>
 

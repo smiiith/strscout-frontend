@@ -75,7 +75,7 @@ export function CompetitorInsights() {
                 router.push("/pricing");
               }}
             >
-              Choose a plan
+              Scout a Property
             </Button>
           </div>
         </div>

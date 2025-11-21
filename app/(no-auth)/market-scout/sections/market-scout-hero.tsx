@@ -88,7 +88,7 @@ export function MarketScoutHero() {
                   router.push("/pricing");
                 }}
               >
-                Choose a plan
+                Scout a Property
                 <ArrowRight01Icon className="ml-2 h-5 w-5" />
               </Button>
             </div>
