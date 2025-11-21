@@ -305,6 +305,21 @@ export default function PricingPageNew() {
                     </p>
                   )}
                 </div>
+
+                {/* Promo Code Banner */}
+                {process.env.NEXT_PUBLIC_PROMO_CODE && (
+                  <div className="bg-success/10 border border-success/20 rounded-lg p-3 text-center">
+                    <p className="text-sm font-semibold text-success mb-1">
+                      50% Off Sale!
+                    </p>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Use code at checkout:
+                    </p>
+                    <div className="bg-background border-2 border-dashed border-success/40 rounded px-3 py-2 font-mono font-bold text-base text-success">
+                      {process.env.NEXT_PUBLIC_PROMO_CODE}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* CTA Button */}
