@@ -88,7 +88,7 @@ export function MarketSpyReportPreview() {
           </div>
 
           <div>
-            <Card className="bg-background text-foreground p-6 shadow-2xl">
+            {/* <Card className="bg-background text-foreground p-6 shadow-2xl">
               <div className="space-y-6">
                 <div className="flex items-center justify-between pb-4 border-b border-border">
                   <div className="relative md:col-span-4 hidden md:block w-[600px] rounded-lg border border-border overflow-hidden p-4 bg-background">
@@ -106,7 +106,7 @@ export function MarketSpyReportPreview() {
                   </div>
                 </div>
               </div>
-            </Card>
+            </Card> */}
           </div>
         </div>
       </div>
