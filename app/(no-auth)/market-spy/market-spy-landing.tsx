@@ -13,7 +13,7 @@ const MarketSpyLanding = () => {
     <main>
       <MarketSpyHero />
       <MarketSpySocialProof />
-      {/* <MarketSpyReportPreview /> */}
+      <MarketSpyReportPreview />
       <CompetitorInsights />
       {/* <TestimonialsSection /> */}
       <MarketSpyFeatures />
