@@ -69,8 +69,12 @@ export function MarketSpyHero() {
               Several pricing options to choose from
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-balance">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-2 text-balance">
               Hosts, you need more bookings.
+            </h1>
+
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-balance">
+              And you're not sure how.
             </h1>
 
             <h3 className="text-2xl md:text-3xl lg:text-4xl tracking-tight mb-6 text-foreground/60">
