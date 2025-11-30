@@ -1,39 +1,10 @@
 import { Button } from "@/components/ui/button";
-import {
-  Target03Icon,
-  Clock01Icon,
-  Zap01Icon,
-  ArrowRight01Icon,
-} from "@/components/Icons";
+import { Clock01Icon, Zap01Icon, ArrowRight01Icon } from "@/components/Icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Card } from "@/components/ui/card";
-import ImageSlider from "@/components/image-slider";
-import CompsDialog from "@/components/comps-dialog";
-import { MockMarketSpyComps } from "@/components/ratings-example/market-spy-mock";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Video } from "lucide-react";
 
 export function MarketSpyHero() {
   const router = useRouter();
-  const [slideImages, setSlideImages] = useState<string[]>([]);
-
-  useEffect(() => {
-    setSlideImages([
-      "/images/slide-market-spy-1.png",
-      "/images/slide-market-spy-2.png",
-      "/images/slide-market-spy-3.png",
-      // "/images/slide-market-spy-4.png",
-    ]);
-  }, []);
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-background to-muted/20 pt-10 pb-20 md:pb-8">

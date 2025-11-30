@@ -1,6 +1,4 @@
-import CompsDialog from "@/components/comps-dialog";
 import ImageSlider from "@/components/image-slider";
-import { MockMarketSpyComps } from "@/components/ratings-example/market-spy-mock";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -11,6 +9,15 @@ import {
 } from "@/components/Icons";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Video } from "lucide-react";
 
 export function MarketSpyReportPreview() {
   const router = useRouter();
@@ -91,17 +98,52 @@ export function MarketSpyReportPreview() {
             <Card className="bg-background text-foreground p-6 shadow-2xl">
               <div className="space-y-6">
                 <div className="flex items-center justify-between pb-4 border-b border-border">
-                  <div className="relative md:col-span-4 hidden md:block w-[600px] rounded-lg border border-border overflow-hidden p-4 bg-background">
+                  <div className="relative w-full md:w-[600px] rounded-lg border border-border overflow-hidden p-4 bg-background">
                     <ImageSlider images={slideImages} interval={4000} />
 
                     <div className="absolute bottom-4 right-4">
-                      <CompsDialog
-                        comps={MockMarketSpyComps}
-                        buttonText="View Sample Report"
-                        dialogTitle="Sample Market Analysis Report"
-                        filterOut100Percent={true}
-                        mock={true}
-                      />
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button
+                            variant="default"
+                            className="flex-1 sm:flex-initial text-xs h-8"
+                          >
+                            View Demo
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-3xl">
+                          <DialogHeader>
+                            <DialogTitle>
+                              {" "}
+                              <h4 className="font-semibold mb-3 flex items-center gap-2">
+                                <Video className="w-4 h-4" />
+                                STR Market Spy Demo
+                              </h4>
+                            </DialogTitle>
+                            <DialogDescription>
+                              See STR Sage in action or get in touch with our
+                              team
+                            </DialogDescription>
+                          </DialogHeader>
+
+                          <div className="space-y-6">
+                            {/* Video Section */}
+                            <div>
+                              <div className="aspect-video rounded-lg overflow-hidden bg-muted">
+                                <iframe
+                                  width="100%"
+                                  height="100%"
+                                  src="https://www.youtube.com/embed/dOBdLm3_Z1s"
+                                  title="STR Sage Demo"
+                                  frameBorder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                ></iframe>
+                              </div>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </div>
                 </div>
