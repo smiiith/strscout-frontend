@@ -1,127 +1,33 @@
 import { Button } from "@/components/ui/button";
-import {
-  Target03Icon,
-  Clock01Icon,
-  Zap01Icon,
-  ArrowRight01Icon,
-} from "@/components/Icons";
+import { Clock01Icon, Zap01Icon, ArrowRight01Icon } from "@/components/Icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Card } from "@/components/ui/card";
-import ImageSlider from "@/components/image-slider";
-import CompsDialog from "@/components/comps-dialog";
-import { MockMarketSpyComps } from "@/components/ratings-example/market-spy-mock";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Video } from "lucide-react";
 
 export function MarketSpyHero() {
   const router = useRouter();
-  const [slideImages, setSlideImages] = useState<string[]>([]);
-
-  useEffect(() => {
-    setSlideImages([
-      "/images/slide-market-spy-1.png",
-      "/images/slide-market-spy-2.png",
-      "/images/slide-market-spy-3.png",
-      // "/images/slide-market-spy-4.png",
-    ]);
-  }, []);
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-background to-muted/20 pt-10 pb-20 md:pb-8">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col-reverse lg:flex-row gap-12 lg:gap-16 ">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
           <div className="relative lg:flex-1">
-            <div className="relative aspect-square max-w-md mx-auto lg:max-w-none">
-              <Card className="bg-background text-foreground p-6 shadow-2xl">
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between pb-4 border-b border-border">
-                    <div className="relative w-full md:w-[600px] rounded-lg border border-border overflow-hidden p-4 bg-background">
-                      <ImageSlider images={slideImages} interval={4000} />
-
-                      <div className="absolute bottom-4 right-4">
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button
-                              variant="default"
-                              className="flex-1 sm:flex-initial text-xs h-8"
-                            >
-                              View Demo
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-3xl">
-                            <DialogHeader>
-                              <DialogTitle>
-                                {" "}
-                                <h4 className="font-semibold mb-3 flex items-center gap-2">
-                                  <Video className="w-4 h-4" />
-                                  STR Market Spy Demo
-                                </h4>
-                              </DialogTitle>
-                              <DialogDescription>
-                                See STR Sage in action or get in touch with our
-                                team
-                              </DialogDescription>
-                            </DialogHeader>
-
-                            <div className="space-y-6">
-                              {/* Video Section */}
-                              <div>
-                                <div className="aspect-video rounded-lg overflow-hidden bg-muted">
-                                  <iframe
-                                    width="100%"
-                                    height="100%"
-                                    src="https://www.youtube.com/embed/dOBdLm3_Z1s"
-                                    title="STR Sage Demo"
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                  ></iframe>
-                                </div>
-                              </div>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
-
-                        {/* <CompsDialog
-                          comps={MockMarketSpyComps}
-                          buttonText="View Demo"
-                          dialogTitle="Market Analysis Report Demo"
-                          filterOut100Percent={true}
-                          mock={true}
-                        /> */}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-              {/* <Image
-                src="/home/market-spy-graphic-004.png"
-                alt="Market analysis concept"
+            <div className="relative aspect-square max-w-xs mx-auto sm:max-w-md lg:max-w-none">
+              <Image
+                src="/home/mobile-confused-host-2-min.png"
+                alt="Hosts, you need more bookings"
                 width={600}
                 height={600}
-                className="rounded-2xl shadow-2xl"
+                className="rounded-2xl shadow-2xl object-cover lg:hidden"
                 priority
-              /> */}
-              {/* <div className="absolute -bottom-12 left-4 bg-slate-200 border border-border rounded-xl p-4 shadow-lg">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 flex items-center justify-center text-3xl">
-                    💫
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold text-success">Quick</div>
-                    <div className="text-md font-medium">& Easy to Use</div>
-                  </div>
-                </div>
-              </div> */}
+              />
+              <Image
+                src="/home/confused-host-2-min.png"
+                alt="Hosts, you need more bookings"
+                width={600}
+                height={900}
+                className="rounded-2xl shadow-2xl object-cover hidden lg:block"
+                priority
+              />
             </div>
           </div>
 
@@ -134,14 +40,27 @@ export function MarketSpyHero() {
               Several pricing options to choose from
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-balance">
-              See the Winners. See Why.
+            <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-2 text-balance">
+              Hosts, you need more bookings.
             </h1>
 
+            <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold  mb-6 text-balance">
+              And you're not sure how.
+            </h1>
+
+            <h3 className="text-2xl md:text-3xl lg:text-4xl tracking-tight mb-6 text-foreground/60">
+              You need a plan, but how can you plan if you don't even know the
+              playing field?
+            </h3>
+
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed text-pretty">
-              See live occupancy near you and what top competitors do
-              differently — amenities, photos, headlines, descriptions, interior
-              design, policies, and more.
+              The STR business is a battle for bookings and the first step
+              toward competing is knowing the opposition. What are you up
+              against? How many bookings do your competitors have right now?
+              What are they doing different from you? What amenities do they
+              offer? What cancellation or pet policies are in place? Do they
+              have instant book turned on? Are their photos better than yours?
+              Is their interior design better?
             </p>
 
             <div className="bg-muted/50 border border-border rounded-xl p-6 mb-8">
@@ -149,7 +68,10 @@ export function MarketSpyHero() {
                 <span className="font-semibold text-foreground">
                   STR Market Spy
                 </span>{" "}
-                shows who's getting booked now and how you stack up.
+                is the simple way to uncover what’s really driving your market.
+                With one quick report, you’ll see your competitors’ bookings,
+                amenities, and strengths — and get a clear plan to rise above
+                them.{" "}
               </p>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
