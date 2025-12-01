@@ -5,7 +5,7 @@ import HeaderNav from "@/components/header";
 import { UserSessionProvider } from "@/lib/context/UserSessionProvider";
 
 export const metadata = {
-  title: "STR Feeeback Genius",
+  title: "STR Sage",
   description:
     "We dive deep into your listing to provide analysis and actionable insights, ensuring you have the clarity you need to attract more guests and maximize your success.",
 };
