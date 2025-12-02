@@ -4,10 +4,16 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { EarlyAccessDialog } from "@/components/host-assist/early-access-dialog";
+import posthog from "posthog-js";
 
 export function HostAssistHero() {
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleCtaClick = () => {
+    posthog.capture("clicked_host_assist_cta");
+    setDialogOpen(true);
+  };
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-background to-muted/20 pt-10 pb-20 md:pb-8">
@@ -37,7 +43,7 @@ export function HostAssistHero() {
                 <Button
                   size="lg"
                   className="text-base md:text-lg px-6 md:px-8 py-5 md:py-6 shadow-lg hover:shadow-xl transition-shadow w-full"
-                  onClick={() => setDialogOpen(true)}
+                  onClick={handleCtaClick}
                 >
                   Sign Up for FREE early Access
                 </Button>
@@ -95,7 +101,7 @@ export function HostAssistHero() {
               <Button
                 size="lg"
                 className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-shadow"
-                onClick={() => setDialogOpen(true)}
+                onClick={handleCtaClick}
               >
                 Sign Up for FREE early Access
                 <ArrowRight01Icon className="ml-2 h-5 w-5" />

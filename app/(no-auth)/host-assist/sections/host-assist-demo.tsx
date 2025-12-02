@@ -3,10 +3,16 @@ import { ArrowRight01Icon } from "@/components/Icons";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { EarlyAccessDialog } from "@/components/host-assist/early-access-dialog";
+import posthog from "posthog-js";
 
 export function HostAssistDemo() {
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleCtaClick = () => {
+    posthog.capture("clicked_host_assist_cta");
+    setDialogOpen(true);
+  };
 
   return (
     <section className="relative overflow-hidden bg-muted/20 py-20">
@@ -39,7 +45,7 @@ export function HostAssistDemo() {
             <Button
               size="lg"
               className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-shadow"
-              onClick={() => setDialogOpen(true)}
+              onClick={handleCtaClick}
             >
               Get Free Early Access
               <ArrowRight01Icon className="ml-2 h-5 w-5" />
