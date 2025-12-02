@@ -47,15 +47,24 @@ const MyCompsContent = () => {
       return;
     }
 
+    // If session is null, redirect to login
+    if (!session || !session.id) {
+      console.warn('Session expired, redirecting to login...');
+      window.location.href = '/login';
+      return;
+    }
+
     if (session && session.id) {
       fetchingRef.current = true;
       try {
         const token = await getAccessToken();
 
         if (!token) {
-          console.error("Failed to get access token");
+          console.error("Failed to get access token - session may be expired");
           setLoading(false);
           fetchingRef.current = false;
+          // Redirect to login if we can't get a token
+          window.location.href = '/login';
           return;
         }
 

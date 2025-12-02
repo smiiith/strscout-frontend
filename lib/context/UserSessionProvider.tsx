@@ -194,6 +194,14 @@ export function UserSessionProvider({ children, initialSession }: { children: Re
                 } else if (event === 'SIGNED_OUT') {
                     setSession(null);
                     setLoading(false);
+                    // Redirect to login on sign out
+                    window.location.href = '/login';
+                } else if (event === 'USER_DELETED' || event === 'TOKEN_REFRESH_FAILED') {
+                    // Session expired or refresh failed - redirect to login
+                    setSession(null);
+                    setCachedToken(null);
+                    setLoading(false);
+                    window.location.href = '/login';
                 }
             }
         );
