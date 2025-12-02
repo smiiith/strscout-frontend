@@ -66,9 +66,34 @@ const MyCompsContent = () => {
 
         const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/marketspy/comp-basis/${session.id}`;
 
-        const response = await axios.get(endpoint, {
-          headers: authHeaders,
-        });
+        let response;
+        try {
+          response = await axios.get(endpoint, {
+            headers: authHeaders,
+          });
+        } catch (error) {
+          // If 401 error (expired token), refresh token and retry once
+          if (axios.isAxiosError(error) && error.response?.status === 401) {
+            // Force refresh to get a fresh token (not cached)
+            const freshToken = await getAccessToken(true);
+
+            if (freshToken) {
+              const retryHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${freshToken}`,
+              };
+
+              // Retry the request with fresh token
+              response = await axios.get(endpoint, {
+                headers: retryHeaders,
+              });
+            } else {
+              throw error; // Re-throw if we couldn't get a fresh token
+            }
+          } else {
+            throw error; // Re-throw non-401 errors
+          }
+        }
 
         setLoading(false);
         setLoadingComps(false);

@@ -25,7 +25,7 @@ const UserSessionContext = createContext<{
     session: UserSession | null
     loading: boolean
     refreshSession: () => Promise<void>
-    getAccessToken: () => Promise<string | null>
+    getAccessToken: (forceRefresh?: boolean) => Promise<string | null>
 }>({
     session: null,
     loading: true,
@@ -41,11 +41,47 @@ export function UserSessionProvider({ children, initialSession }: { children: Re
     const [tokenInitialized, setTokenInitialized] = useState(!!initialSession?.accessToken);
     const supabase = createClient();
 
-    // Get access token - wait for initialization if needed
-    const getAccessToken = async (): Promise<string | null> => {
-        // If token is already initialized and cached, return it immediately
+    // Get access token - check expiration and refresh if needed
+    const getAccessToken = async (forceRefresh: boolean = false): Promise<string | null> => {
+        // If force refresh is requested, skip cache and fetch fresh token
+        if (forceRefresh) {
+            try {
+                const { data: { session: authSession } } = await supabase.auth.getSession();
+                const token = authSession?.access_token || null;
+                if (token) {
+                    setCachedToken(token);
+                    setTokenInitialized(true);
+                }
+                return token;
+            } catch (error) {
+                console.error('Error force refreshing token:', error);
+                return null;
+            }
+        }
+
+        // If token is already initialized and cached, check if it's still valid
         if (tokenInitialized && cachedToken) {
-            return cachedToken;
+            try {
+                // Decode JWT to check expiration
+                const payload = JSON.parse(atob(cachedToken.split('.')[1]));
+                const expiresAt = payload.exp * 1000; // Convert to milliseconds
+                const now = Date.now();
+                const bufferTime = 5 * 60 * 1000; // 5 minutes buffer before expiry
+
+                // If token expires in more than 5 minutes, return it
+                if (expiresAt - now > bufferTime) {
+                    return cachedToken;
+                }
+
+                // Token expired or expiring soon - just return it anyway
+                // The backend will reject it with 401 and our retry logic will handle it
+                return cachedToken;
+            } catch (error) {
+                // If we can't decode the token, just return it
+                // Let the backend validate it
+                console.error('Error checking token expiration:', error);
+                return cachedToken;
+            }
         }
 
         // If not initialized yet, wait a bit for initialization to complete
@@ -53,13 +89,13 @@ export function UserSessionProvider({ children, initialSession }: { children: Re
             // Wait up to 1 second for initialization
             for (let i = 0; i < 10; i++) {
                 await new Promise(resolve => setTimeout(resolve, 100));
-                if (tokenInitialized) {
+                if (tokenInitialized && cachedToken) {
                     return cachedToken;
                 }
             }
         }
 
-        // Fallback: fetch it directly
+        // No cached token - fetch from Supabase (first time only)
         try {
             const { data: { session: authSession } } = await supabase.auth.getSession();
             const token = authSession?.access_token || null;
@@ -149,6 +185,11 @@ export function UserSessionProvider({ children, initialSession }: { children: Re
                     const silentRefresh = !!session;
                     await refreshSession(silentRefresh);
                 } else if (event === 'TOKEN_REFRESHED') {
+                    // Update cached token immediately when Supabase auto-refreshes
+                    if (authSession?.access_token) {
+                        setCachedToken(authSession.access_token);
+                        setTokenInitialized(true);
+                    }
                     await refreshSession(true);
                 } else if (event === 'SIGNED_OUT') {
                     setSession(null);
