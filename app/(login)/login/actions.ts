@@ -9,7 +9,7 @@ export async function login(formData: FormData) {
   const supabase = createClient();
 
   // Get the intended redirect destination
-  const redirectTo = formData.get("redirect_to") as string || "";
+  const redirectTo = (formData.get("redirect_to") as string) || "";
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -25,20 +25,15 @@ export async function login(formData: FormData) {
     redirect("/login-issue");
   }
 
-  console.log("Login successful for user:", user.user?.id);
-
-  // posthog.identify(
-  //   user.user.id,
-  //   {
-  //     email: data.email,
-  //   }
-  // );
-
   revalidatePath("/", "layout");
-  revalidatePath("/properties");
+  revalidatePath("/");
 
   // Redirect to the intended destination or default to home
-  if (redirectTo && redirectTo.startsWith('/') && !redirectTo.startsWith('//')) {
+  if (
+    redirectTo &&
+    redirectTo.startsWith("/") &&
+    !redirectTo.startsWith("//")
+  ) {
     redirect(redirectTo);
   } else {
     redirect("/");
@@ -47,16 +42,21 @@ export async function login(formData: FormData) {
 
 export async function signInWithGoogle(redirectTo?: string) {
   const supabase = createClient();
-  const origin = process.env.NEXT_PUBLIC_APP_DOMAIN || process.env.NEXT_PUBLIC_SITE_URL;
+  const origin =
+    process.env.NEXT_PUBLIC_APP_DOMAIN || process.env.NEXT_PUBLIC_SITE_URL;
 
   // Build the redirect URL with optional next parameter
   let redirectUrl = `${origin}/auth/callback`;
-  if (redirectTo && redirectTo.startsWith('/') && !redirectTo.startsWith('//')) {
+  if (
+    redirectTo &&
+    redirectTo.startsWith("/") &&
+    !redirectTo.startsWith("//")
+  ) {
     redirectUrl += `?next=${encodeURIComponent(redirectTo)}`;
   }
 
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'google',
+    provider: "google",
     options: {
       redirectTo: redirectUrl,
     },
@@ -81,11 +81,12 @@ export async function signup(formData: FormData) {
     .map((item: string) => item.trim());
 
   // Get the intended post-confirmation redirect destination
-  const redirectTo = formData.get("redirect_to") as string || "";
+  const redirectTo = (formData.get("redirect_to") as string) || "";
 
   // Get the origin (localhost or production) from the form data
   // Fall back to APP_DOMAIN if not provided
-  const origin = (formData.get("origin") as string) || process.env.NEXT_PUBLIC_APP_DOMAIN;
+  const origin =
+    (formData.get("origin") as string) || process.env.NEXT_PUBLIC_APP_DOMAIN;
 
   // Define the redirect URL for after confirmation
   let redirectUrl = `${origin}/auth/callback`;
@@ -179,14 +180,11 @@ export async function updatePassword(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/properties");
+  redirect("/");
 }
 
 export async function verifyOtp(formData: FormData) {
   const supabase = createClient();
-
-  // console.log("verify otp data", formData);
-  // console.log("verify otp", formData.get('code'));
 
   if (!formData.get("code") || !formData.get("email")) {
     console.log("verify otp missing data");
@@ -205,5 +203,5 @@ export async function verifyOtp(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/properties");
+  redirect("/");
 }
