@@ -1,9 +1,11 @@
 import Image from "next/image";
+import FeaturedPartner from "@/components/featured-partner";
 
 const Footer = ({ authenticated }: { authenticated: any }) => {
   return (
     <div className="flex flex-col">
       <div className="flex-grow">
+        <FeaturedPartner />
         <div className="container mx-auto p-0 max-w-7xl bg-primary px-4 py-4 text-white relative">
           <footer>
             <div className="flex flex-col lg:block">
