@@ -47,15 +47,24 @@ const MyCompsContent = () => {
       return;
     }
 
+    // If session is null, redirect to login
+    if (!session || !session.id) {
+      console.warn('Session expired, redirecting to login...');
+      window.location.href = '/login';
+      return;
+    }
+
     if (session && session.id) {
       fetchingRef.current = true;
       try {
         const token = await getAccessToken();
 
         if (!token) {
-          console.error("Failed to get access token");
+          console.error("Failed to get access token - session may be expired");
           setLoading(false);
           fetchingRef.current = false;
+          // Redirect to login if we can't get a token
+          window.location.href = '/login';
           return;
         }
 
@@ -66,9 +75,34 @@ const MyCompsContent = () => {
 
         const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/marketspy/comp-basis/${session.id}`;
 
-        const response = await axios.get(endpoint, {
-          headers: authHeaders,
-        });
+        let response;
+        try {
+          response = await axios.get(endpoint, {
+            headers: authHeaders,
+          });
+        } catch (error) {
+          // If 401 error (expired token), refresh token and retry once
+          if (axios.isAxiosError(error) && error.response?.status === 401) {
+            // Force refresh to get a fresh token (not cached)
+            const freshToken = await getAccessToken(true);
+
+            if (freshToken) {
+              const retryHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${freshToken}`,
+              };
+
+              // Retry the request with fresh token
+              response = await axios.get(endpoint, {
+                headers: retryHeaders,
+              });
+            } else {
+              throw error; // Re-throw if we couldn't get a fresh token
+            }
+          } else {
+            throw error; // Re-throw non-401 errors
+          }
+        }
 
         setLoading(false);
         setLoadingComps(false);

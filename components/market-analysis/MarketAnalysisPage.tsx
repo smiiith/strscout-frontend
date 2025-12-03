@@ -117,9 +117,34 @@ export default function MarketAnalysisPage({
 
       const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/marketspy/scrape`;
 
-      const response = await axios.post(endpoint, requestData, {
-        headers: authHeaders,
-      });
+      let response;
+      try {
+        response = await axios.post(endpoint, requestData, {
+          headers: authHeaders,
+        });
+      } catch (error) {
+        // If 401 error (expired token), refresh token and retry once
+        if (axios.isAxiosError(error) && error.response?.status === 401) {
+          // Force refresh to get a fresh token (not cached)
+          const freshToken = await getAccessToken(true);
+
+          if (freshToken) {
+            const retryHeaders = {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${freshToken}`,
+            };
+
+            // Retry the request with fresh token
+            response = await axios.post(endpoint, requestData, {
+              headers: retryHeaders,
+            });
+          } else {
+            throw error; // Re-throw if we couldn't get a fresh token
+          }
+        } else {
+          throw error; // Re-throw non-401 errors
+        }
+      }
 
       if (response.data) {
         // Refresh account data to show updated usage
@@ -130,9 +155,17 @@ export default function MarketAnalysisPage({
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert(
-        `An error occurred while running ${productName}. Please try again.`
-      );
+
+      // Provide more specific error message for auth failures
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        alert(
+          `Authentication failed. Please refresh the page and try again.`
+        );
+      } else {
+        alert(
+          `An error occurred while running ${productName}. Please try again.`
+        );
+      }
     } finally {
       setLoading(false);
     }
