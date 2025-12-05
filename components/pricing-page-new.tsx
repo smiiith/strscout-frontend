@@ -160,8 +160,8 @@ export default function PricingPageNew() {
             {isPromoActive && (
               <div className="absolute -top-4 -right-4 z-10 text-center">
                 <Image
-                  src="/images/50-percept-off-black-friday.png"
-                  alt="50% Off Black Friday Sale"
+                  src="/images/50-percent-off-holiday-special.svg"
+                  alt="50% Off Holiday Special"
                   width={100}
                   height={100}
                   quality={100}
