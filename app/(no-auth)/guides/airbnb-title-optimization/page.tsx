@@ -76,8 +76,7 @@ export default async function AirbnbTitleOptimizationGuide() {
         </h1>
         <p className="text-xl text-muted-foreground">
           Learn how to write compelling titles that get more bookings. Based on
-          AI analysis of {stats.totalProperties.toLocaleString()}+ real Airbnb
-          listings.
+          AI analysis of real Airbnb listings.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
           Last updated: {new Date().toLocaleDateString()}
@@ -106,49 +105,45 @@ export default async function AirbnbTitleOptimizationGuide() {
                   <div className="flex justify-between">
                     <span>⭐ Excellent (90-100):</span>
                     <span className="font-semibold">
-                      {stats.ratingDistribution.excellent} listings (
                       {Math.round(
                         (stats.ratingDistribution.excellent /
                           stats.totalProperties) *
                           100
                       )}
-                      %)
+                      %
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>✅ Good (80-89):</span>
                     <span className="font-semibold">
-                      {stats.ratingDistribution.good} listings (
                       {Math.round(
                         (stats.ratingDistribution.good /
                           stats.totalProperties) *
                           100
                       )}
-                      %)
+                      %
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>👍 Satisfactory (70-79):</span>
                     <span className="font-semibold">
-                      {stats.ratingDistribution.satisfactory} listings (
                       {Math.round(
                         (stats.ratingDistribution.satisfactory /
                           stats.totalProperties) *
                           100
                       )}
-                      %)
+                      %
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>⚠️ Needs Improvement (&lt;70):</span>
                     <span className="font-semibold">
-                      {stats.ratingDistribution.needsImprovement} listings (
                       {Math.round(
                         (stats.ratingDistribution.needsImprovement /
                           stats.totalProperties) *
                           100
                       )}
-                      %)
+                      %
                     </span>
                   </div>
                 </div>
@@ -180,8 +175,7 @@ export default async function AirbnbTitleOptimizationGuide() {
                         {theme.theme}
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        Found in {theme.percentage}% of listings analyzed (
-                        {theme.count.toLocaleString()} properties)
+                        Found in {theme.percentage}% of listings analyzed
                       </p>
                     </div>
                   </div>
@@ -206,10 +200,6 @@ export default async function AirbnbTitleOptimizationGuide() {
                     <span className="text-2xl">💡</span>
                     <div>
                       <p className="text-base">{suggestion.suggestion}</p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        Recommended for {suggestion.count.toLocaleString()}{" "}
-                        listings
-                      </p>
                     </div>
                   </div>
                 </CardContent>

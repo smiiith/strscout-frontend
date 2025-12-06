@@ -85,8 +85,8 @@ export default async function AirbnbPhotoTipsGuide() {
         </h1>
         <p className="text-xl text-muted-foreground">
           Master listing photography with professional tips on lighting,
-          composition, and staging. Based on AI analysis of{" "}
-          {stats.totalProperties.toLocaleString()}+ real Airbnb listings.
+          composition, and staging. Based on AI analysis of real Airbnb
+          listings.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
           Last updated: {new Date().toLocaleDateString()}
@@ -225,8 +225,7 @@ export default async function AirbnbPhotoTipsGuide() {
                         </span>
                       </div>
                       <p className="text-sm text-muted-foreground">
-                        Found in {theme.percentage}% of listings analyzed (
-                        {theme.count.toLocaleString()} properties)
+                        Found in {theme.percentage}% of listings analyzed
                       </p>
                     </div>
                   </div>
@@ -552,10 +551,6 @@ export default async function AirbnbPhotoTipsGuide() {
                     <div className="flex-1">
                       <p className="text-base mb-1">{suggestion.suggestion}</p>
                       <div className="flex items-center gap-2">
-                        <p className="text-xs text-muted-foreground">
-                          Recommended for {suggestion.count.toLocaleString()}{" "}
-                          listings
-                        </p>
                         <span className="text-xs px-2 py-0.5 rounded bg-muted text-muted-foreground">
                           {suggestion.category === "hero_image"
                             ? "Hero Image"

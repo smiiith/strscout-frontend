@@ -4,7 +4,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import Link from "next/link";
 import { Metadata } from "next";
-import { Sparkles, Camera, BookOpen, ListChecks, Paintbrush, ArrowLeft, TrendingUp, Target, Zap } from "lucide-react";
+import {
+  Sparkles,
+  Camera,
+  BookOpen,
+  ListChecks,
+  Paintbrush,
+  ArrowLeft,
+  TrendingUp,
+  Target,
+  Zap,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "How to Improve Your Airbnb Listing Rating: Complete Guide | STR Sage",
@@ -47,7 +57,8 @@ export default async function ImproveAirbnbRatingGuide() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
-            headline: "How to Improve Your Airbnb Listing Rating: Complete Guide",
+            headline:
+              "How to Improve Your Airbnb Listing Rating: Complete Guide",
             description:
               "Comprehensive guide to optimizing every aspect of your Airbnb listing based on AI analysis.",
             author: {
@@ -75,9 +86,8 @@ export default async function ImproveAirbnbRatingGuide() {
           How to Improve Your Airbnb Listing Rating
         </h1>
         <p className="text-xl text-muted-foreground">
-          A complete, systematic guide to optimizing every aspect of your listing.
-          Based on AI analysis of {stats.totalProperties.toLocaleString()}+ real
-          Airbnb properties.
+          A complete, systematic guide to optimizing every aspect of your
+          listing. Based on AI analysis of real Airbnb properties.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
           Last updated: {new Date().toLocaleDateString()}
@@ -101,7 +111,9 @@ export default async function ImproveAirbnbRatingGuide() {
             </div>
 
             <div className="space-y-3">
-              <h3 className="font-semibold mb-4">Category-by-Category Ratings:</h3>
+              <h3 className="font-semibold mb-4">
+                Category-by-Category Ratings:
+              </h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
                   <div className="flex items-center gap-3">
@@ -109,12 +121,12 @@ export default async function ImproveAirbnbRatingGuide() {
                     <span className="font-medium">Hero Image</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="text-xl font-bold text-primary">
-                      {stats.categoryAverages.heroImage}/100
-                    </div>
                     <span className="text-xs text-muted-foreground px-2 py-1 rounded bg-green-500/10">
                       Strongest
                     </span>
+                    <div className="text-xl font-bold text-primary">
+                      {stats.categoryAverages.heroImage}/100
+                    </div>
                   </div>
                 </div>
 
@@ -164,12 +176,12 @@ export default async function ImproveAirbnbRatingGuide() {
                     <span className="font-medium">Interior Design</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="text-xl font-bold text-primary">
-                      {stats.categoryAverages.interiorDesign}/100
-                    </div>
                     <span className="text-xs text-muted-foreground px-2 py-1 rounded bg-orange-500/10">
                       Biggest Opportunity
                     </span>
+                    <div className="text-xl font-bold text-primary">
+                      {stats.categoryAverages.interiorDesign}/100
+                    </div>
                   </div>
                 </div>
               </div>
@@ -203,7 +215,9 @@ export default async function ImproveAirbnbRatingGuide() {
             </div>
 
             <div className="bg-muted/30 p-4 rounded-lg">
-              <p className="font-semibold mb-2">📊 Use our free tool to find out:</p>
+              <p className="font-semibold mb-2">
+                📊 Use our free tool to find out:
+              </p>
               <ul className="space-y-1 text-sm text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <span>•</span>
@@ -211,7 +225,9 @@ export default async function ImproveAirbnbRatingGuide() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span>•</span>
-                  <span>Specific improvements AI recommends for each category</span>
+                  <span>
+                    Specific improvements AI recommends for each category
+                  </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span>•</span>
@@ -238,7 +254,8 @@ export default async function ImproveAirbnbRatingGuide() {
           Category-by-Category Improvement Plan
         </h2>
         <p className="text-muted-foreground mb-6">
-          Follow our comprehensive guides to optimize each aspect of your listing.
+          Follow our comprehensive guides to optimize each aspect of your
+          listing.
         </p>
 
         <div className="space-y-6">
@@ -259,7 +276,8 @@ export default async function ImproveAirbnbRatingGuide() {
             <CardContent>
               <p className="text-sm text-muted-foreground mb-4">
                 Your title is the first thing guests see in search results. A
-                compelling, specific title can increase click-through rates by 40%.
+                compelling, specific title can increase click-through rates by
+                40%.
               </p>
               <div className="flex items-center gap-2">
                 <Link
@@ -289,9 +307,9 @@ export default async function ImproveAirbnbRatingGuide() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground mb-4">
-                Photos determine whether guests click on your listing. Professional
-                or well-executed DIY photography is one of the highest-ROI
-                investments.
+                Photos determine whether guests click on your listing.
+                Professional or well-executed DIY photography is one of the
+                highest-ROI investments.
               </p>
               <div className="flex items-center gap-2">
                 <Link
@@ -350,8 +368,9 @@ export default async function ImproveAirbnbRatingGuide() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground mb-4">
-                Missing basic amenities hurts bookings. Learn what guests expect,
-                what makes you stand out, and how to present amenities effectively.
+                Missing basic amenities hurts bookings. Learn what guests
+                expect, what makes you stand out, and how to present amenities
+                effectively.
               </p>
               <div className="flex items-center gap-2">
                 <Link
@@ -380,8 +399,8 @@ export default async function ImproveAirbnbRatingGuide() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground mb-4">
-                Good design creates Instagram moments and justifies higher rates.
-                Learn budget-friendly design hacks that transform spaces.
+                Good design creates Instagram moments and justifies higher
+                rates. Learn budget-friendly design hacks that transform spaces.
               </p>
               <div className="flex items-center gap-2">
                 <Link
@@ -402,7 +421,8 @@ export default async function ImproveAirbnbRatingGuide() {
           Quick Wins (Low-Effort, High-Impact)
         </h2>
         <p className="text-muted-foreground mb-6">
-          Start with these simple improvements that can be done in a day or less.
+          Start with these simple improvements that can be done in a day or
+          less.
         </p>
 
         <div className="grid md:grid-cols-2 gap-6">
@@ -509,7 +529,8 @@ export default async function ImproveAirbnbRatingGuide() {
               <p className="text-sm text-muted-foreground mb-3">
                 <strong>Time:</strong> 30-60 minutes
                 <br />
-                <strong>Impact:</strong> Better conversion from views to bookings
+                <strong>Impact:</strong> Better conversion from views to
+                bookings
               </p>
               <ul className="space-y-1 text-sm">
                 <li className="flex items-start gap-2">
@@ -560,8 +581,9 @@ export default async function ImproveAirbnbRatingGuide() {
                     Photos (Especially the Hero Image)
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Your hero image has the single biggest impact on click-through
-                    rate. If you can only improve one thing, make it your photos.
+                    Your hero image has the single biggest impact on
+                    click-through rate. If you can only improve one thing, make
+                    it your photos.
                   </p>
                 </div>
               </div>
@@ -572,8 +594,9 @@ export default async function ImproveAirbnbRatingGuide() {
                     Title (First Impression in Search)
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    A specific, benefit-focused title gets more clicks than generic
-                    ones. This takes 15 minutes to fix and costs nothing.
+                    A specific, benefit-focused title gets more clicks than
+                    generic ones. This takes 15 minutes to fix and costs
+                    nothing.
                   </p>
                 </div>
               </div>
@@ -584,8 +607,8 @@ export default async function ImproveAirbnbRatingGuide() {
                     Basic Amenities (Don't Get Filtered Out)
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Missing WiFi, coffee maker, or other basics means guests will
-                    never see your listing in their search results.
+                    Missing WiFi, coffee maker, or other basics means guests
+                    will never see your listing in their search results.
                   </p>
                 </div>
               </div>
@@ -593,8 +616,8 @@ export default async function ImproveAirbnbRatingGuide() {
 
             <div className="mt-6 p-4 bg-background rounded-lg border">
               <p className="text-sm">
-                <strong>Strategy:</strong> Perfect these three first, then move on
-                to description and interior design improvements.
+                <strong>Strategy:</strong> Perfect these three first, then move
+                on to description and interior design improvements.
               </p>
             </div>
           </CardContent>
@@ -615,10 +638,6 @@ export default async function ImproveAirbnbRatingGuide() {
                     <span className="text-2xl">💡</span>
                     <div>
                       <p className="text-base">{suggestion.suggestion}</p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        Recommended for {suggestion.count.toLocaleString()}{" "}
-                        listings
-                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -637,8 +656,8 @@ export default async function ImproveAirbnbRatingGuide() {
             </h2>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               Our AI analyzes your entire listing across all 6 categories and
-              provides specific, actionable recommendations. Find out exactly what
-              to fix first for maximum impact on bookings.
+              provides specific, actionable recommendations. Find out exactly
+              what to fix first for maximum impact on bookings.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg">
@@ -789,8 +808,8 @@ export default async function ImproveAirbnbRatingGuide() {
                 </Link>
               </h3>
               <p className="text-sm text-muted-foreground">
-                Get AI-powered analysis of your entire Airbnb listing with ratings
-                and recommendations across all 6 categories.
+                Get AI-powered analysis of your entire Airbnb listing with
+                ratings and recommendations across all 6 categories.
               </p>
             </CardContent>
           </Card>
@@ -805,8 +824,8 @@ export default async function ImproveAirbnbRatingGuide() {
                 </Link>
               </h3>
               <p className="text-sm text-muted-foreground">
-                Research your competition and see what top-performing listings in
-                your area are doing right.
+                Research your competition and see what top-performing listings
+                in your area are doing right.
               </p>
             </CardContent>
           </Card>

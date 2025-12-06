@@ -74,7 +74,7 @@ export default async function AirbnbAmenitiesChecklistGuide() {
         <p className="text-xl text-muted-foreground">
           Complete guide to amenities that guests expect and features that make
           your listing stand out. Based on analysis of{" "}
-          {stats.totalProperties.toLocaleString()}+ properties.
+          properties.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
           Last updated: {new Date().toLocaleDateString()}
@@ -510,8 +510,7 @@ export default async function AirbnbAmenitiesChecklistGuide() {
                     <div className="flex-1">
                       <h3 className="font-semibold mb-1">{theme.theme}</h3>
                       <p className="text-sm text-muted-foreground">
-                        Found in {theme.percentage}% of listings (
-                        {theme.count.toLocaleString()} properties)
+                        Found in {theme.percentage}% of listings
                       </p>
                     </div>
                   </div>
@@ -536,10 +535,7 @@ export default async function AirbnbAmenitiesChecklistGuide() {
                     <span className="text-2xl">💡</span>
                     <div className="flex-1">
                       <p className="text-base mb-1">{suggestion.suggestion}</p>
-                      <p className="text-xs text-muted-foreground">
-                        Recommended for {suggestion.count.toLocaleString()}{" "}
-                        listings
-                      </p>
+                      
                     </div>
                   </div>
                 </CardContent>

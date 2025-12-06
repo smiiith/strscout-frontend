@@ -4,7 +4,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import Link from "next/link";
 import { Metadata } from "next";
-import { Sparkles, Camera, ListChecks, ArrowLeft, Paintbrush, TrendingUp } from "lucide-react";
+import {
+  Sparkles,
+  Camera,
+  ListChecks,
+  ArrowLeft,
+  Paintbrush,
+  TrendingUp,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "How to Write Airbnb Descriptions That Get Bookings | STR Sage",
@@ -75,9 +82,8 @@ export default async function AirbnbDescriptionWritingGuide() {
           How to Write Airbnb Descriptions That Get Bookings
         </h1>
         <p className="text-xl text-muted-foreground">
-          Learn the proven formulas and techniques for writing compelling listing
-          descriptions. Based on AI analysis of{" "}
-          {stats.totalProperties.toLocaleString()}+ real Airbnb listings.
+          Learn the proven formulas and techniques for writing compelling
+          listing descriptions. Based on AI analysis of real Airbnb listings.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
           Last updated: {new Date().toLocaleDateString()}
@@ -106,48 +112,45 @@ export default async function AirbnbDescriptionWritingGuide() {
                   <div className="flex justify-between">
                     <span>⭐ Excellent (90-100):</span>
                     <span className="font-semibold">
-                      {stats.ratingDistribution.excellent} listings (
                       {Math.round(
                         (stats.ratingDistribution.excellent /
                           stats.totalProperties) *
                           100
                       )}
-                      %)
+                      %
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>✅ Good (80-89):</span>
                     <span className="font-semibold">
-                      {stats.ratingDistribution.good} listings (
                       {Math.round(
-                        (stats.ratingDistribution.good / stats.totalProperties) *
+                        (stats.ratingDistribution.good /
+                          stats.totalProperties) *
                           100
                       )}
-                      %)
+                      %
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>👍 Satisfactory (70-79):</span>
                     <span className="font-semibold">
-                      {stats.ratingDistribution.satisfactory} listings (
                       {Math.round(
                         (stats.ratingDistribution.satisfactory /
                           stats.totalProperties) *
                           100
                       )}
-                      %)
+                      %
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>⚠️ Needs Improvement (&lt;70):</span>
                     <span className="font-semibold">
-                      {stats.ratingDistribution.needsImprovement} listings (
                       {Math.round(
                         (stats.ratingDistribution.needsImprovement /
                           stats.totalProperties) *
                           100
                       )}
-                      %)
+                      %
                     </span>
                   </div>
                 </div>
@@ -179,8 +182,7 @@ export default async function AirbnbDescriptionWritingGuide() {
                         {theme.theme}
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        Found in {theme.percentage}% of listings analyzed (
-                        {theme.count.toLocaleString()} properties)
+                        Found in {theme.percentage}% of listings analyzed ( )
                       </p>
                     </div>
                   </div>
@@ -197,16 +199,16 @@ export default async function AirbnbDescriptionWritingGuide() {
           The AIDA Formula for High-Converting Descriptions
         </h2>
         <p className="text-muted-foreground mb-6">
-          Professional copywriters use this proven framework to write descriptions
-          that convert browsers into bookers.
+          Professional copywriters use this proven framework to write
+          descriptions that convert browsers into bookers.
         </p>
 
         <div className="space-y-6">
           <Card className="border-2 border-primary/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <span className="text-2xl">👀</span>
-                A - Attention (First 2-3 Sentences)
+                <span className="text-2xl">👀</span>A - Attention (First 2-3
+                Sentences)
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -216,16 +218,18 @@ export default async function AirbnbDescriptionWritingGuide() {
               <div className="bg-muted/50 p-4 rounded-lg text-sm space-y-2">
                 <p className="font-semibold">Example:</p>
                 <p className="italic">
-                  "Wake up to breathtaking ocean views from your private balcony in
-                  this newly renovated beachfront condo. Located just steps from the
-                  sand, this modern retreat offers the perfect blend of luxury and
-                  coastal charm."
+                  "Wake up to breathtaking ocean views from your private balcony
+                  in this newly renovated beachfront condo. Located just steps
+                  from the sand, this modern retreat offers the perfect blend of
+                  luxury and coastal charm."
                 </p>
               </div>
               <ul className="space-y-1 text-sm">
                 <li className="flex items-start gap-2">
                   <span className="text-primary mt-1">•</span>
-                  <span>Lead with your best feature (view, location, amenity)</span>
+                  <span>
+                    Lead with your best feature (view, location, amenity)
+                  </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-primary mt-1">•</span>
@@ -242,8 +246,8 @@ export default async function AirbnbDescriptionWritingGuide() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <span className="text-2xl">✨</span>
-                I - Interest (The Space Section)
+                <span className="text-2xl">✨</span>I - Interest (The Space
+                Section)
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -254,8 +258,8 @@ export default async function AirbnbDescriptionWritingGuide() {
                 <li className="flex items-start gap-2">
                   <span className="text-primary mt-1">•</span>
                   <span>
-                    <strong>Room-by-room walkthrough:</strong> Describe each space
-                    and its purpose
+                    <strong>Room-by-room walkthrough:</strong> Describe each
+                    space and its purpose
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
@@ -279,13 +283,14 @@ export default async function AirbnbDescriptionWritingGuide() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <span className="text-2xl">❤️</span>
-                D - Desire (The Location & Lifestyle Section)
+                <span className="text-2xl">❤️</span>D - Desire (The Location &
+                Lifestyle Section)
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <p className="text-muted-foreground">
-                Help guests imagine their perfect stay and create emotional appeal.
+                Help guests imagine their perfect stay and create emotional
+                appeal.
               </p>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start gap-2">
@@ -305,15 +310,15 @@ export default async function AirbnbDescriptionWritingGuide() {
                 <li className="flex items-start gap-2">
                   <span className="text-primary mt-1">•</span>
                   <span>
-                    <strong>Local attractions:</strong> Highlight nearby points of
-                    interest
+                    <strong>Local attractions:</strong> Highlight nearby points
+                    of interest
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-primary mt-1">•</span>
                   <span>
-                    <strong>Lifestyle appeal:</strong> Describe the experience, not
-                    just the features
+                    <strong>Lifestyle appeal:</strong> Describe the experience,
+                    not just the features
                   </span>
                 </li>
               </ul>
@@ -323,13 +328,13 @@ export default async function AirbnbDescriptionWritingGuide() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <span className="text-2xl">📅</span>
-                A - Action (The Closing)
+                <span className="text-2xl">📅</span>A - Action (The Closing)
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <p className="text-muted-foreground">
-                End with a clear invitation to book and any important information.
+                End with a clear invitation to book and any important
+                information.
               </p>
               <div className="bg-muted/50 p-4 rounded-lg text-sm space-y-2">
                 <p className="font-semibold">Example:</p>
@@ -351,7 +356,8 @@ export default async function AirbnbDescriptionWritingGuide() {
                 <li className="flex items-start gap-2">
                   <span className="text-primary mt-1">•</span>
                   <span>
-                    Include house rules positively ("We welcome well-behaved pets")
+                    Include house rules positively ("We welcome well-behaved
+                    pets")
                   </span>
                 </li>
               </ul>
@@ -372,9 +378,9 @@ export default async function AirbnbDescriptionWritingGuide() {
                   1. Property Highlights
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Number of bedrooms and bathrooms, sleeping arrangements, square
-                  footage, standout amenities (hot tub, pool, view), recent
-                  renovations or upgrades.
+                  Number of bedrooms and bathrooms, sleeping arrangements,
+                  square footage, standout amenities (hot tub, pool, view),
+                  recent renovations or upgrades.
                 </p>
               </div>
               <div>
@@ -393,8 +399,9 @@ export default async function AirbnbDescriptionWritingGuide() {
                   3. Unique Selling Points
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  What makes your place different? Historic building, architectural
-                  features, themed decor, exclusive amenities, special views.
+                  What makes your place different? Historic building,
+                  architectural features, themed decor, exclusive amenities,
+                  special views.
                 </p>
               </div>
               <div>
@@ -404,8 +411,8 @@ export default async function AirbnbDescriptionWritingGuide() {
                 </h3>
                 <p className="text-sm text-muted-foreground">
                   Instead of "No smoking," try "We maintain a smoke-free
-                  environment." Instead of "No parties," try "Perfect for peaceful
-                  getaways and quiet relaxation."
+                  environment." Instead of "No parties," try "Perfect for
+                  peaceful getaways and quiet relaxation."
                 </p>
               </div>
               <div>
@@ -434,8 +441,8 @@ export default async function AirbnbDescriptionWritingGuide() {
                   ❌ Generic, Cookie-Cutter Descriptions
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Avoid phrases like "cozy apartment" or "great location" without
-                  specifics. These could describe any listing anywhere.
+                  Avoid phrases like "cozy apartment" or "great location"
+                  without specifics. These could describe any listing anywhere.
                 </p>
               </div>
               <div className="border-b pb-4">
@@ -443,8 +450,8 @@ export default async function AirbnbDescriptionWritingGuide() {
                   ❌ ALL CAPS or Excessive Punctuation!!!
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  It looks unprofessional and desperate. Use proper capitalization
-                  and standard punctuation.
+                  It looks unprofessional and desperate. Use proper
+                  capitalization and standard punctuation.
                 </p>
               </div>
               <div className="border-b pb-4">
@@ -452,8 +459,8 @@ export default async function AirbnbDescriptionWritingGuide() {
                   ❌ False Claims or Exaggerations
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Don't say "oceanfront" if you're a mile from the beach. Honesty
-                  prevents bad reviews and maintains trust.
+                  Don't say "oceanfront" if you're a mile from the beach.
+                  Honesty prevents bad reviews and maintains trust.
                 </p>
               </div>
               <div className="border-b pb-4">
@@ -470,8 +477,8 @@ export default async function AirbnbDescriptionWritingGuide() {
                   ❌ Overly Short Descriptions
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Aim for 500-1000 words. Short descriptions suggest you don't care
-                  or are hiding something.
+                  Aim for 500-1000 words. Short descriptions suggest you don't
+                  care or are hiding something.
                 </p>
               </div>
             </div>
@@ -503,11 +510,11 @@ export default async function AirbnbDescriptionWritingGuide() {
                   ✅ Good (Specific and compelling):
                 </p>
                 <div className="bg-success/5 border border-success/20 p-3 rounded text-sm">
-                  "Welcome to The Metropolitan Loft – a sun-drenched 2BR penthouse
-                  with floor-to-ceiling windows and sweeping city views. Located in
-                  the heart of downtown's Arts District, you're within a 5-minute
-                  walk of 20+ restaurants, the Convention Center, and light rail
-                  access."
+                  "Welcome to The Metropolitan Loft – a sun-drenched 2BR
+                  penthouse with floor-to-ceiling windows and sweeping city
+                  views. Located in the heart of downtown's Arts District,
+                  you're within a 5-minute walk of 20+ restaurants, the
+                  Convention Center, and light rail access."
                 </div>
               </div>
             </CardContent>
@@ -532,10 +539,11 @@ export default async function AirbnbDescriptionWritingGuide() {
                 </p>
                 <div className="bg-success/5 border border-success/20 p-3 rounded text-sm">
                   "Stay connected with high-speed fiber WiFi (perfect for remote
-                  work). The fully-equipped gourmet kitchen features stainless steel
-                  appliances, granite countertops, and everything you need to cook
-                  like a chef. Unwind with a 65" Smart TV with Netflix, Hulu, and
-                  Disney+. Free dedicated parking spot in secure garage."
+                  work). The fully-equipped gourmet kitchen features stainless
+                  steel appliances, granite countertops, and everything you need
+                  to cook like a chef. Unwind with a 65" Smart TV with Netflix,
+                  Hulu, and Disney+. Free dedicated parking spot in secure
+                  garage."
                 </div>
               </div>
             </CardContent>
@@ -557,10 +565,6 @@ export default async function AirbnbDescriptionWritingGuide() {
                     <span className="text-2xl">💡</span>
                     <div>
                       <p className="text-base">{suggestion.suggestion}</p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        Recommended for {suggestion.count.toLocaleString()}{" "}
-                        listings
-                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -579,8 +583,8 @@ export default async function AirbnbDescriptionWritingGuide() {
             </h2>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               Get personalized feedback on your Airbnb listing description, plus
-              ratings on your title, photos, amenities, and interior design. Our AI
-              analyzes every aspect of your listing and provides actionable
+              ratings on your title, photos, amenities, and interior design. Our
+              AI analyzes every aspect of your listing and provides actionable
               recommendations.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -706,8 +710,8 @@ export default async function AirbnbDescriptionWritingGuide() {
                 </Link>
               </h3>
               <p className="text-sm text-muted-foreground">
-                Research your competition and see what descriptions top-performing
-                listings in your area are using.
+                Research your competition and see what descriptions
+                top-performing listings in your area are using.
               </p>
             </CardContent>
           </Card>

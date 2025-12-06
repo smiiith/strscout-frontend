@@ -4,7 +4,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import Link from "next/link";
 import { Metadata } from "next";
-import { Sparkles, Camera, BookOpen, ListChecks, ArrowLeft, Paintbrush, Home, Palette } from "lucide-react";
+import {
+  Sparkles,
+  Camera,
+  BookOpen,
+  ListChecks,
+  ArrowLeft,
+  Paintbrush,
+  Home,
+  Palette,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "STR Interior Design Tips: Create Instagram-Worthy Spaces | STR Sage",
@@ -47,7 +56,8 @@ export default async function STRInteriorDesignTipsGuide() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
-            headline: "STR Interior Design Tips: Create Instagram-Worthy Spaces",
+            headline:
+              "STR Interior Design Tips: Create Instagram-Worthy Spaces",
             description:
               "Comprehensive guide to interior design for short-term rentals based on AI analysis of thousands of listings.",
             author: {
@@ -76,8 +86,8 @@ export default async function STRInteriorDesignTipsGuide() {
         </h1>
         <p className="text-xl text-muted-foreground">
           Transform your rental with professional design tips on color palettes,
-          furniture selection, and styling. Based on AI analysis of{" "}
-          {stats.totalProperties.toLocaleString()}+ real Airbnb listings.
+          furniture selection, and styling. Based on AI analysis of real Airbnb
+          listings.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
           Last updated: {new Date().toLocaleDateString()}
@@ -106,48 +116,45 @@ export default async function STRInteriorDesignTipsGuide() {
                   <div className="flex justify-between">
                     <span>⭐ Excellent (90-100):</span>
                     <span className="font-semibold">
-                      {stats.ratingDistribution.excellent} listings (
                       {Math.round(
                         (stats.ratingDistribution.excellent /
                           stats.totalProperties) *
                           100
                       )}
-                      %)
+                      %
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>✅ Good (80-89):</span>
                     <span className="font-semibold">
-                      {stats.ratingDistribution.good} listings (
                       {Math.round(
-                        (stats.ratingDistribution.good / stats.totalProperties) *
+                        (stats.ratingDistribution.good /
+                          stats.totalProperties) *
                           100
                       )}
-                      %)
+                      %
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>👍 Satisfactory (70-79):</span>
                     <span className="font-semibold">
-                      {stats.ratingDistribution.satisfactory} listings (
                       {Math.round(
                         (stats.ratingDistribution.satisfactory /
                           stats.totalProperties) *
                           100
                       )}
-                      %)
+                      %
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>⚠️ Needs Improvement (&lt;70):</span>
                     <span className="font-semibold">
-                      {stats.ratingDistribution.needsImprovement} listings (
                       {Math.round(
                         (stats.ratingDistribution.needsImprovement /
                           stats.totalProperties) *
                           100
                       )}
-                      %)
+                      %
                     </span>
                   </div>
                 </div>
@@ -179,8 +186,7 @@ export default async function STRInteriorDesignTipsGuide() {
                         {theme.theme}
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        Found in {theme.percentage}% of listings analyzed (
-                        {theme.count.toLocaleString()} properties)
+                        Found in {theme.percentage}% of listings analyzed ( )
                       </p>
                     </div>
                   </div>
@@ -195,8 +201,8 @@ export default async function STRInteriorDesignTipsGuide() {
       <section className="mb-12">
         <h2 className="text-3xl font-bold mb-6">Color Palette Guidelines</h2>
         <p className="text-muted-foreground mb-6">
-          The right color scheme makes spaces feel larger, more cohesive, and more
-          photogenic.
+          The right color scheme makes spaces feel larger, more cohesive, and
+          more photogenic.
         </p>
 
         <div className="space-y-6">
@@ -230,8 +236,8 @@ export default async function STRInteriorDesignTipsGuide() {
                 <li className="flex items-start gap-2">
                   <span className="text-primary mt-1">•</span>
                   <span>
-                    <strong>Why it works:</strong> Neutrals photograph well, make
-                    rooms feel spacious, and won't clash with decor
+                    <strong>Why it works:</strong> Neutrals photograph well,
+                    make rooms feel spacious, and won't clash with decor
                   </span>
                 </li>
               </ul>
@@ -255,7 +261,8 @@ export default async function STRInteriorDesignTipsGuide() {
                   <span className="text-primary mt-1">•</span>
                   <span>
                     <strong>Choose 1-2 accent colors:</strong> Blues and greens
-                    (calming), warm tones (inviting), or bold jewel tones (luxury)
+                    (calming), warm tones (inviting), or bold jewel tones
+                    (luxury)
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
@@ -288,22 +295,22 @@ export default async function STRInteriorDesignTipsGuide() {
                 <li className="flex items-start gap-2">
                   <span className="text-primary mt-1">•</span>
                   <span>
-                    Limit bold patterns to 1-2 items per room (e.g., one patterned
-                    rug OR patterned pillows, not both)
+                    Limit bold patterns to 1-2 items per room (e.g., one
+                    patterned rug OR patterned pillows, not both)
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-primary mt-1">•</span>
                   <span>
-                    Mix pattern scales: If you use patterns, vary the size (large
-                    floral with small geometric)
+                    Mix pattern scales: If you use patterns, vary the size
+                    (large floral with small geometric)
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-primary mt-1">•</span>
                   <span>
-                    When in doubt, go solid: Solid colors are easier to style and
-                    more timeless
+                    When in doubt, go solid: Solid colors are easier to style
+                    and more timeless
                   </span>
                 </li>
               </ul>
@@ -324,8 +331,8 @@ export default async function STRInteriorDesignTipsGuide() {
                   1. Prioritize Durability Over Style
                 </h3>
                 <p className="text-sm text-muted-foreground mb-2">
-                  Short-term rentals experience heavy use. Choose furniture that can
-                  withstand frequent guests.
+                  Short-term rentals experience heavy use. Choose furniture that
+                  can withstand frequent guests.
                 </p>
                 <ul className="space-y-1 text-sm text-muted-foreground">
                   <li className="flex items-start gap-2">
@@ -337,7 +344,9 @@ export default async function STRInteriorDesignTipsGuide() {
                   </li>
                   <li className="flex items-start gap-2">
                     <span>•</span>
-                    <span>Avoid light-colored upholstery in high-traffic areas</span>
+                    <span>
+                      Avoid light-colored upholstery in high-traffic areas
+                    </span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span>•</span>
@@ -352,8 +361,8 @@ export default async function STRInteriorDesignTipsGuide() {
                   2. Scale Appropriate to Room Size
                 </h3>
                 <p className="text-sm text-muted-foreground mb-2">
-                  Oversized furniture makes small spaces feel cramped. Undersized
-                  pieces look cheap.
+                  Oversized furniture makes small spaces feel cramped.
+                  Undersized pieces look cheap.
                 </p>
                 <ul className="space-y-1 text-sm text-muted-foreground">
                   <li className="flex items-start gap-2">
@@ -371,7 +380,8 @@ export default async function STRInteriorDesignTipsGuide() {
                   <li className="flex items-start gap-2">
                     <span>•</span>
                     <span>
-                      In small spaces, choose armless chairs and low-profile sofas
+                      In small spaces, choose armless chairs and low-profile
+                      sofas
                     </span>
                   </li>
                 </ul>
@@ -381,7 +391,8 @@ export default async function STRInteriorDesignTipsGuide() {
                   3. Multi-Functional Pieces
                 </h3>
                 <p className="text-sm text-muted-foreground mb-2">
-                  Furniture that serves multiple purposes adds value and flexibility.
+                  Furniture that serves multiple purposes adds value and
+                  flexibility.
                 </p>
                 <ul className="space-y-1 text-sm text-muted-foreground">
                   <li className="flex items-start gap-2">
@@ -395,7 +406,8 @@ export default async function STRInteriorDesignTipsGuide() {
                   <li className="flex items-start gap-2">
                     <span>•</span>
                     <span>
-                      Dining tables with leaves to accommodate varying group sizes
+                      Dining tables with leaves to accommodate varying group
+                      sizes
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
@@ -416,22 +428,24 @@ export default async function STRInteriorDesignTipsGuide() {
         <div className="grid md:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Bedroom: Cozy and Restful</CardTitle>
+              <CardTitle className="text-lg">
+                Bedroom: Cozy and Restful
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start gap-2">
                   <span className="text-green-500 mt-0.5">✓</span>
                   <span>
-                    <strong>Invest in quality bedding:</strong> High thread-count
-                    sheets feel luxurious
+                    <strong>Invest in quality bedding:</strong> High
+                    thread-count sheets feel luxurious
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-500 mt-0.5">✓</span>
                   <span>
-                    <strong>Layer textures:</strong> Mix linen, velvet, and cotton
-                    for depth
+                    <strong>Layer textures:</strong> Mix linen, velvet, and
+                    cotton for depth
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
@@ -443,15 +457,15 @@ export default async function STRInteriorDesignTipsGuide() {
                 <li className="flex items-start gap-2">
                   <span className="text-green-500 mt-0.5">✓</span>
                   <span>
-                    <strong>Bedside essentials:</strong> Lamps, charging stations,
-                    small tables
+                    <strong>Bedside essentials:</strong> Lamps, charging
+                    stations, small tables
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-500 mt-0.5">✓</span>
                   <span>
-                    <strong>Minimal decor:</strong> One piece of art above the bed,
-                    fresh flowers
+                    <strong>Minimal decor:</strong> One piece of art above the
+                    bed, fresh flowers
                   </span>
                 </li>
               </ul>
@@ -469,8 +483,8 @@ export default async function STRInteriorDesignTipsGuide() {
                 <li className="flex items-start gap-2">
                   <span className="text-green-500 mt-0.5">✓</span>
                   <span>
-                    <strong>Conversation layout:</strong> Arrange seating to face
-                    each other
+                    <strong>Conversation layout:</strong> Arrange seating to
+                    face each other
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
@@ -483,22 +497,22 @@ export default async function STRInteriorDesignTipsGuide() {
                 <li className="flex items-start gap-2">
                   <span className="text-green-500 mt-0.5">✓</span>
                   <span>
-                    <strong>Variety of seating:</strong> Sofa + chairs + poufs for
-                    flexibility
+                    <strong>Variety of seating:</strong> Sofa + chairs + poufs
+                    for flexibility
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-500 mt-0.5">✓</span>
                   <span>
-                    <strong>Coffee table books:</strong> Add personality and photo
-                    opportunities
+                    <strong>Coffee table books:</strong> Add personality and
+                    photo opportunities
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-500 mt-0.5">✓</span>
                   <span>
-                    <strong>Throw blankets:</strong> Make the space feel cozy and
-                    lived-in
+                    <strong>Throw blankets:</strong> Make the space feel cozy
+                    and lived-in
                   </span>
                 </li>
               </ul>
@@ -530,7 +544,8 @@ export default async function STRInteriorDesignTipsGuide() {
                 <li className="flex items-start gap-2">
                   <span className="text-green-500 mt-0.5">✓</span>
                   <span>
-                    <strong>Fresh touches:</strong> Bowl of fruit, small herb garden
+                    <strong>Fresh touches:</strong> Bowl of fruit, small herb
+                    garden
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
@@ -543,8 +558,8 @@ export default async function STRInteriorDesignTipsGuide() {
                 <li className="flex items-start gap-2">
                   <span className="text-green-500 mt-0.5">✓</span>
                   <span>
-                    <strong>Quality basics:</strong> Nice cutting boards, matching
-                    utensil set
+                    <strong>Quality basics:</strong> Nice cutting boards,
+                    matching utensil set
                   </span>
                 </li>
               </ul>
@@ -620,8 +635,8 @@ export default async function STRInteriorDesignTipsGuide() {
                   <p className="text-sm text-muted-foreground">
                     <strong>Cost:</strong> $100-300 per room
                     <br />
-                    <strong>Impact:</strong> Massive. New paint instantly modernizes
-                    and photographs better.
+                    <strong>Impact:</strong> Massive. New paint instantly
+                    modernizes and photographs better.
                   </p>
                 </div>
               </div>
@@ -637,8 +652,8 @@ export default async function STRInteriorDesignTipsGuide() {
                   <p className="text-sm text-muted-foreground">
                     <strong>Cost:</strong> $15-30 each
                     <br />
-                    <strong>Impact:</strong> Instantly refreshes sofas and beds with
-                    pops of color.
+                    <strong>Impact:</strong> Instantly refreshes sofas and beds
+                    with pops of color.
                   </p>
                 </div>
               </div>
@@ -654,8 +669,8 @@ export default async function STRInteriorDesignTipsGuide() {
                   <p className="text-sm text-muted-foreground">
                     <strong>Cost:</strong> $30-150 per piece
                     <br />
-                    <strong>Impact:</strong> Fills empty walls, adds personality.
-                    Try Etsy for affordable prints.
+                    <strong>Impact:</strong> Fills empty walls, adds
+                    personality. Try Etsy for affordable prints.
                   </p>
                 </div>
               </div>
@@ -671,8 +686,8 @@ export default async function STRInteriorDesignTipsGuide() {
                   <p className="text-sm text-muted-foreground">
                     <strong>Cost:</strong> $10-40 each
                     <br />
-                    <strong>Impact:</strong> Brings life to spaces. Use low-maintenance
-                    varieties like snake plants.
+                    <strong>Impact:</strong> Brings life to spaces. Use
+                    low-maintenance varieties like snake plants.
                   </p>
                 </div>
               </div>
@@ -729,10 +744,6 @@ export default async function STRInteriorDesignTipsGuide() {
                     <span className="text-2xl">💡</span>
                     <div>
                       <p className="text-base">{suggestion.suggestion}</p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        Recommended for {suggestion.count.toLocaleString()}{" "}
-                        listings
-                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -877,8 +888,8 @@ export default async function STRInteriorDesignTipsGuide() {
                 </Link>
               </h3>
               <p className="text-sm text-muted-foreground">
-                See what interior design elements top-performing listings in your
-                area are using to get more bookings.
+                See what interior design elements top-performing listings in
+                your area are using to get more bookings.
               </p>
             </CardContent>
           </Card>
