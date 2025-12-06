@@ -22,6 +22,11 @@ const Footer = ({ authenticated }: { authenticated: any }) => {
                     </li>
                   )}
                   <li>
+                    <a href="/guides" className="hover:text-slate-300">
+                      Free Airbnb Guides
+                    </a>
+                  </li>
+                  <li>
                     <a href="/about-us" className="hover:text-slate-300">
                       About Us
                     </a>

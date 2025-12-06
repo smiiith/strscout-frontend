@@ -39,6 +39,48 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: "https://www.strsage.com/guides",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: "https://www.strsage.com/guides/airbnb-title-optimization",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.strsage.com/guides/airbnb-photo-tips",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.strsage.com/guides/airbnb-amenities-checklist",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.strsage.com/guides/airbnb-description-writing",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.strsage.com/guides/str-interior-design-tips",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.strsage.com/guides/improve-airbnb-rating",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
       url: "https://www.strsage.com/faq",
       lastModified: new Date(),
       changeFrequency: "monthly",
