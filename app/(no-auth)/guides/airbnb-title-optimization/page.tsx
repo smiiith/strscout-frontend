@@ -72,7 +72,7 @@ export default async function AirbnbTitleOptimizationGuide() {
       {/* Header */}
       <header className="mb-12">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Airbnb Title Optimization: The Complete Guide
+          Airbnb Title Optimization Guide
         </h1>
         <p className="text-xl text-muted-foreground">
           Learn how to write compelling titles that get more bookings. Based on
@@ -120,7 +120,8 @@ export default async function AirbnbTitleOptimizationGuide() {
                     <span className="font-semibold">
                       {stats.ratingDistribution.good} listings (
                       {Math.round(
-                        (stats.ratingDistribution.good / stats.totalProperties) *
+                        (stats.ratingDistribution.good /
+                          stats.totalProperties) *
                           100
                       )}
                       %)
@@ -240,7 +241,9 @@ export default async function AirbnbTitleOptimizationGuide() {
                       <span className="text-muted-foreground">
                         Original Rating:{" "}
                       </span>
-                      <span className="font-semibold">{example.rating}/100</span>
+                      <span className="font-semibold">
+                        {example.rating}/100
+                      </span>
                     </div>
                   </div>
                 </CardHeader>
@@ -291,8 +294,8 @@ export default async function AirbnbTitleOptimizationGuide() {
                 </h3>
                 <p className="text-muted-foreground">
                   Instead of "Cozy Apartment," try "Cozy 2BR Downtown Loft with
-                  City Views & Parking." Specific details help guests
-                  understand what makes your place unique.
+                  City Views & Parking." Specific details help guests understand
+                  what makes your place unique.
                 </p>
               </div>
               <div>
@@ -383,9 +386,7 @@ export default async function AirbnbTitleOptimizationGuide() {
                   <Camera className="w-5 h-5 text-purple-500" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold mb-1">
-                    Airbnb Photo Tips
-                  </h3>
+                  <h3 className="font-semibold mb-1">Airbnb Photo Tips</h3>
                   <p className="text-xs text-muted-foreground mb-2">
                     Master listing photography
                   </p>
@@ -406,9 +407,7 @@ export default async function AirbnbTitleOptimizationGuide() {
                   <BookOpen className="w-5 h-5 text-orange-500" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold mb-1">
-                    Description Writing
-                  </h3>
+                  <h3 className="font-semibold mb-1">Description Writing</h3>
                   <p className="text-xs text-muted-foreground mb-2">
                     Craft compelling copy
                   </p>
@@ -429,9 +428,7 @@ export default async function AirbnbTitleOptimizationGuide() {
                   <ListChecks className="w-5 h-5 text-green-500" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold mb-1">
-                    Amenities Checklist
-                  </h3>
+                  <h3 className="font-semibold mb-1">Amenities Checklist</h3>
                   <p className="text-xs text-muted-foreground mb-2">
                     Essential amenities guide
                   </p>
@@ -463,8 +460,8 @@ export default async function AirbnbTitleOptimizationGuide() {
                 </Link>
               </h3>
               <p className="text-sm text-muted-foreground">
-                Get AI-powered analysis of your entire Airbnb listing,
-                including title, photos, and description.
+                Get AI-powered analysis of your entire Airbnb listing, including
+                title, photos, and description.
               </p>
             </CardContent>
           </Card>
