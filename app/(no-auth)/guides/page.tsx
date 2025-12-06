@@ -54,7 +54,7 @@ const guides = [
     icon: ListChecks,
     color: "text-green-500",
     bgColor: "bg-green-500/10",
-    available: false,
+    available: true,
   },
   {
     title: "Writing High-Converting Descriptions",
@@ -64,7 +64,7 @@ const guides = [
     icon: BookOpen,
     color: "text-orange-500",
     bgColor: "bg-orange-500/10",
-    available: false,
+    available: true,
   },
   {
     title: "STR Interior Design Tips",
@@ -74,7 +74,7 @@ const guides = [
     icon: Home,
     color: "text-pink-500",
     bgColor: "bg-pink-500/10",
-    available: false,
+    available: true,
   },
   {
     title: "How to Improve Your Overall Rating",
@@ -84,7 +84,7 @@ const guides = [
     icon: TrendingUp,
     color: "text-teal-500",
     bgColor: "bg-teal-500/10",
-    available: false,
+    available: true,
   },
 ];
 

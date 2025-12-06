@@ -4,7 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import Link from "next/link";
 import { Metadata } from "next";
-import { Sparkles, BookOpen, ListChecks, ArrowLeft, Camera, Lightbulb, Users } from "lucide-react";
+import {
+  Sparkles,
+  BookOpen,
+  ListChecks,
+  ArrowLeft,
+  Camera,
+  Lightbulb,
+  Users,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Airbnb Photo Tips: Professional Photography Guide | STR Sage",
@@ -73,7 +81,7 @@ export default async function AirbnbPhotoTipsGuide() {
       {/* Header */}
       <header className="mb-12">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Airbnb Photo Tips: The Complete Guide
+          Airbnb Photo Tips Guide
         </h1>
         <p className="text-xl text-muted-foreground">
           Master listing photography with professional tips on lighting,
@@ -175,7 +183,8 @@ export default async function AirbnbPhotoTipsGuide() {
                     <span>👍 Satisfactory (70-79):</span>
                     <span className="font-semibold">
                       {Math.round(
-                        (stats.otherImagesStats.ratingDistribution.satisfactory /
+                        (stats.otherImagesStats.ratingDistribution
+                          .satisfactory /
                           stats.totalProperties) *
                           100
                       )}
@@ -251,13 +260,13 @@ export default async function AirbnbPhotoTipsGuide() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-500 mt-0.5">✓</span>
-                  <span>Your property is high-end or in a competitive market</span>
+                  <span>
+                    Your property is high-end or in a competitive market
+                  </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-500 mt-0.5">✓</span>
-                  <span>
-                    Current photos aren't getting clicks or bookings
-                  </span>
+                  <span>Current photos aren't getting clicks or bookings</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-500 mt-0.5">✓</span>
@@ -288,7 +297,9 @@ export default async function AirbnbPhotoTipsGuide() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-blue-500 mt-0.5">✓</span>
-                  <span>You have a decent smartphone camera (iPhone 12+, etc.)</span>
+                  <span>
+                    You have a decent smartphone camera (iPhone 12+, etc.)
+                  </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-blue-500 mt-0.5">✓</span>
@@ -626,10 +637,10 @@ export default async function AirbnbPhotoTipsGuide() {
               Want AI-Powered Analysis of Your Photos?
             </h2>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Get personalized feedback on your hero image and supporting photos,
-              plus ratings on your title, description, amenities, and interior
-              design. Our AI provides specific recommendations to improve your
-              listing.
+              Get personalized feedback on your hero image and supporting
+              photos, plus ratings on your title, description, amenities, and
+              interior design. Our AI provides specific recommendations to
+              improve your listing.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg">
@@ -754,8 +765,8 @@ export default async function AirbnbPhotoTipsGuide() {
                 </Link>
               </h3>
               <p className="text-sm text-muted-foreground">
-                See what photos top-performing listings in your area are using to
-                get more bookings.
+                See what photos top-performing listings in your area are using
+                to get more bookings.
               </p>
             </CardContent>
           </Card>
