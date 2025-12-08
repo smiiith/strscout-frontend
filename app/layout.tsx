@@ -6,6 +6,7 @@ import Footer from "@/components/footer";
 import SiteAccess from "@/components/site-access";
 import { getNonce } from "@/lib/nonce";
 import { Analytics } from "@vercel/analytics/next";
+import { FloatingChatButton } from "@/components/floating-chat-button";
 
 export const metadata = {
   title: "STR Sage",
@@ -41,6 +42,7 @@ export default async function RootLayout({
                 <Footer authenticated={data.user} />
                 <Analytics />
               </div>
+              <FloatingChatButton />
             </SiteAccess>
           </ThemeProvider>
         </PostHogTracker>
