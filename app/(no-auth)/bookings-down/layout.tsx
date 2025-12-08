@@ -37,7 +37,9 @@ export const metadata: Metadata = {
     title: "Airbnb Bookings Down? Find Out Why",
     description:
       "Stop guessing. See exactly how your competitors are performing and what they're doing differently.",
-    images: ["https://www.strsage.com/images/landing-page-image-bookings-down-01-min.png"],
+    images: [
+      "https://www.strsage.com/images/landing-page-image-bookings-down-01-min.png",
+    ],
   },
   alternates: {
     canonical: "https://www.strsage.com/bookings-down",
