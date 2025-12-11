@@ -91,7 +91,7 @@ const guides = [
 export default function GuidesHub() {
   return (
     <div className="container mx-auto px-4 py-12 max-w-6xl">
-      {/* Schema.org JSON-LD */}
+      {/* Enhanced CollectionPage Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -100,11 +100,29 @@ export default function GuidesHub() {
             "@type": "CollectionPage",
             name: "Airbnb & Short-Term Rental Optimization Guides",
             description:
-              "Comprehensive guides to optimize every aspect of your Airbnb listing",
+              "Comprehensive collection of free, data-driven guides to optimize every aspect of your Airbnb and short-term rental listing for maximum bookings and revenue",
+            url: "https://www.strsage.com/guides",
             publisher: {
               "@type": "Organization",
               name: "STR Sage",
               url: "https://www.strsage.com",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://www.strsage.com/logo.png",
+                width: 600,
+                height: 60,
+              },
+            },
+            isPartOf: {
+              "@type": "WebSite",
+              name: "STR Sage",
+              url: "https://www.strsage.com",
+            },
+            about: {
+              "@type": "Thing",
+              name: "Short-term rental optimization",
+              description:
+                "Comprehensive guides for optimizing vacation rental and Airbnb listings",
             },
             hasPart: guides
               .filter((g) => g.available)
@@ -113,7 +131,60 @@ export default function GuidesHub() {
                 headline: guide.title,
                 description: guide.description,
                 url: `https://www.strsage.com${guide.href}`,
+                author: {
+                  "@type": "Organization",
+                  name: "STR Sage",
+                  url: "https://www.strsage.com",
+                },
+                publisher: {
+                  "@type": "Organization",
+                  name: "STR Sage",
+                  logo: {
+                    "@type": "ImageObject",
+                    url: "https://www.strsage.com/logo.png",
+                  },
+                },
               })),
+            mainEntity: {
+              "@type": "ItemList",
+              itemListElement: guides
+                .filter((g) => g.available)
+                .map((guide, index) => ({
+                  "@type": "ListItem",
+                  position: index + 1,
+                  item: {
+                    "@type": "HowTo",
+                    name: guide.title,
+                    description: guide.description,
+                    url: `https://www.strsage.com${guide.href}`,
+                  },
+                })),
+            },
+          }),
+        }}
+      />
+
+      {/* BreadcrumbList Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.strsage.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Guides",
+                item: "https://www.strsage.com/guides",
+              },
+            ],
           }),
         }}
       />

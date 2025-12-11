@@ -2,6 +2,8 @@ import { aggregateDescriptionFeedbackData } from "@/lib/seo/aggregate-descriptio
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { GuideFAQ } from "@/components/guides/GuideFAQ";
+import { DataMethodology } from "@/components/guides/DataMethodology";
 import Link from "next/link";
 import { Metadata } from "next";
 import {
@@ -47,7 +49,7 @@ export default async function AirbnbDescriptionWritingGuide() {
         ]}
       />
 
-      {/* Schema.org JSON-LD */}
+      {/* Enhanced Article Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -68,10 +70,71 @@ export default async function AirbnbDescriptionWritingGuide() {
               logo: {
                 "@type": "ImageObject",
                 url: "https://www.strsage.com/logo.png",
+                width: 600,
+                height: 60,
               },
             },
-            datePublished: "2024-01-15",
-            dateModified: new Date().toISOString().split("T")[0],
+            datePublished: "2024-01-15T00:00:00Z",
+            dateModified: new Date().toISOString(),
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": "https://www.strsage.com/guides/airbnb-description-writing",
+            },
+            about: {
+              "@type": "Thing",
+              name: "Copywriting for vacation rentals",
+              description: "Techniques for writing compelling short-term rental listing descriptions",
+            },
+            mentions: [
+              {
+                "@type": "SoftwareApplication",
+                name: "Airbnb",
+                applicationCategory: "Vacation Rental Platform",
+              },
+            ],
+            isBasedOn: {
+              "@type": "Dataset",
+              name: "STR Sage Listing Analysis Database",
+              description: `Analysis of ${stats.totalProperties} Airbnb listings with AI-powered description ratings`,
+            },
+            citation: [
+              {
+                "@type": "CreativeWork",
+                name: "STR Sage Property Database",
+                url: "https://www.strsage.com",
+              },
+            ],
+          }),
+        }}
+      />
+
+      {/* BreadcrumbList Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.strsage.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Guides",
+                item: "https://www.strsage.com/guides",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: "Airbnb Description Writing",
+                item: "https://www.strsage.com/guides/airbnb-description-writing",
+              },
+            ],
           }),
         }}
       />
@@ -573,6 +636,59 @@ export default async function AirbnbDescriptionWritingGuide() {
           </div>
         </section>
       )}
+
+      {/* Data Methodology */}
+      <DataMethodology
+        totalProperties={stats.totalProperties}
+        category="descriptions"
+        analysisDetails="Our analysis uses GPT-4o to evaluate listing descriptions using the AIDA framework (Attention, Interest, Desire, Action), assessing clarity, persuasiveness, and conversion potential. Each description receives a rating out of 100 and specific improvement suggestions."
+      />
+
+      {/* FAQ Section */}
+      <GuideFAQ
+        pageUrl="https://www.strsage.com/guides/airbnb-description-writing"
+        faqs={[
+          {
+            question: "How long should an Airbnb description be?",
+            answer: `Based on our analysis of ${stats.totalProperties.toLocaleString()} listings, the ideal Airbnb description is 150-300 words - long enough to provide essential details but short enough to maintain guest attention. Front-load the most important information and use short paragraphs for readability.`,
+          },
+          {
+            question: "What should I include in my Airbnb description?",
+            answer:
+              "Include: (1) What makes your space unique, (2) Key amenities and features, (3) The neighborhood and nearby attractions with distances, (4) Who the space is perfect for, (5) House rules and important details. Use the AIDA formula: grab Attention with a hook, build Interest with details, create Desire with benefits, and prompt Action with booking encouragement.",
+          },
+          {
+            question: "What is the AIDA formula for Airbnb descriptions?",
+            answer:
+              "AIDA stands for Attention, Interest, Desire, Action. Start with a compelling hook (Attention), describe your space and amenities (Interest), explain how guests will benefit and feel (Desire), then encourage them to book (Action). This proven copywriting formula significantly improves conversion rates from views to bookings.",
+          },
+          {
+            question: "Should I use bullet points in my Airbnb description?",
+            answer:
+              "Yes! Bullet points improve readability and help guests quickly scan for key information. Use them for amenities lists, nearby attractions, or house rules. However, start with 2-3 engaging paragraphs before switching to bullets - you want to tell a story first, then provide scannable details.",
+          },
+          {
+            question: "How do I make my Airbnb description stand out?",
+            answer:
+              "Avoid generic phrases like 'cozy' or 'perfect getaway.' Instead, use specific, vivid details: rather than 'nice kitchen,' say 'chef's kitchen with commercial-grade gas range.' Mention unique experiences guests can only have at your property. Include exact walking distances to attractions (e.g., '5-minute walk to Pike Place Market' not 'close to downtown').",
+          },
+          {
+            question: "Should I mention house rules in my Airbnb description?",
+            answer:
+              "Yes, but frame them positively and place them toward the end. Instead of 'No parties,' try 'This is a quiet residential building perfect for relaxing getaways.' Always mention critical rules (no smoking, no pets, stairs) upfront to avoid disappointed guests and bad reviews.",
+          },
+          {
+            question: "How often should I update my Airbnb description?",
+            answer:
+              "Update your description whenever you add new amenities, make improvements, or notice booking rates declining. Also refresh seasonally - highlight AC in summer, fireplace in winter. Test different opening hooks every few months to see what increases your booking conversion rate.",
+          },
+          {
+            question: "What words should I avoid in my Airbnb description?",
+            answer:
+              "Avoid overused, meaningless words like 'amazing,' 'beautiful,' 'perfect,' 'cozy,' or 'charming' without context. Don't use all caps or excessive exclamation points. Avoid vague claims - instead of 'great location,' specify 'walkable to 15+ restaurants and the Metro station.' Our data shows specific descriptions outperform generic ones significantly.",
+          },
+        ]}
+      />
 
       {/* CTA Section */}
       <section className="mb-12">
