@@ -2,6 +2,8 @@ import { aggregatePhotoFeedbackData } from "@/lib/seo/aggregate-photo-data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { GuideFAQ } from "@/components/guides/GuideFAQ";
+import { DataMethodology } from "@/components/guides/DataMethodology";
 import Link from "next/link";
 import { Metadata } from "next";
 import {
@@ -49,7 +51,7 @@ export default async function AirbnbPhotoTipsGuide() {
         ]}
       />
 
-      {/* Schema.org JSON-LD */}
+      {/* Schema.org JSON-LD - Enhanced Article Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -70,10 +72,72 @@ export default async function AirbnbPhotoTipsGuide() {
               logo: {
                 "@type": "ImageObject",
                 url: "https://www.strsage.com/logo.png",
+                width: 600,
+                height: 60,
               },
             },
-            datePublished: "2024-01-15",
-            dateModified: new Date().toISOString().split("T")[0],
+            datePublished: "2024-01-15T00:00:00Z",
+            dateModified: new Date().toISOString(),
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": "https://www.strsage.com/guides/airbnb-photo-tips",
+            },
+            about: {
+              "@type": "Thing",
+              name: "Vacation rental photography",
+              description:
+                "Techniques and best practices for photographing short-term rental properties",
+            },
+            mentions: [
+              {
+                "@type": "SoftwareApplication",
+                name: "Airbnb",
+                applicationCategory: "Vacation Rental Platform",
+              },
+            ],
+            isBasedOn: {
+              "@type": "Dataset",
+              name: "STR Sage Listing Analysis Database",
+              description: `Analysis of ${stats.totalProperties} Airbnb listings with AI-powered photo ratings`,
+            },
+            citation: [
+              {
+                "@type": "CreativeWork",
+                name: "STR Sage Property Database",
+                url: "https://www.strsage.com",
+              },
+            ],
+          }),
+        }}
+      />
+
+      {/* BreadcrumbList Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.strsage.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Guides",
+                item: "https://www.strsage.com/guides",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: "Airbnb Photo Tips",
+                item: "https://www.strsage.com/guides/airbnb-photo-tips",
+              },
+            ],
           }),
         }}
       />
@@ -623,6 +687,59 @@ export default async function AirbnbPhotoTipsGuide() {
           </CardContent>
         </Card>
       </section>
+
+      {/* Data Methodology */}
+      <DataMethodology
+        totalProperties={stats.totalProperties}
+        category="photos"
+        analysisDetails="Our analysis uses GPT-4o to evaluate listing photography across hero images and supporting photos, assessing lighting, composition, staging, and overall visual appeal. Each photo set receives a rating out of 100 and specific improvement suggestions."
+      />
+
+      {/* FAQ Section */}
+      <GuideFAQ
+        pageUrl="https://www.strsage.com/guides/airbnb-photo-tips"
+        faqs={[
+          {
+            question: "Should I hire a professional photographer for my Airbnb?",
+            answer: `Professional photography typically costs $150-$500 but can increase bookings by 20-40%. Based on our analysis of ${stats.totalProperties.toLocaleString()} listings, professional photos correlate with higher ratings. Hire a pro if you're in a competitive market, launching a new listing, or current photos aren't getting clicks. DIY is viable with a good smartphone camera and proper technique.`,
+          },
+          {
+            question: "What should my Airbnb hero image show?",
+            answer:
+              "Your hero image should be your most impressive, well-lit shot that captures the essence of your space. This is typically a wide-angle view of your best room (living room, bedroom with view, or outdoor space). Avoid detail shots or bathrooms as your first photo. The hero image determines whether guests click, so make it count.",
+          },
+          {
+            question: "How many photos should I upload to my Airbnb listing?",
+            answer:
+              "Upload 20-30 high-quality photos to give guests a complete picture of your space. Airbnb allows up to 50+ photos, but quality matters more than quantity. Include every room, unique amenities, outdoor spaces, and detail shots. Listings with comprehensive photo galleries typically get more bookings.",
+          },
+          {
+            question: "What's the best time of day to photograph my Airbnb?",
+            answer:
+              "The golden hour (1-2 hours after sunrise or before sunset) provides the best natural lighting for interior photography. Alternatively, shoot on overcast days for soft, even lighting without harsh shadows. Open all curtains, turn on all lights, and maximize brightness regardless of when you shoot.",
+          },
+          {
+            question: "Can I use my smartphone to take Airbnb photos?",
+            answer:
+              "Yes! Modern smartphones (iPhone 12+, recent Samsung/Google phones) can produce professional-quality photos with proper technique. Use wide-angle mode, maximize natural lighting, keep the camera level, and stage your space carefully. The key is lighting and composition, not expensive equipment.",
+          },
+          {
+            question: "Should I edit my Airbnb photos?",
+            answer:
+              "Light editing is recommended to adjust brightness, contrast, and color balance to accurately represent your space. Avoid heavy filters, over-saturation, or misleading edits that make your property look different in person. Guests should recognize your space from the photos when they arrive.",
+          },
+          {
+            question: "What makes a good Airbnb photo?",
+            answer:
+              "Good Airbnb photos are well-lit, decluttered, and show the full space rather than just details. They feature natural lighting, wide-angle views, proper staging with minimal personal items, and consistent quality throughout the gallery. The best photos help guests visualize staying in your space.",
+          },
+          {
+            question: "How do I photograph small spaces to make them look bigger?",
+            answer:
+              "Shoot from corners using wide-angle mode to capture maximum area. Remove excess furniture and clutter. Use mirrors strategically. Maximize natural light by opening curtains. Keep the camera level (tilting distorts proportions). Shoot horizontally, not vertically. These techniques help small spaces feel more open and inviting.",
+          },
+        ]}
+      />
 
       {/* CTA Section */}
       <section className="mb-12">
