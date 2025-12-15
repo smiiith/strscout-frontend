@@ -26,8 +26,12 @@ export default function ContactUsPage() {
   const { register, handleSubmit, reset } = useForm();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onSubmit = async (data: any) => {
+    // Clear any previous errors
+    setErrorMessage("");
+
     // Capture PostHog event
     posthog.capture("contact_us_form_submitted", {
       name: data.name,
@@ -37,7 +41,7 @@ export default function ContactUsPage() {
 
     // Send email notification
     try {
-      await fetch("/api/send-contact-form", {
+      const response = await fetch("/api/send-contact-form", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,14 +53,35 @@ export default function ContactUsPage() {
           website: data.website, // Honeypot field
         }),
       });
+
+      const result = await response.json();
+
+      // Handle rate limiting
+      if (response.status === 429) {
+        setErrorMessage(
+          "You've reached the maximum number of submissions. Please try again in an hour."
+        );
+        return;
+      }
+
+      // Handle other errors
+      if (!response.ok) {
+        setErrorMessage(
+          result.error || "Failed to send message. Please try again."
+        );
+        return;
+      }
+
+      // Success
+      reset();
+      setAlertOpen(true);
+      setIsSubmitted(true);
     } catch (error) {
       console.error("Failed to send email notification:", error);
-      // Continue with form submission even if email fails
+      setErrorMessage(
+        "An unexpected error occurred. Please try again later."
+      );
     }
-
-    reset();
-    setAlertOpen(true);
-    setIsSubmitted(true);
   };
 
   return (
@@ -76,6 +101,12 @@ export default function ContactUsPage() {
               <CardTitle className="text-2xl">Contact us</CardTitle>
             </CardHeader>
             <CardContent>
+              {errorMessage && (
+                <div className="mb-6 p-4 bg-destructive/10 border border-destructive rounded-lg text-destructive">
+                  {errorMessage}
+                </div>
+              )}
+
               <div className="grid gap-8 mb-8">
                 <div className="grid gap-2">
                   <Label htmlFor="name">Your name</Label>
