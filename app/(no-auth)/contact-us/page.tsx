@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -42,19 +37,20 @@ export default function ContactUsPage() {
 
     // Send email notification
     try {
-      await fetch('/api/send-contact-form', {
-        method: 'POST',
+      await fetch("/api/send-contact-form", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: data.name,
           email: data.email,
           message: data.message,
+          website: data.website, // Honeypot field
         }),
       });
     } catch (error) {
-      console.error('Failed to send email notification:', error);
+      console.error("Failed to send email notification:", error);
       // Continue with form submission even if email fails
     }
 
@@ -117,6 +113,21 @@ export default function ContactUsPage() {
                     required
                     {...register("message")}
                     className="w-full md:w-[500px]"
+                  />
+                </div>
+
+                {/* Honeypot field - hidden from humans, visible to bots */}
+                <div
+                  className="absolute left-[-9999px] w-[1px] h-[1px] opacity-0 pointer-events-none"
+                  aria-hidden="true"
+                >
+                  <Label htmlFor="website">Website</Label>
+                  <Input
+                    id="website"
+                    type="text"
+                    autoComplete="off"
+                    tabIndex={-1}
+                    {...register("website")}
                   />
                 </div>
 
