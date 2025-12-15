@@ -7,7 +7,14 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, message } = body;
+    const { name, email, message, website } = body;
+
+    // Honeypot check - if filled, it's a bot
+    if (website) {
+      console.log('🤖 Bot detected via honeypot - rejecting silently');
+      // Return success to fool the bot (don't reveal the trap)
+      return NextResponse.json({ success: true });
+    }
 
     if (!name || !email || !message) {
       return NextResponse.json(

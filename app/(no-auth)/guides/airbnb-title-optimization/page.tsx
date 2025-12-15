@@ -2,6 +2,8 @@ import { aggregateTitleFeedbackData } from "@/lib/seo/aggregate-title-data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { GuideFAQ } from "@/components/guides/GuideFAQ";
+import { DataMethodology } from "@/components/guides/DataMethodology";
 import Link from "next/link";
 import { Metadata } from "next";
 import { Camera, BookOpen, ListChecks, ArrowLeft } from "lucide-react";
@@ -40,7 +42,7 @@ export default async function AirbnbTitleOptimizationGuide() {
         ]}
       />
 
-      {/* Schema.org JSON-LD */}
+      {/* Schema.org JSON-LD - Enhanced Article Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -61,10 +63,73 @@ export default async function AirbnbTitleOptimizationGuide() {
               logo: {
                 "@type": "ImageObject",
                 url: "https://www.strsage.com/logo.png",
+                width: 600,
+                height: 60,
               },
             },
-            datePublished: "2024-01-15",
-            dateModified: new Date().toISOString().split("T")[0],
+            datePublished: "2024-01-15T00:00:00Z",
+            dateModified: new Date().toISOString(),
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id":
+                "https://www.strsage.com/guides/airbnb-title-optimization",
+            },
+            about: {
+              "@type": "Thing",
+              name: "Airbnb listing optimization",
+              description:
+                "Techniques and best practices for optimizing short-term rental property listing titles",
+            },
+            mentions: [
+              {
+                "@type": "SoftwareApplication",
+                name: "Airbnb",
+                applicationCategory: "Vacation Rental Platform",
+              },
+            ],
+            isBasedOn: {
+              "@type": "Dataset",
+              name: "STR Sage Listing Analysis Database",
+              description: `Analysis of ${stats.totalProperties} Airbnb listings with AI-powered title ratings`,
+            },
+            citation: [
+              {
+                "@type": "CreativeWork",
+                name: "STR Sage Property Database",
+                url: "https://www.strsage.com",
+              },
+            ],
+          }),
+        }}
+      />
+
+      {/* BreadcrumbList Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.strsage.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Guides",
+                item: "https://www.strsage.com/guides",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: "Airbnb Title Optimization",
+                item: "https://www.strsage.com/guides/airbnb-title-optimization",
+              },
+            ],
           }),
         }}
       />
@@ -329,6 +394,57 @@ export default async function AirbnbTitleOptimizationGuide() {
           </CardContent>
         </Card>
       </section>
+
+      {/* Data Methodology */}
+      <DataMethodology
+        totalProperties={stats.totalProperties}
+        category="titles"
+      />
+
+      {/* FAQ Section */}
+      <GuideFAQ
+        pageUrl="https://www.strsage.com/guides/airbnb-title-optimization"
+        faqs={[
+          {
+            question: "What makes a good Airbnb title?",
+            answer: `A good Airbnb title is specific, descriptive, and highlights your strongest selling point within 50 characters. Based on our analysis of ${stats.totalProperties.toLocaleString()} listings, the best titles include location benefits, property type, and unique features. For example: "Cozy 2BR Downtown Loft with City Views & Parking" performs better than generic titles like "Beautiful Apartment in City."`,
+          },
+          {
+            question: "How long should an Airbnb title be?",
+            answer:
+              "Airbnb titles should be under 50 characters to avoid being cut off in search results. Our data shows that titles between 35-50 characters with front-loaded benefits perform best. Make every word count and put your most important information first.",
+          },
+          {
+            question: "Should I include my neighborhood in my Airbnb title?",
+            answer:
+              "Yes, if your neighborhood is a selling point or well-known destination. Mentioning specific neighborhoods helps guests who are searching for that area. For example, 'Charming Studio in North Beach' or 'Modern Loft Steps from Downtown' can increase visibility in location-based searches.",
+          },
+          {
+            question: "What words should I avoid in my Airbnb title?",
+            answer: `Avoid vague, overused words like "nice," "great," or "perfect" that don't convey specific value. Based on our analysis, generic adjectives correlate with lower ratings. Instead, use concrete descriptors: instead of "Perfect Getaway," try "Oceanfront Cottage with Private Beach Access."`,
+          },
+          {
+            question: "How often should I update my Airbnb title?",
+            answer:
+              "Update your title when you add significant amenities, make major improvements, or notice declining click-through rates. Test different versions to see what resonates with your target guests. Seasonal updates can also help (e.g., highlighting 'Pool & AC' in summer or 'Cozy Fireplace' in winter).",
+          },
+          {
+            question: "Can I use emojis in my Airbnb title?",
+            answer:
+              "While Airbnb technically allows emojis, they can make your listing appear less professional and may get cut off on some devices. Our data shows that titles without emojis perform just as well or better. Focus on descriptive words instead of relying on visual symbols.",
+          },
+          {
+            question: "Should I mention the number of bedrooms in my title?",
+            answer:
+              "Yes, especially for multi-bedroom properties. Bedroom count is a key search filter for guests. Including it in your title (e.g., '3BR Family Home') helps guests quickly identify if your property meets their needs and improves search visibility.",
+          },
+          {
+            question: "How do I make my Airbnb title stand out from competitors?",
+            answer:
+              "Highlight what makes your property genuinely unique - a specific view, rare amenity, architectural style, or proximity to landmarks. Research competitor titles in your area and identify gaps. If everyone mentions 'downtown location,' differentiate with '5-Min Walk to Convention Center' or another specific benefit.",
+          },
+        ]}
+      />
 
       {/* CTA Section */}
       <section className="mb-12">

@@ -2,6 +2,8 @@ import { aggregateOverallRatingData } from "@/lib/seo/aggregate-overall-data";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { GuideFAQ } from "@/components/guides/GuideFAQ";
+import { DataMethodology } from "@/components/guides/DataMethodology";
 import Link from "next/link";
 import { Metadata } from "next";
 import {
@@ -50,7 +52,7 @@ export default async function ImproveAirbnbRatingGuide() {
         ]}
       />
 
-      {/* Schema.org JSON-LD */}
+      {/* Enhanced Article Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -72,10 +74,134 @@ export default async function ImproveAirbnbRatingGuide() {
               logo: {
                 "@type": "ImageObject",
                 url: "https://www.strsage.com/logo.png",
+                width: 600,
+                height: 60,
               },
             },
-            datePublished: "2024-01-15",
-            dateModified: new Date().toISOString().split("T")[0],
+            datePublished: "2024-01-15T00:00:00Z",
+            dateModified: new Date().toISOString(),
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": "https://www.strsage.com/guides/improve-airbnb-rating",
+            },
+            about: {
+              "@type": "Thing",
+              name: "Airbnb listing optimization",
+              description: "Complete system for optimizing short-term rental listings across all categories",
+            },
+            mentions: [
+              {
+                "@type": "SoftwareApplication",
+                name: "Airbnb",
+                applicationCategory: "Vacation Rental Platform",
+              },
+            ],
+            isBasedOn: {
+              "@type": "Dataset",
+              name: "STR Sage Listing Analysis Database",
+              description: `Analysis of ${stats.totalProperties} Airbnb listings with comprehensive AI-powered ratings`,
+            },
+            citation: [
+              {
+                "@type": "CreativeWork",
+                name: "STR Sage Property Database",
+                url: "https://www.strsage.com",
+              },
+            ],
+          }),
+        }}
+      />
+
+      {/* HowTo Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: "How to Improve Your Airbnb Listing Rating",
+            description: "Step-by-step guide to optimizing your Airbnb listing across all 6 categories for maximum bookings",
+            totalTime: "PT2H",
+            estimatedCost: {
+              "@type": "MonetaryAmount",
+              currency: "USD",
+              value: "0"
+            },
+            tool: [
+              {
+                "@type": "HowToTool",
+                name: "STR Sage Feedback Genius"
+              }
+            ],
+            step: [
+              {
+                "@type": "HowToStep",
+                name: "Analyze your current listing",
+                text: "Use our free AI tool to identify which categories are dragging down your listing performance and get specific ratings across all 6 categories",
+                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-1"
+              },
+              {
+                "@type": "HowToStep",
+                name: "Update your hero image",
+                text: "Make sure your first photo is your most impressive, well-lit shot showing the full space with natural lighting. This is the single biggest impact on click-through rate",
+                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-2"
+              },
+              {
+                "@type": "HowToStep",
+                name: "Optimize your title",
+                text: "Rewrite your title to be specific, benefit-focused, and under 50 characters, leading with your strongest feature to improve search visibility",
+                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-3"
+              },
+              {
+                "@type": "HowToStep",
+                name: "Add missing amenities",
+                text: "Ensure you have all basic amenities like WiFi, coffee maker, and hair dryer to avoid being filtered out of searches and meet guest expectations",
+                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-4"
+              },
+              {
+                "@type": "HowToStep",
+                name: "Improve your description",
+                text: "Rewrite using the AIDA formula (Attention, Interest, Desire, Action) with specific details about your property and nearby attractions with exact distances",
+                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-5"
+              },
+              {
+                "@type": "HowToStep",
+                name: "Enhance interior design",
+                text: "Apply budget-friendly design improvements like better lighting, mirrors, and cohesive color palettes to create Instagram-worthy moments that justify premium pricing",
+                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-6"
+              }
+            ]
+          }),
+        }}
+      />
+
+      {/* BreadcrumbList Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.strsage.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Guides",
+                item: "https://www.strsage.com/guides",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: "Improve Your Airbnb Rating",
+                item: "https://www.strsage.com/guides/improve-airbnb-rating",
+              },
+            ],
           }),
         }}
       />
@@ -646,6 +772,59 @@ export default async function ImproveAirbnbRatingGuide() {
           </div>
         </section>
       )}
+
+      {/* Data Methodology */}
+      <DataMethodology
+        totalProperties={stats.totalProperties}
+        category="overall listing quality"
+        analysisDetails="Our analysis uses GPT-4o to evaluate listings across 6 categories: title, hero image, supporting photos, description, amenities, and interior design. Each category receives a rating out of 100 based on conversion potential, guest appeal, and competitive positioning."
+      />
+
+      {/* FAQ Section */}
+      <GuideFAQ
+        pageUrl="https://www.strsage.com/guides/improve-airbnb-rating"
+        faqs={[
+          {
+            question: "What's the fastest way to improve my Airbnb listing?",
+            answer: `Based on our analysis of ${stats.totalProperties.toLocaleString()} listings, focus on the 80/20 rule: (1) Update your hero image to your best, most well-lit shot, (2) Rewrite your title to be specific and benefit-focused under 50 characters, (3) Ensure you have all basic amenities to avoid being filtered out. These three changes take less than an hour and have the biggest impact on bookings.`,
+          },
+          {
+            question: "Should I fix everything at once or prioritize certain improvements?",
+            answer:
+              "Prioritize fixing your lowest-scoring categories first. A listing with one 50/100 category will underperform compared to one with all 75/100 scores. Use our free AI tool to identify weak spots, then tackle them in order of impact: photos and title first (highest ROI), then amenities, description, and finally interior design upgrades.",
+          },
+          {
+            question: "How much does it cost to improve an Airbnb listing?",
+            answer:
+              "Many high-impact improvements are free: rewriting your title and description, reorganizing photos, better lighting when shooting. Budget improvements include new photos ($0-500 for DIY or professional), basic amenities ($100-300), and minor decor upgrades ($200-500). Only invest in expensive renovations if your listing already excels in the basics.",
+          },
+          {
+            question: "How long does it take to see results after improving my listing?",
+            answer:
+              "Title and photo changes show immediate impact - you'll see increased click-through rates within days. Booking conversion improvements from better descriptions and amenities typically show within 1-2 weeks. Interior design upgrades that require professional photos may take 2-4 weeks to fully reflect in bookings.",
+          },
+          {
+            question: "What's the most common mistake Airbnb hosts make?",
+            answer:
+              "The biggest mistake is using a poor hero image. Your first photo determines whether guests click on your listing. Even if everything else is perfect, a dark, cluttered, or poorly composed hero image kills your click-through rate. Make this your single best, most impressive shot.",
+          },
+          {
+            question: "Do I need professional photos for my Airbnb?",
+            answer:
+              "Not necessarily. Modern smartphones can produce excellent photos with proper technique: maximize natural lighting, shoot during golden hour, use wide-angle mode, and declutter thoroughly. Professional photos ($150-500) make sense for competitive markets, high-end properties, or if DIY attempts aren't getting results.",
+          },
+          {
+            question: "How do I know which improvements will actually increase bookings?",
+            answer:
+              "Use our AI analysis to get data-driven recommendations specific to your listing. General priorities: (1) Photos have the biggest impact on clicks, (2) Title affects search visibility, (3) Amenities prevent filtering out, (4) Description converts browsers to bookers, (5) Interior design justifies premium pricing. Test one change at a time when possible to measure impact.",
+          },
+          {
+            question: "Can I improve my Airbnb rating without spending money?",
+            answer:
+              "Absolutely! Free improvements include: rewriting your title and description, reorganizing photo order, using better lighting and angles when reshooting with your phone, removing clutter before photos, highlighting existing amenities you forgot to list, and seasonal description updates. Many hosts see significant booking increases from these zero-cost changes.",
+          },
+        ]}
+      />
 
       {/* CTA Section */}
       <section className="mb-12">

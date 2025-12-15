@@ -2,6 +2,8 @@ import { aggregateInteriorDesignFeedbackData } from "@/lib/seo/aggregate-interio
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { GuideFAQ } from "@/components/guides/GuideFAQ";
+import { DataMethodology } from "@/components/guides/DataMethodology";
 import Link from "next/link";
 import { Metadata } from "next";
 import {
@@ -49,7 +51,7 @@ export default async function STRInteriorDesignTipsGuide() {
         ]}
       />
 
-      {/* Schema.org JSON-LD */}
+      {/* Enhanced Article Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -71,10 +73,71 @@ export default async function STRInteriorDesignTipsGuide() {
               logo: {
                 "@type": "ImageObject",
                 url: "https://www.strsage.com/logo.png",
+                width: 600,
+                height: 60,
               },
             },
-            datePublished: "2024-01-15",
-            dateModified: new Date().toISOString().split("T")[0],
+            datePublished: "2024-01-15T00:00:00Z",
+            dateModified: new Date().toISOString(),
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": "https://www.strsage.com/guides/str-interior-design-tips",
+            },
+            about: {
+              "@type": "Thing",
+              name: "Vacation rental interior design",
+              description: "Interior design and styling for short-term rental properties",
+            },
+            mentions: [
+              {
+                "@type": "SoftwareApplication",
+                name: "Airbnb",
+                applicationCategory: "Vacation Rental Platform",
+              },
+            ],
+            isBasedOn: {
+              "@type": "Dataset",
+              name: "STR Sage Listing Analysis Database",
+              description: `Analysis of ${stats.totalProperties} Airbnb listings with AI-powered interior design ratings`,
+            },
+            citation: [
+              {
+                "@type": "CreativeWork",
+                name: "STR Sage Property Database",
+                url: "https://www.strsage.com",
+              },
+            ],
+          }),
+        }}
+      />
+
+      {/* BreadcrumbList Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.strsage.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Guides",
+                item: "https://www.strsage.com/guides",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: "STR Interior Design Tips",
+                item: "https://www.strsage.com/guides/str-interior-design-tips",
+              },
+            ],
           }),
         }}
       />
@@ -752,6 +815,59 @@ export default async function STRInteriorDesignTipsGuide() {
           </div>
         </section>
       )}
+
+      {/* Data Methodology */}
+      <DataMethodology
+        totalProperties={stats.totalProperties}
+        category="interior design"
+        analysisDetails="Our analysis uses GPT-4o to evaluate interior design quality including color schemes, furniture selection, styling, and overall aesthetic appeal. Each property receives a rating out of 100 based on cohesiveness, guest appeal, and photo-worthiness."
+      />
+
+      {/* FAQ Section */}
+      <GuideFAQ
+        pageUrl="https://www.strsage.com/guides/str-interior-design-tips"
+        faqs={[
+          {
+            question: "How important is interior design for an Airbnb?",
+            answer: `Based on our analysis of ${stats.totalProperties.toLocaleString()} listings, interior design significantly impacts bookings and pricing power. Well-designed properties can command 20-40% higher nightly rates and generate more 5-star reviews. Good design creates Instagram moments that guests share, providing free marketing.`,
+          },
+          {
+            question: "What is the best color palette for a short-term rental?",
+            answer:
+              "Neutral base colors (white, beige, light gray) with pops of color work best for STRs. Neutrals photograph well, appeal to broad audiences, and make spaces feel larger. Add personality with colorful throw pillows, artwork, or accent walls. Avoid bold wall colors that may not photograph well or appeal to everyone.",
+          },
+          {
+            question: "How much should I spend on furnishing my Airbnb?",
+            answer:
+              "Budget $3,000-$8,000 for a studio/1BR and $8,000-$15,000 for larger properties. Focus on high-impact items first: comfortable bed/mattress, quality photos, good lighting. Shop IKEA, Wayfair, and HomeGoods for affordable style. Remember: guests care more about cleanliness and comfort than expensive furniture.",
+          },
+          {
+            question: "Should I hire an interior designer for my Airbnb?",
+            answer:
+              "Professional design makes sense for high-end properties, competitive markets, or if you lack design confidence. Designers cost $500-$3,000+ but can increase your nightly rate enough to justify the investment. For budget properties, use design inspiration from Instagram, Pinterest, and top-performing listings in your area.",
+          },
+          {
+            question: "What furniture is essential for an Airbnb?",
+            answer:
+              "Essentials: Quality mattress and bedding, comfortable seating, dining table/chairs, functional lighting, storage (dressers, closet space), nightstands, and mirrors. Avoid clutter and over-furnishing. Guests value space to move around over excessive decor.",
+          },
+          {
+            question: "How do I make my Airbnb look more expensive?",
+            answer:
+              "Budget-friendly upgrades that create a luxury feel: (1) Upgrade lighting fixtures, (2) Add large mirrors to expand space, (3) Use hotel-quality white linens, (4) Remove personal items and clutter, (5) Add plants for life and color, (6) Frame simple art from Etsy or Desenio, (7) Consistent color palette throughout.",
+          },
+          {
+            question: "What design mistakes should I avoid in my Airbnb?",
+            answer:
+              "Common mistakes: overly personal/themed decor, dark paint colors, insufficient lighting, too much furniture (makes spaces feel cramped), cheap/worn furniture, lack of storage, missing full-length mirror, no workspace for remote workers, and visible clutter or personal items in photos.",
+          },
+          {
+            question: "How can I make my small Airbnb look bigger?",
+            answer:
+              "Use light colors on walls, add large mirrors, maximize natural light, choose multi-functional furniture (storage ottomans, fold-down desks), keep decor minimal, use vertical storage, and avoid heavy curtains. Less is more - remove unnecessary furniture to create flow and openness.",
+          },
+        ]}
+      />
 
       {/* CTA Section */}
       <section className="mb-12">

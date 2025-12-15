@@ -2,6 +2,8 @@ import { aggregateAmenitiesFeedbackData } from "@/lib/seo/aggregate-amenities-da
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { GuideFAQ } from "@/components/guides/GuideFAQ";
+import { DataMethodology } from "@/components/guides/DataMethodology";
 import Link from "next/link";
 import { Metadata } from "next";
 import { Sparkles, Camera, BookOpen, ArrowLeft, CheckCircle2, Circle } from "lucide-react";
@@ -39,6 +41,7 @@ export default async function AirbnbAmenitiesChecklistGuide() {
         ]}
       />
 
+      {/* Enhanced Article Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -59,10 +62,71 @@ export default async function AirbnbAmenitiesChecklistGuide() {
               logo: {
                 "@type": "ImageObject",
                 url: "https://www.strsage.com/logo.png",
+                width: 600,
+                height: 60,
               },
             },
-            datePublished: "2024-01-15",
-            dateModified: new Date().toISOString().split("T")[0],
+            datePublished: "2024-01-15T00:00:00Z",
+            dateModified: new Date().toISOString(),
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": "https://www.strsage.com/guides/airbnb-amenities-checklist",
+            },
+            about: {
+              "@type": "Thing",
+              name: "Vacation rental amenities",
+              description: "Essential and recommended amenities for short-term rental properties",
+            },
+            mentions: [
+              {
+                "@type": "SoftwareApplication",
+                name: "Airbnb",
+                applicationCategory: "Vacation Rental Platform",
+              },
+            ],
+            isBasedOn: {
+              "@type": "Dataset",
+              name: "STR Sage Listing Analysis Database",
+              description: `Analysis of ${stats.totalProperties} Airbnb listings with AI-powered amenities ratings`,
+            },
+            citation: [
+              {
+                "@type": "CreativeWork",
+                name: "STR Sage Property Database",
+                url: "https://www.strsage.com",
+              },
+            ],
+          }),
+        }}
+      />
+
+      {/* BreadcrumbList Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.strsage.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Guides",
+                item: "https://www.strsage.com/guides",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: "Airbnb Amenities Checklist",
+                item: "https://www.strsage.com/guides/airbnb-amenities-checklist",
+              },
+            ],
           }),
         }}
       />
@@ -603,6 +667,59 @@ export default async function AirbnbAmenitiesChecklistGuide() {
           </CardContent>
         </Card>
       </section>
+
+      {/* Data Methodology */}
+      <DataMethodology
+        totalProperties={stats.totalProperties}
+        category="amenities"
+        analysisDetails="Our analysis uses GPT-4o to evaluate listing amenities against guest expectations, comparing offerings to top-performing properties in each market. Each listing receives a rating out of 100 based on completeness, quality, and competitive positioning."
+      />
+
+      {/* FAQ Section */}
+      <GuideFAQ
+        pageUrl="https://www.strsage.com/guides/airbnb-amenities-checklist"
+        faqs={[
+          {
+            question: "What are the most important amenities for an Airbnb?",
+            answer: `Based on our analysis of ${stats.totalProperties.toLocaleString()} listings, the essential amenities are: WiFi, heating/AC, hot water, clean linens and towels, basic toiletries, coffee maker, and kitchen basics. Missing any of these significantly hurts bookings as guests filter by these amenities when searching.`,
+          },
+          {
+            question: "Should I provide WiFi in my Airbnb?",
+            answer:
+              "Yes, WiFi is absolutely essential. Nearly 100% of guests expect reliable, fast internet. Many guests filter search results to only show properties with WiFi. Test your speed regularly and provide the password prominently in your listing and welcome materials.",
+          },
+          {
+            question: "What kitchen amenities should I provide in my Airbnb?",
+            answer:
+              "At minimum: coffee maker, microwave, basic cookware and utensils, dishes and glasses, dish soap, and trash bags. Nice-to-haves include: toaster, blender, wine opener, cutting board, cooking oil and basic spices. A fully equipped kitchen justifies higher nightly rates.",
+          },
+          {
+            question: "Do I need to provide toiletries at my Airbnb?",
+            answer:
+              "Yes, basic toiletries are expected: shampoo, conditioner, body wash, and hand soap for the first few days. Many hosts also provide extras like lotion, q-tips, and makeup remover wipes. These small touches improve reviews and justify premium pricing.",
+          },
+          {
+            question: "What amenities increase Airbnb bookings the most?",
+            answer:
+              "High-impact amenities include: fast WiFi, washer/dryer, parking (especially in cities), air conditioning, dedicated workspace, and outdoor space. Unique amenities like hot tubs, fire pits, or game rooms can command 20-40% higher nightly rates in the right markets.",
+          },
+          {
+            question: "Should I offer free parking at my Airbnb?",
+            answer:
+              "If you're in a city or area where parking is scarce, free parking is a huge differentiator. Many guests filter specifically for parking. Even in suburban areas, convenient, safe parking improves guest experience and reviews. Clearly state parking details in your listing.",
+          },
+          {
+            question: "What cleaning supplies should I leave for Airbnb guests?",
+            answer:
+              "Provide: dish soap, sponges, trash bags, paper towels, and basic cleaning spray. Some hosts also leave laundry detergent (especially for longer stays) and extra toilet paper. Guests appreciate being able to maintain cleanliness during their stay.",
+          },
+          {
+            question: "Do I need a washer and dryer for my Airbnb?",
+            answer:
+              "While not essential for short stays, washer/dryer access significantly increases bookings for stays over 4-5 nights. It's one of the most frequently filtered amenities. If you can't provide in-unit, mention nearby laundromat access in your listing.",
+          },
+        ]}
+      />
 
       {/* CTA */}
       <section className="mb-12">
