@@ -17,6 +17,18 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Force www subdomain for SEO canonicalization
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'strsage.com',
+          },
+        ],
+        destination: 'https://www.strsage.com/:path*',
+        permanent: true,
+      },
       {
         // Legacy URL redirect - market-spy-home was the old landing page
         // New structure: /market-spy (landing) and /market-spy/analyze (tool)
