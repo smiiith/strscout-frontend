@@ -4,6 +4,13 @@ import { redirect } from 'next/navigation';
 import { getUserWithPlan } from './utils';
 import { UserSessionProvider } from '../../lib/context/UserSessionProvider';
 
+export const metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 // Make this a client component if you need state
 export default async function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const supabase = createClient();

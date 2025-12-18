@@ -8,6 +8,10 @@ export const metadata = {
   title: "STR Sage",
   description:
     "We dive deep into your listing to provide analysis and actionable insights, ensuring you have the clarity you need to attract more guests and maximize your success.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default async function RootLayout({
