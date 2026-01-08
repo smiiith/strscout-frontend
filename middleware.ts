@@ -89,7 +89,10 @@ export async function middleware(request: NextRequest) {
   // if the user is not authenticated and trying to access a protected route, redirect to login
   if (!isAuthenticated && protectedRoutes.includes(currentPath)) {
     const absoluteURL = new URL("/login", request.nextUrl.origin);
-    return NextResponse.redirect(absoluteURL.toString());
+    const redirectResponse = NextResponse.redirect(absoluteURL.toString());
+    // Tell search engines not to index this redirect URL
+    redirectResponse.headers.set("X-Robots-Tag", "noindex, nofollow");
+    return redirectResponse;
   }
 
   // if authenticated and accessing a plan-protected route, check their plan
@@ -110,7 +113,10 @@ export async function middleware(request: NextRequest) {
       const upgradeURL = new URL("/pricing", request.nextUrl.origin);
       upgradeURL.searchParams.set("upgrade", "market-spy");
       upgradeURL.searchParams.set("reason", planCheck.reason);
-      return NextResponse.redirect(upgradeURL.toString());
+      const redirectResponse = NextResponse.redirect(upgradeURL.toString());
+      // Tell search engines not to index this redirect URL
+      redirectResponse.headers.set("X-Robots-Tag", "noindex, nofollow");
+      return redirectResponse;
     }
   }
 

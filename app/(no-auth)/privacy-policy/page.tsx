@@ -1,5 +1,17 @@
 import React from "react";
 
+export const metadata = {
+  title: "Privacy Policy | STR Sage",
+  description: "Privacy Policy for STR Sage - Learn how we collect, use, and protect your personal data when using our short-term rental analysis services.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+  alternates: {
+    canonical: "https://www.strsage.com/privacy-policy",
+  },
+};
+
 const PrivacyPolicy = () => {
     return (
         <div className="p-6 max-w-4xl mx-auto">

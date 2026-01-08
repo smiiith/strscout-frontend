@@ -30,7 +30,34 @@ export function PostHogTracker({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         if (isInitialized) {
-            posthog.capture("$pageview"); // Track page views when route changes
+            // Capture pageview with UTM and Google Ads parameters from URL
+            const searchParams = new URLSearchParams(window.location.search);
+            const trackingParams: Record<string, string> = {};
+
+            // Extract UTM parameters (if present)
+            ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(param => {
+                const value = searchParams.get(param);
+                if (value) trackingParams[param] = value;
+            });
+
+            // Extract Google Ads auto-tagging parameters (gclid, gad_*, etc.)
+            const googleAdsParams = ['gclid', 'gad_source', 'gad_campaignid', 'gbraid', 'wbraid'];
+            googleAdsParams.forEach(param => {
+                const value = searchParams.get(param);
+                if (value) trackingParams[param] = value;
+            });
+
+            // If we have gclid, automatically tag as Google Ads traffic
+            if (trackingParams.gclid) {
+                trackingParams.utm_source = trackingParams.utm_source || 'google';
+                trackingParams.utm_medium = trackingParams.utm_medium || 'cpc';
+                trackingParams.traffic_type = 'google_ads';
+            }
+
+            posthog.capture("$pageview", {
+                $current_url: window.location.href,
+                ...trackingParams
+            });
         }
     }, [pathname, isInitialized]);
 

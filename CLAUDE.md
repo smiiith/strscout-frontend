@@ -135,7 +135,46 @@ All three products follow a consistent URL pattern with public landing pages and
 |---------|-----------------|-----------|--------------|
 | **Landing Page** | `/feedback-genius` (public) | `/market-spy` (public) | `/market-scout` (public) |
 | **Tool Page** | `/feedback-genius/analyze` (auth) | `/market-spy/analyze` (pro) | `/market-scout/analyze` (pro) |
+| **Quiz/Funnel** | `/feedback-genius/quiz` (planned) | N/A | N/A |
 | **Legacy URLs** | `/str-feedback-genius` → `/feedback-genius`<br>`/properties/assess-property/single` → `/feedback-genius/analyze` | `/market-spy-home` → `/market-spy` | N/A |
+
+### Conversion Funnel Strategy
+
+**Status:** Planning / Not implemented
+**Documentation:** See `CONVERSION_FUNNEL_STRATEGY.md` for full details
+
+**Problem:** Facebook ad traffic to `/feedback-genius` has zero conversions because it asks for full signup immediately (too much friction for cold traffic).
+
+**Solution:** Implement middle-of-funnel quiz page at `/feedback-genius/quiz`:
+- **Self-assessment quiz**: 5-6 diagnostic questions about their current listing
+- **Progressive commitment**: Quiz (free) → Email capture (for score) → Full signup (for AI analysis)
+- **No property evaluation needed**: Pure JavaScript scoring based on user answers
+- **Builds trust**: Each step provides value before asking for more commitment
+- **Qualification**: Filters serious users and collects pain point data
+
+**Planned Flow:**
+```
+Facebook Ad → /feedback-genius/quiz
+  → Answer 5-6 questions
+  → Enter email for score
+  → See partial results (58/100, areas needing work)
+  → "Get AI analysis of actual listing" CTA
+  → /register (with quiz context)
+  → /feedback-genius/analyze
+```
+
+**Why Quiz Approach:**
+- Lowest technical lift (frontend only, no backend changes)
+- Psychological investment (users more likely to complete after starting)
+- Creates curiosity gap (partial score creates desire for full analysis)
+- Works for everyone (even users planning a listing, not just existing hosts)
+
+**Implementation Notes:**
+- Pure frontend (no scraping/AI at quiz stage)
+- JavaScript-based scoring algorithm
+- Integrates with existing auth flow
+- Store quiz results in localStorage/session
+- Pass context to registration via URL params
 
 ### Market Spy vs Market Scout
 
