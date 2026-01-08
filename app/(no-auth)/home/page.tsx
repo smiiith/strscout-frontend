@@ -1,71 +1,79 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-export default function Home() {
+export async function generateMetadata() {
+  const siteName = "STR Feedback Genius";
+  const title = `${siteName} - Home`;
+  const description =
+    "We dive deep into your STR listing on airbnb to provide analysis and actionable insights.";
+  const keywords = [
+    "Airbnb listing feedback",
+    "STR",
+    "Short-term rental listing analysis",
+    "Free Airbnb listing feedback",
+    "Increase Airbnb bookings",
+    "How to improve my Airbnb listing photos",
+    "Analyze my short-term rental listing for free",
+    "Airbnb listing challenges",
+  ];
+  const imageUrl =
+    "https://ynxbtvsbjzkcnkilnuts.supabase.co/storage/v1/object/public/logo//str-feedback-genius-logo.png";
 
-  async function generateMetadata() {
-    const siteName = "STR Feedback Genius";
-    const title = `${siteName} - Home`;
-    const description = "We dive deep into your STR listing on airbnb to provide analysis and actionable insights.";
-    const keywords = [
-      "Airbnb listing feedback",
-      "STR",
-      "Short-term rental listing analysis",
-      "Free Airbnb listing feedback",
-      "Increase Airbnb bookings",
-      "How to improve my Airbnb listing photos",
-      "Analyze my short-term rental listing for free",
-      "Airbnb listing challenges",
-    ];
-    const imageUrl = "https://ynxbtvsbjzkcnkilnuts.supabase.co/storage/v1/object/public/logo//str-feedback-genius-logo.png";
-
-    return {
+  return {
+    title,
+    description,
+    keywords,
+    openGraph: {
       title,
       description,
-      keywords,
-      openGraph: {
-        title,
-        description,
-        images: [
-          {
-            url: imageUrl,
-            width: 1200,
-            height: 630,
-            alt: "STR Feedback Genius Logo",
-          },
-        ],
-        siteName: siteName,
-        type: 'website',
-        locale: 'en_US',
-        url: "https://strsage.com",
-      },
-      // twitter: {
-      //   card: 'summary_large_image',
-      //   title,
-      //   description,
-      //   images: [imageUrl],
-      //   creator: '@yourtwitterhandle', // Replace with your Twitter handle
-      // },
-      robots: {
-        index: process.env.NODE_ENV === 'production',
-        follow: process.env.NODE_ENV === 'production',
-        googleBot: {
-          index: process.env.NODE_ENV === 'production',
-          follow: process.env.NODE_ENV === 'production',
-          'max-video-preview': -1,
-          'max-image-preview': 'large',
-          'max-snippet': -1,
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: "STR Feedback Genius Logo",
         },
+      ],
+      siteName: siteName,
+      type: "website",
+      locale: "en_US",
+      url: "https://www.strsage.com",
+    },
+    // twitter: {
+    //   card: 'summary_large_image',
+    //   title,
+    //   description,
+    //   images: [imageUrl],
+    //   creator: '@yourtwitterhandle', // Replace with your Twitter handle
+    // },
+    robots: {
+      index: process.env.NODE_ENV === "production",
+      follow: process.env.NODE_ENV === "production",
+      googleBot: {
+        index: process.env.NODE_ENV === "production",
+        follow: process.env.NODE_ENV === "production",
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
       },
-      alternates: {
-        canonical: "https://strsage.com",
-        languages: {
-          'en-US': "https://strsage.com",
-        },
-      }
-    };
-  }
+    },
+    alternates: {
+      canonical: "https://www.strsage.com",
+      languages: {
+        "en-US": "https://www.strsage.com",
+      },
+    },
+  };
+}
+
+export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -103,32 +111,42 @@ export default function Home() {
             We Get It.
           </h1>
           <p className="max-w-2xl mx-auto mb-8">
-            Navigating the world of short-term rentals can be overwhelming, especially when it comes to creating a
-            standout listing. Whether you're a first-time host or a seasoned pro, understanding what works -- and what
-            doesn't -- can feel like a guessing game. STR Feedback Genius takes the uncertainty out of the equation. We
-            dive deep into your listing to provide analysis and actionable insights, ensuring you have the clarity you
-            need to attract more guests and maximize your success.
+            Navigating the world of short-term rentals can be overwhelming,
+            especially when it comes to creating a standout listing. Whether
+            you're a first-time host or a seasoned pro, understanding what works
+            -- and what doesn't -- can feel like a guessing game. STR Feedback
+            Genius takes the uncertainty out of the equation. We dive deep into
+            your listing to provide analysis and actionable insights, ensuring
+            you have the clarity you need to attract more guests and maximize
+            your success.
           </p>
           <Button size="lg">Get Your Free Feedback</Button>
         </section>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold mb-4 text-center">Take The Guesswork Out of Your Listing</h2>
+          <h2 className="text-3xl font-bold mb-4 text-center">
+            Take The Guesswork Out of Your Listing
+          </h2>
           <p className="max-w-2xl mx-auto text-center mb-8">
-            For many short-term rental hosts, knowing whether a listing truly stands out is a challenge. Does your
-            headline attract attention? Are your photos compelling? Are your amenities competitive? Without clear
-            feedback, it's easy to feel stuck or unsure.
+            For many short-term rental hosts, knowing whether a listing truly
+            stands out is a challenge. Does your headline attract attention? Are
+            your photos compelling? Are your amenities competitive? Without
+            clear feedback, it's easy to feel stuck or unsure.
           </p>
         </section>
 
         <section className="mb-16">
           <h2 className="text-3xl font-bold mb-4 text-center">How It Works</h2>
-          <h3 className="text-2xl font-semibold mb-4 text-center">Expert Insights Bring Your Listing into Focus</h3>
+          <h3 className="text-2xl font-semibold mb-4 text-center">
+            Expert Insights Bring Your Listing into Focus
+          </h3>
           <p className="max-w-2xl mx-auto text-center mb-8">
-            STR Feedback Genius analyzes every detail of your Airbnb listing -- your photos, your headlines, your
-            description, your amenities, even your interior design -- and provides clear, actionable feedback. We'll
-            rate each element, highlight what's working, and guide you on where to improve. It's like having a listing
-            coach by your side. Best of all, it's free. Seriously, no credit card, no BS, it's free.
+            STR Feedback Genius analyzes every detail of your Airbnb listing --
+            your photos, your headlines, your description, your amenities, even
+            your interior design -- and provides clear, actionable feedback.
+            We'll rate each element, highlight what's working, and guide you on
+            where to improve. It's like having a listing coach by your side.
+            Best of all, it's free. Seriously, no credit card, no BS, it's free.
           </p>
           <div className="text-center">
             <Button size="lg">Get Your Free Feedback</Button>
@@ -139,11 +157,14 @@ export default function Home() {
           <Card>
             <CardHeader>
               <CardTitle>Personalized Ratings</CardTitle>
-              <CardDescription>Clear scores for every part of your listing.</CardDescription>
+              <CardDescription>
+                Clear scores for every part of your listing.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                It's easy - simply show us your listing, We'll analyze, rate, and provide actionable feedback on:
+                It's easy - simply show us your listing, We'll analyze, rate,
+                and provide actionable feedback on:
               </p>
               <ul className="list-disc pl-6 mb-4">
                 <li>your hero photo</li>
@@ -153,7 +174,10 @@ export default function Home() {
                 <li>your amenities</li>
                 <li>your interior design</li>
               </ul>
-              <p className="font-semibold">Best of all, it's free. Seriously, no credit card, no BS, it's free.</p>
+              <p className="font-semibold">
+                Best of all, it's free. Seriously, no credit card, no BS, it's
+                free.
+              </p>
               <div className="mt-4">
                 <Button size="lg">Get Your Free Feedback</Button>
               </div>
@@ -162,12 +186,15 @@ export default function Home() {
         </section>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold mb-4 text-center">Got Questions? We've Got Answers.</h2>
+          <h2 className="text-3xl font-bold mb-4 text-center">
+            Got Questions? We've Got Answers.
+          </h2>
           <div className="space-y-4">
             {[
               {
                 question: "How does the feedback process work?",
-                answer: "Simply share your listing link, and we'll analyze it and provide a detailed report.",
+                answer:
+                  "Simply share your listing link, and we'll analyze it and provide a detailed report.",
               },
               {
                 question: "Is STR Feedback Genius only for AirBnB hosts?",
@@ -180,7 +207,8 @@ export default function Home() {
               },
               {
                 question: "Do I need to give my personal information?",
-                answer: "No. We only need your email address and the link to your listing.",
+                answer:
+                  "No. We only need your email address and the link to your listing.",
               },
               {
                 question: "Is it really free? What's the catch?",
@@ -235,6 +263,5 @@ export default function Home() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
-

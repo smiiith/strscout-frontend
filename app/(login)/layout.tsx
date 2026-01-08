@@ -5,12 +5,15 @@ import { createClient } from "@/utils/supabase/server";
 import HeaderNav from "@/components/header";
 
 export const metadata = {
-  title: "STR Sage",
+  title: "Login | STR Sage",
   description:
-    "We dive deep into your listing to provide analysis and actionable insights, ensuring you have the clarity you need to attract more guests and maximize your success.",
+    "Sign in to STR Sage to access your property analysis, market research, and listing optimization tools.",
   robots: {
     index: false,
     follow: false,
+  },
+  alternates: {
+    canonical: "https://www.strsage.com/login",
   },
 };
 
