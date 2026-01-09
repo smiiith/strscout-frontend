@@ -50,7 +50,7 @@ export async function checkUserPlan(request: NextRequest, requiredPlan: string) 
   )
 
   const { data: { user } } = await supabase.auth.getUser();
-  
+
   if (!user) {
     return { hasAccess: false, reason: 'not_authenticated' };
   }
@@ -73,13 +73,60 @@ export async function checkUserPlan(request: NextRequest, requiredPlan: string) 
     const userPlanKey = planData?.key;
     const hasAccess = userPlanKey === requiredPlan;
 
-    return { 
-      hasAccess, 
+    return {
+      hasAccess,
       reason: hasAccess ? 'authorized' : 'insufficient_plan',
-      userPlan: userPlanKey 
+      userPlan: userPlanKey
     };
   } catch (error) {
     console.error('Plan check exception:', error);
     return { hasAccess: false, reason: 'plan_check_error' };
+  }
+}
+
+export async function checkAdminStatus(request: NextRequest) {
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll() {
+          // Read-only for admin check
+        },
+      },
+    }
+  )
+
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { isAdmin: false, reason: 'not_authenticated' };
+  }
+
+  try {
+    // Check if user has admin flag
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .select('is_admin')
+      .eq('id', user.id)
+      .single();
+
+    if (error) {
+      console.error('Admin check error:', error);
+      return { isAdmin: false, reason: 'admin_check_failed' };
+    }
+
+    const isAdmin = profile?.is_admin === true;
+
+    return {
+      isAdmin,
+      reason: isAdmin ? 'authorized' : 'not_admin'
+    };
+  } catch (error) {
+    console.error('Admin check exception:', error);
+    return { isAdmin: false, reason: 'admin_check_error' };
   }
 }
