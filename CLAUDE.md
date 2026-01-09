@@ -293,6 +293,63 @@ The application supports Google OAuth 2.0 for seamless authentication. Users can
 - Email/password users can't automatically link to Google OAuth (separate accounts unless configured in Supabase)
 - First-time Google users get freemium plan via database trigger
 
+### Admin Email Campaigns
+
+The application includes an admin-only email campaign tool for sending marketing emails using Resend templates.
+
+**Access:**
+- **URL**: `/admin/email-campaigns`
+- **Auth**: Requires `is_admin = TRUE` in user's profile
+- **Security**: Protected by middleware, non-admins redirected to home page
+- **SEO**: Automatically noindexed (`X-Robots-Tag: noindex, nofollow`)
+
+**Setup:**
+```sql
+-- Grant admin access to a user
+UPDATE profiles SET is_admin = TRUE WHERE primary_email = 'admin@example.com';
+```
+
+**Features:**
+1. **Template Selection**:
+   - Auto-fetches templates from Resend API (`GET /templates`)
+   - Dropdown with all available templates
+   - Alternative: Custom HTML paste option
+
+2. **Variable Replacement**:
+   - Supports `{{{variable}}}`, `{{variable}}`, and `{variable}` formats
+   - Case-insensitive matching (handles `firstname` vs `Firstname`)
+   - CSV columns become template variables
+
+3. **CSV Upload**:
+   - Required columns: `email` + any template variables
+   - Example: `email,firstname,discount_code`
+   - Preview shows first 10 recipients before sending
+
+4. **Rate Limiting**:
+   - Respects Resend's 2 requests/second limit
+   - Automatically delays 600ms between sends
+   - Prevents rate limit errors
+
+5. **Results Tracking**:
+   - Shows successful sends
+   - Shows failures with error messages
+   - Real-time progress display
+
+**API Routes:**
+- `GET /api/admin/resend/templates` - Fetch available templates
+- `POST /api/admin/send-campaign` - Send campaign emails
+
+**Security Notes:**
+- Double admin check: middleware + API route
+- Server-side authorization only (client can't bypass)
+- Admin routes automatically excluded from search engines
+
+**Usage Example:**
+```csv
+email,firstname,discount_code
+user@example.com,John,SAVE20
+```
+
 ### Key Components Structure
 
 - `components/ui/` - Radix UI-based design system components
