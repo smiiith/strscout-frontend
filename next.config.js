@@ -37,6 +37,19 @@ const nextConfig = {
         permanent: true, // 301 redirect
       },
       {
+        // Legacy URL redirect specifically for non-www domain
+        // Handles Google Search Console tests of strsage.com/market-spy-home
+        source: '/market-spy-home',
+        has: [
+          {
+            type: 'host',
+            value: 'strsage.com',
+          },
+        ],
+        destination: 'https://www.strsage.com/market-spy',
+        permanent: true, // 301 redirect
+      },
+      {
         // Legacy URL redirect - str-feedback-genius was the old landing page
         // New structure: /feedback-genius (landing) and /feedback-genius/analyze (tool)
         source: '/str-feedback-genius',
@@ -44,10 +57,36 @@ const nextConfig = {
         permanent: true, // 301 redirect
       },
       {
+        // Legacy URL redirect specifically for non-www domain
+        // Handles Google Search Console tests of strsage.com/str-feedback-genius
+        source: '/str-feedback-genius',
+        has: [
+          {
+            type: 'host',
+            value: 'strsage.com',
+          },
+        ],
+        destination: 'https://www.strsage.com/feedback-genius',
+        permanent: true, // 301 redirect
+      },
+      {
         // Legacy URL redirect - properties/assess-property/single was the old tool
         // New structure: /feedback-genius/analyze (tool)
         source: '/properties/assess-property/single',
         destination: '/feedback-genius/analyze',
+        permanent: true, // 301 redirect
+      },
+      {
+        // Legacy URL redirect specifically for non-www domain
+        // Handles Google Search Console tests of strsage.com/properties/assess-property/single
+        source: '/properties/assess-property/single',
+        has: [
+          {
+            type: 'host',
+            value: 'strsage.com',
+          },
+        ],
+        destination: 'https://www.strsage.com/feedback-genius/analyze',
         permanent: true, // 301 redirect
       },
     ]

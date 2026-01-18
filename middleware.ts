@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { updateSession, checkUserPlan } from "@/utils/supabase/middleware";
+import { updateSession, checkUserPlan, checkAdminStatus } from "@/utils/supabase/middleware";
 
 const protectedRoutes = [
   "/account",
@@ -13,6 +13,10 @@ const protectedRoutes = [
   "/market-scout-reports",
   "/market-scout-details",
   // "/contact"
+];
+
+const adminRoutes = [
+  "/admin"
 ];
 
 const planProtectedRoutes = {
@@ -120,6 +124,31 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // if trying to access admin routes, check admin status
+  if (currentPath.startsWith("/admin")) {
+    if (!isAuthenticated) {
+      // Not logged in - redirect to login
+      const loginURL = new URL("/login", request.nextUrl.origin);
+      const redirectResponse = NextResponse.redirect(loginURL.toString());
+      redirectResponse.headers.set("X-Robots-Tag", "noindex, nofollow");
+      return redirectResponse;
+    }
+
+    const adminCheck = await checkAdminStatus(request);
+
+    if (!adminCheck.isAdmin) {
+      console.log(
+        `Admin access denied to ${currentPath}: ${adminCheck.reason}`
+      );
+
+      // Redirect to home page
+      const homeURL = new URL("/", request.nextUrl.origin);
+      const redirectResponse = NextResponse.redirect(homeURL.toString());
+      redirectResponse.headers.set("X-Robots-Tag", "noindex, nofollow");
+      return redirectResponse;
+    }
+  }
+
   // Build CSP policy with nonce
   const isDev = process.env.NODE_ENV === "development";
 
@@ -168,6 +197,11 @@ export async function middleware(request: NextRequest) {
     "Permissions-Policy",
     "camera=(), microphone=(), geolocation=()"
   );
+
+  // Add noindex header for admin routes
+  if (currentPath.startsWith("/admin")) {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
 
   return response;
 }

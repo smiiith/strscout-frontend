@@ -1,7 +1,6 @@
 "use client";
 
 import React, { use, useEffect, useState } from "react";
-// import { createClient } from '../../../../utils/supabase/server'
 import { createClient } from "@/utils/supabase/client";
 import {
   useForm,
@@ -44,12 +43,6 @@ import posthog from "posthog-js";
 import AirbnbDirections from "./instructions";
 import { useUserSession } from "@/lib/context/UserSessionProvider";
 
-// const formSchema = z.object({
-//   username: z.string().min(2, {
-//     message: "Username must be at least 2 characters.",
-//   }),
-// })
-
 const ERROR_FINDING_ID =
   "Could not find an Airbnb ID in the URL. Review the instructions below and try again.";
 
@@ -70,6 +63,8 @@ const AssessProperty = () => {
   const [reachedPropertyLimit, setReachedPropertyLimit] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [notFoundMessage, setNotFoundMessage] = useState("");
+  const [remainingAssessments, setRemainingAssessments] = useState<number | null>(null);
+  const [remainingProperties, setRemainingProperties] = useState<number | null>(null);
 
   const {
     register,
@@ -89,6 +84,13 @@ const AssessProperty = () => {
     }
   }, [session]);
 
+  useEffect(() => {
+    // Fetch initial usage stats when page loads
+    if (session?.id) {
+      fetchUserStats(session.id);
+    }
+  }, [session?.id]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -103,24 +105,31 @@ const AssessProperty = () => {
       page: window.location.pathname,
     });
 
-    // const verification = await verifyRequest(data.propertyId, session.id);
-    // const isVerified = verification.data.verified || false;
-    const isVerified = true; // TODO: remove this line when verification is implemented
+    const verification = await verifyRequest(data.propertyId, session.id);
+    const isVerified = verification?.data?.verified || false;
 
-    // if (!isVerified) {
-    //   if (verification.data.reached_property_limit) {
-    //     setReachedPropertyLimit(true);
-    //     setIsLoading(false);
-    //     return;
-    //   }
+    // Extract remaining counts from verification response
+    if (verification?.data?.remaining_assessments !== undefined) {
+      setRemainingAssessments(verification.data.remaining_assessments);
+    }
+    if (verification?.data?.remaining_properties !== undefined) {
+      setRemainingProperties(verification.data.remaining_properties);
+    }
 
-    //   if (verification.data.reached_usage_limit) {
-    //     setReachedUsageLimit(true);
-    //     setIsLoading(false);
-    //     return;
-    //   }
-    //   return;
-    // }
+    if (!isVerified) {
+      if (verification?.data?.reached_property_limit) {
+        setReachedPropertyLimit(true);
+        setIsLoading(false);
+        return;
+      }
+
+      if (verification?.data?.reached_usage_limit) {
+        setReachedUsageLimit(true);
+        setIsLoading(false);
+        return;
+      }
+      return;
+    }
 
     setIsLoading(true);
 
@@ -162,17 +171,16 @@ const AssessProperty = () => {
           `We could not find a property with that ID/URL. Please check the ID or URL and try again. If you are sure this is correct, please contact us.`
         );
         setIsAlertOpen(true);
-        // console.error("property not found: ", responseData.errorMessage);
         return;
       }
 
       const ratingResponse = await rateProperty(response.data.property);
 
-      // if (ratingResponse.data.usage && ratingResponse.data.usage == "limit") {
-      //   setReachedUsageLimit(true);
-      //   setIsLoading(false);
-      //   return;
-      // }
+      if (ratingResponse?.data?.usage && ratingResponse.data.usage == "limit") {
+        setReachedUsageLimit(true);
+        setIsLoading(false);
+        return;
+      }
 
       router.push(`/properties/comps/${response.data?.property[0]?.id}`);
     } catch (error) {
@@ -202,28 +210,68 @@ const AssessProperty = () => {
         { user_id: userId },
         { headers: authHeaders }
       );
-      // setReachedPropertyLimit()
     } catch (error) {
       console.error("Error fetching user properties:", error);
+    }
+  };
+
+  const fetchUserStats = async (userId: string) => {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/user_stats`;
+
+    try {
+      const token = await getAccessToken();
+
+      if (!token) {
+        console.error("Failed to get access token");
+        return;
+      }
+
+      const authHeaders = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      };
+
+      const response: any = await axios.post(
+        endpoint,
+        { user_id: userId },
+        { headers: authHeaders }
+      );
+
+      if (response?.data?.remaining_properties !== undefined) {
+        setRemainingProperties(response.data.remaining_properties);
+      }
+    } catch (error) {
+      console.error("Error fetching user stats:", error);
     }
   };
 
   const verifyRequest = async (externalId: any, userId: string) => {
     const endpoint = `${process.env.NEXT_PUBLIC_API_LLM_ENDPOINT}/verify`;
 
-    let config = {
-      external_id: externalId,
-      user_id: userId,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
     try {
-      const verification: any = await axios.post(endpoint, config);
+      const token = await getAccessToken();
+
+      if (!token) {
+        console.error("Failed to get access token");
+        return;
+      }
+
+      const authHeaders = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      };
+
+      const config = {
+        external_id: externalId,
+        user_id: userId,
+      };
+
+      const verification: any = await axios.post(endpoint, config, {
+        headers: authHeaders,
+      });
       return verification;
     } catch (error) {
-      console.error("Error fetching descriptions:", error);
+      console.error("Error verifying request:", error);
     }
   };
 
@@ -299,7 +347,6 @@ const AssessProperty = () => {
     await rateProperty([airbnbId]);
   };
 
-  // const INPUT_CSS = "mt-2 mb-5 w-2/3 lg:w-1/2 bg-pink-500 md:bg-green-500 lg:bg-blue-500";
   const INPUT_CSS = "mt-2 mb-5 w-2/3 lg:w-1/2";
 
   return (
@@ -323,6 +370,58 @@ const AssessProperty = () => {
       <h1 className="text-4xl mb-6">
         Getting Your Free STR Listing Feedback is Easy
       </h1>
+
+      {remainingProperties !== null && (
+        <div className={`${remainingProperties === 0 ? 'bg-red-50 border-red-200' : 'bg-blue-50 border-blue-200'} border rounded-lg p-4 mb-6`}>
+          <h2 className="font-semibold text-lg mb-2">Your Free Plan Usage</h2>
+          <div className={`grid grid-cols-1 ${remainingAssessments !== null ? 'md:grid-cols-2' : ''} gap-4`}>
+            {remainingAssessments !== null && (
+              <div>
+                <p className="text-sm text-gray-600">Assessments for this property:</p>
+                <p className={`text-2xl font-bold ${remainingAssessments === 0 ? 'text-red-600' : 'text-blue-600'}`}>
+                  {remainingAssessments} remaining
+                </p>
+                <p className="text-xs text-gray-500">
+                  (3 per property per month)
+                </p>
+              </div>
+            )}
+            <div>
+              <p className="text-sm text-gray-600">Properties you can add:</p>
+              <p className={`text-2xl font-bold ${remainingProperties === 0 ? 'text-red-600' : 'text-blue-600'}`}>
+                {remainingProperties} remaining
+              </p>
+              <p className="text-xs text-gray-500">
+                (6 properties maximum)
+              </p>
+            </div>
+          </div>
+          {remainingAssessments === null && remainingProperties > 0 && (
+            <div className="text-sm text-gray-600 mt-2">
+              <p className="font-semibold">
+                Free Plan includes:
+              </p>
+              <ul className="list-disc list-inside mt-1 space-y-1">
+                <li>Up to 6 properties maximum</li>
+                <li>3 assessments per property per calendar month</li>
+              </ul>
+              <p className="mt-2 text-gray-500 italic">
+                Enter a property URL below to see how many assessments you have remaining for that listing.
+              </p>
+            </div>
+          )}
+          {remainingProperties === 0 && (
+            <div className="text-sm text-red-600 mt-2">
+              <p className="font-semibold">
+                You have reached the maximum of 6 properties for free accounts.
+              </p>
+              <p className="mt-1">
+                Note: You can still run 3 assessments per calendar month on each of your existing properties. Please contact us if you need to add more properties.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
 
       {reachedUsageLimit && (
         <div>
@@ -358,9 +457,8 @@ const AssessProperty = () => {
           <Input
             id="address"
             className={`${INPUT_CSS}`}
-            {...register("address", {
-              // required: 'Enter the address for this property',
-            })}
+            disabled={remainingProperties === 0}
+            {...register("address")}
           />
           {errors.address && (
             <div className="text-destructive mb-5 mt-2">
@@ -385,6 +483,7 @@ const AssessProperty = () => {
                 });
               }}
               type="button"
+              disabled={remainingProperties === 0}
             >
               Run
             </Button>
@@ -406,6 +505,7 @@ const AssessProperty = () => {
           <Input
             id="propertyId"
             className="mt-2 mb-5 w-64"
+            disabled={remainingProperties === 0}
             {...register("propertyId", {
               required: "Enter the Airbnb ID for this property",
             })}
@@ -424,7 +524,7 @@ const AssessProperty = () => {
             >
               Cancel
             </Button>
-            <Button type="submit">Run</Button>
+            <Button type="submit" disabled={remainingProperties === 0}>Run</Button>
           </div>
         </form>
       </FormProvider>
@@ -454,7 +554,6 @@ const AssessProperty = () => {
                 <TableCell>{rating.description_rating_number}</TableCell>
                 <TableCell>{rating.descsription_feedback}</TableCell>
                 <TableCell>
-                  {/* {rating.descsription_suggestions} */}
                   <div className="flex flex-col">
                     <div className="text-sm">
                       {rating.descsription_suggestions}
