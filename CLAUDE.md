@@ -119,6 +119,10 @@ This is a Next.js 14 application built as an STR (Short-Term Rental) property an
 **Core Features:**
 
 - **Feedback Genius**: Property analysis and assessment with competitive comparisons
+  - **Free plan usage limits**: 6 properties max (lifetime), 3 assessments per property per month
+  - Usage verification happens server-side via FastAPI `/verify` endpoint
+  - Frontend displays remaining usage proactively in UI
+  - Monthly limits reset on calendar month boundaries (Pacific Time)
 - **Market Spy**: Market research tool with user-selectable room type (Room or Entire Home)
 - **Market Scout**: Streamlined market research for entire home properties only
 - User subscription management with different plans
