@@ -8,13 +8,6 @@ export interface PricingTier {
 }
 
 /**
- * Check if promotional pricing is active
- */
-function isPromoActive(): boolean {
-  return process.env.NEXT_PUBLIC_PROMO_ACTIVE === "true";
-}
-
-/**
  * Calculate total price using volume-based pricing tiers
  * In volume pricing, the per-listing rate depends on the quantity tier
  * @param listings - Number of listings
@@ -72,8 +65,7 @@ export function calculatePrice(
     }
   }
 
-  // Apply 50% discount if promo is active
-  return isPromoActive() ? basePrice * 0.5 : basePrice;
+  return basePrice;
 }
 
 // Get the appropriate Stripe price ID for one-time payments
@@ -163,6 +155,5 @@ export function getPerListingRate(
     }
   }
 
-  // Apply 50% discount if promo is active
-  return isPromoActive() ? baseRate * 0.5 : baseRate;
+  return baseRate;
 }
