@@ -44,7 +44,6 @@ export default function PricingPageNew() {
     listingCount,
     billingType === "subscription" ? "one_time" : "subscription"
   );
-  const isPromoActive = process.env.NEXT_PUBLIC_PROMO_ACTIVE === "true";
 
   const isCurrentPlan = (planKey: string) => {
     return planData?.key === planKey;
@@ -155,20 +154,6 @@ export default function PricingPageNew() {
                 Recommended
               </Badge>
             </div>
-
-            {/* Black Friday Badge */}
-            {isPromoActive && (
-              <div className="absolute -top-4 -right-4 z-10 text-center">
-                <Image
-                  src="/images/50-percent-off-holiday-special.svg"
-                  alt="50% Off Holiday Special"
-                  width={100}
-                  height={100}
-                  quality={100}
-                  className="w-[80px] md:w-[100px] h-auto"
-                />
-              </div>
-            )}
 
             <CardHeader className="pb-4 pt-6">
               <h3 className="text-xl font-bold">Pro Plan</h3>
@@ -305,21 +290,6 @@ export default function PricingPageNew() {
                     </p>
                   )}
                 </div>
-
-                {/* Promo Code Banner */}
-                {process.env.NEXT_PUBLIC_PROMO_CODE && (
-                  <div className="bg-success/10 border border-success/20 rounded-lg p-3 text-center">
-                    <p className="text-sm font-semibold text-success mb-1">
-                      50% Off Sale!
-                    </p>
-                    <p className="text-xs text-muted-foreground mb-2">
-                      Use code at checkout:
-                    </p>
-                    <div className="bg-background border-2 border-dashed border-success/40 rounded px-3 py-2 font-mono font-bold text-base text-success">
-                      {process.env.NEXT_PUBLIC_PROMO_CODE}
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* CTA Button */}
