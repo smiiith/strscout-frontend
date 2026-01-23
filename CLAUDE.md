@@ -95,6 +95,167 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
   - Production: `https://www.strsage.com/**`
   - Vercel previews: `https://*.vercel.app/**` (if needed)
 
+## Promotional Pricing (Sales/Discounts)
+
+**Status**: Currently disabled (removed January 2026)
+
+The application has infrastructure for running promotional sales (e.g., Black Friday, Holiday sales) with percentage discounts. The promo assets are preserved for future use.
+
+### How to Re-enable Promotional Pricing
+
+**1. Environment Variables**
+
+The following variables are already in `.env.local` but not actively used:
+
+```bash
+NEXT_PUBLIC_PROMO_ACTIVE=true          # Set to "true" to activate promo
+NEXT_PUBLIC_PROMO_CODE=HOLIDAY2025     # Promo code shown to users
+STRIPE_PROMOTIONAL_COUPON_ID=L82oXlBp  # Stripe coupon ID (if using Stripe coupons)
+```
+
+For production, add these to Vercel environment variables.
+
+**2. Update Pricing Logic** (`lib/pricing.ts`)
+
+Add the discount function and apply it to price calculations:
+
+```typescript
+// Add after PricingTier interface
+/**
+ * Check if promotional pricing is active
+ */
+function isPromoActive(): boolean {
+  return process.env.NEXT_PUBLIC_PROMO_ACTIVE === "true";
+}
+
+// In calculatePrice() function, change the return statement:
+// FROM:
+return basePrice;
+
+// TO:
+return isPromoActive() ? basePrice * 0.5 : basePrice;  // 0.5 = 50% off
+
+// In getPerListingRate() function, change the return statement:
+// FROM:
+return baseRate;
+
+// TO:
+return isPromoActive() ? baseRate * 0.5 : baseRate;  // 0.5 = 50% off
+```
+
+**3. Add Promo Badge to Pricing Page** (`components/pricing-page-new.tsx`)
+
+Add after imports:
+```typescript
+const isPromoActive = process.env.NEXT_PUBLIC_PROMO_ACTIVE === "true";
+```
+
+Add badge image inside Pro Plan Card (after "Recommended" badge):
+```typescript
+{/* Sale Badge */}
+{isPromoActive && (
+  <div className="absolute -top-4 -right-4 z-10 text-center">
+    <Image
+      src="/images/50-percent-off-holiday-special.svg"
+      alt="50% Off Holiday Special"
+      width={100}
+      height={100}
+      quality={100}
+      className="w-[80px] md:w-[100px] h-auto"
+    />
+  </div>
+)}
+```
+
+Add promo code banner (after price summary, before CTA button):
+```typescript
+{/* Promo Code Banner */}
+{process.env.NEXT_PUBLIC_PROMO_CODE && (
+  <div className="bg-success/10 border border-success/20 rounded-lg p-3 text-center">
+    <p className="text-sm font-semibold text-success mb-1">
+      50% Off Sale!
+    </p>
+    <p className="text-xs text-muted-foreground mb-2">
+      Use code at checkout:
+    </p>
+    <div className="bg-background border-2 border-dashed border-success/40 rounded px-3 py-2 font-mono font-bold text-base text-success">
+      {process.env.NEXT_PUBLIC_PROMO_CODE}
+    </div>
+  </div>
+)}
+```
+
+**4. Add Promo Badge to Pro Plan Selector** (`components/pro-plan-selector.tsx`)
+
+Add after state declarations:
+```typescript
+const isPromoActive = process.env.NEXT_PUBLIC_PROMO_ACTIVE === "true";
+```
+
+Add mobile badge (after Card opening tag):
+```typescript
+{/* Sale Badge - Mobile */}
+{isPromoActive && (
+  <div className="absolute -top-4 -right-4 z-10 md:hidden text-center">
+    <Image
+      src="/images/50-percept-off-black-friday.png"
+      alt="50% Off Sale"
+      width={120}
+      height={120}
+      quality={100}
+      className="w-[120px] h-auto"
+    />
+    <p className="text-[10px] text-muted-foreground mt-1 bg-background/80 px-1 rounded">
+      Discounted prices shown
+    </p>
+  </div>
+)}
+```
+
+Add desktop badge (inside features section):
+```typescript
+<div className="flex gap-4 items-start">
+  <div className="flex-1">
+    {/* Features list */}
+  </div>
+
+  {/* Sale Badge - Desktop */}
+  {isPromoActive && (
+    <div className="hidden md:block flex-shrink-0 text-center">
+      <Image
+        src="/images/50-percept-off-black-friday.png"
+        alt="50% Off Sale"
+        width={150}
+        height={150}
+        quality={100}
+        className="w-[150px] h-auto"
+      />
+      <p className="text-xs text-muted-foreground mt-2">
+        Discounted prices shown
+      </p>
+    </div>
+  )}
+</div>
+```
+
+**5. Available Badge Images**
+
+- `/public/images/50-percent-off-holiday-special.svg` - SVG badge for general sales
+- `/public/images/50-percept-off-black-friday.png` - PNG badge for Black Friday
+
+**6. Important Notes**
+
+- The discount percentage is hardcoded in `lib/pricing.ts` (currently 50% = `* 0.5`)
+- To change discount amount, modify the multiplier in both `calculatePrice()` and `getPerListingRate()`
+- Badge images reference "50% off" - create new images if using different discount
+- **Stripe Integration**: If using Stripe coupons, configure `STRIPE_PROMOTIONAL_COUPON_ID` and apply in checkout
+- Test in development first before deploying to production
+- Remember to update badge alt text and promo code text to match your actual sale
+
+**7. To Disable Promo Again**
+
+Simply set `NEXT_PUBLIC_PROMO_ACTIVE=false` in environment variables (no code changes needed if you keep the conditional logic).
+
 ## Architecture Overview
 
 This is a Next.js 14 application built as an STR (Short-Term Rental) property analysis tool called "STR Feedback Genius". The application provides property assessment, competitive analysis, and ratings for Airbnb/rental properties.
