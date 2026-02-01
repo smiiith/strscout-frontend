@@ -304,15 +304,17 @@ export default function AirbnbFeesGuide() {
               <h3 className="font-semibold text-lg mb-4 text-center">Learn More in this quick video</h3>
 
               <div className="aspect-video rounded-lg overflow-hidden bg-muted mb-6">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/dOBdLm3_Z1s"
-                  title="Host Assist Demo"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
+                <video
+                  className="w-full h-full"
+                  controls
+                  preload="metadata"
+                >
+                  <source
+                    src="https://eklefalzcpfrnsmzrlbn.supabase.co/storage/v1/object/public/video/host-assist.mp4"
+                    type="video/mp4"
+                  />
+                  Your browser does not support the video tag.
+                </video>
               </div>
 
               <div className="border-t border-primary/20 pt-6 text-center">
