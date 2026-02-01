@@ -16,6 +16,7 @@ import {
   TrendingUp,
   Target,
   Zap,
+  DollarSign,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -961,6 +962,27 @@ export default async function ImproveAirbnbRatingGuide() {
                   </p>
                   <Link
                     href="/guides/str-interior-design-tips"
+                    className="text-xs text-primary hover:underline"
+                  >
+                    Read Guide →
+                  </Link>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="p-2 bg-amber-500/10 rounded-lg">
+                  <DollarSign className="w-5 h-5 text-amber-500" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold mb-1">Understanding Host Fees</h3>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    Minimize your Airbnb costs
+                  </p>
+                  <Link
+                    href="/guides/airbnb-fees"
                     className="text-xs text-primary hover:underline"
                   >
                     Read Guide →
