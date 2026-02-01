@@ -285,134 +285,49 @@ export default function AirbnbFeesGuide() {
         </Card>
       </section>
 
-      {/* How to Check Settings */}
+      {/* Host Assist Section */}
       <section className="mb-12">
         <h2 className="text-3xl font-bold mb-6">
-          How to Check and Change Your Fee Structure
-        </h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Check PMS Connection</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ol className="space-y-3 text-sm">
-                <li className="flex items-start gap-2">
-                  <span className="font-semibold text-primary flex-shrink-0">1.</span>
-                  <span>Go to Account Settings</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="font-semibold text-primary flex-shrink-0">2.</span>
-                  <span>Navigate to Privacy & Sharing</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="font-semibold text-primary flex-shrink-0">3.</span>
-                  <span>Click on Services / Connected Apps</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="font-semibold text-primary flex-shrink-0">4.</span>
-                  <span>To disconnect: Click "Remove access" then "Done"</span>
-                </li>
-              </ol>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Change Fee Structure</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ol className="space-y-3 text-sm">
-                <li className="flex items-start gap-2">
-                  <span className="font-semibold text-primary flex-shrink-0">1.</span>
-                  <span>Go to Account Settings</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="font-semibold text-primary flex-shrink-0">2.</span>
-                  <span>Navigate to Payments</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="font-semibold text-primary flex-shrink-0">3.</span>
-                  <span>Click on Service Fee</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="font-semibold text-primary flex-shrink-0">4.</span>
-                  <span>View your current setting and choose your preferred option (if eligible)</span>
-                </li>
-              </ol>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* Other Costs */}
-      <section className="mb-12">
-        <h2 className="text-3xl font-bold mb-6">
-          Beyond Service Fees: Other Hosting Costs
+          Can I Manage Hosting Tasks and Avoid the 15% Fee?
         </h2>
         <Card>
           <CardContent className="pt-6">
-            <p className="mb-4 text-muted-foreground">
-              Besides the service fee, hosts should budget for these additional costs:
+            <p className="text-base mb-4">
+              You can manage hosting and avoid the 15% fee with tools such as Host Assist.
+              Host Assist is an easy to use task manager made specifically for STR hosts.
+              It helps you stay organized, assign tasks, communicate with cleaners, and get
+              reminders — so nothing slips through the cracks. It does this without connecting
+              as a PMS so you aren't forced into the 15% fee structure.
             </p>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <DollarSign className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Cleaning Costs</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Professional cleaning between guests (can be passed to guests via cleaning fee)
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <DollarSign className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Supplies & Amenities</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Toiletries, linens, kitchen supplies, coffee, etc.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <DollarSign className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Maintenance & Repairs</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Regular upkeep and fixing items as they wear out
-                    </p>
-                  </div>
-                </div>
+
+            <div className="bg-primary/5 border border-primary/20 rounded-lg p-6">
+              <h3 className="font-semibold text-lg mb-4 text-center">Learn More in this quick video</h3>
+
+              <div className="aspect-video rounded-lg overflow-hidden bg-muted mb-6">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/dOBdLm3_Z1s"
+                  title="Host Assist Demo"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
               </div>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <DollarSign className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Taxes</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Local occupancy taxes, VAT, or income taxes on earnings
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <DollarSign className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Insurance</h3>
-                    <p className="text-sm text-muted-foreground">
-                      STR-specific insurance beyond Airbnb's Host Protection
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <DollarSign className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Software & Tools</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Optional tools for pricing, messaging, task management, etc.
-                    </p>
-                  </div>
-                </div>
+
+              <div className="border-t border-primary/20 pt-6 text-center">
+                <h3 className="font-semibold text-lg mb-2">Get Free Early Access</h3>
+                <p className="text-muted-foreground mb-4">
+                  We're opening a small early access group.
+                  <br />
+                  Join free and help shape what gets built first.
+                </p>
+                <Button asChild variant="outline" size="lg">
+                  <Link href="/host-assist">Join Early Access</Link>
+                </Button>
+                <p className="text-xs text-muted-foreground mt-3">
+                  No spam. Cancel anytime.
+                </p>
               </div>
             </div>
           </CardContent>
@@ -424,73 +339,38 @@ export default function AirbnbFeesGuide() {
         pageUrl="https://www.strsage.com/guides/airbnb-fees"
         faqs={[
           {
+            question: "How do I check if I am PMS-connected, and disconnect if I want?",
+            answer:
+              "In Airbnb: Account settings → Privacy & Sharing → Services / Connected Apps → (then → Remove access if you want to disconnect and click \"done\")",
+          },
+          {
+            question: "How do I check which fee structure I am on and/or change?",
+            answer:
+              "In Airbnb: Account settings → Payments → Service fee. You will see your setting and have the option to choose which you want (if you are eligible)",
+          },
+          {
             question: "How much does Airbnb take from hosts?",
             answer:
-              "Typically either about 3% (Split Fee) or about 14–16% (Single Fee), depending on your setup. The Split Fee structure charges hosts 3% while guests pay 12%. The Single Fee structure charges hosts the entire 14-16% service fee.",
+              "Typically either about 3% (Split Fee) or about 14–16% (Single Fee), depending on your setup.",
           },
           {
             question: "What is the Airbnb fee for host bookings, exactly?",
             answer:
-              "Your Airbnb host service fee depends on your fee structure: Split Fee is usually around 3%, and Single Fee is usually around 14–16%. Fees vary by country, cancellation policy, and other factors (example: Brazil differs; 'Super Strict' cancellation policy can add +2%; long stays may be less; VAT may apply).",
-          },
-          {
-            question: "How do I check if I am PMS-connected, and disconnect if I want?",
-            answer:
-              "In Airbnb: Go to Account settings → Privacy & Sharing → Services / Connected Apps → (then → Remove access if you want to disconnect and click 'done'). Disconnecting from PMS allows you to switch back to the 3% Split Fee structure.",
-          },
-          {
-            question: "How do I check which fee structure I am on and/or change it?",
-            answer:
-              "In Airbnb: Go to Account settings → Payments → Service fee. You will see your current setting and have the option to choose which you want (if you are eligible). Note that PMS-connected accounts are required to use the Single Fee structure.",
+              "Your Airbnb host service fee depends on your fee structure: Split Fee is usually around 3%, and Single Fee is usually around 14–16%. Fees vary by country, cancellation policy, and other factors (example: Brazil differs; \"Super Strict\" cancellation policy can add +2%; long stays may be less; VAT may apply)",
           },
           {
             question: "What are the typical Airbnb host costs beyond the service fee?",
             answer:
-              "Besides the service fee, hosts may also see taxes (where applicable) and operational costs like cleaning fees, supplies, maintenance, insurance, and software tools you choose to use. Professional cleaning is often the largest variable cost per booking.",
+              "Besides the service fee, hosts may also see taxes (where applicable) and optional costs like cleaning fee, supplies, maintenance, and software tools you choose to use.",
           },
           {
             question: "Why do people use different phrases to describe the Airbnb fee for hosts?",
             answer:
-              "Different people use different phrases. You might see 'Airbnb charges for hosts,' 'Airbnb host fee,' or 'Airbnb fees for host'—but they're usually all talking about the same thing: the service fee Airbnb takes from the booking.",
-          },
-          {
-            question: "Can I pass my Airbnb fees to guests?",
-            answer:
-              "In the Split Fee structure, guests already pay their portion (12%) of the total fee. In the Single Fee structure, you could theoretically increase your nightly rate to cover the 14-16% fee, but this may make you less competitive. Many hosts find the 3% Split Fee structure more profitable if they're eligible.",
-          },
-          {
-            question: "What is an Airbnb cleaning fee and how should I set it?",
-            answer:
-              "The cleaning fee is a one-time charge to guests to cover the cost of cleaning between stays. It's separate from Airbnb's service fees. Set your cleaning fee based on your actual cleaning costs (typically $50-200 depending on property size and location). The fee is displayed separately to guests when they book.",
+              "Different people use different phrases. You might see Airbnb charges for hosts, Airbnb host fee, or Airbnb fees for host—but they're usually all talking about the same thing: the service fee Airbnb takes from the booking.",
           },
         ]}
       />
 
-      {/* CTA */}
-      <section className="mb-12">
-        <Card className="bg-primary/5 border-primary/20">
-          <CardContent className="pt-6 text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              Maximize Your Airbnb Revenue
-            </h2>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Understanding fees is just the start. Use our AI-powered tools to optimize
-              your listing, analyze your market, and increase your nightly rates to offset
-              any hosting costs.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg">
-                <Link href="/feedback-genius/analyze">
-                  Optimize Your Listing Free
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/market-spy">Analyze Your Market</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
 
       {/* Related Guides */}
       <section className="mb-8">
@@ -578,6 +458,22 @@ export default function AirbnbFeesGuide() {
             <CardContent className="pt-6">
               <h3 className="font-semibold mb-2">
                 <Link
+                  href="/host-assist"
+                  className="hover:text-primary hover:underline"
+                >
+                  Host Assist →
+                </Link>
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Task manager for STR hosts that helps you avoid the 15% fee. Stay organized
+                without connecting to a PMS.
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <h3 className="font-semibold mb-2">
+                <Link
                   href="/feedback-genius"
                   className="hover:text-primary hover:underline"
                 >
@@ -587,22 +483,6 @@ export default function AirbnbFeesGuide() {
               <p className="text-sm text-muted-foreground">
                 Get AI-powered analysis of your entire Airbnb listing to increase
                 bookings and justify higher nightly rates.
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-2">
-                <Link
-                  href="/market-spy"
-                  className="hover:text-primary hover:underline"
-                >
-                  Market Spy →
-                </Link>
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Analyze your competition and discover the optimal pricing strategy
-                for your market to maximize revenue.
               </p>
             </CardContent>
           </Card>
