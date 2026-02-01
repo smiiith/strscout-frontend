@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Metadata } from "next";
-import { ArrowRight, BookOpen, Camera, Home, ListChecks, Sparkles, TrendingUp } from "lucide-react";
+import { ArrowRight, BookOpen, Camera, DollarSign, Home, ListChecks, Sparkles, TrendingUp } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Airbnb & Short-Term Rental Optimization Guides | STR Sage",
@@ -26,6 +26,16 @@ export const metadata: Metadata = {
 };
 
 const guides = [
+  {
+    title: "Understanding Airbnb Host Fees",
+    description:
+      "Complete breakdown of Airbnb's fee structures. Learn about Split Fee vs Single Fee and how to minimize your hosting costs.",
+    href: "/guides/airbnb-fees",
+    icon: DollarSign,
+    color: "text-amber-500",
+    bgColor: "bg-amber-500/10",
+    available: true,
+  },
   {
     title: "Airbnb Title Optimization",
     description:
