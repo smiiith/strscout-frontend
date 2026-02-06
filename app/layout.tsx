@@ -7,6 +7,7 @@ import SiteAccess from "@/components/site-access";
 import { getNonce } from "@/lib/nonce";
 import { Analytics } from "@vercel/analytics/next";
 import { FloatingChatButton } from "@/components/floating-chat-button";
+import Script from "next/script";
 
 export const metadata = {
   title: "STR Sage",
@@ -27,6 +28,18 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=AW-10990796933"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'AW-10990796933');
+        `}
+      </Script>
       <body className="px-0 md:px-5 bg-muted">
         <PostHogTracker>
           <ThemeProvider
