@@ -170,9 +170,9 @@ export async function middleware(request: NextRequest) {
 
     const cspHeader = `
       default-src 'self';
-      script-src 'self' 'nonce-${nonce}' 'sha256-X9GtzORyUShRgrb5vBVwF3p8WtKom3jBuMyocEhfL3Q=' https://js.stripe.com https://vercel.live;
+      script-src 'self' 'nonce-${nonce}' 'sha256-X9GtzORyUShRgrb5vBVwF3p8WtKom3jBuMyocEhfL3Q=' https://js.stripe.com https://vercel.live https://www.googletagmanager.com;
       style-src 'self' 'unsafe-inline';
-      img-src 'self' blob: data: https://a0.muscache.com https://*.stripe.com https://*.supabase.co;
+      img-src 'self' blob: data: https://a0.muscache.com https://*.stripe.com https://*.supabase.co https://www.googletagmanager.com;
       font-src 'self';
       object-src 'none';
       base-uri 'self';
@@ -180,7 +180,7 @@ export async function middleware(request: NextRequest) {
       frame-ancestors 'none';
       frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://vercel.live https://www.youtube.com;
       media-src 'self' https://*.supabase.co;
-      connect-src 'self' ${supabaseUrl} https://*.supabase.co wss://*.supabase.co ${backendUrl} https://syncnanny-ai-dev-production.up.railway.app https://syncnanny-ai-production.up.railway.app https://api.stripe.com https://api.geoapify.com ${posthogHost} https://internal-j.posthog.com ${appDomain}/ingest/;
+      connect-src 'self' ${supabaseUrl} https://*.supabase.co wss://*.supabase.co ${backendUrl} https://syncnanny-ai-dev-production.up.railway.app https://syncnanny-ai-production.up.railway.app https://api.stripe.com https://api.geoapify.com ${posthogHost} https://internal-j.posthog.com ${appDomain}/ingest/ https://www.googletagmanager.com https://www.google-analytics.com;
       upgrade-insecure-requests;
     `
       .replace(/\s{2,}/g, " ")
