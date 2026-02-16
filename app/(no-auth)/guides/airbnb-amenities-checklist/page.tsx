@@ -11,7 +11,7 @@ import { Sparkles, Camera, BookOpen, ArrowLeft, CheckCircle2, Circle } from "luc
 export const metadata: Metadata = {
   title: "Essential Airbnb Amenities Checklist: What Guests Expect | STR Sage",
   description:
-    "Complete checklist of must-have and nice-to-have amenities for your Airbnb listing. Based on AI analysis of thousands of properties. Increase bookings with the right amenities.",
+    "Must-have and nice-to-have amenities for your Airbnb. AI analysis of thousands of properties shows what increases bookings and satisfaction.",
   keywords: [
     "airbnb amenities checklist",
     "airbnb amenities list",
@@ -26,6 +26,14 @@ export const metadata: Metadata = {
       "Complete guide to amenities that increase bookings. Learn what guests expect and what makes your listing stand out.",
     type: "article",
     url: "https://www.strsage.com/guides/airbnb-amenities-checklist",
+    images: [
+      {
+        url: "https://www.strsage.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "STR Sage - Airbnb Amenities Checklist",
+      },
+    ],
   },
 };
 
