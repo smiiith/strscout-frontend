@@ -8,7 +8,7 @@ import MarketSpyLanding from "./market-spy-landing";
 export async function generateMetadata() {
   return {
     title: "Market Spy - STR Competitive Analysis | STR Sage",
-    description: "Analyze short-term rental competition in any market. Get data-driven insights on comparable properties, pricing strategies, and market viability for your STR investment.",
+    description: "Analyze STR competition in any market. Get data-driven insights on comparable properties, pricing strategies, and investment viability.",
     robots: {
       index: process.env.NODE_ENV === "production",
       follow: process.env.NODE_ENV === "production",
@@ -21,6 +21,14 @@ export async function generateMetadata() {
       description: "Analyze short-term rental competition in any market. Get data-driven insights for your STR investment.",
       url: "https://www.strsage.com/market-spy",
       type: "website",
+      images: [
+        {
+          url: "https://www.strsage.com/market-spy-og.png",
+          width: 1200,
+          height: 630,
+          alt: "Market Spy - STR Competitive Analysis",
+        },
+      ],
     },
   };
 }

@@ -58,16 +58,16 @@ export function HostAssistHero() {
           <div className="lg:w-3/5">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-balance">
               Hosts...
-            </h1>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-balance">
+              <br />
               Stay on top of every task, and off Airbnb's fee list.
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed text-pretty">
-              We get it. Being a short term rental host means managing a lot of tasks.
-              If anything falls through the cracks then it's disaster. PMS systems
-              promise help, but are expensive, have a steep learning curve and worst
-              of all force you to pay 15% or more in fees to Airbnb.
+              We get it. Being a short term rental host means managing a lot of
+              tasks. If anything falls through the cracks then it's disaster.
+              PMS systems promise help, but are expensive, have a steep learning
+              curve and worst of all force you to pay 15% or more in fees to
+              Airbnb.
             </p>
 
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">
@@ -75,11 +75,12 @@ export function HostAssistHero() {
             </h2>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-6 leading-relaxed text-pretty">
-              Host Assist works from your browser or phone. It tracks all of your tasks:
-              from messaging guests, scheduling cleaners, adjusting thermostats, creating
-              lock codes -- you name it. No more sticky notes and no more spreadsheets.
-              Host Assist alerts you each time a task needs done so you stay on top of it.
-              It's that easy, and easy to use.
+              Host Assist works from your browser or phone. It tracks all of
+              your tasks: from messaging guests, scheduling cleaners, adjusting
+              thermostats, creating lock codes -- you name it. No more sticky
+              notes and no more spreadsheets. Host Assist alerts you each time a
+              task needs done so you stay on top of it. It's that easy, and easy
+              to use.
             </p>
 
             <div className="bg-muted/50 border border-border rounded-xl p-6 mb-8">
@@ -87,13 +88,13 @@ export function HostAssistHero() {
                 Increase profits.
               </h3>
               <p className="text-base leading-relaxed mb-4">
-                Host Assist is not a PMS that forces the 15% or more fee for Airbnb.
-                You can keep your listing(s) at the 3% split fee.
+                Host Assist is not a PMS that forces the 15% or more fee for
+                Airbnb. You can keep your listing(s) at the 3% split fee.
               </p>
               <p className="text-base leading-relaxed">
-                Nothing should ever fall through the cracks and you shouldn't have to
-                pay crazy fees. Keep those 5 star reviews rolling in and get control
-                over your business. Sign up today.
+                Nothing should ever fall through the cracks and you shouldn't
+                have to pay crazy fees. Keep those 5 star reviews rolling in and
+                get control over your business. Sign up today.
               </p>
             </div>
 
