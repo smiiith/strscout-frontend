@@ -41,10 +41,7 @@ export function MarketSpyHero() {
             </div>
 
             <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-2 text-balance">
-              Hosts, you need more bookings.
-            </h1>
-
-            <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold  mb-6 text-balance">
+              Hosts, you need more bookings. <br />
               And you're not sure how.
             </h1>
 

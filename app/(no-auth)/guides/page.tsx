@@ -7,7 +7,7 @@ import { ArrowRight, BookOpen, Camera, DollarSign, Home, ListChecks, Sparkles, T
 export const metadata: Metadata = {
   title: "Airbnb & Short-Term Rental Optimization Guides | STR Sage",
   description:
-    "Free expert guides to optimize your Airbnb listing. Learn how to improve your title, photos, description, amenities, and more. Based on AI analysis of thousands of listings.",
+    "Free expert guides to optimize your Airbnb listing. Improve titles, photos, descriptions, amenities and more. AI-powered insights from thousands of listings.",
   keywords: [
     "airbnb optimization",
     "airbnb tips",
@@ -22,6 +22,14 @@ export const metadata: Metadata = {
       "Free expert guides to optimize your Airbnb listing and increase bookings.",
     type: "website",
     url: "https://www.strsage.com/guides",
+    images: [
+      {
+        url: "https://www.strsage.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Airbnb & Short-Term Rental Optimization Guides",
+      },
+    ],
   },
 };
 
