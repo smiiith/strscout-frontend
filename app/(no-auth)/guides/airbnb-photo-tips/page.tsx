@@ -19,7 +19,7 @@ import {
 export const metadata: Metadata = {
   title: "Airbnb Photo Tips: Professional Photography Guide | STR Sage",
   description:
-    "Master Airbnb listing photography with expert tips on lighting, composition, and staging. Based on AI analysis of thousands of listings. Increase bookings with better photos.",
+    "Master Airbnb photography with expert tips on lighting, composition, and staging. AI analysis shows what increases bookings and attracts guests.",
   keywords: [
     "airbnb photo tips",
     "vacation rental photography",
@@ -35,6 +35,14 @@ export const metadata: Metadata = {
       "Learn how to take professional-quality photos that increase bookings. Expert tips backed by AI analysis.",
     type: "article",
     url: "https://www.strsage.com/guides/airbnb-photo-tips",
+    images: [
+      {
+        url: "https://www.strsage.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "STR Sage - Airbnb Photo Tips",
+      },
+    ],
   },
 };
 

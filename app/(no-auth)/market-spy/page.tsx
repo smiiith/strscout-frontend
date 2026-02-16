@@ -23,10 +23,10 @@ export async function generateMetadata() {
       type: "website",
       images: [
         {
-          url: "https://www.strsage.com/market-spy-og.png",
+          url: "https://www.strsage.com/og-image.png",
           width: 1200,
           height: 630,
-          alt: "Market Spy - STR Competitive Analysis",
+          alt: "STR Sage - Market Spy",
         },
       ],
     },
