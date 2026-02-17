@@ -370,6 +370,46 @@ Both products share the same underlying infrastructure but differ in UX:
 - **Security**: Plan authorization happens server-side in middleware, not client-side (prevents bypassing)
 - **Important**: Uses `utils/supabase/client.ts` (SSR-compatible) not `utils/supabase/js-client.ts` for authentication
 
+### Try Before Signup Flow (Feedback Genius)
+
+Anonymous users can try Feedback Genius without creating an account via `/feedback-genius/try`.
+
+**Flow:**
+1. User visits `/feedback-genius/try` → anonymous Supabase user created via `signInAnonymously()`
+2. User submits Airbnb URL → Node backend scrapes property → Frontend sends to FastAPI for AI analysis
+3. User redirected to `/properties/comps/try/[propertyId]` → sees limited/blurred results
+4. User enters email → registration invite sent via Resend → `pending_conversions` row created
+5. User clicks email link → `/feedback-genius/complete-registration` → sets password
+6. Email confirmed → `/auth/callback` triggers property ownership transfer → redirected to full results at `/properties/comps/[propertyId]`
+
+**Two registration paths:**
+- **Path A (anonymous session still active):** `supabase.auth.updateUser()` converts the anonymous user in-place
+- **Path B (session expired, e.g. different browser):** New permanent account created, `pending_conversions.new_user_id` updated, ownership transferred in auth callback
+
+**Rate limiting:** 2 assessments per IP per 24 hours tracked in `anonymous_usage` table.
+
+**Key files:**
+- `app/(no-auth)/feedback-genius/try/page.tsx` - Try page
+- `app/(no-auth)/properties/comps/try/[propertyId]/page.tsx` - Limited results page
+- `app/(no-auth)/feedback-genius/complete-registration/page.tsx` - Password setup
+- `components/EmailCaptureDialog.tsx` - Email capture modal
+- `components/LimitedPropertyRatings.tsx` - Blurred ratings component
+- `app/api/auth/send-registration-invite/route.ts` - Sends invite email
+- `app/api/auth/complete-registration/route.ts` - Creates permanent account (Path B)
+- `app/api/auth/transfer-property-ownership/route.ts` - Transfers listings to permanent user
+- `app/api/admin/cleanup-anonymous-users/route.ts` - Admin cleanup endpoint
+- `app/api/rate-limit/check/route.ts` + `record/route.ts` - Rate limiting
+
+**Database tables added:** `anonymous_usage`, `pending_conversions`, `users_to_delete`
+**Function added:** `cleanup_old_anonymous_users(days_old)`
+**Migration:** `supabase/migrations/20260216_try_before_signup_combined.sql`
+
+**Important notes:**
+- Anonymous users get a profile created automatically via `handle_new_user()` trigger (needed for FK constraint on `str_properties`)
+- The Node backend does NOT call FastAPI - the frontend sends property data to FastAPI after the Node backend responds
+- Test in incognito window to avoid interference from existing sessions
+- Admin cleanup endpoint: `POST /api/admin/cleanup-anonymous-users` (requires `is_admin = true`)
+
 #### Authentication Best Practices
 
 - **Always use `useUserSession()` hook** in authenticated pages instead of manual `getSession()`/`getUser()` calls
