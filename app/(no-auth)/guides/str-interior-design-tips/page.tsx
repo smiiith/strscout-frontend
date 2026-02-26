@@ -86,7 +86,8 @@ export default async function STRInteriorDesignTipsGuide() {
             about: {
               "@type": "Thing",
               name: "Vacation rental interior design",
-              description: "Interior design and styling for short-term rental properties",
+              description:
+                "Interior design and styling for short-term rental properties",
             },
             mentions: [
               {
@@ -158,7 +159,7 @@ export default async function STRInteriorDesignTipsGuide() {
       </header>
 
       {/* Key Statistics */}
-      <section className="mb-12">
+      {/* <section className="mb-12">
         <Card>
           <CardHeader>
             <CardTitle>What Our Analysis Shows</CardTitle>
@@ -225,7 +226,7 @@ export default async function STRInteriorDesignTipsGuide() {
             </div>
           </CardContent>
         </Card>
-      </section>
+      </section> */}
 
       {/* Common Issues */}
       {stats.commonFeedbackThemes.length > 0 && (

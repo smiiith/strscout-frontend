@@ -71,8 +71,7 @@ export default async function AirbnbTitleOptimizationGuide() {
             dateModified: new Date().toISOString(),
             mainEntityOfPage: {
               "@type": "WebPage",
-              "@id":
-                "https://www.strsage.com/guides/airbnb-title-optimization",
+              "@id": "https://www.strsage.com/guides/airbnb-title-optimization",
             },
             about: {
               "@type": "Thing",
@@ -149,7 +148,7 @@ export default async function AirbnbTitleOptimizationGuide() {
       </header>
 
       {/* Key Statistics */}
-      <section className="mb-12">
+      {/* <section className="mb-12">
         <Card>
           <CardHeader>
             <CardTitle>What Our Analysis Shows</CardTitle>
@@ -173,7 +172,7 @@ export default async function AirbnbTitleOptimizationGuide() {
                       {Math.round(
                         (stats.ratingDistribution.excellent /
                           stats.totalProperties) *
-                          100
+                          100,
                       )}
                       %
                     </span>
@@ -184,7 +183,7 @@ export default async function AirbnbTitleOptimizationGuide() {
                       {Math.round(
                         (stats.ratingDistribution.good /
                           stats.totalProperties) *
-                          100
+                          100,
                       )}
                       %
                     </span>
@@ -195,7 +194,7 @@ export default async function AirbnbTitleOptimizationGuide() {
                       {Math.round(
                         (stats.ratingDistribution.satisfactory /
                           stats.totalProperties) *
-                          100
+                          100,
                       )}
                       %
                     </span>
@@ -206,7 +205,7 @@ export default async function AirbnbTitleOptimizationGuide() {
                       {Math.round(
                         (stats.ratingDistribution.needsImprovement /
                           stats.totalProperties) *
-                          100
+                          100,
                       )}
                       %
                     </span>
@@ -216,7 +215,7 @@ export default async function AirbnbTitleOptimizationGuide() {
             </div>
           </CardContent>
         </Card>
-      </section>
+      </section> */}
 
       {/* Common Issues */}
       {stats.commonFeedbackThemes.length > 0 && (
@@ -439,7 +438,8 @@ export default async function AirbnbTitleOptimizationGuide() {
               "Yes, especially for multi-bedroom properties. Bedroom count is a key search filter for guests. Including it in your title (e.g., '3BR Family Home') helps guests quickly identify if your property meets their needs and improves search visibility.",
           },
           {
-            question: "How do I make my Airbnb title stand out from competitors?",
+            question:
+              "How do I make my Airbnb title stand out from competitors?",
             answer:
               "Highlight what makes your property genuinely unique - a specific view, rare amenity, architectural style, or proximity to landmarks. Research competitor titles in your area and identify gaps. If everyone mentions 'downtown location,' differentiate with '5-Min Walk to Convention Center' or another specific benefit.",
           },
@@ -500,7 +500,7 @@ export default async function AirbnbTitleOptimizationGuide() {
                     href="/guides/airbnb-photo-tips"
                     className="text-xs text-primary hover:underline"
                   >
-                    Coming Soon →
+                    Read Guide →
                   </Link>
                 </div>
               </div>
@@ -521,7 +521,7 @@ export default async function AirbnbTitleOptimizationGuide() {
                     href="/guides/airbnb-description-writing"
                     className="text-xs text-primary hover:underline"
                   >
-                    Coming Soon →
+                    Read Guide →
                   </Link>
                 </div>
               </div>
@@ -542,7 +542,7 @@ export default async function AirbnbTitleOptimizationGuide() {
                     href="/guides/airbnb-amenities-checklist"
                     className="text-xs text-primary hover:underline"
                   >
-                    Coming Soon →
+                    Read Guide →
                   </Link>
                 </div>
               </div>

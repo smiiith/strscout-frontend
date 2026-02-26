@@ -6,7 +6,14 @@ import { GuideFAQ } from "@/components/guides/GuideFAQ";
 import { DataMethodology } from "@/components/guides/DataMethodology";
 import Link from "next/link";
 import { Metadata } from "next";
-import { Sparkles, Camera, BookOpen, ArrowLeft, CheckCircle2, Circle } from "lucide-react";
+import {
+  Sparkles,
+  Camera,
+  BookOpen,
+  ArrowLeft,
+  CheckCircle2,
+  Circle,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Essential Airbnb Amenities Checklist: What Guests Expect | STR Sage",
@@ -78,12 +85,14 @@ export default async function AirbnbAmenitiesChecklistGuide() {
             dateModified: new Date().toISOString(),
             mainEntityOfPage: {
               "@type": "WebPage",
-              "@id": "https://www.strsage.com/guides/airbnb-amenities-checklist",
+              "@id":
+                "https://www.strsage.com/guides/airbnb-amenities-checklist",
             },
             about: {
               "@type": "Thing",
               name: "Vacation rental amenities",
-              description: "Essential and recommended amenities for short-term rental properties",
+              description:
+                "Essential and recommended amenities for short-term rental properties",
             },
             mentions: [
               {
@@ -145,8 +154,7 @@ export default async function AirbnbAmenitiesChecklistGuide() {
         </h1>
         <p className="text-xl text-muted-foreground">
           Complete guide to amenities that guests expect and features that make
-          your listing stand out. Based on analysis of{" "}
-          properties.
+          your listing stand out. Based on analysis of properties.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
           Last updated: {new Date().toLocaleDateString()}
@@ -154,7 +162,7 @@ export default async function AirbnbAmenitiesChecklistGuide() {
       </header>
 
       {/* Statistics */}
-      <section className="mb-12">
+      {/* <section className="mb-12">
         <Card>
           <CardHeader>
             <CardTitle>What Our Analysis Shows</CardTitle>
@@ -209,7 +217,7 @@ export default async function AirbnbAmenitiesChecklistGuide() {
             </div>
           </CardContent>
         </Card>
-      </section>
+      </section> */}
 
       {/* Must-Have Amenities */}
       <section className="mb-12">
@@ -354,8 +362,8 @@ export default async function AirbnbAmenitiesChecklistGuide() {
           Nice-to-Have Amenities (Stand Out From Competition)
         </h2>
         <p className="text-muted-foreground mb-6">
-          These amenities aren't required but significantly increase your
-          appeal and allow you to charge higher rates.
+          These amenities aren't required but significantly increase your appeal
+          and allow you to charge higher rates.
         </p>
 
         <div className="grid md:grid-cols-2 gap-6">
@@ -607,7 +615,6 @@ export default async function AirbnbAmenitiesChecklistGuide() {
                     <span className="text-2xl">💡</span>
                     <div className="flex-1">
                       <p className="text-base mb-1">{suggestion.suggestion}</p>
-                      
                     </div>
                   </div>
                 </CardContent>
@@ -717,7 +724,8 @@ export default async function AirbnbAmenitiesChecklistGuide() {
               "If you're in a city or area where parking is scarce, free parking is a huge differentiator. Many guests filter specifically for parking. Even in suburban areas, convenient, safe parking improves guest experience and reviews. Clearly state parking details in your listing.",
           },
           {
-            question: "What cleaning supplies should I leave for Airbnb guests?",
+            question:
+              "What cleaning supplies should I leave for Airbnb guests?",
             answer:
               "Provide: dish soap, sponges, trash bags, paper towels, and basic cleaning spray. Some hosts also leave laundry detergent (especially for longer stays) and extra toilet paper. Guests appreciate being able to maintain cleanliness during their stay.",
           },

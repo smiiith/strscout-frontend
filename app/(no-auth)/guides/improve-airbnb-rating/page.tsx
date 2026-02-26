@@ -88,7 +88,8 @@ export default async function ImproveAirbnbRatingGuide() {
             about: {
               "@type": "Thing",
               name: "Airbnb listing optimization",
-              description: "Complete system for optimizing short-term rental listings across all categories",
+              description:
+                "Complete system for optimizing short-term rental listings across all categories",
             },
             mentions: [
               {
@@ -121,57 +122,58 @@ export default async function ImproveAirbnbRatingGuide() {
             "@context": "https://schema.org",
             "@type": "HowTo",
             name: "How to Improve Your Airbnb Listing Rating",
-            description: "Step-by-step guide to optimizing your Airbnb listing across all 6 categories for maximum bookings",
+            description:
+              "Step-by-step guide to optimizing your Airbnb listing across all 6 categories for maximum bookings",
             totalTime: "PT2H",
             estimatedCost: {
               "@type": "MonetaryAmount",
               currency: "USD",
-              value: "0"
+              value: "0",
             },
             tool: [
               {
                 "@type": "HowToTool",
-                name: "STR Sage Feedback Genius"
-              }
+                name: "STR Sage Feedback Genius",
+              },
             ],
             step: [
               {
                 "@type": "HowToStep",
                 name: "Analyze your current listing",
                 text: "Use our free AI tool to identify which categories are dragging down your listing performance and get specific ratings across all 6 categories",
-                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-1"
+                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-1",
               },
               {
                 "@type": "HowToStep",
                 name: "Update your hero image",
                 text: "Make sure your first photo is your most impressive, well-lit shot showing the full space with natural lighting. This is the single biggest impact on click-through rate",
-                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-2"
+                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-2",
               },
               {
                 "@type": "HowToStep",
                 name: "Optimize your title",
                 text: "Rewrite your title to be specific, benefit-focused, and under 50 characters, leading with your strongest feature to improve search visibility",
-                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-3"
+                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-3",
               },
               {
                 "@type": "HowToStep",
                 name: "Add missing amenities",
                 text: "Ensure you have all basic amenities like WiFi, coffee maker, and hair dryer to avoid being filtered out of searches and meet guest expectations",
-                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-4"
+                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-4",
               },
               {
                 "@type": "HowToStep",
                 name: "Improve your description",
                 text: "Rewrite using the AIDA formula (Attention, Interest, Desire, Action) with specific details about your property and nearby attractions with exact distances",
-                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-5"
+                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-5",
               },
               {
                 "@type": "HowToStep",
                 name: "Enhance interior design",
                 text: "Apply budget-friendly design improvements like better lighting, mirrors, and cohesive color palettes to create Instagram-worthy moments that justify premium pricing",
-                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-6"
-              }
-            ]
+                url: "https://www.strsage.com/guides/improve-airbnb-rating#step-6",
+              },
+            ],
           }),
         }}
       />
@@ -222,7 +224,7 @@ export default async function ImproveAirbnbRatingGuide() {
       </header>
 
       {/* Overall Statistics */}
-      <section className="mb-12">
+      {/* <section className="mb-12">
         <Card>
           <CardHeader>
             <CardTitle>Overall Performance Breakdown</CardTitle>
@@ -315,7 +317,7 @@ export default async function ImproveAirbnbRatingGuide() {
             </div>
           </CardContent>
         </Card>
-      </section>
+      </section> */}
 
       {/* Start Here Section */}
       <section className="mb-12">
@@ -790,7 +792,8 @@ export default async function ImproveAirbnbRatingGuide() {
             answer: `Based on our analysis of ${stats.totalProperties.toLocaleString()} listings, focus on the 80/20 rule: (1) Update your hero image to your best, most well-lit shot, (2) Rewrite your title to be specific and benefit-focused under 50 characters, (3) Ensure you have all basic amenities to avoid being filtered out. These three changes take less than an hour and have the biggest impact on bookings.`,
           },
           {
-            question: "Should I fix everything at once or prioritize certain improvements?",
+            question:
+              "Should I fix everything at once or prioritize certain improvements?",
             answer:
               "Prioritize fixing your lowest-scoring categories first. A listing with one 50/100 category will underperform compared to one with all 75/100 scores. Use our free AI tool to identify weak spots, then tackle them in order of impact: photos and title first (highest ROI), then amenities, description, and finally interior design upgrades.",
           },
@@ -800,7 +803,8 @@ export default async function ImproveAirbnbRatingGuide() {
               "Many high-impact improvements are free: rewriting your title and description, reorganizing photos, better lighting when shooting. Budget improvements include new photos ($0-500 for DIY or professional), basic amenities ($100-300), and minor decor upgrades ($200-500). Only invest in expensive renovations if your listing already excels in the basics.",
           },
           {
-            question: "How long does it take to see results after improving my listing?",
+            question:
+              "How long does it take to see results after improving my listing?",
             answer:
               "Title and photo changes show immediate impact - you'll see increased click-through rates within days. Booking conversion improvements from better descriptions and amenities typically show within 1-2 weeks. Interior design upgrades that require professional photos may take 2-4 weeks to fully reflect in bookings.",
           },
@@ -815,7 +819,8 @@ export default async function ImproveAirbnbRatingGuide() {
               "Not necessarily. Modern smartphones can produce excellent photos with proper technique: maximize natural lighting, shoot during golden hour, use wide-angle mode, and declutter thoroughly. Professional photos ($150-500) make sense for competitive markets, high-end properties, or if DIY attempts aren't getting results.",
           },
           {
-            question: "How do I know which improvements will actually increase bookings?",
+            question:
+              "How do I know which improvements will actually increase bookings?",
             answer:
               "Use our AI analysis to get data-driven recommendations specific to your listing. General priorities: (1) Photos have the biggest impact on clicks, (2) Title affects search visibility, (3) Amenities prevent filtering out, (4) Description converts browsers to bookers, (5) Interior design justifies premium pricing. Test one change at a time when possible to measure impact.",
           },
@@ -977,7 +982,9 @@ export default async function ImproveAirbnbRatingGuide() {
                   <DollarSign className="w-5 h-5 text-amber-500" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold mb-1">Understanding Host Fees</h3>
+                  <h3 className="font-semibold mb-1">
+                    Understanding Host Fees
+                  </h3>
                   <p className="text-xs text-muted-foreground mb-2">
                     Minimize your Airbnb costs
                   </p>
