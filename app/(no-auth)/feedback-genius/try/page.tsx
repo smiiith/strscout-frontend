@@ -38,6 +38,7 @@ const TryFeedbackGenius = () => {
   const [notFoundMessage, setNotFoundMessage] = useState("");
   const [anonymousUserId, setAnonymousUserId] = useState<string | null>(null);
   const [anonymousToken, setAnonymousToken] = useState<string | null>(null);
+  const [anonymousRefreshToken, setAnonymousRefreshToken] = useState<string | null>(null);
   const supabase = createClient();
 
   const {
@@ -63,6 +64,7 @@ const TryFeedbackGenius = () => {
         if (isAnonymous) {
           setAnonymousUserId(session.user.id);
           setAnonymousToken(session.access_token);
+          setAnonymousRefreshToken(session.refresh_token);
           return;
         }
 
@@ -82,6 +84,7 @@ const TryFeedbackGenius = () => {
       if (data.session) {
         setAnonymousUserId(data.user.id);
         setAnonymousToken(data.session.access_token);
+        setAnonymousRefreshToken(data.session.refresh_token);
 
         posthog.identify(data.user.id, {
           anonymous: true,
@@ -181,6 +184,18 @@ const TryFeedbackGenius = () => {
         { userId: anonymousUserId },
         { headers: authHeaders }
       );
+
+      // Store token so results page and complete-registration page can access it.
+      // sessionStorage: for same-tab navigation (try → results)
+      // localStorage: for cross-tab navigation (results → email link → complete-registration)
+      sessionStorage.setItem("anon_token", anonymousToken);
+      sessionStorage.setItem("anon_user_id", anonymousUserId);
+      localStorage.setItem("anon_token", anonymousToken);
+      localStorage.setItem("anon_user_id", anonymousUserId);
+      if (anonymousRefreshToken) {
+        sessionStorage.setItem("anon_refresh_token", anonymousRefreshToken);
+        localStorage.setItem("anon_refresh_token", anonymousRefreshToken);
+      }
 
       // Redirect to try results page - ratings are now saved
       router.push(`/properties/comps/try/${propertyId}`);

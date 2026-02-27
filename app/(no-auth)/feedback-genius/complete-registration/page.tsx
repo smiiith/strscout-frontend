@@ -21,35 +21,55 @@ export default function CompleteRegistration() {
   const [error, setError] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [sessionChecked, setSessionChecked] = useState(false);
+  const [sessionFromStorage, setSessionFromStorage] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
     // Check if user has anonymous session
     const checkSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      try {
+        // Check localStorage first (set by try page, persists across tabs).
+        // If present, we know the user came from the try flow and we'll use
+        // path B (server-side signUp) in handleSubmit — no client session needed.
+        const storedToken = localStorage.getItem("anon_token");
+        if (storedToken) {
+          setIsAnonymous(true);
+          setSessionFromStorage(true);
+          setSessionChecked(true);
+          return;
+        }
 
-      if (!session) {
-        // No session - that's OK, we'll create a new account
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+
+        if (!session) {
+          // No session - that's OK, we'll create a new account
+          setIsAnonymous(false);
+          setSessionChecked(true);
+          return;
+        }
+
+        if (!session.user.is_anonymous) {
+          // User is already a permanent user, redirect to results
+          setSessionChecked(true);
+          if (propertyId) {
+            router.push(`/properties/comps/${propertyId}`);
+          } else {
+            router.push("/");
+          }
+          return;
+        }
+
+        // Has anonymous session - we can convert it
+        setIsAnonymous(true);
+        setSessionChecked(true);
+      } catch (err) {
+        console.error("Error checking session:", err);
+        // On error, fall through to the create-new-account path
         setIsAnonymous(false);
         setSessionChecked(true);
-        return;
       }
-
-      if (!session.user.is_anonymous) {
-        // User is already a permanent user, redirect to results
-        if (propertyId) {
-          router.push(`/properties/comps/${propertyId}`);
-        } else {
-          router.push("/");
-        }
-        return;
-      }
-
-      // Has anonymous session - we can convert it
-      setIsAnonymous(true);
-      setSessionChecked(true);
     };
 
     checkSession();
@@ -88,8 +108,8 @@ export default function CompleteRegistration() {
         hasAnonymousSession: isAnonymous,
       });
 
-      if (isAnonymous) {
-        // Scenario 1: Anonymous session still exists - convert it
+      if (isAnonymous && !sessionFromStorage) {
+        // Scenario 1: Active anonymous session in this browser - convert it in-place
         const origin = window.location.origin;
         const redirectUrl = propertyId
           ? `${origin}/auth/callback?next=${encodeURIComponent(`/properties/comps/${propertyId}`)}`
@@ -112,7 +132,8 @@ export default function CompleteRegistration() {
           return;
         }
       } else {
-        // Scenario 2: Anonymous session expired - create new account
+        // Scenario 2: No active client session (came via email link / different tab).
+        // Create a permanent account server-side; pending_conversions handles property transfer.
         const response = await fetch("/api/auth/complete-registration", {
           method: "POST",
           headers: {
@@ -141,6 +162,14 @@ export default function CompleteRegistration() {
         email: email,
         hasAnonymousSession: isAnonymous,
       });
+
+      // Clear anonymous session from storage now that user has registered
+      localStorage.removeItem("anon_token");
+      localStorage.removeItem("anon_user_id");
+      localStorage.removeItem("anon_refresh_token");
+      sessionStorage.removeItem("anon_token");
+      sessionStorage.removeItem("anon_user_id");
+      sessionStorage.removeItem("anon_refresh_token");
 
       // Success! Redirect to confirmation page
       router.push("/confirmation?source=anonymous-conversion");
