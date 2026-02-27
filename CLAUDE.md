@@ -409,6 +409,11 @@ Anonymous users can try Feedback Genius without creating an account via `/feedba
 - The Node backend does NOT call FastAPI - the frontend sends property data to FastAPI after the Node backend responds
 - Test in incognito window to avoid interference from existing sessions
 - Admin cleanup endpoint: `POST /api/admin/cleanup-anonymous-users` (requires `is_admin = true`)
+- When testing, run `TRUNCATE pending_conversions;` between test runs — duplicate rows for the same email cause `.single()` to fail silently, leaving `new_user_id` unset and the property transfer never happening (symptom: user can see report directly at `/properties/comps/{id}` but "My Reports" redirects to `/feedback-genius/analyze`)
+
+**Known technical debt in this flow:**
+- `app/api/auth/send-registration-invite/route.ts` builds the invite email URL from `NEXT_PUBLIC_SITE_URL` — this breaks on Vercel preview deployments unless that env var is set for the Preview environment in Vercel
+- `app/api/auth/complete-registration/route.ts` uses the regular `supabase` client (anonymous session from cookies) instead of `supabaseAdmin` to query/update `pending_conversions` — if the anonymous session isn't in cookies (e.g., serverless cold start, different browser), the query silently returns nothing and `new_user_id` is never set, breaking property transfer. Should use `supabaseAdmin` like `transfer-property-ownership/route.ts` does. Also uses `.single()` which fails silently when duplicate rows exist; should use `.order('created_at', { ascending: false }).limit(1)` instead
 
 #### Authentication Best Practices
 
