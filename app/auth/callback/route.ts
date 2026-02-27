@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
 
   // If there's a code, exchange it for a session (OAuth/PKCE flow)
   if (code) {
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { data: exchangeData, error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (error) {
       console.error("Error exchanging code for session:", {
@@ -41,6 +41,21 @@ export async function GET(request: NextRequest) {
       const errorUrl = new URL("/auth/error", requestUrl.origin);
       errorUrl.searchParams.set("reason", error.message || "exchange_failed");
       return NextResponse.redirect(errorUrl);
+    }
+
+    // Transfer property ownership if this user has a pending conversion
+    // (happens when anonymous session expired and a new account was created via signUp)
+    if (exchangeData?.user?.id) {
+      try {
+        await fetch(`${requestUrl.origin}/api/auth/transfer-property-ownership`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: exchangeData.user.id }),
+        });
+      } catch (transferError) {
+        console.error("Error during property transfer:", transferError);
+        // Continue anyway - don't block the redirect
+      }
     }
 
     return NextResponse.redirect(getRedirectUrl());

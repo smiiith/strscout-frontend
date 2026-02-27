@@ -78,13 +78,14 @@ export async function POST(request: NextRequest) {
       console.error("Error updating app_metadata:", updateError);
     }
 
-    // If pending conversion exists, mark it for property transfer
+    // If pending conversion exists, record the new user ID so the auth callback
+    // can transfer property ownership after email confirmation.
+    // Do NOT set converted_at here — transfer-property-ownership sets it.
     if (pendingConversion) {
       const { error: updateConversionError } = await supabase
         .from("pending_conversions")
         .update({
           new_user_id: signUpData.user.id,
-          converted_at: new Date().toISOString(),
         })
         .eq("id", pendingConversion.id);
 

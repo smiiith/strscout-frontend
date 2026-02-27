@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/server";
+import { createAdminClient } from "@/utils/supabase/server";
 
 /**
  * Transfers property ownership from anonymous user to new permanent user
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "User ID required" }, { status: 400 });
     }
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     // Find pending conversion for this new user
     const { data: conversion, error: conversionError } = await supabase
@@ -38,10 +38,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Update property ownership - check which table the property is in
-    // For Feedback Genius, properties are stored in the listings table
+    // Transfer Feedback Genius property ownership in str_properties
     const { error: updateError } = await supabase
-      .from("listings")
+      .from("str_properties")
       .update({ user_id: userId })
       .eq("user_id", conversion.anonymous_user_id);
 

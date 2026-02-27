@@ -39,7 +39,7 @@ const fetchPropertyRatings = async (propertyId: any, token: string) => {
 
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_ENDPOINT}/feedback-genius/ratings/${propertyId}`,
-      { headers: authHeaders }
+      { headers: authHeaders },
     );
 
     return response.data?.ratings
@@ -73,6 +73,15 @@ const TryPropertyCompsPage = () => {
   // Get anonymous session
   useEffect(() => {
     const getSession = async () => {
+      // Check sessionStorage first (set by try page before redirect to avoid race condition
+      // where getSession() doesn't see the newly-created anonymous session cookie)
+      const storedToken = sessionStorage.getItem("anon_token");
+      if (storedToken) {
+        setAnonymousToken(storedToken);
+        return;
+      }
+
+      // Fall back to supabase session
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -94,7 +103,7 @@ const TryPropertyCompsPage = () => {
         setLoading(true);
         const propertyRatings = await fetchPropertyRatings(
           propertyId,
-          anonymousToken
+          anonymousToken,
         );
 
         if (!propertyRatings) {
@@ -156,8 +165,7 @@ const TryPropertyCompsPage = () => {
             score: propertyRatings.ratings?.other_images?.rating_number,
             category: propertyRatings.ratings?.other_images?.rating_category,
             feedback: {
-              summary:
-                propertyRatings.ratings?.other_images?.feedback?.summary,
+              summary: propertyRatings.ratings?.other_images?.feedback?.summary,
               items: propertyRatings.ratings?.other_images?.feedback?.items,
             },
             suggestions: propertyRatings.ratings?.other_images?.suggestions,
@@ -170,8 +178,7 @@ const TryPropertyCompsPage = () => {
             feedback: {
               summary:
                 propertyRatings.ratings?.interior_design?.feedback?.summary,
-              items:
-                propertyRatings.ratings?.interior_design?.feedback?.items,
+              items: propertyRatings.ratings?.interior_design?.feedback?.items,
             },
             suggestions: propertyRatings.ratings?.interior_design?.suggestions,
             displayOrder: 5,
