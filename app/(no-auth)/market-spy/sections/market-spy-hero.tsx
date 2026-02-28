@@ -2,8 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Clock01Icon, Zap01Icon, ArrowRight01Icon } from "@/components/Icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import type { Locality } from "@/lib/localities";
 
-export function MarketSpyHero() {
+export function MarketSpyHero({ location }: { location?: Locality }) {
   const router = useRouter();
 
   return (
@@ -41,23 +42,30 @@ export function MarketSpyHero() {
             </div>
 
             <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-2 text-balance">
-              Hosts, you need more bookings. <br />
-              And you're not sure how.
+              {location ? (
+                `${location.name} hosts, you need more bookings.`
+              ) : (
+                <>
+                  Hosts, you need more bookings. <br />
+                  And you&apos;re not sure how.
+                </>
+              )}
             </h1>
 
             <h3 className="text-2xl md:text-3xl lg:text-4xl tracking-tight mb-6 text-foreground/60">
-              You need a plan, but how can you plan if you don't even know the
-              playing field?
+              {location
+                ? `How competitive is the ${location.name} short-term rental market?`
+                : "You need a plan, but how can you plan if you don't even know the playing field?"}
             </h3>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed text-pretty">
-              The STR business is a battle for bookings and the first step
-              toward competing is knowing the opposition. What are you up
-              against? How many bookings do your competitors have right now?
-              What are they doing different from you? What amenities do they
-              offer? What cancellation or pet policies are in place? Do they
-              have instant book turned on? Are their photos better than yours?
-              Is their interior design better?
+              The {location ? `${location.name} ` : ""}STR market is a battle
+              for bookings and the first step toward competing is knowing the
+              opposition. What are you up against? How many bookings do your
+              competitors have right now? What are they doing different from
+              you? What amenities do they offer? What cancellation or pet
+              policies are in place? Do they have instant book turned on? Are
+              their photos better than yours? Is their interior design better?
             </p>
 
             <div className="bg-muted/50 border border-border rounded-xl p-6 mb-8">
@@ -65,10 +73,11 @@ export function MarketSpyHero() {
                 <span className="font-semibold text-foreground">
                   STR Market Spy
                 </span>{" "}
-                is the simple way to uncover what’s really driving your market.
-                With one quick report, you’ll see your competitors’ bookings,
-                amenities, and strengths — and get a clear plan to rise above
-                them.{" "}
+                is the simple way to uncover what&apos;s really driving
+                {location ? ` the ${location.name} market` : " your market"}.
+                With one quick report, you&apos;ll see your competitors&apos;
+                bookings, amenities, and strengths — and get a clear plan to
+                rise above them.{" "}
               </p>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">

@@ -4,13 +4,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import type { Locality } from "@/lib/localities";
 
-export function MarketScoutFAQ() {
-  const faqs = [
+export function MarketScoutFAQ({ location }: { location?: Locality }) {
+  const baseFaqs = [
     {
       question: "What do you mean by nearby competitors?",
-      answer:
-        "We find 10-20 STR listings that are close in proximity and similar in type of stay and number of bedrooms to your investment opportunity.",
+      answer: location
+        ? `We find 10-20 STR listings near your ${location.name} investment opportunity that are similar in type of stay and number of bedrooms.`
+        : "We find 10-20 STR listings that are close in proximity and similar in type of stay and number of bedrooms to your investment opportunity.",
     },
     {
       question: "What data do you analyze?",
@@ -34,12 +36,23 @@ export function MarketScoutFAQ() {
     },
   ];
 
+  const locationFaq = location
+    ? [
+        {
+          question: `Is ${location.name} a good place to invest in an STR?`,
+          answer: `${location.strInsight} STR Market Scout lets you analyze any ${location.name} address to see exactly how comparable properties are performing before you commit to a purchase.`,
+        },
+      ]
+    : [];
+
+  const faqs = [...locationFaq, ...baseFaqs];
+
   return (
     <section className="py-16 md:py-24 bg-background">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-            Got Questions? We've Got Answers.
+            Got Questions? We&apos;ve Got Answers.
           </h2>
           <p className="text-lg text-muted-foreground text-center mb-12">
             Everything you need to know about STR Market Scout

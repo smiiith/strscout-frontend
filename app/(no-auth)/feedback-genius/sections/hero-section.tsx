@@ -5,8 +5,9 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useUserSession } from "@/lib/context/UserSessionProvider";
+import type { Locality } from "@/lib/localities";
 
-export function HeroSection() {
+export function HeroSection({ location }: { location?: Locality }) {
   const router = useRouter();
   const { session } = useUserSession();
 
@@ -26,9 +27,10 @@ export function HeroSection() {
             </h1>
 
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Get expert analysis of your Airbnb listing in seconds. We rate
-              every detail and tell you exactly what to fix to attract more
-              guests.
+              Get expert analysis of your{" "}
+              {location ? `${location.name} ` : ""}Airbnb listing in seconds.
+              We rate every detail and tell you exactly what to fix to attract
+              more guests.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">

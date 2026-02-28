@@ -4,13 +4,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import type { Locality } from "@/lib/localities";
 
-export function MarketSpyFAQ() {
-  const faqs = [
+export function MarketSpyFAQ({ location }: { location?: Locality }) {
+  const baseFaqs = [
     {
       question: "What do you mean by nearby competitors?",
-      answer:
-        "We find 10-20 listings that are both close in proximity and similar to yours (type of stay and number of bedrooms). These are the properties guests are most likely comparing against your listing.",
+      answer: location
+        ? `We find 10-20 listings near your ${location.name} property that are similar in type of stay and number of bedrooms. These are the properties guests are most likely comparing against your listing.`
+        : "We find 10-20 listings that are both close in proximity and similar to yours (type of stay and number of bedrooms). These are the properties guests are most likely comparing against your listing.",
     },
     {
       question: "What data do you analyze?",
@@ -34,12 +36,23 @@ export function MarketSpyFAQ() {
     },
   ];
 
+  const locationFaq = location
+    ? [
+        {
+          question: `Is ${location.name} a good STR market?`,
+          answer: `${location.strInsight} STR Market Spy gives you the data to see exactly how the ${location.name} market is performing and where you can gain a competitive edge over other hosts.`,
+        },
+      ]
+    : [];
+
+  const faqs = [...locationFaq, ...baseFaqs];
+
   return (
     <section className="py-16 md:py-24 bg-background">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-            Got Questions? We've Got Answers.
+            Got Questions? We&apos;ve Got Answers.
           </h2>
           <p className="text-lg text-muted-foreground text-center mb-12">
             Everything you need to know about STR Market Spy
