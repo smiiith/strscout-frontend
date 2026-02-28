@@ -7,8 +7,9 @@ import {
 } from "@/components/Icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import type { Locality } from "@/lib/localities";
 
-export function MarketScoutHero() {
+export function MarketScoutHero({ location }: { location?: Locality }) {
   const router = useRouter();
 
   return (
@@ -49,16 +50,21 @@ export function MarketScoutHero() {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-balance">
-              Buy Smart. Invest Confidently.
+              {location
+                ? `Scout ${location.name}. Invest Confidently.`
+                : "Buy Smart. Invest Confidently."}
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-4 leading-relaxed text-pretty">
-              Thinking about buying a property for short-term rental?
+              Thinking about buying a property for short-term rental
+              {location ? ` in ${location.name}, ${location.state}` : ""}?
             </p>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed text-pretty">
-              STR Market Scout analyzes any address to show you the investment
-              potential by analyzing demand and competition before you commit.
+              STR Market Scout analyzes any{" "}
+              {location ? `${location.name} ` : ""}address to show you the
+              investment potential by analyzing demand and competition before
+              you commit.
             </p>
 
             <div className="bg-muted/50 border border-border rounded-xl p-6 mb-8">
@@ -66,7 +72,9 @@ export function MarketScoutHero() {
                 <span className="font-semibold text-foreground">
                   STR Market Scout
                 </span>{" "}
-                shows you how comparable properties in an area are performing.
+                shows you how comparable properties
+                {location ? ` in ${location.name}` : " in an area"} are
+                performing.
               </p>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">

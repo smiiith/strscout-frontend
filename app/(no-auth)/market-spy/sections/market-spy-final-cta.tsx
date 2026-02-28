@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight01Icon } from "@/components/Icons";
 import { useRouter } from "next/navigation";
+import type { Locality } from "@/lib/localities";
 
-export function MarketSpyFinalCTA() {
+export function MarketSpyFinalCTA({ location }: { location?: Locality }) {
   const router = useRouter();
 
   return (
@@ -15,8 +16,8 @@ export function MarketSpyFinalCTA() {
             </h2>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto text-pretty">
-              Get the competitive intelligence you need to outperform other
-              listings in your area.
+              Get the competitive intelligence you need to outperform other{" "}
+              {location ? `${location.name} ` : ""}listings in your area.
             </p>
 
             <Button
@@ -31,8 +32,8 @@ export function MarketSpyFinalCTA() {
             </Button>
 
             <p className="text-sm text-muted-foreground mt-6">
-              Join other hosts who've discovered what's really working in their
-              market
+              Join other {location ? `${location.name} ` : ""}hosts who&apos;ve
+              discovered what&apos;s really working in their market
             </p>
           </div>
         </div>

@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
+import { LOCALITIES } from '@/lib/localities';
 
 const HOST = 'www.strsage.com';
 const KEY = process.env.INDEXNOW_KEY!;
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 
 // All public sitemap URLs - mirrors app/sitemap.ts
-const SITEMAP_URLS = [
+const BASE_URLS = [
   `https://${HOST}`,
   `https://${HOST}/feedback-genius`,
   `https://${HOST}/market-spy`,
@@ -28,6 +29,14 @@ const SITEMAP_URLS = [
   `https://${HOST}/privacy-policy`,
   `https://${HOST}/terms`,
 ];
+
+const LOCALITY_URLS = LOCALITIES.flatMap((l) => [
+  `https://${HOST}/market-spy/${l.slug}`,
+  `https://${HOST}/market-scout/${l.slug}`,
+  `https://${HOST}/feedback-genius/${l.slug}`,
+]);
+
+const SITEMAP_URLS = [...BASE_URLS, ...LOCALITY_URLS];
 
 export async function POST(request: NextRequest) {
   if (!KEY) {

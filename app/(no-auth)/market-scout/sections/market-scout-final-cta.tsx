@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight01Icon } from "@/components/Icons";
 import { useRouter } from "next/navigation";
+import type { Locality } from "@/lib/localities";
 
-export function MarketScoutFinalCTA() {
+export function MarketScoutFinalCTA({ location }: { location?: Locality }) {
   const router = useRouter();
 
   return (
@@ -11,12 +12,15 @@ export function MarketScoutFinalCTA() {
         <div className="max-w-4xl mx-auto">
           <div className="bg-background border-2 border-primary/20 rounded-2xl p-8 md:p-12 shadow-xl text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-balance">
-              Ready to Make a Smart Investment Decision?
+              {location
+                ? `Ready to Make a Smart Investment in ${location.name}?`
+                : "Ready to Make a Smart Investment Decision?"}
             </h2>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto text-pretty">
-              Get your Market Scout analysis and see the full investment picture
-              before you buy.
+              Get your Market Scout analysis
+              {location ? ` for ${location.name}` : ""} and see the full
+              investment picture before you buy.
             </p>
 
             <Button
@@ -31,8 +35,8 @@ export function MarketScoutFinalCTA() {
             </Button>
 
             <p className="text-sm text-muted-foreground mt-6">
-              Join other hosts who've discovered what's really working in their
-              market
+              Join other {location ? `${location.name} ` : ""}hosts who&apos;ve
+              discovered what&apos;s really working in their market
             </p>
           </div>
         </div>

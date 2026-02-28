@@ -1,6 +1,28 @@
 import type { MetadataRoute } from "next";
+import { LOCALITIES } from "@/lib/localities";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const localityEntries: MetadataRoute.Sitemap = LOCALITIES.flatMap((l) => [
+    {
+      url: `https://www.strsage.com/market-spy/${l.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `https://www.strsage.com/market-scout/${l.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `https://www.strsage.com/feedback-genius/${l.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+  ]);
+
   return [
     {
       url: "https://www.strsage.com",
@@ -122,5 +144,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    ...localityEntries,
   ];
 }

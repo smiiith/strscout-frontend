@@ -3,8 +3,9 @@ import { Card } from "@/components/ui/card";
 import { ArrowRight, Clock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useUserSession } from "@/lib/context/UserSessionProvider";
+import type { Locality } from "@/lib/localities";
 
-export function FinalCTA() {
+export function FinalCTA({ location }: { location?: Locality }) {
   const router = useRouter();
   const { session } = useUserSession();
 
@@ -18,12 +19,14 @@ export function FinalCTA() {
           </div>
 
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6 text-balance">
-            Ready to Transform Your Listing?
+            Ready to Transform Your{" "}
+            {location ? `${location.name} ` : ""}Listing?
           </h2>
 
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join other Airbnb hosts who've increased their bookings with expert
-            feedback. No credit card required, completely free.
+            Join other {location ? `${location.name} ` : ""}Airbnb hosts
+            who&apos;ve increased their bookings with expert feedback. No credit
+            card required, completely free.
           </p>
 
           <Button
@@ -42,10 +45,6 @@ export function FinalCTA() {
             Get Your Free Analysis Now
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
-
-          {/* <p className="text-sm text-muted-foreground mt-6">
-            Your report will be ready within 24 hours • No spam, ever
-          </p> */}
         </Card>
       </div>
     </section>
