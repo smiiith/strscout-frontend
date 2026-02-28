@@ -7,17 +7,18 @@ import { MarketScoutFinalCTA } from "./sections/market-scout-final-cta";
 import { MarketScoutHero } from "./sections/market-scout-hero";
 import { MarketScoutReportPreview } from "./sections/market-scout-report-preview";
 import { MarketScoutSocialProof } from "./sections/market-scout-social-proof";
+import type { Locality } from "@/lib/localities";
 
-const MarketScoutLanding = () => {
+const MarketScoutLanding = ({ location }: { location?: Locality }) => {
   return (
     <main>
-      <MarketScoutHero />
+      <MarketScoutHero location={location} />
       <MarketScoutSocialProof />
       <MarketScoutReportPreview />
       <CompetitorInsights />
       <MarketScoutFeatures />
-      <MarketScoutFAQ />
-      <MarketScoutFinalCTA />
+      <MarketScoutFAQ location={location} />
+      <MarketScoutFinalCTA location={location} />
     </main>
   );
 };
