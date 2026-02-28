@@ -78,12 +78,14 @@ export default async function AirbnbDescriptionWritingGuide() {
             dateModified: new Date().toISOString(),
             mainEntityOfPage: {
               "@type": "WebPage",
-              "@id": "https://www.strsage.com/guides/airbnb-description-writing",
+              "@id":
+                "https://www.strsage.com/guides/airbnb-description-writing",
             },
             about: {
               "@type": "Thing",
               name: "Copywriting for vacation rentals",
-              description: "Techniques for writing compelling short-term rental listing descriptions",
+              description:
+                "Techniques for writing compelling short-term rental listing descriptions",
             },
             mentions: [
               {
@@ -154,7 +156,7 @@ export default async function AirbnbDescriptionWritingGuide() {
       </header>
 
       {/* Key Statistics */}
-      <section className="mb-12">
+      {/* <section className="mb-12">
         <Card>
           <CardHeader>
             <CardTitle>What Our Analysis Shows</CardTitle>
@@ -221,7 +223,7 @@ export default async function AirbnbDescriptionWritingGuide() {
             </div>
           </CardContent>
         </Card>
-      </section>
+      </section> */}
 
       {/* Common Issues */}
       {stats.commonFeedbackThemes.length > 0 && (

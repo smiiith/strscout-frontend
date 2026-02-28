@@ -166,7 +166,7 @@ export default async function AirbnbPhotoTipsGuide() {
       </header>
 
       {/* Key Statistics */}
-      <section className="mb-12">
+      {/* <section className="mb-12">
         <Card>
           <CardHeader>
             <CardTitle>What Our Analysis Shows</CardTitle>
@@ -188,7 +188,7 @@ export default async function AirbnbPhotoTipsGuide() {
                       {Math.round(
                         (stats.heroImageStats.ratingDistribution.excellent /
                           stats.totalProperties) *
-                          100
+                          100,
                       )}
                       %
                     </span>
@@ -199,7 +199,7 @@ export default async function AirbnbPhotoTipsGuide() {
                       {Math.round(
                         (stats.heroImageStats.ratingDistribution.good /
                           stats.totalProperties) *
-                          100
+                          100,
                       )}
                       %
                     </span>
@@ -210,7 +210,7 @@ export default async function AirbnbPhotoTipsGuide() {
                       {Math.round(
                         (stats.heroImageStats.ratingDistribution.satisfactory /
                           stats.totalProperties) *
-                          100
+                          100,
                       )}
                       %
                     </span>
@@ -235,7 +235,7 @@ export default async function AirbnbPhotoTipsGuide() {
                       {Math.round(
                         (stats.otherImagesStats.ratingDistribution.excellent /
                           stats.totalProperties) *
-                          100
+                          100,
                       )}
                       %
                     </span>
@@ -246,7 +246,7 @@ export default async function AirbnbPhotoTipsGuide() {
                       {Math.round(
                         (stats.otherImagesStats.ratingDistribution.good /
                           stats.totalProperties) *
-                          100
+                          100,
                       )}
                       %
                     </span>
@@ -258,7 +258,7 @@ export default async function AirbnbPhotoTipsGuide() {
                         (stats.otherImagesStats.ratingDistribution
                           .satisfactory /
                           stats.totalProperties) *
-                          100
+                          100,
                       )}
                       %
                     </span>
@@ -268,7 +268,7 @@ export default async function AirbnbPhotoTipsGuide() {
             </div>
           </CardContent>
         </Card>
-      </section>
+      </section> */}
 
       {/* Common Issues */}
       {stats.commonFeedbackThemes.length > 0 && (
@@ -708,7 +708,8 @@ export default async function AirbnbPhotoTipsGuide() {
         pageUrl="https://www.strsage.com/guides/airbnb-photo-tips"
         faqs={[
           {
-            question: "Should I hire a professional photographer for my Airbnb?",
+            question:
+              "Should I hire a professional photographer for my Airbnb?",
             answer: `Professional photography typically costs $150-$500 but can increase bookings by 20-40%. Based on our analysis of ${stats.totalProperties.toLocaleString()} listings, professional photos correlate with higher ratings. Hire a pro if you're in a competitive market, launching a new listing, or current photos aren't getting clicks. DIY is viable with a good smartphone camera and proper technique.`,
           },
           {
@@ -742,7 +743,8 @@ export default async function AirbnbPhotoTipsGuide() {
               "Good Airbnb photos are well-lit, decluttered, and show the full space rather than just details. They feature natural lighting, wide-angle views, proper staging with minimal personal items, and consistent quality throughout the gallery. The best photos help guests visualize staying in your space.",
           },
           {
-            question: "How do I photograph small spaces to make them look bigger?",
+            question:
+              "How do I photograph small spaces to make them look bigger?",
             answer:
               "Shoot from corners using wide-angle mode to capture maximum area. Remove excess furniture and clutter. Use mirrors strategically. Maximize natural light by opening curtains. Keep the camera level (tilting distorts proportions). Shoot horizontally, not vertically. These techniques help small spaces feel more open and inviting.",
           },
@@ -824,7 +826,7 @@ export default async function AirbnbPhotoTipsGuide() {
                     href="/guides/airbnb-description-writing"
                     className="text-xs text-primary hover:underline"
                   >
-                    Coming Soon →
+                    Read Guide →
                   </Link>
                 </div>
               </div>
@@ -845,7 +847,7 @@ export default async function AirbnbPhotoTipsGuide() {
                     href="/guides/airbnb-amenities-checklist"
                     className="text-xs text-primary hover:underline"
                   >
-                    Coming Soon →
+                    Read Guide →
                   </Link>
                 </div>
               </div>

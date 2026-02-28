@@ -2,7 +2,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Metadata } from "next";
-import { ArrowRight, BookOpen, Camera, DollarSign, Home, ListChecks, Sparkles, TrendingUp } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  Camera,
+  DollarSign,
+  Home,
+  ListChecks,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Airbnb & Short-Term Rental Optimization Guides | STR Sage",
@@ -214,8 +223,8 @@ export default function GuidesHub() {
         </h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
           Free, expert guides to help you optimize every aspect of your
-          short-term rental listing. Based on AI analysis of thousands of
-          real properties.
+          short-term rental listing. Based on AI analysis of thousands of real
+          properties.
         </p>
       </header>
 
@@ -279,7 +288,7 @@ export default function GuidesHub() {
                       </CardTitle>
                       {!guide.available && (
                         <span className="inline-block px-2 py-1 text-xs font-semibold bg-muted text-muted-foreground rounded">
-                          Coming Soon
+                          Read Guide
                         </span>
                       )}
                     </div>
@@ -298,7 +307,7 @@ export default function GuidesHub() {
                     </Link>
                   ) : (
                     <span className="text-sm text-muted-foreground">
-                      Coming Soon
+                      Read Guide
                     </span>
                   )}
                 </CardContent>
@@ -327,9 +336,7 @@ export default function GuidesHub() {
                 variant="secondary"
                 className="bg-white text-primary hover:bg-white/90"
               >
-                <Link href="/feedback-genius/analyze">
-                  Get Free Analysis
-                </Link>
+                <Link href="/feedback-genius/analyze">Get Free Analysis</Link>
               </Button>
               <Button
                 asChild

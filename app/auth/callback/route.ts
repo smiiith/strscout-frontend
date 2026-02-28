@@ -6,9 +6,6 @@ export async function GET(request: NextRequest) {
   const code = requestUrl.searchParams.get("code");
   const next = requestUrl.searchParams.get("next");
 
-  console.log("Auth callback - Full URL:", requestUrl.href);
-  console.log("Auth callback - Code present:", !!code);
-  console.log("Auth callback - Next destination:", next);
 
   const supabase = createClient();
 
@@ -32,7 +29,7 @@ export async function GET(request: NextRequest) {
 
   // If there's a code, exchange it for a session (OAuth/PKCE flow)
   if (code) {
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { data: exchangeData, error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (error) {
       console.error("Error exchanging code for session:", {
@@ -44,6 +41,21 @@ export async function GET(request: NextRequest) {
       const errorUrl = new URL("/auth/error", requestUrl.origin);
       errorUrl.searchParams.set("reason", error.message || "exchange_failed");
       return NextResponse.redirect(errorUrl);
+    }
+
+    // Transfer property ownership if this user has a pending conversion
+    // (happens when anonymous session expired and a new account was created via signUp)
+    if (exchangeData?.user?.id) {
+      try {
+        await fetch(`${requestUrl.origin}/api/auth/transfer-property-ownership`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: exchangeData.user.id }),
+        });
+      } catch (transferError) {
+        console.error("Error during property transfer:", transferError);
+        // Continue anyway - don't block the redirect
+      }
     }
 
     return NextResponse.redirect(getRedirectUrl());
@@ -67,6 +79,28 @@ export async function GET(request: NextRequest) {
   }
 
   if (session) {
+    // Check if this user needs property ownership transferred
+    // This happens when anonymous session expired and we created a new account
+    try {
+      const transferResponse = await fetch(
+        `${requestUrl.origin}/api/auth/transfer-property-ownership`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId: session.user.id }),
+        }
+      );
+
+      if (!transferResponse.ok) {
+        console.error("Property transfer failed, but continuing...");
+      }
+    } catch (error) {
+      console.error("Error during property transfer:", error);
+      // Continue anyway - don't block the redirect
+    }
+
     return NextResponse.redirect(getRedirectUrl());
   }
 

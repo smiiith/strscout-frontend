@@ -41,7 +41,7 @@ import LoadingOverlay from "@/components/LoadingOverlay";
 import Image from "next/image";
 import { CustomAlertDialog } from "@/components/AlertDialog";
 import posthog from "posthog-js";
-import AirbnbDirections from "./instructions";
+import AirbnbDirections from "@/components/AirbnbDirections";
 import { useUserSession } from "@/lib/context/UserSessionProvider";
 
 // const formSchema = z.object({

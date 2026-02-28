@@ -15,6 +15,13 @@ const protectedRoutes = [
   // "/contact"
 ];
 
+// Routes that are explicitly allowed without authentication (anonymous users OK)
+const publicRoutes = [
+  "/feedback-genius/try",
+  "/feedback-genius/complete-registration",
+  "/properties/comps/try",
+];
+
 const adminRoutes = [
   "/admin"
 ];
@@ -90,8 +97,11 @@ export async function middleware(request: NextRequest) {
 
   const currentPath = request.nextUrl.pathname;
 
+  // Check if this is a public route (allow anonymous users)
+  const isPublicRoute = publicRoutes.some(route => currentPath.startsWith(route));
+
   // if the user is not authenticated and trying to access a protected route, redirect to login
-  if (!isAuthenticated && protectedRoutes.includes(currentPath)) {
+  if (!isAuthenticated && !isPublicRoute && protectedRoutes.includes(currentPath)) {
     const absoluteURL = new URL("/login", request.nextUrl.origin);
     const redirectResponse = NextResponse.redirect(absoluteURL.toString());
     // Tell search engines not to index this redirect URL

@@ -14,6 +14,8 @@ import { useState, useEffect } from 'react'
 export default function CreateAccount() {
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get('redirect_to') || ''
+  const emailParam = searchParams.get('email') || ''
+  const propertyIdParam = searchParams.get('propertyId') || ''
 
   // Get the current origin (localhost or production) to use in confirmation email
   // Use state to ensure it's set after component mounts on client
@@ -23,6 +25,11 @@ export default function CreateAccount() {
     // Capture origin after component mounts to avoid hydration issues
     setOrigin(window.location.origin)
   }, [])
+
+  // If propertyId is provided, set redirect_to to the property comps page
+  const finalRedirectTo = propertyIdParam
+    ? `/properties/comps/${propertyIdParam}`
+    : redirectTo
 
   return (
     <>
@@ -35,6 +42,17 @@ export default function CreateAccount() {
       />
 
       <h1 className="text-4xl mb-6">Unlock Expert Insights — Create Your Free Account</h1>
+
+      {propertyIdParam && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 max-w-2xl">
+          <p className="text-sm text-green-800 font-semibold mb-1">
+            Your property analysis is ready! 🎉
+          </p>
+          <p className="text-sm text-green-800">
+            Complete your registration below to view your complete Feedback Genius report.
+          </p>
+        </div>
+      )}
 
       <div className="max-w-sm bg-background border-none px-0">
         <form className="space-y-6 pb-6">
@@ -50,7 +68,7 @@ export default function CreateAccount() {
                 type="button"
                 variant="outline"
                 className="w-full flex items-center justify-center gap-2"
-                onClick={() => signInWithGoogle(redirectTo)}
+                onClick={() => signInWithGoogle(finalRedirectTo)}
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -73,7 +91,14 @@ export default function CreateAccount() {
 
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" name="email" type="email" placeholder="m@example.com" required />
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  defaultValue={emailParam}
+                  required
+                />
               </div>
 
               <div className="space-y-2">
@@ -82,7 +107,7 @@ export default function CreateAccount() {
               </div>
 
               {/* Hidden fields to pass redirect destination and origin */}
-              <input type="hidden" name="redirect_to" value={redirectTo} />
+              <input type="hidden" name="redirect_to" value={finalRedirectTo} />
               <input type="hidden" name="origin" value={origin} />
 
               <Button type="submit" className="w-full px-8" formAction={signup}>
