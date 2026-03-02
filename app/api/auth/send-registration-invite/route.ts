@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/server";
+import { createClient, createAdminClient } from "@/utils/supabase/server";
 import { Resend } from "resend";
 import RegistrationInviteEmail from "@/components/email/RegistrationInviteEmail";
 
@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = await createClient();
+    const supabaseAdmin = createAdminClient();
 
     // Get current anonymous session
     const {
@@ -52,36 +53,78 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Store pending conversion in database
-    // This allows us to transfer property ownership even if anonymous session expires
-    const { error: insertError } = await supabase
+    // Build the redirect URL: after clicking the link, /auth/callback exchanges the PKCE
+    // code for a session and redirects to complete-registration for password setup.
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL!;
+    const nextPath = `/feedback-genius/complete-registration?propertyId=${encodeURIComponent(propertyId)}&invited=true`;
+    const redirectTo = `${siteUrl}/auth/callback?next=${encodeURIComponent(nextPath)}`;
+
+    // Create the permanent user with email pre-confirmed so no second confirmation
+    // email is sent by Supabase.
+    const { data: newUserData, error: createError } = await supabaseAdmin.auth.admin.createUser({
+      email,
+      email_confirm: true,
+      app_metadata: { role: "freemium" },
+    });
+
+    if (createError || !newUserData?.user) {
+      console.error("Error creating user:", createError);
+      return NextResponse.json(
+        { error: "Failed to create account" },
+        { status: 500 }
+      );
+    }
+
+    const newUserId = newUserData.user.id;
+
+    // Generate a password recovery link. Despite the name, generateLink({ type: 'recovery' })
+    // produces an implicit-flow link — GoTrue appends tokens as URL hash fragments on the
+    // redirectTo URL, not as a ?code= param. complete-registration handles this by decoding
+    // the JWT from the hash manually (bypassing the PKCE browser client entirely).
+    const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
+      type: "recovery",
+      email,
+      options: { redirectTo },
+    });
+
+    if (linkError || !linkData) {
+      console.error("Error generating recovery link:", linkError);
+      await supabaseAdmin.auth.admin.deleteUser(newUserId);
+      return NextResponse.json(
+        { error: "Failed to generate registration link" },
+        { status: 500 }
+      );
+    }
+
+    // Store pending conversion with new_user_id already known so transfer-property-ownership
+    // can run as soon as the link is clicked (in /auth/callback), before password is set.
+    const { error: insertError } = await supabaseAdmin
       .from("pending_conversions")
       .insert({
         anonymous_user_id: anonymousUserId,
         email: email,
         property_id: propertyId,
+        new_user_id: newUserId,
       });
 
     if (insertError) {
       console.error("Error storing pending conversion:", insertError);
+      await supabaseAdmin.auth.admin.deleteUser(newUserId);
       return NextResponse.json(
         { error: "Failed to store conversion data" },
         { status: 500 }
       );
     }
 
-    // Generate registration URL for anonymous user conversion
-    const registrationUrl = new URL("/feedback-genius/complete-registration", process.env.NEXT_PUBLIC_SITE_URL!);
-    registrationUrl.searchParams.set("email", email);
-    registrationUrl.searchParams.set("propertyId", propertyId);
-
+    // Send a single email with the recovery link. Because the user is pre-confirmed,
+    // no second Supabase confirmation email will be sent.
     const emailResponse = await resend.emails.send({
       from: "STR Feedback Genius <noreply@strsage.com>",
       to: email,
-      subject: "Complete Your Registration to View Your Report",
+      subject: "Your Report Is Ready — Set Your Password to View It",
       react: RegistrationInviteEmail({
         email: email,
-        registrationUrl: registrationUrl.toString(),
+        registrationUrl: linkData.properties.action_link,
       }),
     });
 
