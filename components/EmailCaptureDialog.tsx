@@ -70,8 +70,6 @@ export function EmailCaptureDialog({
         throw new Error(data.error || "Failed to create account");
       }
 
-      console.log("API Success Response:", data);
-
       posthog.capture("try_email_capture_success", {
         page: window.location.pathname,
         propertyId: propertyId,
@@ -118,10 +116,9 @@ export function EmailCaptureDialog({
                 Next steps:
               </p>
               <ol className="text-sm text-green-800 list-decimal list-inside space-y-1">
-                <li>Click the link in your email to create your account</li>
-                <li>Set your password and complete registration</li>
-                <li>Confirm your email address</li>
-                <li>View your complete Feedback Genius report</li>
+                <li>Click the link in your email</li>
+                <li>Set your password</li>
+                <li>View your complete Feedback Genius report — you're automatically logged in</li>
               </ol>
             </div>
 

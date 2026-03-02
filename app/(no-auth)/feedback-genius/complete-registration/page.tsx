@@ -13,66 +13,102 @@ import posthog from "posthog-js";
 export default function CompleteRegistration() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const email = searchParams.get("email") || "";
   const propertyId = searchParams.get("propertyId") || "";
+  // invited=true is set by send-registration-invite when it generates the invite link.
+  // It tells this page the user arrived via an invite link and still needs to set a password
+  // (as opposed to an already-registered user who should be redirected to their results).
+  const invited = searchParams.get("invited") === "true";
 
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isAnonymous, setIsAnonymous] = useState(false);
-  const [sessionChecked, setSessionChecked] = useState(false);
-  const [sessionFromStorage, setSessionFromStorage] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  // Holds the raw access token when the user arrives via an email invite link.
+  // When set, password is updated server-side (via /api/auth/set-password) using this
+  // token rather than through the Supabase browser client, because createBrowserClient
+  // uses flowType:'pkce' and does not process implicit-flow hash tokens.
+  const [inviteAccessToken, setInviteAccessToken] = useState("");
+
   const supabase = createClient();
 
   useEffect(() => {
-    // Check if user has anonymous session
-    const checkSession = async () => {
-      try {
-        // Check localStorage first (set by try page, persists across tabs).
-        // If present, we know the user came from the try flow and we'll use
-        // path B (server-side signUp) in handleSubmit — no client session needed.
-        const storedToken = localStorage.getItem("anon_token");
-        if (storedToken) {
-          setIsAnonymous(true);
-          setSessionFromStorage(true);
-          setSessionChecked(true);
-          return;
+    // Case 1: Returning from the hard-navigation step that replaces the hung anonymous
+    // session with the permanent user's session. The session tokens were stashed in
+    // sessionStorage by handleSubmit before the navigation.
+    if (searchParams.get("signin_complete") === "1") {
+      const raw = sessionStorage.getItem("pending_session");
+      sessionStorage.removeItem("pending_session");
+      const tokens = raw ? JSON.parse(raw) : null;
+
+      const finish = async () => {
+        if (tokens?.access_token && tokens?.refresh_token) {
+          // Fresh Supabase client (no hash in URL, no hung initializePromise).
+          await supabase.auth.setSession(tokens);
         }
+        // Navigate to the report (or to analyze if no propertyId).
+        router.push(propertyId ? `/properties/comps/${propertyId}` : "/feedback-genius/analyze");
+      };
 
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
+      finish();
+      return;
+    }
 
-        if (!session) {
-          // No session - that's OK, we'll create a new account
-          setIsAnonymous(false);
-          setSessionChecked(true);
+    const hash = window.location.hash;
+
+    if (hash && hash.includes("access_token")) {
+      // The admin generateLink({ type: 'recovery' }) produces an implicit-flow link that
+      // appends tokens as URL hash fragments. createBrowserClient (flowType:'pkce') does not
+      // process these hash tokens — calls to getSession() will either hang (real tokens
+      // trigger a network exchange attempt) or return null (fake/expired tokens).
+      // Instead, decode the JWT payload directly (no network request) to get the user's
+      // email, store the raw token for server-side password update, and bypass the
+      // Supabase client entirely.
+      //
+      // Note: we intentionally do NOT call window.history.replaceState here to clean up
+      // the hash. React StrictMode runs effects twice; if we clean the hash on the first
+      // run, the second run finds an empty hash and incorrectly redirects to the error page.
+      // The hash disappears naturally when the user is redirected to the results page.
+      const params = new URLSearchParams(hash.substring(1));
+      const token = params.get("access_token");
+
+      if (token) {
+        try {
+          const base64Url = token.split(".")[1];
+          const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+          const payload = JSON.parse(atob(base64));
+
+          setUserEmail(payload.email || "");
+          setInviteAccessToken(token);
+          setIsReady(true);
           return;
+        } catch {
+          // Malformed token — fall through to cookie-based session check
         }
-
-        if (!session.user.is_anonymous) {
-          // User is already a permanent user, redirect to results
-          setSessionChecked(true);
-          if (propertyId) {
-            router.push(`/properties/comps/${propertyId}`);
-          } else {
-            router.push("/");
-          }
-          return;
-        }
-
-        // Has anonymous session - we can convert it
-        setIsAnonymous(true);
-        setSessionChecked(true);
-      } catch (err) {
-        console.error("Error checking session:", err);
-        // On error, fall through to the create-new-account path
-        setIsAnonymous(false);
-        setSessionChecked(true);
       }
-    };
+    }
 
-    checkSession();
+    // No hash token: check the cookie-based session (set by auth/callback for PKCE flows).
+    supabase.auth.getSession().then(({ data }) => {
+      const session = data.session;
+
+      if (!session) {
+        router.push("/auth/error?reason=invite_expired");
+        return;
+      }
+
+      if (!session.user.is_anonymous && !invited) {
+        // Already a fully registered user not coming from an invite link — send to results
+        router.push(propertyId ? `/properties/comps/${propertyId}` : "/");
+        return;
+      }
+
+      if (session.user.email) {
+        setUserEmail(session.user.email);
+      }
+
+      setIsReady(true);
+    });
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -81,7 +117,6 @@ export default function CompleteRegistration() {
     setError("");
 
     try {
-      // Validate password
       if (password.length < 10) {
         setError("Password must be at least 10 characters");
         setIsLoading(false);
@@ -104,66 +139,72 @@ export default function CompleteRegistration() {
       posthog.capture("try_complete_registration_submitted", {
         page: window.location.pathname,
         propertyId: propertyId,
-        email: email,
-        hasAnonymousSession: isAnonymous,
+        email: userEmail,
       });
 
-      if (isAnonymous && !sessionFromStorage) {
-        // Scenario 1: Active anonymous session in this browser - convert it in-place
-        const origin = window.location.origin;
-        const redirectUrl = propertyId
-          ? `${origin}/auth/callback?next=${encodeURIComponent(`/properties/comps/${propertyId}`)}`
-          : `${origin}/auth/callback`;
-
-        const { data, error: updateError } = await supabase.auth.updateUser(
-          {
-            email: email,
-            password: password,
-          },
-          {
-            emailRedirectTo: redirectUrl,
-          }
-        );
-
-        if (updateError) {
-          console.error("Error converting anonymous user:", updateError);
-          setError(updateError.message);
-          setIsLoading(false);
-          return;
-        }
-      } else {
-        // Scenario 2: No active client session (came via email link / different tab).
-        // Create a permanent account server-side; pending_conversions handles property transfer.
-        const response = await fetch("/api/auth/complete-registration", {
+      if (inviteAccessToken) {
+        // Arrived via invite email link: set password server-side using the access token.
+        // The route also transfers property ownership and signs in server-side (writing
+        // session cookies), so no further auth calls are needed in the browser.
+        const response = await fetch("/api/auth/set-password", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-            propertyId,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ accessToken: inviteAccessToken, password }),
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-          console.error("Registration API error:", data);
-          setError(data.error || "Failed to create account");
+          setError(data.error || "Failed to set password");
+          setIsLoading(false);
+          return;
+        }
+
+        // Stash the session tokens so the signin_complete page-load can call setSession()
+        // on a fresh Supabase client (free of the hung initializePromise caused by the
+        // implicit-flow hash tokens still in the current page's URL).
+        if (data.session) {
+          sessionStorage.setItem("pending_session", JSON.stringify(data.session));
+        }
+
+        // Clear any leftover anonymous session tokens from storage.
+        localStorage.removeItem("anon_token");
+        localStorage.removeItem("anon_user_id");
+        localStorage.removeItem("anon_refresh_token");
+        sessionStorage.removeItem("anon_token");
+        sessionStorage.removeItem("anon_user_id");
+        sessionStorage.removeItem("anon_refresh_token");
+
+        posthog.capture("try_complete_registration_success", {
+          page: window.location.pathname,
+          propertyId: propertyId,
+          email: userEmail,
+        });
+
+        // Hard-navigate away from the hash URL. The new page load has no hash, so
+        // createBrowserClient initialises cleanly and setSession() works.
+        const dest = new URL(window.location.href);
+        dest.hash = "";
+        dest.searchParams.set("signin_complete", "1");
+        // Keep propertyId so the signin_complete handler can redirect correctly.
+        if (propertyId) dest.searchParams.set("propertyId", propertyId);
+        window.location.href = dest.toString();
+        return;
+      } else {
+        // Cookie-based session (PKCE flow) — update password directly via the client.
+        const { error: updateError } = await supabase.auth.updateUser({
+          password,
+        });
+
+        if (updateError) {
+          console.error("Error setting password:", updateError);
+          setError(updateError.message);
           setIsLoading(false);
           return;
         }
       }
 
-      posthog.capture("try_complete_registration_success", {
-        page: window.location.pathname,
-        propertyId: propertyId,
-        email: email,
-        hasAnonymousSession: isAnonymous,
-      });
-
-      // Clear anonymous session from storage now that user has registered
+      // Clear any leftover anonymous session tokens from storage
       localStorage.removeItem("anon_token");
       localStorage.removeItem("anon_user_id");
       localStorage.removeItem("anon_refresh_token");
@@ -171,8 +212,18 @@ export default function CompleteRegistration() {
       sessionStorage.removeItem("anon_user_id");
       sessionStorage.removeItem("anon_refresh_token");
 
-      // Success! Redirect to confirmation page
-      router.push("/confirmation?source=anonymous-conversion");
+      posthog.capture("try_complete_registration_success", {
+        page: window.location.pathname,
+        propertyId: propertyId,
+        email: userEmail,
+      });
+
+      // Go straight to full results — session was established server-side
+      if (propertyId) {
+        router.push(`/properties/comps/${propertyId}`);
+      } else {
+        router.push("/feedback-genius/analyze");
+      }
     } catch (error: any) {
       console.error("Error during registration:", error);
       setError(error.message || "An error occurred. Please try again.");
@@ -180,7 +231,7 @@ export default function CompleteRegistration() {
     }
   };
 
-  if (!sessionChecked) {
+  if (!isReady) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
@@ -198,15 +249,15 @@ export default function CompleteRegistration() {
         className="w-[754] h-auto my-6"
       />
 
-      <h1 className="text-4xl mb-6">Complete Your Registration</h1>
+      <h1 className="text-4xl mb-6">Set Your Password</h1>
 
       <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 max-w-2xl">
         <p className="text-sm text-green-800 font-semibold mb-1">
-          Your property analysis is ready! 🎉
+          Almost there! 🎉
         </p>
         <p className="text-sm text-green-800">
-          Just set your password below to complete your free account and view
-          your complete Feedback Genius report.
+          Set a password to complete your free account. You'll be taken straight
+          to your complete Feedback Genius report.
         </p>
       </div>
 
@@ -225,7 +276,7 @@ export default function CompleteRegistration() {
                 id="email"
                 name="email"
                 type="email"
-                value={email}
+                value={userEmail}
                 disabled
                 className="bg-gray-100"
               />
@@ -244,7 +295,7 @@ export default function CompleteRegistration() {
             </div>
 
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Creating Account..." : "Complete Registration"}
+              {isLoading ? "Setting Up Account..." : "View My Report"}
             </Button>
           </div>
 
@@ -252,16 +303,6 @@ export default function CompleteRegistration() {
             Your password must contain at least one uppercase letter, one
             lowercase letter, one number and one special character. The minimum
             length for your password is 10 characters.
-          </div>
-
-          <div className="text-sm text-muted-foreground">
-            <strong>What happens next:</strong>
-            <ol className="list-decimal list-inside mt-2 space-y-1">
-              <li>We'll send a confirmation email to {email}</li>
-              <li>Click the link in the email to verify your address</li>
-              <li>You'll be automatically logged in</li>
-              <li>View your complete Feedback Genius report</li>
-            </ol>
           </div>
         </form>
       </div>
