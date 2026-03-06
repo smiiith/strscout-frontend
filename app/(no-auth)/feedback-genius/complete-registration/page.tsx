@@ -46,8 +46,15 @@ export default function CompleteRegistration() {
           // Fresh Supabase client (no hash in URL, no hung initializePromise).
           await supabase.auth.setSession(tokens);
         }
-        // Navigate to the report (or to analyze if no propertyId).
-        router.push(propertyId ? `/properties/comps/${propertyId}` : "/feedback-genius/analyze");
+        // Hard-navigate to the report so the new page gets a completely fresh JS
+        // environment. router.push() (client-side navigation) preserves the Supabase
+        // singleton whose internal state after setSession() can cause getSession() calls
+        // on the destination page to hang, keeping the loading spinner indefinitely.
+        // A hard navigation ensures the session is read cleanly from cookies, matching
+        // the behaviour of a manual page refresh (which always works).
+        window.location.href = propertyId
+          ? `/properties/comps/${propertyId}`
+          : "/feedback-genius/analyze";
       };
 
       finish();
