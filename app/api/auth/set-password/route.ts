@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient, createAdminClient } from "@/utils/supabase/server";
+import { createServerClient } from "@supabase/ssr";
+import { createAdminClient } from "@/utils/supabase/server";
 
 export async function POST(request: NextRequest) {
   try {
@@ -71,11 +72,29 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Sign in server-side. Using createClient() (anon key + cookie adapter) in a
-    // route handler writes the session to the response cookies, so the browser
-    // immediately has a valid PKCE session — without needing the browser Supabase
-    // client (which is blocked waiting on initializePromise processing the hash).
-    const supabase = createClient();
+    // Sign in server-side and capture the session cookies.
+    // createClient() from utils/supabase/server uses cookies() from next/headers,
+    // which is read-only in route handlers on Vercel — setAll() silently no-ops.
+    // Instead, build a supabase client that buffers the cookies and explicitly
+    // applies them to the NextResponse, which is the only reliable pattern for
+    // route handlers across all Next.js/Vercel environments.
+    const sessionCookies: Array<{ name: string; value: string; options: any }> = [];
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach((c) => sessionCookies.push(c));
+          },
+        },
+      }
+    );
+
     const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -85,21 +104,19 @@ export async function POST(request: NextRequest) {
       console.error("Server-side sign-in after password set failed:", signInError);
     }
 
-    // Return session tokens so the client can call setSession() on a fresh page
-    // (free of the hung initializePromise caused by the implicit-flow hash tokens).
-    // Server-side cookies may or may not be reliably forwarded via NextResponse.json,
-    // so this is the belt-and-suspenders approach.
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       email,
       propertyId: conversion?.property_id ?? null,
-      session: signInData?.session
-        ? {
-            access_token: signInData.session.access_token,
-            refresh_token: signInData.session.refresh_token,
-          }
-        : null,
     });
+
+    // Explicitly attach the session cookies to the response. This is the only
+    // approach that works reliably in Next.js route handlers on Vercel.
+    sessionCookies.forEach(({ name, value, options }) => {
+      response.cookies.set(name, value, options);
+    });
+
+    return response;
   } catch (error) {
     console.error("Error in set-password:", error);
     return NextResponse.json(

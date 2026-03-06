@@ -33,34 +33,6 @@ export default function CompleteRegistration() {
   const supabase = createClient();
 
   useEffect(() => {
-    // Case 1: Returning from the hard-navigation step that replaces the hung anonymous
-    // session with the permanent user's session. The session tokens were stashed in
-    // sessionStorage by handleSubmit before the navigation.
-    if (searchParams.get("signin_complete") === "1") {
-      const raw = sessionStorage.getItem("pending_session");
-      sessionStorage.removeItem("pending_session");
-      const tokens = raw ? JSON.parse(raw) : null;
-
-      const finish = async () => {
-        if (tokens?.access_token && tokens?.refresh_token) {
-          // Fresh Supabase client (no hash in URL, no hung initializePromise).
-          await supabase.auth.setSession(tokens);
-        }
-        // Hard-navigate to the report so the new page gets a completely fresh JS
-        // environment. router.push() (client-side navigation) preserves the Supabase
-        // singleton whose internal state after setSession() can cause getSession() calls
-        // on the destination page to hang, keeping the loading spinner indefinitely.
-        // A hard navigation ensures the session is read cleanly from cookies, matching
-        // the behaviour of a manual page refresh (which always works).
-        window.location.href = propertyId
-          ? `/properties/comps/${propertyId}`
-          : "/feedback-genius/analyze";
-      };
-
-      finish();
-      return;
-    }
-
     const hash = window.location.hash;
 
     if (hash && hash.includes("access_token")) {
@@ -167,13 +139,6 @@ export default function CompleteRegistration() {
           return;
         }
 
-        // Stash the session tokens so the signin_complete page-load can call setSession()
-        // on a fresh Supabase client (free of the hung initializePromise caused by the
-        // implicit-flow hash tokens still in the current page's URL).
-        if (data.session) {
-          sessionStorage.setItem("pending_session", JSON.stringify(data.session));
-        }
-
         // Clear any leftover anonymous session tokens from storage.
         localStorage.removeItem("anon_token");
         localStorage.removeItem("anon_user_id");
@@ -188,14 +153,13 @@ export default function CompleteRegistration() {
           email: userEmail,
         });
 
-        // Hard-navigate away from the hash URL. The new page load has no hash, so
-        // createBrowserClient initialises cleanly and setSession() works.
-        const dest = new URL(window.location.href);
-        dest.hash = "";
-        dest.searchParams.set("signin_complete", "1");
-        // Keep propertyId so the signin_complete handler can redirect correctly.
-        if (propertyId) dest.searchParams.set("propertyId", propertyId);
-        window.location.href = dest.toString();
+        // Session cookies were set server-side on the API response. Navigate directly to
+        // the report via window.location.href — this creates a fresh JS environment with
+        // no hash fragment, so createBrowserClient initialises cleanly from cookies
+        // without the hung initializePromise caused by the implicit-flow hash tokens.
+        window.location.href = propertyId
+          ? `/properties/comps/${propertyId}`
+          : "/feedback-genius/analyze";
         return;
       } else {
         // Cookie-based session (PKCE flow) — update password directly via the client.
