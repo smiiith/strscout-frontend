@@ -20,8 +20,11 @@ export const metadata: Metadata = {
   description:
     "Complete guide to Airbnb host fees. Learn about the 3% Split Fee vs 15% Single Fee structures, how to choose, and ways to minimize costs. Updated 2026.",
   keywords: [
+    "airbnb fees host",
     "airbnb fees",
     "airbnb host fees",
+    "airbnb host fees explained",
+    "airbnb fee changes",
     "cleaning fee",
     "what percentage does airbnb take",
     "airbnb cleaning fee",
@@ -34,6 +37,7 @@ export const metadata: Metadata = {
     "airbnb fee structure",
     "airbnb split fee",
     "airbnb single fee",
+    "pricelabs airbnb",
   ],
   openGraph: {
     title: "Airbnb Host Fees Explained: Split Fee vs Single Fee Structure",
