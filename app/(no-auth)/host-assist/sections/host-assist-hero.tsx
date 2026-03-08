@@ -45,7 +45,7 @@ export function HostAssistHero() {
                   className="text-base md:text-lg px-6 md:px-8 py-5 md:py-6 shadow-lg hover:shadow-xl transition-shadow w-full"
                   onClick={handleCtaClick}
                 >
-                  Sign Up for FREE early Access
+                  Sign Up for FREE
                 </Button>
                 <p className="text-xs md:text-sm text-muted-foreground mt-4">
                   We are pre-selecting hosts for FREE early access.
@@ -57,9 +57,7 @@ export function HostAssistHero() {
           {/* Right Main Content */}
           <div className="lg:w-3/5">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-balance">
-              Hosts...
-              <br />
-              Stay on top of every task, and off Airbnb's fee list.
+              Airbnb Hosts: Manage Hosting & Avoid the 15% Fee
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed text-pretty">
@@ -104,7 +102,7 @@ export function HostAssistHero() {
                 className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-shadow"
                 onClick={handleCtaClick}
               >
-                Sign Up for FREE early Access
+                Sign Up for FREE
                 <ArrowRight01Icon className="ml-2 h-5 w-5" />
               </Button>
             </div>
