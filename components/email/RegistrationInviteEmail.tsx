@@ -28,7 +28,7 @@ export const RegistrationInviteEmail = ({
   return (
     <Html>
       <Head />
-      <Preview>Complete your registration to view your Feedback Genius report</Preview>
+      <Preview>Your STR analysis is ready — click to set your password and view it now</Preview>
       <Body style={main}>
         <Container style={container}>
           <Img
@@ -65,13 +65,11 @@ export const RegistrationInviteEmail = ({
             <strong>What happens next:</strong>
           </Text>
           <Text style={steps}>
-            1. Click the button above (your email {email} is already saved)
+            1. Click the button above
             <br />
             2. Set your password
             <br />
-            3. Confirm your email (we'll send one more quick email)
-            <br />
-            4. Automatically view your complete report
+            3. View your complete report — you're automatically logged in
           </Text>
           <Hr style={hr} />
           <Text style={paragraph}>

@@ -374,31 +374,56 @@ Both products share the same underlying infrastructure but differ in UX:
 
 Anonymous users can try Feedback Genius without creating an account via `/feedback-genius/try`.
 
-**Flow:**
+**Flow (single email):**
 1. User visits `/feedback-genius/try` → anonymous Supabase user created via `signInAnonymously()`
 2. User submits Airbnb URL → Node backend scrapes property → Frontend sends to FastAPI for AI analysis
 3. User redirected to `/properties/comps/try/[propertyId]` → sees limited/blurred results
-4. User enters email → registration invite sent via Resend → `pending_conversions` row created
-5. User clicks email link → `/feedback-genius/complete-registration` → sets password
-6. Email confirmed → `/auth/callback` triggers property ownership transfer → redirected to full results at `/properties/comps/[propertyId]`
+4. User enters email → `send-registration-invite`: admin `createUser` (email pre-confirmed) + `generateLink('recovery')`, stores `new_user_id` in `pending_conversions` immediately, sends **one custom email** via Resend with the link
+5. User clicks link → Supabase verifies OTP → redirects to `/auth/callback` (implicit-flow hash tokens in URL) → auth/callback triggers property ownership transfer → redirects to `/feedback-genius/complete-registration?propertyId=...&invited=true`
+6. `complete-registration` page detects `#access_token=...` in `window.location.hash`, decodes the JWT directly (no Supabase client) to get the email, shows password form
+7. User sets password → POST `/api/auth/set-password` (admin validates token + `updateUserById`) → `supabase.auth.signInWithPassword` establishes PKCE session in cookies → redirect to full results at `/properties/comps/[propertyId]`
 
-**Two registration paths:**
-- **Path A (anonymous session still active):** `supabase.auth.updateUser()` converts the anonymous user in-place
-- **Path B (session expired, e.g. different browser):** New permanent account created, `pending_conversions.new_user_id` updated, ownership transferred in auth callback
+**Why one email (not two):**
+Previously `send-registration-invite` sent a custom email and `signUp()` on the registration page triggered a second Supabase confirmation email. Now `createUser` with `email_confirm: true` pre-confirms the email server-side so Supabase never sends an automatic confirmation email.
+
+**Why `createUser` + `generateLink('recovery')` instead of `generateLink('invite')`:**
+Both produce implicit-flow links (tokens in URL hash `#access_token=...`). We use `type: 'recovery'` because `type: 'invite'` sends Supabase's own invite email in addition to ours, resulting in two emails. With `type: 'recovery'` on a pre-confirmed user, Supabase is silent and only our Resend email is sent.
+
+**Why the complete-registration page decodes the JWT manually:**
+`createBrowserClient` from `@supabase/ssr` uses `flowType: 'pkce'` and does not process implicit-flow hash tokens. Calling `getSession()` or `setSession()` when real hash tokens are present causes the Supabase client to attempt a network exchange for the token — which hangs indefinitely because the one-time token was already consumed by Supabase's redirect. Instead, the page decodes the JWT payload directly (`atob` + `JSON.parse`) to extract the email, stores the raw access token in state, and skips the Supabase client entirely for this step. Password is then set via the `/api/auth/set-password` admin API route, followed by `signInWithPassword` to establish a proper PKCE cookie session.
+
+**React StrictMode note:**
+The `useEffect` that reads `window.location.hash` intentionally does NOT call `window.history.replaceState` to clean up the hash. React StrictMode runs effects twice; if the hash is cleaned on the first run, the second run finds an empty hash and incorrectly falls through to the error page. The hash disappears naturally when the user is redirected to the results page after setting their password.
+
+**How `invited=true` works:**
+The flag is appended to the redirect URL by `send-registration-invite`. It tells `complete-registration` that the user arrived via an invite link and must set a password — without it, the page would see a non-anonymous session and redirect to results before the password is set.
 
 **Rate limiting:** 2 assessments per IP per 24 hours tracked in `anonymous_usage` table.
 
 **Key files:**
 - `app/(no-auth)/feedback-genius/try/page.tsx` - Try page
 - `app/(no-auth)/properties/comps/try/[propertyId]/page.tsx` - Limited results page
-- `app/(no-auth)/feedback-genius/complete-registration/page.tsx` - Password setup
+- `app/(no-auth)/feedback-genius/complete-registration/page.tsx` - Decodes JWT from hash, shows password form, calls set-password API then signInWithPassword
 - `components/EmailCaptureDialog.tsx` - Email capture modal
 - `components/LimitedPropertyRatings.tsx` - Blurred ratings component
-- `app/api/auth/send-registration-invite/route.ts` - Sends invite email
-- `app/api/auth/complete-registration/route.ts` - Creates permanent account (Path B)
-- `app/api/auth/transfer-property-ownership/route.ts` - Transfers listings to permanent user
+- `app/api/auth/send-registration-invite/route.ts` - Creates user (email pre-confirmed), generates recovery link, stores `new_user_id` upfront, sends single email
+- `app/api/auth/set-password/route.ts` - Verifies access token via admin `getUser`, updates password via `updateUserById`
+- `app/api/auth/complete-registration/route.ts` - **Dead code** (no longer called; kept in place)
+- `app/api/auth/transfer-property-ownership/route.ts` - Transfers listings to permanent user (called from `/auth/callback`)
 - `app/api/admin/cleanup-anonymous-users/route.ts` - Admin cleanup endpoint
 - `app/api/rate-limit/check/route.ts` + `record/route.ts` - Rate limiting
+
+**Faster testing (skip the AI analysis):**
+1. Visit `/feedback-genius/try` in an incognito window (creates anon session, no URL submission needed)
+2. From the browser console, call `send-registration-invite` directly with a fake propertyId:
+   ```javascript
+   fetch('/api/auth/send-registration-invite', {
+     method: 'POST',
+     headers: { 'Content-Type': 'application/json' },
+     body: JSON.stringify({ email: 'test@example.com', propertyId: '00000000-0000-0000-0000-000000000000' })
+   }).then(r => r.json()).then(console.log)
+   ```
+3. Click the link in the email — password form should appear, and after setting password you'll be logged in
 
 **Database tables added:** `anonymous_usage`, `pending_conversions`, `users_to_delete`
 **Function added:** `cleanup_old_anonymous_users(days_old)`
@@ -406,14 +431,14 @@ Anonymous users can try Feedback Genius without creating an account via `/feedba
 
 **Important notes:**
 - Anonymous users get a profile created automatically via `handle_new_user()` trigger (needed for FK constraint on `str_properties`)
-- The Node backend does NOT call FastAPI - the frontend sends property data to FastAPI after the Node backend responds
+- The Node backend does NOT call FastAPI — the frontend sends property data to FastAPI after the Node backend responds
 - Test in incognito window to avoid interference from existing sessions
 - Admin cleanup endpoint: `POST /api/admin/cleanup-anonymous-users` (requires `is_admin = true`)
-- When testing, run `TRUNCATE pending_conversions;` between test runs — duplicate rows for the same email cause `.single()` to fail silently, leaving `new_user_id` unset and the property transfer never happening (symptom: user can see report directly at `/properties/comps/{id}` but "My Reports" redirects to `/feedback-genius/analyze`)
+- When testing, run `TRUNCATE pending_conversions;` between test runs — duplicate rows for the same email cause issues with property transfer
 
 **Known technical debt in this flow:**
-- `app/api/auth/send-registration-invite/route.ts` builds the invite email URL from `NEXT_PUBLIC_SITE_URL` — this breaks on Vercel preview deployments unless that env var is set for the Preview environment in Vercel
-- `app/api/auth/complete-registration/route.ts` uses the regular `supabase` client (anonymous session from cookies) instead of `supabaseAdmin` to query/update `pending_conversions` — if the anonymous session isn't in cookies (e.g., serverless cold start, different browser), the query silently returns nothing and `new_user_id` is never set, breaking property transfer. Should use `supabaseAdmin` like `transfer-property-ownership/route.ts` does. Also uses `.single()` which fails silently when duplicate rows exist; should use `.order('created_at', { ascending: false }).limit(1)` instead
+- `app/api/auth/send-registration-invite/route.ts` builds the redirect URL from `NEXT_PUBLIC_SITE_URL` — this breaks on Vercel preview deployments unless that env var is set for the Preview environment in Vercel
+- `app/api/auth/complete-registration/route.ts` is dead code but kept in place. It contained several anti-patterns (regular client instead of admin for `pending_conversions`, `.single()` failing silently on duplicates) that are no longer relevant
 
 #### Authentication Best Practices
 
