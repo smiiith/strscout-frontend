@@ -161,114 +161,9 @@ export default async function AirbnbPhotoTipsGuide() {
           listings.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
-          Last updated: {new Date().toLocaleDateString()}
+          Last updated: 3/8/2026
         </p>
       </header>
-
-      {/* Key Statistics */}
-      {/* <section className="mb-12">
-        <Card>
-          <CardHeader>
-            <CardTitle>What Our Analysis Shows</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="font-semibold mb-3">Hero Image Performance</h3>
-                <div className="text-4xl font-bold text-primary mb-2">
-                  {stats.heroImageStats.averageRating}/100
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Average rating for main listing photos
-                </p>
-                <div className="space-y-1 text-xs">
-                  <div className="flex justify-between">
-                    <span>⭐ Excellent (90-100):</span>
-                    <span className="font-semibold">
-                      {Math.round(
-                        (stats.heroImageStats.ratingDistribution.excellent /
-                          stats.totalProperties) *
-                          100,
-                      )}
-                      %
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>✅ Good (80-89):</span>
-                    <span className="font-semibold">
-                      {Math.round(
-                        (stats.heroImageStats.ratingDistribution.good /
-                          stats.totalProperties) *
-                          100,
-                      )}
-                      %
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>👍 Satisfactory (70-79):</span>
-                    <span className="font-semibold">
-                      {Math.round(
-                        (stats.heroImageStats.ratingDistribution.satisfactory /
-                          stats.totalProperties) *
-                          100,
-                      )}
-                      %
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="font-semibold mb-3">
-                  Additional Photos Performance
-                </h3>
-                <div className="text-4xl font-bold text-primary mb-2">
-                  {stats.otherImagesStats.averageRating}/100
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Average rating for supporting photos
-                </p>
-                <div className="space-y-1 text-xs">
-                  <div className="flex justify-between">
-                    <span>⭐ Excellent (90-100):</span>
-                    <span className="font-semibold">
-                      {Math.round(
-                        (stats.otherImagesStats.ratingDistribution.excellent /
-                          stats.totalProperties) *
-                          100,
-                      )}
-                      %
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>✅ Good (80-89):</span>
-                    <span className="font-semibold">
-                      {Math.round(
-                        (stats.otherImagesStats.ratingDistribution.good /
-                          stats.totalProperties) *
-                          100,
-                      )}
-                      %
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>👍 Satisfactory (70-79):</span>
-                    <span className="font-semibold">
-                      {Math.round(
-                        (stats.otherImagesStats.ratingDistribution
-                          .satisfactory /
-                          stats.totalProperties) *
-                          100,
-                      )}
-                      %
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </section> */}
 
       {/* Common Issues */}
       {stats.commonFeedbackThemes.length > 0 && (
@@ -390,6 +285,113 @@ export default async function AirbnbPhotoTipsGuide() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Key Statistics */}
+        <section className="mb-12">
+          <Card>
+            <CardHeader>
+              <CardTitle>What Our Analysis Shows</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="font-semibold mb-3">Hero Image Performance</h3>
+                  <div className="text-4xl font-bold text-primary mb-2">
+                    {stats.heroImageStats.averageRating}/100
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Average rating for main listing photos
+                  </p>
+                  <div className="space-y-1 text-xs">
+                    <div className="flex justify-between">
+                      <span>⭐ Excellent (90-100):</span>
+                      <span className="font-semibold">
+                        {Math.round(
+                          (stats.heroImageStats.ratingDistribution.excellent /
+                            stats.totalProperties) *
+                            100,
+                        )}
+                        %
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>✅ Good (80-89):</span>
+                      <span className="font-semibold">
+                        {Math.round(
+                          (stats.heroImageStats.ratingDistribution.good /
+                            stats.totalProperties) *
+                            100,
+                        )}
+                        %
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>👍 Satisfactory (70-79):</span>
+                      <span className="font-semibold">
+                        {Math.round(
+                          (stats.heroImageStats.ratingDistribution
+                            .satisfactory /
+                            stats.totalProperties) *
+                            100,
+                        )}
+                        %
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">
+                    Additional Photos Performance
+                  </h3>
+                  <div className="text-4xl font-bold text-primary mb-2">
+                    {stats.otherImagesStats.averageRating}/100
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Average rating for supporting photos
+                  </p>
+                  <div className="space-y-1 text-xs">
+                    <div className="flex justify-between">
+                      <span>⭐ Excellent (90-100):</span>
+                      <span className="font-semibold">
+                        {Math.round(
+                          (stats.otherImagesStats.ratingDistribution.excellent /
+                            stats.totalProperties) *
+                            100,
+                        )}
+                        %
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>✅ Good (80-89):</span>
+                      <span className="font-semibold">
+                        {Math.round(
+                          (stats.otherImagesStats.ratingDistribution.good /
+                            stats.totalProperties) *
+                            100,
+                        )}
+                        %
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>👍 Satisfactory (70-79):</span>
+                      <span className="font-semibold">
+                        {Math.round(
+                          (stats.otherImagesStats.ratingDistribution
+                            .satisfactory /
+                            stats.totalProperties) *
+                            100,
+                        )}
+                        %
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
         <Card className="bg-muted/50">
           <CardContent className="pt-6">
             <p className="text-sm text-muted-foreground">

@@ -219,105 +219,9 @@ export default async function ImproveAirbnbRatingGuide() {
           listing. Based on AI analysis of real Airbnb properties.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
-          Last updated: {new Date().toLocaleDateString()}
+          Last updated: 3/8/2026
         </p>
       </header>
-
-      {/* Overall Statistics */}
-      {/* <section className="mb-12">
-        <Card>
-          <CardHeader>
-            <CardTitle>Overall Performance Breakdown</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="mb-6">
-              <div className="flex items-baseline gap-2 mb-2">
-                <div className="text-4xl font-bold text-primary">
-                  {stats.overallAverageRating}/100
-                </div>
-                <p className="text-muted-foreground">Average Overall Rating</p>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <h3 className="font-semibold mb-4">
-                Category-by-Category Ratings:
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
-                  <div className="flex items-center gap-3">
-                    <Camera className="w-5 h-5 text-purple-500" />
-                    <span className="font-medium">Hero Image</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-muted-foreground px-2 py-1 rounded bg-green-500/10">
-                      Strongest
-                    </span>
-                    <div className="text-xl font-bold text-primary">
-                      {stats.categoryAverages.heroImage}/100
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
-                  <div className="flex items-center gap-3">
-                    <Camera className="w-5 h-5 text-blue-500" />
-                    <span className="font-medium">Other Images</span>
-                  </div>
-                  <div className="text-xl font-bold text-primary">
-                    {stats.categoryAverages.otherImages}/100
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
-                  <div className="flex items-center gap-3">
-                    <ListChecks className="w-5 h-5 text-green-500" />
-                    <span className="font-medium">Amenities</span>
-                  </div>
-                  <div className="text-xl font-bold text-primary">
-                    {stats.categoryAverages.amenities}/100
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
-                  <div className="flex items-center gap-3">
-                    <Sparkles className="w-5 h-5 text-yellow-500" />
-                    <span className="font-medium">Title</span>
-                  </div>
-                  <div className="text-xl font-bold text-primary">
-                    {stats.categoryAverages.title}/100
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
-                  <div className="flex items-center gap-3">
-                    <BookOpen className="w-5 h-5 text-orange-500" />
-                    <span className="font-medium">Description</span>
-                  </div>
-                  <div className="text-xl font-bold text-primary">
-                    {stats.categoryAverages.description}/100
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
-                  <div className="flex items-center gap-3">
-                    <Paintbrush className="w-5 h-5 text-pink-500" />
-                    <span className="font-medium">Interior Design</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-muted-foreground px-2 py-1 rounded bg-orange-500/10">
-                      Biggest Opportunity
-                    </span>
-                    <div className="text-xl font-bold text-primary">
-                      {stats.categoryAverages.interiorDesign}/100
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </section> */}
 
       {/* Start Here Section */}
       <section className="mb-12">
@@ -542,6 +446,102 @@ export default async function ImproveAirbnbRatingGuide() {
             </CardContent>
           </Card>
         </div>
+      </section>
+
+      {/* Overall Statistics */}
+      <section className="mb-12">
+        <Card>
+          <CardHeader>
+            <CardTitle>Overall Performance Breakdown</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="mb-6">
+              <div className="flex items-baseline gap-2 mb-2">
+                <div className="text-4xl font-bold text-primary">
+                  {stats.overallAverageRating}/100
+                </div>
+                <p className="text-muted-foreground">Average Overall Rating</p>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <h3 className="font-semibold mb-4">
+                Category-by-Category Ratings:
+              </h3>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+                  <div className="flex items-center gap-3">
+                    <Camera className="w-5 h-5 text-purple-500" />
+                    <span className="font-medium">Hero Image</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground px-2 py-1 rounded bg-green-500/10">
+                      Strongest
+                    </span>
+                    <div className="text-xl font-bold text-primary">
+                      {stats.categoryAverages.heroImage}/100
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+                  <div className="flex items-center gap-3">
+                    <Camera className="w-5 h-5 text-blue-500" />
+                    <span className="font-medium">Other Images</span>
+                  </div>
+                  <div className="text-xl font-bold text-primary">
+                    {stats.categoryAverages.otherImages}/100
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+                  <div className="flex items-center gap-3">
+                    <ListChecks className="w-5 h-5 text-green-500" />
+                    <span className="font-medium">Amenities</span>
+                  </div>
+                  <div className="text-xl font-bold text-primary">
+                    {stats.categoryAverages.amenities}/100
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+                  <div className="flex items-center gap-3">
+                    <Sparkles className="w-5 h-5 text-yellow-500" />
+                    <span className="font-medium">Title</span>
+                  </div>
+                  <div className="text-xl font-bold text-primary">
+                    {stats.categoryAverages.title}/100
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+                  <div className="flex items-center gap-3">
+                    <BookOpen className="w-5 h-5 text-orange-500" />
+                    <span className="font-medium">Description</span>
+                  </div>
+                  <div className="text-xl font-bold text-primary">
+                    {stats.categoryAverages.description}/100
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+                  <div className="flex items-center gap-3">
+                    <Paintbrush className="w-5 h-5 text-pink-500" />
+                    <span className="font-medium">Interior Design</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground px-2 py-1 rounded bg-orange-500/10">
+                      Biggest Opportunity
+                    </span>
+                    <div className="text-xl font-bold text-primary">
+                      {stats.categoryAverages.interiorDesign}/100
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </section>
 
       {/* Quick Wins */}

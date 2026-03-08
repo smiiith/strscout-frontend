@@ -157,67 +157,9 @@ export default async function AirbnbAmenitiesChecklistGuide() {
           your listing stand out. Based on analysis of properties.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
-          Last updated: {new Date().toLocaleDateString()}
+          Last updated: 3/8/2026
         </p>
       </header>
-
-      {/* Statistics */}
-      {/* <section className="mb-12">
-        <Card>
-          <CardHeader>
-            <CardTitle>What Our Analysis Shows</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <div className="text-4xl font-bold text-primary mb-2">
-                  {stats.averageRating}/100
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Average amenities rating across all properties
-                </p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="font-semibold mb-3">Rating Distribution:</h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>⭐ Excellent (90-100):</span>
-                    <span className="font-semibold">
-                      {Math.round(
-                        (stats.ratingDistribution.excellent /
-                          stats.totalProperties) *
-                          100
-                      )}
-                      %
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>✅ Good (80-89):</span>
-                    <span className="font-semibold">
-                      {Math.round(
-                        (stats.ratingDistribution.good / stats.totalProperties) *
-                          100
-                      )}
-                      %
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>👍 Satisfactory (70-79):</span>
-                    <span className="font-semibold">
-                      {Math.round(
-                        (stats.ratingDistribution.satisfactory /
-                          stats.totalProperties) *
-                          100
-                      )}
-                      %
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </section> */}
 
       {/* Must-Have Amenities */}
       <section className="mb-12">
@@ -839,6 +781,65 @@ export default async function AirbnbAmenitiesChecklistGuide() {
             </CardContent>
           </Card>
         </div>
+      </section>
+
+      {/* Statistics */}
+      <section className="mb-12">
+        <Card>
+          <CardHeader>
+            <CardTitle>What Our Analysis Shows</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <div className="text-4xl font-bold text-primary mb-2">
+                  {stats.averageRating}/100
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Average amenities rating across all properties
+                </p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="font-semibold mb-3">Rating Distribution:</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span>⭐ Excellent (90-100):</span>
+                    <span className="font-semibold">
+                      {Math.round(
+                        (stats.ratingDistribution.excellent /
+                          stats.totalProperties) *
+                          100,
+                      )}
+                      %
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>✅ Good (80-89):</span>
+                    <span className="font-semibold">
+                      {Math.round(
+                        (stats.ratingDistribution.good /
+                          stats.totalProperties) *
+                          100,
+                      )}
+                      %
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>👍 Satisfactory (70-79):</span>
+                    <span className="font-semibold">
+                      {Math.round(
+                        (stats.ratingDistribution.satisfactory /
+                          stats.totalProperties) *
+                          100,
+                      )}
+                      %
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </section>
 
       {/* Tools */}

@@ -151,79 +151,9 @@ export default async function AirbnbDescriptionWritingGuide() {
           listing descriptions. Based on AI analysis of real Airbnb listings.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
-          Last updated: {new Date().toLocaleDateString()}
+          Last updated: 3/8/2026
         </p>
       </header>
-
-      {/* Key Statistics */}
-      {/* <section className="mb-12">
-        <Card>
-          <CardHeader>
-            <CardTitle>What Our Analysis Shows</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <div className="text-4xl font-bold text-primary mb-2">
-                  {stats.averageRating}/100
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Average description rating across all properties analyzed
-                </p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="font-semibold mb-3">Rating Distribution:</h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>⭐ Excellent (90-100):</span>
-                    <span className="font-semibold">
-                      {Math.round(
-                        (stats.ratingDistribution.excellent /
-                          stats.totalProperties) *
-                          100
-                      )}
-                      %
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>✅ Good (80-89):</span>
-                    <span className="font-semibold">
-                      {Math.round(
-                        (stats.ratingDistribution.good /
-                          stats.totalProperties) *
-                          100
-                      )}
-                      %
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>👍 Satisfactory (70-79):</span>
-                    <span className="font-semibold">
-                      {Math.round(
-                        (stats.ratingDistribution.satisfactory /
-                          stats.totalProperties) *
-                          100
-                      )}
-                      %
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>⚠️ Needs Improvement (&lt;70):</span>
-                    <span className="font-semibold">
-                      {Math.round(
-                        (stats.ratingDistribution.needsImprovement /
-                          stats.totalProperties) *
-                          100
-                      )}
-                      %
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </section> */}
 
       {/* Common Issues */}
       {stats.commonFeedbackThemes.length > 0 && (
@@ -257,6 +187,76 @@ export default async function AirbnbDescriptionWritingGuide() {
           </Card>
         </section>
       )}
+
+      {/* Key Statistics */}
+      <section className="mb-12">
+        <Card>
+          <CardHeader>
+            <CardTitle>What Our Analysis Shows</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <div className="text-4xl font-bold text-primary mb-2">
+                  {stats.averageRating}/100
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Average description rating across all properties analyzed
+                </p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="font-semibold mb-3">Rating Distribution:</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span>⭐ Excellent (90-100):</span>
+                    <span className="font-semibold">
+                      {Math.round(
+                        (stats.ratingDistribution.excellent /
+                          stats.totalProperties) *
+                          100,
+                      )}
+                      %
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>✅ Good (80-89):</span>
+                    <span className="font-semibold">
+                      {Math.round(
+                        (stats.ratingDistribution.good /
+                          stats.totalProperties) *
+                          100,
+                      )}
+                      %
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>👍 Satisfactory (70-79):</span>
+                    <span className="font-semibold">
+                      {Math.round(
+                        (stats.ratingDistribution.satisfactory /
+                          stats.totalProperties) *
+                          100,
+                      )}
+                      %
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>⚠️ Needs Improvement (&lt;70):</span>
+                    <span className="font-semibold">
+                      {Math.round(
+                        (stats.ratingDistribution.needsImprovement /
+                          stats.totalProperties) *
+                          100,
+                      )}
+                      %
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
 
       {/* The AIDA Formula */}
       <section className="mb-12">
