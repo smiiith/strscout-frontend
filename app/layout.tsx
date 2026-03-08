@@ -15,6 +15,24 @@ export const metadata = {
     "We dive deep into your listing to provide analysis and actionable insights, ensuring you have the clarity you need to attract more guests and maximize your success.",
 };
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "STR Sage",
+  url: "https://www.strsage.com",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://www.strsage.com/logo-sm.png",
+  },
+  description:
+    "STR Sage provides AI-powered analysis tools for Airbnb hosts and short-term rental investors, including free listing optimization feedback, competitive market intelligence, and investment analysis.",
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    url: "https://www.strsage.com/contact-us",
+  },
+};
+
 export default async function RootLayout({
   children,
 }: {
@@ -42,6 +60,10 @@ export default async function RootLayout({
         `}
       </Script>
       <body className="px-0 md:px-5 bg-muted">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
         <PostHogTracker>
           <ThemeProvider
             attribute="class"
