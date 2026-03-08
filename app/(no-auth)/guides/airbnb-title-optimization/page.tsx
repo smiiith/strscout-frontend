@@ -143,12 +143,68 @@ export default async function AirbnbTitleOptimizationGuide() {
           AI analysis of real Airbnb listings.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
-          Last updated: {new Date().toLocaleDateString()}
+          Last updated: 3/8/2026
         </p>
       </header>
 
+      {/* Common Issues */}
+      {stats.commonFeedbackThemes.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold mb-6">
+            Most Common Title Issues We Find
+          </h2>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="space-y-4">
+                {stats.commonFeedbackThemes.map((theme, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start gap-4 pb-4 border-b last:border-b-0"
+                  >
+                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
+                      {index + 1}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-lg mb-1">
+                        {theme.theme}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Found in {theme.percentage}% of listings analyzed
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      )}
+
+      {/* Top Recommendations */}
+      {stats.topSuggestions.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold mb-6">
+            Top Recommendations from Our AI Analysis
+          </h2>
+          <div className="grid gap-4">
+            {stats.topSuggestions.map((suggestion, index) => (
+              <Card key={index}>
+                <CardContent className="pt-6">
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl">💡</span>
+                    <div>
+                      <p className="text-base">{suggestion.suggestion}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Key Statistics */}
-      {/* <section className="mb-12">
+      <section className="mb-12">
         <Card>
           <CardHeader>
             <CardTitle>What Our Analysis Shows</CardTitle>
@@ -215,63 +271,7 @@ export default async function AirbnbTitleOptimizationGuide() {
             </div>
           </CardContent>
         </Card>
-      </section> */}
-
-      {/* Common Issues */}
-      {stats.commonFeedbackThemes.length > 0 && (
-        <section className="mb-12">
-          <h2 className="text-3xl font-bold mb-6">
-            Most Common Title Issues We Find
-          </h2>
-          <Card>
-            <CardContent className="pt-6">
-              <div className="space-y-4">
-                {stats.commonFeedbackThemes.map((theme, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start gap-4 pb-4 border-b last:border-b-0"
-                  >
-                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
-                      {index + 1}
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-lg mb-1">
-                        {theme.theme}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        Found in {theme.percentage}% of listings analyzed
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-      )}
-
-      {/* Top Recommendations */}
-      {stats.topSuggestions.length > 0 && (
-        <section className="mb-12">
-          <h2 className="text-3xl font-bold mb-6">
-            Top Recommendations from Our AI Analysis
-          </h2>
-          <div className="grid gap-4">
-            {stats.topSuggestions.map((suggestion, index) => (
-              <Card key={index}>
-                <CardContent className="pt-6">
-                  <div className="flex items-start gap-3">
-                    <span className="text-2xl">💡</span>
-                    <div>
-                      <p className="text-base">{suggestion.suggestion}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-      )}
+      </section>
 
       {/* Real Examples */}
       {stats.sampleTitleRewrites.length > 0 && (
