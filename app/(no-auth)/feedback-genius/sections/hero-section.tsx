@@ -23,14 +23,22 @@ export function HeroSection({ location }: { location?: Locality }) {
             </div>
 
             <h1 className="text-4xl md:text-6xl font-bold text-foreground leading-tight text-balance">
-              Stop Guessing. Start Booking.
+              Stop Guessing. <br />
+              <span>
+                Get Clarity on Your {location ? `${location.name} ` : ""}{" "}
+                Listing.
+              </span>
             </h1>
 
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Get expert analysis of your{" "}
-              {location ? `${location.name} ` : ""}Airbnb listing in seconds.
-              We rate every detail and tell you exactly what to fix to attract
-              more guests.
+              Most hosts are guessing: Are my photos good? Is my hero photo
+              grabbing attention? Is my headline weak? Is my description clear?
+              Do I have amenity gaps? STR Feedback Genius answers those
+              questions and more by looking at your{" "}
+              {location ? `${location.name} ` : ""} listing then giving you an
+              objective, in-depth breakdown of what's working, what's not, and
+              what to improve first — best of all it's free. Get clarity in
+              minutes.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -43,7 +51,7 @@ export function HeroSection({ location }: { location?: Locality }) {
                   if (session?.id) {
                     router.push("/feedback-genius/analyze");
                   } else {
-                    router.push("/register?redirect_to=/feedback-genius/analyze");
+                    router.push("/feedback-genius/try");
                   }
                 }}
               >
