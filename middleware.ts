@@ -20,6 +20,7 @@ const publicRoutes = [
   "/feedback-genius/try",
   "/feedback-genius/complete-registration",
   "/properties/comps/try",
+  "/partner",
 ];
 
 const adminRoutes = [

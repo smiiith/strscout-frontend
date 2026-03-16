@@ -59,13 +59,18 @@ export async function checkUserPlan(request: NextRequest, requiredPlan: string) 
     // Get user's plan with a timeout to prevent hanging
     const { data: profile, error } = await supabase
       .from('profiles')
-      .select('plan:plans(key)')
+      .select('plan:plans(key), is_partner_user')
       .eq('id', user.id)
       .single();
 
     if (error) {
       console.error('Plan check error:', error);
       return { hasAccess: false, reason: 'plan_check_failed' };
+    }
+
+    // Partner users bypass plan check entirely
+    if (profile?.is_partner_user === true) {
+      return { hasAccess: true, reason: 'partner_access', userPlan: 'partner' };
     }
 
     // Handle both single object and array responses from Supabase join
