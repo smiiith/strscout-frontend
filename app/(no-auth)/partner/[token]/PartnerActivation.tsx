@@ -116,7 +116,7 @@ export default function PartnerActivation({ token, partnerName }: Props) {
       <div className="mb-8">
         <Image
           src="/market-spy-logo.png"
-          alt="STR Scout"
+          alt="STR Market Spy"
           width={200}
           height={60}
           className="h-auto mx-auto mb-6"
@@ -124,7 +124,7 @@ export default function PartnerActivation({ token, partnerName }: Props) {
         <h1 className="text-3xl font-bold mb-3">You&apos;re invited</h1>
         <p className="text-lg text-muted-foreground">
           <span className="font-semibold text-foreground">{partnerName}</span>{" "}
-          has given you free access to STR Scout — market intelligence for
+          has given you free access to STR Market Spy — market intelligence for
           short-term rental properties.
         </p>
       </div>
