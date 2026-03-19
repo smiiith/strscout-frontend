@@ -27,7 +27,8 @@ export async function GET() {
         current_tier,
         listings_purchased,
         one_time_listings_balance,
-        subscription_quantity
+        subscription_quantity,
+        is_partner_user
       `)
       .eq('id', user.id)
       .single();
@@ -57,6 +58,7 @@ export async function GET() {
         one_time_listings_balance: profile?.one_time_listings_balance || 0,
         subscription_quantity: profile?.subscription_quantity || 0,
         remaining_runs: remainingRuns,
+        is_partner_user: profile?.is_partner_user || false,
       }
     });
 
