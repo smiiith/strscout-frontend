@@ -35,7 +35,7 @@ const RatingsDialog = ({
       )}
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[90vw] sm:h-[100vh] sm:max-h-[90vh] overflow-auto">
+        <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-[90vw] sm:max-h-[90vh]">
           <DialogHeader>
             <DialogTitle>Sample Ratings Report</DialogTitle>
           </DialogHeader>

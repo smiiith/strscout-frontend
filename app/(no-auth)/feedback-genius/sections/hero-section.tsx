@@ -16,7 +16,7 @@ export function HeroSection({ location }: { location?: Locality }) {
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Copy */}
-          <div className="space-y-8">
+          <div className="space-y-4 md:space-y-8">
             <div className="inline-flex items-center rounded-full bg-success/10 px-4 py-2 text-sm font-medium text-success">
               <CheckCircle2 className="mr-2 h-4 w-4" />
               Trusted by Airbnb hosts
@@ -30,7 +30,15 @@ export function HeroSection({ location }: { location?: Locality }) {
               </span>
             </h1>
 
-            <p className="text-xl text-muted-foreground leading-relaxed">
+            {/* Mobile pitch — concise, above the fold */}
+            <p className="md:hidden text-lg text-muted-foreground leading-relaxed">
+              STR Feedback Genius analyzes your listing then gives an objective,
+              in-depth breakdown of what's working, what's not, and what to
+              improve first — best of all it's free.
+            </p>
+
+            {/* Desktop pitch — full version */}
+            <p className="hidden md:block text-xl text-muted-foreground leading-relaxed">
               Most hosts are guessing: Are my photos good? Is my hero photo
               grabbing attention? Is my headline weak? Is my description clear?
               Do I have amenity gaps? STR Feedback Genius answers those
@@ -70,7 +78,7 @@ export function HeroSection({ location }: { location?: Locality }) {
               </Button> */}
             </div>
 
-            <div className="flex items-center gap-6 pt-4">
+            <div className="hidden md:flex items-center gap-6 pt-4">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5 text-success" />
                 <span className="text-sm text-muted-foreground">
