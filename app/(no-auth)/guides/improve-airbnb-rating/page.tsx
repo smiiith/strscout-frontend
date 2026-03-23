@@ -5,6 +5,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { GuideFAQ } from "@/components/guides/GuideFAQ";
 import { DataMethodology } from "@/components/guides/DataMethodology";
 import Link from "next/link";
+import Image from "next/image";
 import { Metadata } from "next";
 import {
   Sparkles,
@@ -1039,6 +1040,25 @@ export default async function ImproveAirbnbRatingGuide() {
           </Card>
         </div>
       </section>
+
+      {/* External Resource */}
+      <div className="mt-8 text-center text-sm text-muted-foreground">
+        <a
+          href="https://shorttermrentalessentials.com/"
+          target="_blank"
+          rel="noopener"
+          className="inline-flex items-center gap-2 hover:underline"
+        >
+          <Image
+            src="/icons/shorttermrentalessentials-icon.svg"
+            alt=""
+            width={16}
+            height={16}
+            aria-hidden="true"
+          />
+          Essential Tools for Short-Term Rental Success
+        </a>
+      </div>
     </div>
   );
 }

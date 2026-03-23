@@ -1,0 +1,21 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Option 3: House with Tools/Gear -->
+  <rect width="200" height="200" rx="20" fill="#1E40AF"/>
+
+  <!-- House - Larger with less padding -->
+  <path d="M100 35L165 85V165H35V85L100 35Z" fill="white"/>
+  <rect x="70" y="115" width="20" height="30" fill="#1E40AF"/>
+  <rect x="110" y="115" width="20" height="30" fill="#1E40AF"/>
+
+  <!-- Gear -->
+  <circle cx="100" cy="75" r="14" fill="#F59E0B"/>
+  <circle cx="100" cy="75" r="9" fill="#1E40AF"/>
+  <rect x="99" y="59" width="2" height="8" fill="#F59E0B"/>
+  <rect x="99" y="83" width="2" height="8" fill="#F59E0B"/>
+  <rect x="116" y="74" width="8" height="2" fill="#F59E0B"/>
+  <rect x="76" y="74" width="8" height="2" fill="#F59E0B"/>
+
+  <!-- Wrench -->
+  <rect x="140" y="120" width="6" height="35" rx="1" fill="#94A3B8" transform="rotate(30 143 137.5)"/>
+  <rect x="138" y="117" width="10" height="9" rx="1" fill="#94A3B8" transform="rotate(30 143 121.5)"/>
+</svg>
