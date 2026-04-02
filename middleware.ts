@@ -181,17 +181,17 @@ export async function middleware(request: NextRequest) {
 
     const cspHeader = `
       default-src 'self';
-      script-src 'self' 'nonce-${nonce}' 'sha256-X9GtzORyUShRgrb5vBVwF3p8WtKom3jBuMyocEhfL3Q=' https://js.stripe.com https://vercel.live https://www.googletagmanager.com;
+      script-src 'self' 'nonce-${nonce}' 'sha256-X9GtzORyUShRgrb5vBVwF3p8WtKom3jBuMyocEhfL3Q=' https://js.stripe.com https://vercel.live https://www.googletagmanager.com https://www.googleadservices.com;
       style-src 'self' 'unsafe-inline';
-      img-src 'self' blob: data: https://a0.muscache.com https://*.stripe.com https://*.supabase.co https://www.googletagmanager.com;
+      img-src 'self' blob: data: https://a0.muscache.com https://*.stripe.com https://*.supabase.co https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net;
       font-src 'self';
       object-src 'none';
       base-uri 'self';
       form-action 'self';
       frame-ancestors 'none';
-      frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://vercel.live https://www.youtube.com;
+      frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://vercel.live https://www.youtube.com https://bid.g.doubleclick.net;
       media-src 'self' https://*.supabase.co;
-      connect-src 'self' ${supabaseUrl} https://*.supabase.co wss://*.supabase.co ${backendUrl} https://syncnanny-ai-dev-production.up.railway.app https://syncnanny-ai-production.up.railway.app https://api.stripe.com https://api.geoapify.com ${posthogHost} https://internal-j.posthog.com ${appDomain}/ingest/ https://www.googletagmanager.com https://www.google-analytics.com;
+      connect-src 'self' ${supabaseUrl} https://*.supabase.co wss://*.supabase.co ${backendUrl} https://syncnanny-ai-dev-production.up.railway.app https://syncnanny-ai-production.up.railway.app https://api.stripe.com https://api.geoapify.com ${posthogHost} https://internal-j.posthog.com ${appDomain}/ingest/ https://www.googletagmanager.com https://www.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://stats.g.doubleclick.net;
       upgrade-insecure-requests;
     `
       .replace(/\s{2,}/g, " ")
