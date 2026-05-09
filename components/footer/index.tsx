@@ -64,7 +64,7 @@ const Footer = ({ authenticated }: { authenticated: any }) => {
                   <li>Guidance by strsage.com</li>
                   <li>
                     <a
-                      href="https://github.com/smiiith/str-sage"
+                      href="https://github.com/SyncNanny/str-sage"
                       className="hover:text-slate-300"
                     >
                       GitHub
