@@ -148,7 +148,7 @@ export default function AirbnbFeesGuide() {
           what you can choose.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
-          Last updated: 1/7/2026
+          Last updated: 5/19/2026
         </p>
       </header>
 

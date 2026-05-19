@@ -11,6 +11,7 @@ import {
   Home,
   ListChecks,
   Sparkles,
+  Star,
   TrendingUp,
 } from "lucide-react";
 
@@ -112,6 +113,36 @@ const guides = [
     icon: TrendingUp,
     color: "text-teal-500",
     bgColor: "bg-teal-500/10",
+    available: true,
+  },
+  {
+    title: "Airbnb Pricing Strategy",
+    description:
+      "How to set nightly rates that maximize revenue — dynamic pricing tools, seasonality, discounts, and how to read your occupancy signal.",
+    href: "/guides/airbnb-pricing-strategy",
+    icon: TrendingUp,
+    color: "text-indigo-500",
+    bgColor: "bg-indigo-500/10",
+    available: true,
+  },
+  {
+    title: "How to Get More 5-Star Reviews",
+    description:
+      "A practical system for earning more reviews — check-in experience, communication, surprise-and-delight, and handling the occasional bad one.",
+    href: "/guides/airbnb-reviews",
+    icon: Star,
+    color: "text-amber-500",
+    bgColor: "bg-amber-500/10",
+    available: true,
+  },
+  {
+    title: "Airbnb Superhost Guide",
+    description:
+      "The 4 requirements explained, what Superhost is actually worth, and a practical system for achieving and keeping the badge.",
+    href: "/guides/airbnb-superhost",
+    icon: Star,
+    color: "text-yellow-500",
+    bgColor: "bg-yellow-500/10",
     available: true,
   },
 ];

@@ -220,7 +220,7 @@ export default async function ImproveAirbnbRatingGuide() {
           listing. Based on AI analysis of real Airbnb properties.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
-          Last updated: 3/8/2026
+          Last updated: 5/19/2026
         </p>
       </header>
 
@@ -801,7 +801,7 @@ export default async function ImproveAirbnbRatingGuide() {
           {
             question: "How much does it cost to improve an Airbnb listing?",
             answer:
-              "Many high-impact improvements are free: rewriting your title and description, reorganizing photos, better lighting when shooting. Budget improvements include new photos ($0-500 for DIY or professional), basic amenities ($100-300), and minor decor upgrades ($200-500). Only invest in expensive renovations if your listing already excels in the basics.",
+              "Many high-impact improvements are free: rewriting your title and description, reorganizing photos, better lighting when shooting. Budget improvements include new photos ($0 for DIY or $200-$800 for professional), basic amenities ($100-300), and minor decor upgrades ($200-500). Only invest in expensive renovations if your listing already excels in the basics.",
           },
           {
             question:
@@ -817,7 +817,7 @@ export default async function ImproveAirbnbRatingGuide() {
           {
             question: "Do I need professional photos for my Airbnb?",
             answer:
-              "Not necessarily. Modern smartphones can produce excellent photos with proper technique: maximize natural lighting, shoot during golden hour, use wide-angle mode, and declutter thoroughly. Professional photos ($150-500) make sense for competitive markets, high-end properties, or if DIY attempts aren't getting results.",
+              "Not necessarily. Modern smartphones can produce excellent photos with proper technique: maximize natural lighting, shoot during golden hour, use wide-angle mode, and declutter thoroughly. Professional photos ($200-$800) make sense for competitive markets, high-end properties, or if DIY attempts aren't getting results.",
           },
           {
             question:
