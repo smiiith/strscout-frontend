@@ -144,7 +144,7 @@ export default async function AirbnbTitleOptimizationGuide() {
           AI analysis of real Airbnb listings.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
-          Last updated: 3/8/2026
+          Last updated: 5/19/2026
         </p>
       </header>
 

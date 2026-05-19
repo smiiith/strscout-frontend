@@ -152,7 +152,7 @@ export default async function AirbnbDescriptionWritingGuide() {
           listing descriptions. Based on AI analysis of real Airbnb listings.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
-          Last updated: 3/8/2026
+          Last updated: 5/19/2026
         </p>
       </header>
 
@@ -178,7 +178,7 @@ export default async function AirbnbDescriptionWritingGuide() {
                         {theme.theme}
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        Found in {theme.percentage}% of listings analyzed ( )
+                        Found in {theme.percentage}% of listings analyzed
                       </p>
                     </div>
                   </div>
@@ -543,8 +543,9 @@ export default async function AirbnbDescriptionWritingGuide() {
                   ❌ Overly Short Descriptions
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Aim for 500-1000 words. Short descriptions suggest you don't
-                  care or are hiding something.
+                  Aim for 150-300 words. Short descriptions suggest you don't
+                  care or are hiding something — but don't pad it out either;
+                  guests skim before clicking "Read more."
                 </p>
               </div>
             </div>

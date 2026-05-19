@@ -162,7 +162,7 @@ export default async function AirbnbPhotoTipsGuide() {
           listings.
         </p>
         <p className="text-sm text-muted-foreground mt-4">
-          Last updated: 3/8/2026
+          Last updated: 5/19/2026
         </p>
       </header>
 
@@ -265,7 +265,7 @@ export default async function AirbnbPhotoTipsGuide() {
                 <li className="flex items-start gap-2">
                   <span className="text-blue-500 mt-0.5">✓</span>
                   <span>
-                    You have a decent smartphone camera (iPhone 12+, etc.)
+                    You have a decent smartphone camera (iPhone 15+, etc.)
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
@@ -397,7 +397,7 @@ export default async function AirbnbPhotoTipsGuide() {
           <CardContent className="pt-6">
             <p className="text-sm text-muted-foreground">
               <strong>Pro Tip:</strong> Professional photography typically costs
-              $150-$500 but can increase bookings by 20-40%. Many hosts recover
+              $200-$800 but can increase bookings by 20-40%. Many hosts recover
               this cost in their first few bookings. Consider it an investment,
               not an expense.
             </p>
@@ -713,7 +713,7 @@ export default async function AirbnbPhotoTipsGuide() {
           {
             question:
               "Should I hire a professional photographer for my Airbnb?",
-            answer: `Professional photography typically costs $150-$500 but can increase bookings by 20-40%. Based on our analysis of ${stats.totalProperties.toLocaleString()} listings, professional photos correlate with higher ratings. Hire a pro if you're in a competitive market, launching a new listing, or current photos aren't getting clicks. DIY is viable with a good smartphone camera and proper technique.`,
+            answer: `Professional photography typically costs $200-$800 but can increase bookings by 20-40%. Based on our analysis of ${stats.totalProperties.toLocaleString()} listings, professional photos correlate with higher ratings. Hire a pro if you're in a competitive market, launching a new listing, or current photos aren't getting clicks. DIY is viable with a good smartphone camera and proper technique.`,
           },
           {
             question: "What should my Airbnb hero image show?",
@@ -733,7 +733,7 @@ export default async function AirbnbPhotoTipsGuide() {
           {
             question: "Can I use my smartphone to take Airbnb photos?",
             answer:
-              "Yes! Modern smartphones (iPhone 12+, recent Samsung/Google phones) can produce professional-quality photos with proper technique. Use wide-angle mode, maximize natural lighting, keep the camera level, and stage your space carefully. The key is lighting and composition, not expensive equipment.",
+              "Yes! Modern smartphones (iPhone 15+, recent Samsung/Google phones) can produce professional-quality photos with proper technique. Use wide-angle mode, maximize natural lighting, keep the camera level, and stage your space carefully. The key is lighting and composition, not expensive equipment.",
           },
           {
             question: "Should I edit my Airbnb photos?",
