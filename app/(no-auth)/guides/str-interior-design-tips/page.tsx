@@ -871,32 +871,6 @@ export default async function STRInteriorDesignTipsGuide() {
         ]}
       />
 
-      {/* CTA Section */}
-      <section className="mb-12">
-        <Card className="bg-primary/5 border-primary/20">
-          <CardContent className="pt-6 text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              Want AI-Powered Analysis of Your Interior Design?
-            </h2>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Get personalized feedback on your interior design, plus ratings on
-              your title, photos, description, and amenities. Our AI provides
-              specific recommendations to improve your listing.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg">
-                <Link href="/feedback-genius/analyze">
-                  Analyze My Listing Free
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/pricing">View Pricing</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
       {/* Related Guides */}
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
@@ -970,45 +944,6 @@ export default async function STRInteriorDesignTipsGuide() {
                   </Link>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* Tools */}
-      <section>
-        <h2 className="text-2xl font-bold mb-4">Our Tools</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-2">
-                <Link
-                  href="/feedback-genius"
-                  className="hover:text-primary hover:underline"
-                >
-                  Feedback Genius →
-                </Link>
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Get AI-powered analysis of your entire Airbnb listing, including
-                interior design, photos, and description.
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-2">
-                <Link
-                  href="/market-spy"
-                  className="hover:text-primary hover:underline"
-                >
-                  Market Spy →
-                </Link>
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                See what interior design elements top-performing listings in
-                your area are using to get more bookings.
-              </p>
             </CardContent>
           </Card>
         </div>

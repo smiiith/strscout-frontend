@@ -78,7 +78,6 @@ export default async function RootLayout({
                 <Footer authenticated={data.user} />
                 <Analytics />
               </div>
-              <FloatingChatButton />
             </SiteAccess>
           </ThemeProvider>
         </PostHogTracker>

@@ -593,30 +593,6 @@ export default function AirbnbPricingStrategyGuide() {
         ]}
       />
 
-      {/* CTA */}
-      <section className="mb-12">
-        <Card className="bg-primary/5 border-primary/20">
-          <CardContent className="pt-6 text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              See What Competitors Are Charging
-            </h2>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Market Spy pulls comparable listings in your area so you can see
-              real nightly rates, occupancy patterns, and what's working for
-              top performers near you.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg">
-                <Link href="/market-spy/analyze">Run Market Spy</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/pricing">View Pricing</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
       {/* Related Guides */}
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
@@ -690,45 +666,6 @@ export default function AirbnbPricingStrategyGuide() {
                   </Link>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* Tools */}
-      <section>
-        <h2 className="text-2xl font-bold mb-4">Our Tools</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-2">
-                <Link
-                  href="/market-spy"
-                  className="hover:text-primary hover:underline"
-                >
-                  Market Spy →
-                </Link>
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Research comparable listings in your area to see real pricing,
-                occupancy data, and competitive positioning.
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-2">
-                <Link
-                  href="/feedback-genius"
-                  className="hover:text-primary hover:underline"
-                >
-                  Feedback Genius →
-                </Link>
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                A better listing justifies higher rates. Get AI analysis of
-                your title, photos, description, and more.
-              </p>
             </CardContent>
           </Card>
         </div>

@@ -604,6 +604,39 @@ user@example.com,John,SAVE20
   - `app/(authenticated)/market-scout/analyze/` - Market Scout tool (pro plan required)
 - `utils/supabase/` - Supabase client configurations (client, server, middleware)
 
+### SEO Guide Pages
+
+Free, public guides live at `app/(no-auth)/guides/`. They drive organic traffic and link to the core tools.
+
+**Current guides:**
+
+| Slug | Topic | Type |
+|------|-------|------|
+| `airbnb-fees` | Host fee structures (Split vs Single) | Editorial |
+| `airbnb-title-optimization` | Writing high-converting titles | DB-backed |
+| `airbnb-photo-tips` | Photography best practices | DB-backed |
+| `airbnb-amenities-checklist` | Essential amenities | DB-backed |
+| `airbnb-description-writing` | Writing listing descriptions | DB-backed |
+| `str-interior-design-tips` | Interior design for STRs | DB-backed |
+| `improve-airbnb-rating` | Full listing optimization | DB-backed |
+| `airbnb-pricing-strategy` | Dynamic pricing, tools, seasonality | Editorial |
+| `airbnb-reviews` | Getting more 5-star reviews | Editorial |
+| `airbnb-superhost` | Achieving/keeping Superhost status | Editorial |
+
+**Two page types:**
+- **DB-backed**: Async server components that call `lib/seo/aggregate-*-data.ts` functions to pull live stats from the database. Use `<DataMethodology>` and `<GuideFAQ>` components.
+- **Editorial**: No database calls (like the fees guide). Static content only. Still use `<GuideFAQ>`.
+
+**Rules when adding a new guide:**
+1. Verify any specific stats, fees, or platform requirements from primary sources (Airbnb Help Center, tool pricing pages) — do not rely solely on training data
+2. Add a `Sources` citations section at the bottom of the page (before the external resource link) linking to verified sources
+3. Add the guide to the `guides` array in `app/(no-auth)/guides/page.tsx` (the hub)
+4. Add the guide URL to `app/sitemap.ts`
+5. Set `Last updated:` in the page header to today's date
+6. Cross-link from related existing guides where appropriate
+
+**Backlog (not yet built):** Airbnb house rules guide, How to start an Airbnb guide — see project memory for details.
+
 ### Database Integration
 
 - TypeScript types in `app/database.types.ts` (auto-generated from Supabase)
