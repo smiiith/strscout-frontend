@@ -545,33 +545,6 @@ export default function AirbnbSuperhostGuide() {
         ]}
       />
 
-      {/* CTA */}
-      <section className="mb-12">
-        <Card className="bg-primary/5 border-primary/20">
-          <CardContent className="pt-6 text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              Better Listings Lead to Better Reviews
-            </h2>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Maintaining a 4.8+ rating starts with setting accurate
-              expectations. Get AI analysis of your title, photos, description,
-              and amenities to identify anything that might be leading to
-              disappointed guests.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg">
-                <Link href="/feedback-genius/analyze">
-                  Analyze My Listing Free
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/pricing">View Pricing</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
       {/* Related Guides */}
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
@@ -645,46 +618,6 @@ export default function AirbnbSuperhostGuide() {
                   </Link>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* Tools */}
-      <section>
-        <h2 className="text-2xl font-bold mb-4">Our Tools</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-2">
-                <Link
-                  href="/feedback-genius"
-                  className="hover:text-primary hover:underline"
-                >
-                  Feedback Genius →
-                </Link>
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                AI-powered listing analysis to help you earn the 4.8+ ratings
-                Superhost requires — across photos, title, description, and
-                more.
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-2">
-                <Link
-                  href="/market-spy"
-                  className="hover:text-primary hover:underline"
-                >
-                  Market Spy →
-                </Link>
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Research Superhost competitors in your area to see what
-                top-rated listings look like and what they're doing right.
-              </p>
             </CardContent>
           </Card>
         </div>

@@ -349,40 +349,6 @@ export default function GuidesHub() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="mb-12">
-        <Card className="bg-primary text-primary-foreground">
-          <CardContent className="pt-6 text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              Want Personalized Feedback on Your Listing?
-            </h2>
-            <p className="mb-6 max-w-2xl mx-auto opacity-90">
-              Our AI analyzes your entire Airbnb listing and provides custom
-              recommendations across 6 key categories. Get started for free in
-              under 5 minutes.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                asChild
-                size="lg"
-                variant="secondary"
-                className="bg-white text-primary hover:bg-white/90"
-              >
-                <Link href="/feedback-genius/analyze">Get Free Analysis</Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-white/10"
-              >
-                <Link href="/pricing">View All Tools</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
       {/* FAQ / Why Trust Us */}
       <section>
         <h2 className="text-2xl font-bold mb-6 text-center">

@@ -680,32 +680,6 @@ export default async function AirbnbAmenitiesChecklistGuide() {
         ]}
       />
 
-      {/* CTA */}
-      <section className="mb-12">
-        <Card className="bg-primary/5 border-primary/20">
-          <CardContent className="pt-6 text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              Get AI-Powered Analysis of Your Amenities
-            </h2>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Our AI evaluates your amenities and compares them to
-              top-performing listings. Get specific recommendations on what to
-              add, remove, or improve.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg">
-                <Link href="/feedback-genius/analyze">
-                  Analyze My Listing Free
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/pricing">View Pricing</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
       {/* Related Guides */}
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
@@ -841,45 +815,6 @@ export default async function AirbnbAmenitiesChecklistGuide() {
             </div>
           </CardContent>
         </Card>
-      </section>
-
-      {/* Tools */}
-      <section>
-        <h2 className="text-2xl font-bold mb-4">Our Tools</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-2">
-                <Link
-                  href="/feedback-genius"
-                  className="hover:text-primary hover:underline"
-                >
-                  Feedback Genius →
-                </Link>
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Get AI-powered analysis of your entire Airbnb listing, including
-                amenities, photos, and description.
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-2">
-                <Link
-                  href="/market-spy"
-                  className="hover:text-primary hover:underline"
-                >
-                  Market Spy →
-                </Link>
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                See what amenities top-performing listings in your area offer
-                and how you compare.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
       </section>
 
       {/* External Resource */}

@@ -46,6 +46,15 @@ export async function middleware(request: NextRequest) {
   // Generate nonce for CSP
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
 
+  // Redirect everything except guides, API, auth callbacks, and PostHog proxy
+  const isGuides = url.pathname === "/guides" || url.pathname.startsWith("/guides/");
+  const isApi = url.pathname.startsWith("/api/");
+  const isAuthCallback = url.pathname.startsWith("/auth/");
+  if (!isGuides && !isApi && !isAuthCallback && !url.pathname.startsWith("/ingest/")) {
+    const guidesUrl = new URL("/guides", request.nextUrl.origin);
+    return NextResponse.redirect(guidesUrl.toString(), { status: 301 });
+  }
+
   // Handle PostHog requests first, before any auth logic
   if (url.pathname.startsWith("/ingest/")) {
     // Handle OPTIONS preflight requests

@@ -344,22 +344,6 @@ export default function AirbnbFeesGuide() {
                 </video>
               </div>
 
-              <div className="border-t border-primary/20 pt-6 text-center">
-                <h3 className="font-semibold text-lg mb-2">
-                  Get Free Early Access
-                </h3>
-                <p className="text-muted-foreground mb-4">
-                  We're opening a small early access group.
-                  <br />
-                  Join free and help shape what gets built first.
-                </p>
-                <Button asChild variant="outline" size="lg">
-                  <Link href="/host-assist">Join Early Access</Link>
-                </Button>
-                <p className="text-xs text-muted-foreground mt-3">
-                  No spam. Cancel anytime.
-                </p>
-              </div>
             </div>
           </CardContent>
         </Card>
@@ -479,45 +463,6 @@ export default function AirbnbFeesGuide() {
                   </Link>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* Tools */}
-      <section>
-        <h2 className="text-2xl font-bold mb-4">Our Tools</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-2">
-                <Link
-                  href="/host-assist"
-                  className="hover:text-primary hover:underline"
-                >
-                  Host Assist →
-                </Link>
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Task manager for STR hosts that helps you avoid the 15% fee.
-                Stay organized without connecting to a PMS.
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-2">
-                <Link
-                  href="/feedback-genius"
-                  className="hover:text-primary hover:underline"
-                >
-                  Feedback Genius →
-                </Link>
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Get AI-powered analysis of your entire Airbnb listing to
-                increase bookings and justify higher nightly rates.
-              </p>
             </CardContent>
           </Card>
         </div>

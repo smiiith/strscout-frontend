@@ -517,32 +517,6 @@ export default function AirbnbReviewsGuide() {
         ]}
       />
 
-      {/* CTA */}
-      <section className="mb-12">
-        <Card className="bg-primary/5 border-primary/20">
-          <CardContent className="pt-6 text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              Start With a Better Listing
-            </h2>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              A listing that accurately sets expectations means happier guests
-              and fewer complaints. Get AI-powered analysis of your title,
-              photos, description, and amenities — free.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg">
-                <Link href="/feedback-genius/analyze">
-                  Analyze My Listing Free
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/pricing">View Pricing</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
       {/* Related Guides */}
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
@@ -616,45 +590,6 @@ export default function AirbnbReviewsGuide() {
                   </Link>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* Tools */}
-      <section>
-        <h2 className="text-2xl font-bold mb-4">Our Tools</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-2">
-                <Link
-                  href="/feedback-genius"
-                  className="hover:text-primary hover:underline"
-                >
-                  Feedback Genius →
-                </Link>
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                AI analysis of your listing — because a better listing sets
-                accurate expectations and creates fewer surprises for guests.
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-2">
-                <Link
-                  href="/market-spy"
-                  className="hover:text-primary hover:underline"
-                >
-                  Market Spy →
-                </Link>
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                See how highly-reviewed competitors in your area present their
-                listings — and what guests love about them.
-              </p>
             </CardContent>
           </Card>
         </div>
